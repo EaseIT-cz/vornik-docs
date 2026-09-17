@@ -1053,6 +1053,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -1420,6 +1426,69 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config-assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architect-consult/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architect consultation over A2A
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1658,6 +1727,8 @@
       
         
       
+        
+      
     
     
       
@@ -1724,6 +1795,27 @@
   
   <span class="md-ellipsis">
     AI transparency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../licensing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licensing: what you can do with Vornik
   </span>
   
 
@@ -1992,6 +2084,14 @@ evidence links, and the scorecard. Promotion:</p>
 <li>refuses any candidate that hasn't reached a passing trial;</li>
 <li><strong>requires a replay-gated pass</strong> — a static-only pass is deliberately not
   promotable;</li>
+<li><strong>refuses a candidate whose workflow has changed since the candidate was
+  generated.</strong> A candidate carries a whole new version of the workflow file, so
+  promoting an old one would quietly undo every edit made in the meantime.
+  Vornik records the fingerprint of the workflow each candidate was built
+  against and compares it before applying anything; if they differ you are told
+  so and asked to regenerate the candidate against the current file. A
+  candidate with no recorded fingerprint is refused for the same reason — it
+  cannot be shown to be current;</li>
 <li>applies the change through the normal workflow path (write the workflow
   definition, validate it, commit it, hot-reload it), stamping who promoted it
   and when.</li>

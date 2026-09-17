@@ -1049,6 +1049,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -1313,6 +1319,69 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/identity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/config-assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/architect-consult/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architect consultation over A2A
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1551,6 +1620,8 @@
       
         
       
+        
+      
     
     
       
@@ -1617,6 +1688,27 @@
   
   <span class="md-ellipsis">
     AI transparency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../licensing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licensing: what you can do with Vornik
   </span>
   
 
@@ -2622,7 +2714,9 @@ code nobody will look at again.</p>
 <li><strong>Review volume goes up on active repositories.</strong> On a project configured with
   <code>github_app:</code>, <code>github_app.auto_review_on_push: false</code> restores the previous
   first-review-only behaviour. On the generic <code>webhooks.sources</code> ingress that
-  key does not exist yet; use the per-pull-request <code>pause</code> command.</li>
+  key did not exist in this release; use the per-pull-request <code>pause</code> command.
+  <em>(Closed since: <code>forge.auto_review_on_push</code> applies on both ingresses, and
+  the <code>github_app:</code> spelling now reaches both too. See the Forge feature page.)</em></li>
 </ul>
 <p><strong>Only people with standing in the repository can run review commands</strong> — the
 owner, organisation members, and invited collaborators. A review is real model

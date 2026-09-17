@@ -1051,6 +1051,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -1306,6 +1312,69 @@
   
   <span class="md-ellipsis">
     Control plane
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/identity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/config-assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/architect-consult/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architect consultation over A2A
   </span>
   
 
@@ -1730,6 +1799,8 @@
       
         
       
+        
+      
     
     
       
@@ -1796,6 +1867,27 @@
   
   <span class="md-ellipsis">
     AI transparency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../licensing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licensing: what you can do with Vornik
   </span>
   
 
@@ -2199,18 +2291,48 @@ run date.</p>
 120 items rather than 6, and all six abilities rather than one — a single ability is a
 statement about that ability, not about retrieval.</p>
 <p><strong>Reproduce:</strong></p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sLO<span class="w"> </span>https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned/resolve/main/longmemeval_oracle.json
+<p>The harness reads its target and credentials from the ENVIRONMENT, and the three
+variables below are not optional — a run without them either refuses or, worse,
+aims somewhere you did not intend. <code>VORNIK_URL</code> and <code>VORNIK_COMPANION_TOKEN</code> are
+what the <em>harness</em> reads; <code>vornikctl</code>'s own <code>VORNIK_API_URL</code> / <code>VORNIK_API_KEY</code>
+are a different pair and setting only those points the run at
+<code>http://localhost:8080</code> — which on a single-host deployment is <strong>production</strong>.
+The database guard is what catches that, and it is the last line of defence, not
+the first.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The daemon under test. NOT the production one: this run bulk-writes and</span>
+<span class="c1"># clears the store. Mint the token against that same daemon:</span>
+<span class="c1">#   VORNIK_API_URL=&lt;daemon&gt; vornikctl companion grant \</span>
+<span class="c1">#       --project bench --client claude-code --memory-all</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_URL</span><span class="o">=</span>&lt;your-bench-daemon&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_COMPANION_TOKEN</span><span class="o">=</span>&lt;companion<span class="w"> </span>key<span class="w"> </span>with<span class="w"> </span>memory_read<span class="w"> </span>+<span class="w"> </span>memory_write&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_BENCH_DSN</span><span class="o">=</span>postgres://&lt;user&gt;:&lt;pass&gt;@&lt;host&gt;:5432/&lt;your-bench-db&gt;?sslmode<span class="o">=</span>disable
+
+curl<span class="w"> </span>-sLO<span class="w"> </span>https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned/resolve/main/longmemeval_oracle.json
 vornikctl<span class="w"> </span>bench<span class="w"> </span>memory<span class="w"> </span>run<span class="w"> </span>--system<span class="w"> </span>vornik<span class="w"> </span>--dataset<span class="w"> </span>longmemeval<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--dataset-path<span class="w"> </span>./longmemeval_oracle.json<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--dataset-sha256<span class="w"> </span>821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--database<span class="w"> </span>&lt;your-bench-db&gt;<span class="w"> </span>--i-know-this-wipes<span class="w"> </span>&lt;your-bench-db&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--tier2-only<span class="w"> </span>--accept-unverified-path<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--our-extraction-model<span class="w"> </span><span class="s2">"&lt;the embedder the daemon reports&gt;"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--recall-method<span class="w"> </span>context-assembly<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--max-items-per-category<span class="w"> </span><span class="m">20</span><span class="w"> </span>--max-tokens<span class="w"> </span><span class="m">4096</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--run-dir<span class="w"> </span>./run-<span class="nv">$i</span><span class="w">          </span><span class="c1"># repeat for i in 1 2 3</span>
 vornikctl<span class="w"> </span>bench<span class="w"> </span>memory<span class="w"> </span>aggregate<span class="w"> </span>./run-*
 </code></pre></div>
+<p><code>--our-extraction-model</code> must match what the system reports it is embedding
+with, or the run is refused: <em>"a number labelled with a model that did not
+produce it is worse than no number"</em>. Read the value from the daemon rather than
+typing one — <code>whoami</code> reports it as <code>embedder</code>, and the id the key uses is
+<code>&lt;provider&gt;/&lt;model&gt;@&lt;dimensions&gt;d</code>, e.g. <code>openai/qwen3-embedding:0.6b@1024d</code>.
+Leaving it unset, or naming a model the daemon is not using, is what made the
+2026-09-08 run's key partial.</p>
 <p><strong>Dataset:</strong> as above. <strong>Budget:</strong> <code>max_tokens=4096</code>. <strong>Judge:</strong> none — tier 2 is
 judge-free. <strong>Corpus:</strong> cold; the harness clears the store before each run.</p>
+<p><strong>The deployment under test must have <code>memory.reranker.enabled: false</code>.</strong>
+<code>--tier2-only</code> stops <em>requesting</em> the reranked path but cannot disable it, and it
+refuses the run if recall reports a rerank happened. An LLM reranker is billed
+per call and reorders between identical runs, so leaving it on is the difference
+between a deterministic gate and one that fires on noise.</p>
 <table>
 <thead>
 <tr>
@@ -2245,8 +2367,69 @@ judge-free. <strong>Corpus:</strong> cold; the harness clears the store before e
 <td>n=3</td>
 <td><code>93a6e7a0729b</code></td>
 </tr>
+<tr>
+<td><code>2026.9.4-205-g97fb8b36e</code></td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>28fd464fb163</code></td>
+</tr>
+<tr>
+<td><code>2026.9.4-207-g61634a063</code></td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>ed7ea84021e0</code></td>
+</tr>
 </tbody>
 </table>
+<p><strong>The fourth row is the build that shipped</strong>, re-measured on the binary actually
+installed in production (<code>2026.9.4-207-g61634a063</code>) rather than on a
+development build. Every metric is identical to the row above it, to four
+decimal places — and the key nevertheless CHANGED, from <code>28fd464fb163</code> to
+<code>ed7ea84021e0</code>, because <code>daemon_revision</code> moved from <code>-205-…-dirty</code> to <code>-207-…</code>.
+That is the repaired key doing its job: two runs of the same code on different
+builds are no longer allowed to look like one measurement. Before 2026-09-17
+these two rows would have shared a key.</p>
+<p><strong>The third row is the first with a COMPLETE comparability key, and it is
+deliberately not comparable to the two above it.</strong> Until 2026-09-17 two of the
+key's fields — <code>observed_embedder</code> and <code>daemon_revision</code> — were empty on every
+run ever made (harness design §13.25), so the key could not distinguish one
+build, or one embedding model, from another. That is why rows one and two share
+<code>93a6e7a0729b</code> despite being different releases. Both fields are now populated,
+which necessarily changes the key: <code>28fd464fb163</code> starts a new comparable set
+rather than extending the old one. <code>compare</code> will refuse to diff across that
+boundary, correctly.</p>
+<p><strong>What the numbers say anyway.</strong> Precision and MRR are bit-identical to both
+earlier rows. Recall is 0.9851, <strong>−0.0040</strong> against the last published row —
+about a third of that row's own 3σ threshold of ±0.0107, so nothing here
+resembles a regression.</p>
+<p><strong>Two caveats that stop this being a clean release-over-release claim, stated
+rather than left for a reader to infer:</strong></p>
+<ul>
+<li><strong>The ingest regime differed.</strong> The self-hosted vLLM arm is down, so this run
+  had no LLM extraction model and the stored corpus is produced deterministically
+  by the embedder alone. That is visible in the spread: every metric has
+  <strong>sd = 0.0000</strong> here against ±0.0036 for both earlier rows, whose variance the
+  2026-08-21 note attributes to LLM-driven ingest differing per run. A −0.0040
+  recall difference and a collapsed spread have a common candidate cause, and
+  this measurement cannot separate "the corpus was built differently" from "the
+  code changed".</li>
+<li><strong><code>retrieval_path_unverified</code> is set</strong>, because the run passed
+  <code>--accept-unverified-path</code>. The reranker was disabled on the deployment under
+  test (<code>memory.reranker.enabled: false</code>) as <code>--tier2-only</code> requires — its model
+  is the same unreachable vLLM — so the path exercised was plain
+  <code>context-assembly</code>.</li>
+</ul>
+<p>Re-measuring against a live extraction model is what would turn this into a
+comparable row; it is blocked on the benchmark arm's model endpoint, not on
+anything in the harness.</p>
 <p><strong>The second row is the first release-over-release comparison this table can
 actually support</strong>, and it shows no regression. Precision and MRR are identical to
 four decimal places; recall moved −0.0009 against a per-release sd of 0.0036 and a

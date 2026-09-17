@@ -1051,6 +1051,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -1315,6 +1321,69 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/identity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/config-assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/architect-consult/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architect consultation over A2A
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1505,6 +1574,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      doctor
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#telemetry" class="md-nav__link">
     <span class="md-ellipsis">
       telemetry
@@ -1760,6 +1838,24 @@
   <a href="#composer" class="md-nav__link">
     <span class="md-ellipsis">
       composer
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      identity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config_assistant" class="md-nav__link">
+    <span class="md-ellipsis">
+      config_assistant
     </span>
   </a>
   
@@ -1928,6 +2024,8 @@
       
         
       
+        
+      
     
     
       
@@ -1994,6 +2092,27 @@
   
   <span class="md-ellipsis">
     AI transparency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../licensing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licensing: what you can do with Vornik
   </span>
   
 
@@ -2116,6 +2235,15 @@
   <a href="#named_secrets" class="md-nav__link">
     <span class="md-ellipsis">
       named_secrets
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      doctor
     </span>
   </a>
   
@@ -2383,6 +2511,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#identity" class="md-nav__link">
+    <span class="md-ellipsis">
+      identity
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#config_assistant" class="md-nav__link">
+    <span class="md-ellipsis">
+      config_assistant
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#web" class="md-nav__link">
     <span class="md-ellipsis">
       web
@@ -2519,6 +2665,61 @@
 <td><code>named_secrets</code></td>
 <td>list</td>
 <td>Per-secret allowlist of env credentials injected into agent containers, scoped by project.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="doctor">doctor<a class="headerlink" href="#doctor" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>doctor.thresholds.unclassified_share</code></td>
+<td>float</td>
+<td>Share of classified step failures that may be unclassified before unclassified_step_failures warns (0-1). Default 0.05.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>doctor.thresholds.unclassified_share_window_days</code></td>
+<td>int</td>
+<td>How many days of failures unclassified_step_failures divides over. Default 30.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>doctor.thresholds.model_failure_rate</code></td>
+<td>float</td>
+<td>Failed fraction at or above which model_health and model_calls_live flag a model (0-1). Default 0.5.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>doctor.thresholds.model_min_samples</code></td>
+<td>int</td>
+<td>Smallest call count model_health and model_calls_live will judge a model on. Default 5.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>doctor.thresholds.cost_attribution_fraction</code></td>
+<td>float</td>
+<td>Share of recent cost rows that must carry a DB-backed key before cost_attribution is satisfied (0-1). Default 0.9.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>doctor.thresholds.cost_attribution_min_total</code></td>
+<td>int</td>
+<td>Sample floor below which cost_attribution stays OK regardless of distribution. Default 10.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>doctor.thresholds.fallback_rung_min_attempts</code></td>
+<td>int</td>
+<td>Attempts a fallback rung needs before a zero-success record is reported. Default 2.</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -4630,6 +4831,44 @@
 <td><code>composer.max_tier3_turns</code></td>
 <td>int</td>
 <td>Per-session cap on expensive tier-3 composer turns.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="identity">identity<a class="headerlink" href="#identity" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>identity</code></td>
+<td>struct</td>
+<td>CE identity core: user accounts, channel→account linking, key→account ownership.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="config_assistant">config_assistant<a class="headerlink" href="#config_assistant" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>config_assistant</code></td>
+<td>struct</td>
+<td>Configuration assistant: natural-language config edits filed as reviewable proposals.</td>
 <td>—</td>
 </tr>
 </tbody>

@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://docs.vornik.io/guides/autonomy/">
+        <link rel="canonical" href="https://docs.vornik.io/features/identity/">
       
       
-        <link rel="prev" href="../artifacts-and-delivery/">
+        <link rel="prev" href="../control-plane/">
       
       
-        <link rel="next" href="../cross-project/">
+        <link rel="next" href="../config-assistant/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Autonomy — self-running projects - Vornik documentation</title>
+        <title>User accounts and channel/key→account mapping - Vornik documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#autonomy-self-running-projects" class="md-skip">
+        <a href="#user-accounts-and-channelkeyaccount-mapping" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Autonomy — self-running projects
+              User accounts and channel/key→account mapping
             
           </span>
         </div>
@@ -392,8 +392,6 @@
       
   
   
-    
-  
   
   
     
@@ -445,16 +443,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../guides/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -471,7 +469,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -487,7 +485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../conversation-channels/" class="md-nav__link">
+      <a href="../../guides/conversation-channels/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -508,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../workflows-and-llm-controls/" class="md-nav__link">
+      <a href="../../guides/workflows-and-llm-controls/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -529,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mcp-tools/" class="md-nav__link">
+      <a href="../../guides/mcp-tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -550,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../artifacts-and-delivery/" class="md-nav__link">
+      <a href="../../guides/artifacts-and-delivery/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -568,30 +566,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Autonomy — self-running projects
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../guides/autonomy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -600,119 +578,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
-    <span class="md-ellipsis">
-      How it works
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enabling-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enabling it
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Enabling it">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#declaring-feeds-autonomyfeeds" class="md-nav__link">
-    <span class="md-ellipsis">
-      Declaring feeds (autonomy.feeds)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#staying-in-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      Staying in control
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#backlog-autonomy-and-agent-deposits" class="md-nav__link">
-    <span class="md-ellipsis">
-      Backlog autonomy and agent deposits
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Backlog autonomy and agent deposits">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-marker-grammar" class="md-nav__link">
-    <span class="md-ellipsis">
-      The marker grammar
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#granting-the-deposit-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      Granting the deposit tool
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shipping-deposits-as-draft-prs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shipping deposits as draft PRs
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#watching-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Watching it
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -725,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cross-project/" class="md-nav__link">
+      <a href="../../guides/cross-project/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -746,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../approvals/" class="md-nav__link">
+      <a href="../../guides/approvals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -767,7 +632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recovery/" class="md-nav__link">
+      <a href="../../guides/recovery/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -788,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cost-and-caching/" class="md-nav__link">
+      <a href="../../guides/cost-and-caching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -809,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../inference-speed-timeouts/" class="md-nav__link">
+      <a href="../../guides/inference-speed-timeouts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -830,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secrets/" class="md-nav__link">
+      <a href="../../guides/secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -851,7 +716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../observability/" class="md-nav__link">
+      <a href="../../guides/observability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -872,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage-and-retention/" class="md-nav__link">
+      <a href="../../guides/storage-and-retention/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -893,7 +758,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../feature-doctor/" class="md-nav__link">
+      <a href="../../guides/feature-doctor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -914,7 +779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../evals/" class="md-nav__link">
+      <a href="../../guides/evals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -935,7 +800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../clustering/" class="md-nav__link">
+      <a href="../../guides/clustering/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -956,7 +821,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../automation-composer/" class="md-nav__link">
+      <a href="../../guides/automation-composer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1159,8 +1024,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -1200,11 +1067,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1218,7 +1085,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Features
@@ -1232,7 +1099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/blackbox/" class="md-nav__link">
+      <a href="../blackbox/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1253,7 +1120,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/self-healing/" class="md-nav__link">
+      <a href="../self-healing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1274,7 +1141,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/instinct/" class="md-nav__link">
+      <a href="../instinct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1295,7 +1162,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/auth/" class="md-nav__link">
+      <a href="../auth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1316,7 +1183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/memory-rag/" class="md-nav__link">
+      <a href="../memory-rag/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1337,7 +1204,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/zero-egress/" class="md-nav__link">
+      <a href="../zero-egress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1358,7 +1225,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/cluster/" class="md-nav__link">
+      <a href="../cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1379,7 +1246,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/forge/" class="md-nav__link">
+      <a href="../forge/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1400,7 +1267,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/companion/" class="md-nav__link">
+      <a href="../companion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1421,7 +1288,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/knowledge-skills/" class="md-nav__link">
+      <a href="../knowledge-skills/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1442,7 +1309,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/control-plane/" class="md-nav__link">
+      <a href="../control-plane/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1460,10 +1327,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../features/identity/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1472,6 +1359,71 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#turning-it-on" class="md-nav__link">
+    <span class="md-ellipsis">
+      Turning it on
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linking-a-chat-identity-to-an-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Linking a chat identity to an account
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#owning-an-api-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Owning an API key
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#migrating-from-allowlists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Migrating from allowlists
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1484,7 +1436,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/config-assistant/" class="md-nav__link">
+      <a href="../config-assistant/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1505,7 +1457,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../features/architect-consult/" class="md-nav__link">
+      <a href="../architect-consult/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1929,93 +1881,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-it-works" class="md-nav__link">
+  <a href="#turning-it-on" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      Turning it on
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enabling-it" class="md-nav__link">
+  <a href="#linking-a-chat-identity-to-an-account" class="md-nav__link">
     <span class="md-ellipsis">
-      Enabling it
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Enabling it">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#declaring-feeds-autonomyfeeds" class="md-nav__link">
-    <span class="md-ellipsis">
-      Declaring feeds (autonomy.feeds)
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#staying-in-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      Staying in control
+      Linking a chat identity to an account
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#backlog-autonomy-and-agent-deposits" class="md-nav__link">
+  <a href="#owning-an-api-key" class="md-nav__link">
     <span class="md-ellipsis">
-      Backlog autonomy and agent deposits
+      Owning an API key
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Backlog autonomy and agent deposits">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#the-marker-grammar" class="md-nav__link">
-    <span class="md-ellipsis">
-      The marker grammar
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#granting-the-deposit-tool" class="md-nav__link">
-    <span class="md-ellipsis">
-      Granting the deposit tool
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#shipping-deposits-as-draft-prs" class="md-nav__link">
-    <span class="md-ellipsis">
-      Shipping deposits as draft PRs
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#watching-it" class="md-nav__link">
+  <a href="#migrating-from-allowlists" class="md-nav__link">
     <span class="md-ellipsis">
-      Watching it
+      Migrating from allowlists
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configuration
     </span>
   </a>
   
@@ -2036,363 +1940,114 @@
                   
 
 
-<h1 id="autonomy-self-running-projects">Autonomy — self-running projects<a class="headerlink" href="#autonomy-self-running-projects" title="Permanent link">&para;</a></h1>
-<p>Most projects run tasks you submit. An <strong>autonomous</strong> project also runs tasks
-<em>it decides to create</em> — on an interval, toward a standing goal. It's how you
-turn vornik from "do this when I ask" into "keep this running and tell me when
-something needs me."</p>
-<p>Autonomy is <strong>off by default</strong>. A project with autonomy disabled never starts an
-evaluation loop, so turning it on is an explicit, per-project decision.</p>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
-<p>When a project has autonomy enabled, the daemon runs one evaluation loop for it.
-On each tick it looks at the project's goal and current state and decides whether
-to create a task. There are three decision modes:</p>
+<h1 id="user-accounts-and-channelkeyaccount-mapping">User accounts and channel/key→account mapping<a class="headerlink" href="#user-accounts-and-channelkeyaccount-mapping" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Community Edition — OIDC / SSO is Enterprise</p>
+<p>User accounts, channel linking and key ownership ship in the <strong>Community
+Edition</strong>. Federated login (OIDC / SSO providers) is part of the
+<strong>Enterprise Edition</strong>. See <a href="../../editions/">Editions</a>.</p>
+</div>
+<p>vornik reaches people through many doors: the web console, the <code>vornikctl</code>
+CLI and REST API, Telegram, Slack, email, other agents over A2A. Each of those
+used to authorise on its own terms — a Telegram sender on the bot's allowlist,
+an API key on its project, a browser session on its login. Granting someone web
+access did nothing for Slack, and revoking it left their Telegram binding live.</p>
+<p>The identity core replaces that with <strong>one account resolver for every door</strong>.
+A user account has zero or more <strong>channel bindings</strong> (a Telegram sender id, a
+Slack user in a workspace, a GitHub login for Enterprise SSO) and may <strong>own</strong>
+API keys. Every door resolves the caller to the same account and the same
+effective permissions, so:</p>
+<ul>
+<li>revoking an account revokes it everywhere, immediately;</li>
+<li>a rating, a chat message and an API call made by the same person are
+  attributed to the same person — which is what makes vornik's adaptation
+  data (ratings, instincts, memory) say <em>who</em> thought something, not just
+  <em>that</em> someone did.</li>
+</ul>
+<h2 id="turning-it-on">Turning it on<a class="headerlink" href="#turning-it-on" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>identity
+</code></pre></div>
+<p>This sets <code>identity.enabled</code> and hot-reloads. Nothing changes for existing
+callers until you link them: an unlinked chat sender is refused (or, during a
+migration, admitted only with its old ordinary-chat permissions — see below),
+and an unowned API key behaves exactly as it always has.</p>
+<h2 id="linking-a-chat-identity-to-an-account">Linking a chat identity to an account<a class="headerlink" href="#linking-a-chat-identity-to-an-account" title="Permanent link">&para;</a></h2>
+<p>Linking is a two-sided act so that nobody can bind a channel to an account
+they do not hold:</p>
+<ol>
+<li>A signed-in account holder asks for a <strong>link code</strong> — from the console
+   (<em>Account → Link a channel</em>) or <code>vornikctl account link-code</code>. Codes are
+   high-entropy, single-use, stored only as a hash, and expire after
+   <code>identity.link_code_ttl</code> (default ten minutes).</li>
+<li>In the chat channel, the sender redeems it: <code>/account link &lt;code&gt;</code>.</li>
+</ol>
+<p>The binding is the channel <strong>plus the installation</strong> (the Slack workspace, the
+Telegram bot) <strong>plus the immutable sender id</strong> — never a display name, email
+or chat id, all of which can be reused by someone else. <code>/account status</code>
+shows what the sender is bound to; <code>/account unlink</code> removes the binding and
+ends the sender's access through that channel.</p>
+<p>The existing Telegram <code>/link</code> command is unrelated: it consolidates a person's
+<em>profile</em> across channels for personalisation and grants nothing. A profile
+link never becomes an account binding.</p>
+<h2 id="owning-an-api-key">Owning an API key<a class="headerlink" href="#owning-an-api-key" title="Permanent link">&para;</a></h2>
+<p>An operator can assign an API key to an account (<code>vornikctl key owner set</code>,
+or the key's row in the console). Ownership <strong>narrows</strong>, never widens: a key's
+effective permission is the intersection of what the key was minted with and
+what its owner currently holds. Disabling or deleting the owner denies the
+key outright. A key with no owner keeps its original authority — the
+per-task keys vornik mints for its own agents are deliberately unowned.</p>
+<h2 id="migrating-from-allowlists">Migrating from allowlists<a class="headerlink" href="#migrating-from-allowlists" title="Permanent link">&para;</a></h2>
+<p><code>identity.channel_compat: legacy</code> keeps a sender that is explicitly listed in
+the channel's old allowlist admitted with its <strong>old ordinary-chat permissions
+only</strong>, so a deployment can link people one at a time. In that mode:</p>
+<ul>
+<li>an empty allowlist still admits nobody;</li>
+<li>a linked-but-denied, disabled or unresolvable sender is never re-admitted
+  through the allowlist;</li>
+<li>the compat path never opens the configuration assistant;</li>
+<li>every admission is counted (<code>vornik_auth_legacy_allowlist_grants_total</code>)
+  and <code>vornikctl account migration-report</code> lists who is still relying on it.</li>
+</ul>
+<p>New installs default to <code>strict</code>. Switch an existing one when the report is
+empty and the counter has been zero for a while.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th><code>autonomy.mode</code></th>
-<th>What fires each tick</th>
+<th>key</th>
+<th>default</th>
+<th>meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>llm</code> <em>(default)</em></td>
-<td>a lead model is given the goal and project state and decides whether to create a task (and what), or to do nothing</td>
+<td><code>identity.enabled</code></td>
+<td><code>false</code></td>
+<td>turn the identity core on</td>
 </tr>
 <tr>
-<td><code>cron</code></td>
-<td>the goal text is fired verbatim as the task prompt every tick — a deterministic time-driven loop</td>
+<td><code>identity.channel_compat</code></td>
+<td><code>strict</code></td>
+<td><code>strict</code> or <code>legacy</code> (see above)</td>
 </tr>
 <tr>
-<td><code>backlog</code></td>
-<td>the first unchecked <code>- [ ]</code> item from a backlog file is fired, then ticked off</td>
+<td><code>identity.link_code_ttl</code></td>
+<td><code>10m</code></td>
+<td>link-code lifetime</td>
+</tr>
+<tr>
+<td><code>identity.link_code_rate_per_hour</code></td>
+<td><code>10</code></td>
+<td>issuance / redemption cap per hour</td>
 </tr>
 </tbody>
 </table>
-<h2 id="enabling-it">Enabling it<a class="headerlink" href="#enabling-it" title="Permanent link">&para;</a></h2>
-<p>Autonomy is configured per project under an <code>autonomy</code> block:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">autonomy</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llm</span>
-<span class="w">  </span><span class="nt">goal</span><span class="p">:</span><span class="w"> </span><span class="s">"Scan</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">configured</span><span class="nv"> </span><span class="s">feeds</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">open</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">digest</span><span class="nv"> </span><span class="s">task</span><span class="nv"> </span><span class="s">when</span><span class="nv"> </span><span class="s">something</span><span class="nv"> </span><span class="s">material</span><span class="nv"> </span><span class="s">lands."</span>
-<span class="w">  </span><span class="nt">pollInterval</span><span class="p">:</span><span class="w"> </span><span class="s">"30m"</span><span class="w">        </span><span class="c1"># must carry a unit ("30m", "60s") — a bare number falls back to 5m</span>
-<span class="w">  </span><span class="nt">maxTasksPerHour</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4</span><span class="w">         </span><span class="c1"># 0 = unlimited</span>
-<span class="w">  </span><span class="nt">requireApproval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">     </span><span class="c1"># true parks created tasks for operator approval</span>
-</code></pre></div>
-<p>Useful keys:</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>autonomy.enabled</code></td>
-<td>master switch for the project (default <code>false</code>)</td>
-</tr>
-<tr>
-<td><code>autonomy.goal</code></td>
-<td>the standing objective (required for <code>llm</code>/<code>cron</code>)</td>
-</tr>
-<tr>
-<td><code>autonomy.mode</code></td>
-<td><code>llm</code> / <code>cron</code> / <code>backlog</code></td>
-</tr>
-<tr>
-<td><code>autonomy.pollInterval</code></td>
-<td>tick cadence (Go duration; default <code>5m</code>)</td>
-</tr>
-<tr>
-<td><code>autonomy.maxTasksPerHour</code></td>
-<td>per-hour cap on self-created tasks</td>
-</tr>
-<tr>
-<td><code>autonomy.allowedTaskTypes</code></td>
-<td>restrict what task types autonomy may create</td>
-</tr>
-<tr>
-<td><code>autonomy.requireApproval</code></td>
-<td>create tasks as awaiting-approval instead of queued</td>
-</tr>
-<tr>
-<td><code>autonomy.duplicateWindow</code></td>
-<td>how long a completed task suppresses an identical one (default <code>24h</code>; <code>0</code> for cron-style)</td>
-</tr>
-<tr>
-<td><code>autonomy.workflow_id</code></td>
-<td>override the workflow a <code>backlog</code>- or <code>cron</code>-mode tick dispatches into (see <a href="#backlog-autonomy-and-agent-deposits">Backlog autonomy and agent deposits</a>)</td>
-</tr>
-<tr>
-<td><code>autonomy.feeds</code></td>
-<td>declare the recurring slugs an <code>llm</code>-mode goal rotates through, and the cadence each should hold, so drift is measurable (see below)</td>
-</tr>
-</tbody>
-</table>
-<h3 id="declaring-feeds-autonomyfeeds">Declaring feeds (<code>autonomy.feeds</code>)<a class="headerlink" href="#declaring-feeds-autonomyfeeds" title="Permanent link">&para;</a></h3>
-<p>An <code>llm</code>-mode goal that rotates through recurring topics usually names them in
-prose, and prose is not something the daemon can measure a schedule against.
-<code>autonomy.feeds</code> declares them as data:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">autonomy</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llm</span>
-<span class="w">  </span><span class="nt">pollInterval</span><span class="p">:</span><span class="w"> </span><span class="s">"4h"</span>
-<span class="w">  </span><span class="nt">goal</span><span class="p">:</span><span class="w"> </span><span class="s">"..."</span>
-<span class="w">  </span><span class="nt">feeds</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slug</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">czech-news</span>
-<span class="w">      </span><span class="nt">cadence</span><span class="p">:</span><span class="w"> </span><span class="s">"12h"</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slug</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cultural-events</span>
-<span class="w">      </span><span class="nt">cadence</span><span class="p">:</span><span class="w"> </span><span class="s">"1440h"</span>
-</code></pre></div>
-<ul>
-<li><code>slug</code> must match the <code>"&lt;slug&gt;: "</code> prefix your goal already uses for that
-  topic's task prompts — that prefix is how a task is correlated with its feed.</li>
-<li><code>cadence</code> is a Go duration and must be positive. Slugs must be unique within
-  the project; both rules are checked when the config loads.</li>
-<li>Declaring feeds <strong>does not schedule anything</strong>. The lead still decides what
-  to run; this is the expectation that decision gets measured against, and it
-  is what <code>vornikctl autonomy health</code> reports cadence drift from.</li>
-<li>Omitting <code>feeds</code> is fully supported. A project that declares none reports
-  <code>not declared</code> in the health table — never <code>OK</code>, because nothing was
-  measured.</li>
-</ul>
-<p>Sum your cadences before you commit to them: one tick creates at most one
-task, so a 4-hour <code>pollInterval</code> can deliver six tasks a day in total. A set of
-cadences that needs more than that is a backlog, not a schedule, and every feed
-in it will read as permanently overdue.</p>
-<blockquote>
-<p><strong>Deploy the daemon before the config.</strong> Project YAML is parsed strictly: a
-daemon that does not know a key rejects the whole file and drops the whole
-project — not just the new feature. Install the version that supports
-<code>autonomy.feeds</code> first, confirm it is running, and only then add the key.
-To roll back, remove the key first and downgrade afterwards.</p>
-</blockquote>
-<h2 id="staying-in-control">Staying in control<a class="headerlink" href="#staying-in-control" title="Permanent link">&para;</a></h2>
-<p>Autonomous work runs inside the same guardrails as everything else, and a few
-that are specific to it. On each tick, <em>before</em> any model cost is incurred, the
-loop checks — in order — the per-hour task cap, the shared rate limits, and the
-project's <a href="../cost-and-caching/#hard-spend-caps">spend caps</a> (a hard-cap breach
-skips the tick entirely). It also <strong>won't schedule on top of in-flight work</strong>:
-if the project already has a queued or running task, the tick is skipped. And it
-<strong>deduplicates</strong> — an identical prompt that recently completed (within the
-duplicate window) won't be created again, so a steady loop doesn't pile up
-copies.</p>
-<p>Additional bounds worth knowing:</p>
-<ul>
-<li><strong>Approval gate.</strong> With <code>requireApproval: true</code>, every autonomously created
-  task lands in an awaiting-approval state and runs only once you approve it
-  (see <a href="../approvals/">Approvals</a>). Stale approvals are auto-cancelled after a
-  configurable window (<code>autonomy.approval_timeout_hours</code>, default 96).</li>
-<li><strong>Tighter tool budget.</strong> When <a href="../cost-and-caching/#dynamic-per-role-tool-budgets">dynamic tool budgets</a>
-  are enabled, unattended autonomous tasks are held to the tighter
-  <code>tool_budget.autonomy_max_factor</code> ceiling rather than the operator ceiling.</li>
-<li><strong>Circuit breaker.</strong> A daemon-level breaker
-  (<code>autonomy.circuit_breaker.*</code>) automatically disables a project's autonomy if
-  it sees sustained failures, and alerts you.</li>
-</ul>
-<p>To stop autonomy, set <code>autonomy.enabled: false</code> (or toggle it from the project
-page in the UI) — the loop is cancelled.</p>
-<h2 id="backlog-autonomy-and-agent-deposits">Backlog autonomy and agent deposits<a class="headerlink" href="#backlog-autonomy-and-agent-deposits" title="Permanent link">&para;</a></h2>
-<p><code>backlog</code> mode reads a plain checklist file — <code>BACKLOG.md</code> by default
-(<code>autonomy.backlogFilePath</code> to point at another workspace-relative path) —
-and fires the first pending line as a task, ticking it off when the task is
-accepted. You can hand-author that file, but agents can feed it too: any role
-permitted to call the <code>backlog_deposit</code> tool can record an off-scope finding —
-a bug, an optimisation, an inefficiency, or a refactor candidate it noticed
-while working on something else — without derailing its current task. A
-reviewer, for example, can use it for problems it spots in a diff that aren't
-in scope for that PR's verdict.</p>
-<p>Before each tick reads the file, the workspace is refreshed to the tip of
-<code>origin/main</code> — so every iteration works against the latest code, picking up
-external contributions (merged PRs) since the last run. Your local <code>- [x]</code> /
-<code>- [!]</code> consumption marks are preserved across that refresh, so an item is
-never re-run. The refresh is best-effort: if the fetch fails, the tick proceeds
-against the current workspace rather than stalling.</p>
-<h3 id="the-marker-grammar">The marker grammar<a class="headerlink" href="#the-marker-grammar" title="Permanent link">&para;</a></h3>
-<p>One consumer owns every read/modify/write of the file, and it recognises four
-markers:</p>
-<table>
-<thead>
-<tr>
-<th>Marker</th>
-<th>Meaning</th>
-<th>Written by</th>
-<th>Picked up by the next tick?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>- [ ]</code></td>
-<td>Pending, ready to run</td>
-<td>You (hand-authored), or you flipping a <code>- [?]</code></td>
-<td>Yes — first-in, first-out</td>
-</tr>
-<tr>
-<td><code>- [?]</code></td>
-<td>Proposed, awaiting your review</td>
-<td><code>backlog_deposit</code> — always</td>
-<td>No — inert by construction</td>
-</tr>
-<tr>
-<td><code>- [x]</code></td>
-<td>Done — the task <strong>completed</strong> (raised its PR)</td>
-<td>Marked at dispatch, then confirmed by the reconcile pass when the task completes</td>
-<td>No</td>
-</tr>
-<tr>
-<td><code>- [!]</code></td>
-<td>Blocked — the task ended unsuccessfully</td>
-<td>The reconcile pass (below)</td>
-<td>No — flip to <code>- [ ]</code> by hand to retry once you've addressed the cause</td>
-</tr>
-</tbody>
-</table>
-<p>An item is only truly <em>done</em> when its task <strong>completed</strong> (raised its PR). Each
-tick's reconcile pass checks the dispatched items: a task that ended
-<strong>unsuccessfully</strong> — failed, cancelled, or closed after giving up (e.g. an
-infinite-rework guard trip) — has its line flipped from <code>- [x]</code> to <code>- [!]</code>
-(blocked). This way the item is neither silently skipped as done nor
-auto-retried into a storm: you flip <code>- [!]</code> → <code>- [ ]</code> by hand to retry once
-you've addressed the cause (granted a permission, fixed a flaky test, split a
-too-big item), or delete the line if it's not worth retrying. (A task closed
-<em>after</em> a clean completion keeps its <code>- [x]</code> — only a failure indication flips
-it.) A task that can't <strong>publish</strong> its change — e.g. the forge rejected the
-push — is a separate case: it parks in <code>AWAITING_INPUT</code> with a mail-in patch
-attached and keeps its <code>- [x]</code>, so it waits on you rather than looping.</p>
-<p>Agent-authored deposits always land as <code>- [?]</code>, never <code>- [ ]</code>, and there's no
-config knob to change that. A deposit's title and detail are agent-authored
-text, and once a <code>- [ ]</code> line is consumed it becomes a verbatim task prompt
-with no human in between — so a deposit that could land straight into <code>- [ ]</code>
-would let a confused or compromised agent's own words steer a <em>future</em>
-autonomous task. The FIFO scan only ever matches <code>- [ ]</code>, so a <code>- [?]</code> item is
-structurally unreachable by autonomy until you edit the box yourself. That's
-the per-item approval gate: agent-authored text never becomes an autonomous
-prompt without a human decision.</p>
-<h3 id="granting-the-deposit-tool">Granting the deposit tool<a class="headerlink" href="#granting-the-deposit-tool" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">allowedTools</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"backlog_deposit"</span><span class="w">   </span><span class="c1"># plus the role's usual tools (file_read, run_shell, git_*, ...)</span>
-</code></pre></div>
-<p>The agent calls it with a <code>kind</code> (<code>bug</code> | <code>optimisation</code> | <code>inefficiency</code> |
-<code>refactor</code>), a short <code>title</code>, a <code>detail</code>, and an optional <code>evidence</code> string.
-The daemon validates the fields, secret-scans the rendered line (a match is
-blocked, never appended), rate-caps accepted deposits per task with
-<code>backlogDeposits.maxPerTask</code> (default <strong>10</strong>), and dedups against existing
-lines — an exact title match or a close paraphrase (fuzzy match) of an open
-item is rejected as a duplicate. A close match against an already-closed
-(<code>- [x]</code> / <code>- [!]</code>) item needs <code>regression: true</code> plus non-empty <code>evidence</code>
-to re-open it, and is still refused for 7 days after that item was closed, so
-a flapping check can't spin the same "regression" back in immediately. None
-of these rejections fail the agent's task — it gets a structured reason back
-and moves on:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">backlogDeposits</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">maxPerTask</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span><span class="w">   </span><span class="c1"># default; per-task cap on accepted deposits</span>
-</code></pre></div>
-<h3 id="shipping-deposits-as-draft-prs">Shipping deposits as draft PRs<a class="headerlink" href="#shipping-deposits-as-draft-prs" title="Permanent link">&para;</a></h3>
-<p><code>backlog</code>-mode ticks normally dispatch into the project's default workflow
-(commonly <code>dev-pipeline</code>, which commits straight to the local clone — no PR,
-no review). Point backlog mode at the purpose-built delivery pipeline instead
-with <code>autonomy.workflow_id: "backlog-item"</code>: it runs the same
-analyze → implement (TDD) → test → review loop, then a deterministic
-<code>publish</code> step pushes the branch and opens a <strong>draft pull request</strong> — no
-agent ever runs <code>git push</code> or a forge CLI. See
-<a href="../../features/forge/#backlog-origin-pull-requests">Backlog-origin pull requests</a>
-for what that PR looks like.</p>
-<p>That publish step needs an outbound repo to target — there's no inbound
-webhook naming one for backlog-originated work — so <code>backlog-item</code> also
-requires <code>github.repo</code> (and a working GitHub App installation; see
-<a href="../../features/forge/">Forge</a>) on the project. Setting <code>autonomy.workflow_id</code>
-to a workflow that doesn't exist is loud, not silent: it's flagged at config
-load/reload, and the tick itself skips (recorded, not a silent fallback to
-the default workflow) rather than guessing.</p>
-<p>Putting it together, a project with backlog autonomy pointed at draft PRs
-looks like:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">github</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">app_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">123456</span>
-<span class="w">  </span><span class="nt">installation_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">78901234</span>
-<span class="w">  </span><span class="nt">private_key_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/vornik/secrets/forge-app.pem</span>
-<span class="w">  </span><span class="c1"># Outbound repo for work with no inbound event to name one —</span>
-<span class="w">  </span><span class="c1"># backlog-item's draft PRs target this.</span>
-<span class="w">  </span><span class="nt">repo</span><span class="p">:</span><span class="w"> </span><span class="s">"your-org/your-repo"</span>
-
-<span class="nt">autonomy</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">            </span><span class="c1"># flip on when you're ready for deposits to become PRs</span>
-<span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="s">"backlog"</span>
-<span class="w">  </span><span class="nt">workflow_id</span><span class="p">:</span><span class="w"> </span><span class="s">"backlog-item"</span>
-<span class="w">  </span><span class="nt">maxTasksPerHour</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
-<span class="w">  </span><span class="nt">pollInterval</span><span class="p">:</span><span class="w"> </span><span class="s">"45m"</span>
-<span class="w">  </span><span class="nt">allowedTaskTypes</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"backlog"</span>
-
-<span class="nt">permissions</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">allowedTools</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"backlog_deposit"</span>
-
-<span class="nt">backlogDeposits</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">maxPerTask</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
-</code></pre></div>
-<p>With <code>autonomy.enabled: false</code>, deposits still flow — any role holding the
-tool can propose <code>- [?]</code> items — but nothing consumes them yet. Flip
-<code>enabled: true</code> only once you're ready to have hand-approved (<code>- [ ]</code>) items
-turn into draft pull requests.</p>
-<p>If a <code>backlog-item</code> run exhausts its retries or hard-fails a step, it
-terminates with no PR opened. The next tick's reconcile pass finds the
-terminal-failed item and flips its box from <code>- [x]</code> to <code>- [!]</code> in the backlog
-file, so nothing is silently lost — investigate, then flip it back to
-<code>- [ ]</code> to retry, or delete the line if it's not worth retrying.</p>
-<h2 id="watching-it">Watching it<a class="headerlink" href="#watching-it" title="Permanent link">&para;</a></h2>
-<p>Every evaluation — whether it created a task or not — is recorded with an
-outcome (created, no-action, rate-limited, budget-blocked, duplicate, and so
-on). Inspect the audit trail and a rollup from the CLI:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>autonomy<span class="w"> </span>evaluations<span class="w"> </span>--project<span class="w"> </span>my-project<span class="w"> </span>--limit<span class="w"> </span><span class="m">50</span>
-vornikctl<span class="w"> </span>autonomy<span class="w"> </span>summary<span class="w">     </span>--project<span class="w"> </span>my-project<span class="w"> </span>--hours<span class="w"> </span><span class="m">24</span>
-vornikctl<span class="w"> </span>autonomy<span class="w"> </span>health<span class="w">      </span>--project<span class="w"> </span>my-project<span class="w"> </span>--hours<span class="w"> </span><span class="m">24</span>
-</code></pre></div>
-<p><code>autonomy health</code> is the one to reach for when every tick reports success and
-you still suspect the loop has quietly degraded. It puts four things in one
-table: whether one outcome has taken over the window, how each <strong>declared</strong>
-feed's observed cadence compares with the cadence you declared, what each tick
-actually delivered (following the delegation edge to the child that did the
-work, not the router that picked it), and how much routing churn that cost.
-Add <code>--json</code> for the raw payload.</p>
-<p>It is deliberately explicit about what it did <em>not</em> measure. A project with no
-declared feeds prints <code>not declared</code>, a window with no judge verdicts prints
-<code>no verdicts</code>, and a number that could not be collected prints <code>not measured</code>.</p>
-<p>The cadence column makes one more distinction worth knowing, because only one
-of the two is a real finding. Health reads a bounded page of the project's most
-recent tasks, so "this feed has no task in it" can mean two different things:</p>
-<ul>
-<li><strong>The page did not fill.</strong> That was the project's whole history, and the feed
-  really has never run — so the row prints <code>never ran</code>.</li>
-<li><strong>The page filled.</strong> Older history exists that was not looked at, so the feed
-  may have run before the window or may be badly overdue, and this reading
-  cannot tell you which. The row prints a lower bound instead — <code>&gt;233h0m0s</code>,
-  meaning "at least this long" — followed by a note naming the feeds affected
-  and how far back the window reached. Where that bound already exceeds the
-  declared cadence, the feed is overdue no matter what the unexamined history
-  says, and the <code>BREACH</code> column still says <code>slow</code>.</li>
-</ul>
-<p>None of these are <code>0</code>, because a control that
-cannot tell "examined and clean" from "never examined" would report the first
-and mean the second.</p>
-<p>The project's home page shows a <strong>countdown to the next autonomy tick</strong> and the
-last evaluation's outcome, and the dashboard surfaces a next-evaluation tile
-across all autonomous projects plus a count of tasks awaiting approval.</p>
-<blockquote>
-<p>The <code>vornikctl autonomy</code> commands are read-only audit views. Enable or disable
-autonomy through the project's configuration or the Web UI — there is no
-<code>vornikctl autonomy enable</code> command.</p>
-</blockquote>
 
 
 
 
 
 
-
-  
-  
 
 
 

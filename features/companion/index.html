@@ -1053,6 +1053,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -1426,6 +1432,69 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../identity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../config-assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architect-consult/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architect consultation over A2A
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1664,6 +1733,8 @@
       
         
       
+        
+      
     
     
       
@@ -1730,6 +1801,27 @@
   
   <span class="md-ellipsis">
     AI transparency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../licensing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licensing: what you can do with Vornik
   </span>
   
 
@@ -1946,7 +2038,7 @@ scoped key, so it never needs your admin credentials.</p>
 </tr>
 <tr>
 <td><code>whoami</code></td>
-<td>show this key's project, the repo scope your calls resolve to right now, the database this daemon writes (so a destructive tool can verify its target instead of trusting a name you typed), and this project's embedding readiness — how much of its memory is semantically searchable, plus the embed-queue depth, so a caller can wait for ingest to finish instead of querying a half-indexed corpus</td>
+<td>show this key's project, the repo scope your calls resolve to right now, the database this daemon writes (so a destructive tool can verify its target instead of trusting a name you typed), and this project's embedding readiness — how much of its memory is semantically searchable, plus the embed-queue depth, so a caller can wait for ingest to finish instead of querying a half-indexed corpus. Also reports the daemon's build revision and its resolved embedding model, which a benchmark needs to attribute a run to a release and to an embedding space.</td>
 </tr>
 <tr>
 <td><code>report_problem</code></td>
@@ -1974,7 +2066,7 @@ scoped key, so it never needs your admin credentials.</p>
 </tr>
 <tr>
 <td><code>catalog</code></td>
-<td>show which workflows this key may delegate to, with cost estimates</td>
+<td>show which workflows this key may delegate to, with cost estimates and whether each can reach the network</td>
 </tr>
 <tr>
 <td><code>skill_propose</code></td>
@@ -2174,6 +2266,13 @@ the target workflow declares <code>require_input_artifacts</code>, the daemon st
 upload as a raw file rather than extracting it into project memory first — so
 the agent reads exactly the bytes you sent, and no client has to opt into that
 behaviour.</p>
+<p>One note on <code>/upload</code>'s output, because its failure used to be quiet. A run that
+completed prints <code>VORNIK_UPLOAD_END</code> as its last line; output without that
+marker means the command was cut before it ran and there is no task to poll,
+however much the rest of it looks like a success. Backticks in a prompt used to
+cause exactly that and no longer do (bundle 0.24.0) — the commands' shell blocks
+are fenced, so a backtick is ordinary text. A line consisting of three backticks
+still closes a fence, which is what the marker is there to catch.</p>
 <p>The shipped delegation workflows include:</p>
 <ul>
 <li><strong>architectural review</strong> — a second opinion on a diff, PR, or design doc
@@ -2185,6 +2284,19 @@ behaviour.</p>
 <p><code>catalog</code> lists exactly which of these your key is allowed to run. When you're
 about to delegate something vornik may already know, <code>delegate</code> can surface a
 hint from memory first, so you don't spend compute re-deriving it.</p>
+<p><strong>Vornik agents cannot browse.</strong> An agent can only act through the tools its
+role grants, and most companion roles hold nothing that reaches the network —
+so handing one a URL gets you a fluent answer assembled from nothing at all.
+<code>catalog</code> reports this per workflow as <code>network_access</code>, either <code>none</code> or
+<code>possible</code>, next to the description. A <code>delegate</code> whose prompt contains a URL
+is refused outright when the target workflow is <code>none</code>, rather than queued and
+reported as under way.</p>
+<p>To get external pages into project memory, fetch them in your editor with its
+own web tools, save them as local files, and send those files to the
+<strong>RAG ingest</strong> workflow — <code>/upload</code> in Claude Code, or <code>delegate</code> with base64
+<code>inputArtifacts</code> in Codex. If a URL in your prompt is incidental — a link
+quoted for context in a diff you want reviewed — pass
+<code>acknowledge_workflow_cannot_fetch: true</code> and the delegation proceeds.</p>
 <h2 id="setting-it-up">Setting it up<a class="headerlink" href="#setting-it-up" title="Permanent link">&para;</a></h2>
 <p>On the <strong>daemon</strong> side, an operator prepares a companion project and mints a
 <strong>companion-scoped key</strong> (a plain API key won't be accepted on the companion

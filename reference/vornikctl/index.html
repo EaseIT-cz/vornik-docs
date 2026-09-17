@@ -1051,6 +1051,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
       
@@ -1306,6 +1312,69 @@
   
   <span class="md-ellipsis">
     Control plane
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/identity/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User accounts and channel/key→account mapping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/config-assistant/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Configuration assistant
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../features/architect-consult/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Architect consultation over A2A
   </span>
   
 
@@ -3017,6 +3086,8 @@
       
         
       
+        
+      
     
     
       
@@ -3083,6 +3154,27 @@
   
   <span class="md-ellipsis">
     AI transparency
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../licensing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Licensing: what you can do with Vornik
   </span>
   
 
@@ -4936,6 +5028,11 @@ re-scoring changes what a number MEANS, not what happened.</p>
 <td></td>
 <td>where to write the re-scored journal (required)</td>
 </tr>
+<tr>
+<td><code>--tasks</code></td>
+<td></td>
+<td>the task set whose scoring policies the journal's TASK SCORES were computed under. Required when the journal carries task scores: a score's policy (producer step, verifier step, kind) lives in the task spec, not in the journal, so without it the release metric could only be copied forward unverified under a new harness stamp</td>
+</tr>
 </tbody>
 </table>
 <h2 id="vornikctl-bench-agent-rollup">vornikctl bench agent rollup<a class="headerlink" href="#vornikctl-bench-agent-rollup" title="Permanent link">&para;</a></h2>
@@ -5608,6 +5705,7 @@ proposal is filed.</p>
                         model_route prefix or are missing from pricing.yaml</p>
 <p>Cost &amp; budget:
   pricing_coverage      Models in swarm configs missing from pricing.yaml
+  pricing_drift         Prices disagreeing with the pinned upstream snapshot
   autonomy_budget_guard Autonomy-enabled projects with no hard $ cap
   budget_utilisation    Projects at ≥80%% of daily or monthly hard cap
   dispatcher_role       When telegram.dispatcher_project_id is set,
