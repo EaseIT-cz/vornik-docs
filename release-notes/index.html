@@ -1798,6 +1798,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#202695" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.9.5
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202694" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.4
@@ -2156,6 +2165,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#202695" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.9.5
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202694" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.4
@@ -2505,6 +2523,35 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="202695">2026.9.5<a class="headerlink" href="#202695" title="Permanent link">&para;</a></h2>
+<p><strong>Your memory knows what is current.</strong> Retrieval now ranks by freshness, and a
+recurring series supersedes its own older members — so a daily digest answers
+today's question instead of yesterday's. The decay half-life is read per row,
+which lets one store hold fast-moving news beside reference material that never
+goes stale. Nothing is filtered out; freshness is a ranking signal. Existing
+rows are untouched: absent series membership means "not part of a series",
+which is what everything written before this release is.</p>
+<p><strong>Self-hosted inference stops being billed at a made-up rate.</strong> If you run a
+model through vLLM or a LiteLLM proxy, its cost metrics were almost certainly
+wrong — an unpriced model falls through to a default rate, and the table
+carried no prompt-cache tier at all. On our own benchmark that was a 7.3×
+overstatement: $40.51 recorded against $7.12 actually billed. Both the proxy
+and direct spellings of a model are priced now, because lookup is exact-match.</p>
+<p><strong>A new doctor check, <code>pricing_drift</code>,</strong> reports prices that disagree with a
+pinned snapshot of LiteLLM's published table. It reports and never applies —
+your operator-verified rate is often the better one — and it tells you how many
+prices it could actually compare rather than implying it checked them all.
+<code>vornikctl pricing sync-upstream</code> refreshes the snapshot and prints the diff.
+Nothing fetches at runtime: prices drive budget enforcement.</p>
+<p><strong>Fixes you may have hit.</strong> Telegram commands did nothing in group chats
+(<code>/cmd@botname</code> never dispatched), and everyone in a group was treated as the
+same speaker. An agent path that lost its leading slash resolved nowhere. A
+backtick in an <code>/upload</code> prompt aborted the upload silently, with no error and
+no task id.</p>
+<p><strong>Restart required for pricing changes.</strong> <code>vornikctl config reload</code> reports
+success on a <code>pricing.yaml</code> change it does not apply — the table is read once
+at startup. Restart the daemon after editing rates.</p>
 <hr />
 <h2 id="202694">2026.9.4<a class="headerlink" href="#202694" title="Permanent link">&para;</a></h2>
 <p><strong>Forge can read your CI, and it will not approve a red commit.</strong> Turn on
