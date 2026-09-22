@@ -435,6 +435,8 @@
       
         
       
+        
+      
     
     
       
@@ -700,6 +702,27 @@
   
   <span class="md-ellipsis">
     Named secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/browser-login/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Signing in to the console
   </span>
   
 
@@ -2539,12 +2562,27 @@ called tools correctly. It runs 30 software tasks through a multi-agent
 <td>0.985</td>
 <td>1.000</td>
 <td>9.7%</td>
-<td>$0.74</td>
+<td>$0.29</td>
 </tr>
 </tbody>
 </table>
 <p>Efficiency, same arm: 667,801 tokens and 62.4 tool calls per task, 0 escalations,
-0 schema retries. Total spend $25.23.</p>
+0 schema retries. Total spend $8.79.</p>
+<blockquote>
+<p><strong>Cost corrected downwards, 2026-09-19.</strong> This row first published $0.74 per
+task and $25.23 total. Those figures were wrong and we are the ones who found
+it: the observed model was absent from our pricing table, so every call was
+billed at the table's <code>default</code> rate of $1.00/$3.00 per million tokens instead
+of the model's real $0.35/$2.75. The corrected figures are recomputed from the
+arm's own recorded token counts — 22,353,287 prompt and 351,933 completion —
+and nothing else about the run changed.</p>
+<p>The true cost may be lower still. This arm reached the model over a path that
+did not report prompt-cache reads, and a later pass on the same model measured
+79.5% of prompt tokens served from cache at a tenth of the input rate. We do
+not know that share for this arm, so we have not applied it: the number above
+is an upper bound, stated as one.</p>
+<p>Quality figures in this row are unaffected — pricing enters no scoring path.</p>
+</blockquote>
 <p><strong>Read both layers, because the first one alone flatters us.</strong> Task success is
 100%, and underneath it <strong>14 of 144 terminal steps (9.7%) produced no output at
 all</strong> — 8 hit the iteration cap, 4 entered a degenerate tool loop, 2 failed

@@ -435,6 +435,8 @@
       
         
       
+        
+      
     
     
       
@@ -700,6 +702,27 @@
   
   <span class="md-ellipsis">
     Named secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/browser-login/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Signing in to the console
   </span>
   
 
@@ -2031,6 +2054,21 @@ doesn't override it:</p>
 only to the few roles that must install dependencies. An invalid
 <code>default_network</code> value <strong>fails closed to <code>daemon-only</code></strong>, so a typo can't
 silently restore egress.</p>
+<p><strong>Better than granting <code>egress</code>: declare the project's dependencies</strong> and let
+the daemon provision them. A project with a <code>dependencies:</code> manifest gets its
+packages materialised into a content-addressed cache OUTSIDE the container and
+bind-mounted read-only, so the agent imports them without ever reaching an
+index — and the role stays on <code>daemon-only</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># in the project's config</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ecosystem</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip</span>
+<span class="w">    </span><span class="nt">lockfile</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">requirements.lock</span><span class="w">     </span><span class="c1"># hash-pinned</span>
+</code></pre></div>
+<p>Every role with a workspace gets the mount; it is not a grant. That matters
+most for the roles that are not coders: a REVIEWER is handed a diff and never
+runs an install step, so without this it cannot run the suite it is reviewing
+and cannot tell "the tests pass" from "the tests did not run". <code>vornikctl
+doctor</code> reports, per project, whether each declared set is materialised.</p>
 <p>Two guardrails to know:</p>
 <ul>
 <li><strong><code>daemon-only</code> requires <code>server.unix_socket</code></strong> to be set (that's the socket

@@ -435,6 +435,8 @@
       
         
       
+        
+      
     
     
       
@@ -700,6 +702,27 @@
   
   <span class="md-ellipsis">
     Named secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/browser-login/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Signing in to the console
   </span>
   
 
@@ -1748,6 +1771,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-config-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl config keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-config-reload" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl config reload
@@ -2489,6 +2521,42 @@
   <a href="#vornikctl-models-list" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl models list
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package list
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-uninstall" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package uninstall
     </span>
   </a>
   
@@ -3456,6 +3524,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-config-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl config keys
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-config-reload" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl config reload
@@ -4203,6 +4280,42 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package install
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package list
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-uninstall" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package uninstall
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-project" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl project
@@ -4742,7 +4855,8 @@ is portable across hosts when restored via 'vornikctl restore'.</p>
 configuration, not a recording — so they can gate before any gold pass.</p>
 <h2 id="vornikctl-bench-agent-calibrate">vornikctl bench agent calibrate<a class="headerlink" href="#vornikctl-bench-agent-calibrate" title="Permanent link">&para;</a></h2>
 <p>Build a task calibration artifact from a repeated journal</p>
-<div class="highlight"><pre><span></span><code>vornikctl bench agent calibrate &lt;journal&gt; [flags]
+<p>Several journals are merged before the artifact is derived, which is the form a long pass takes: one journal per repeat chunk and task batch, so a 10-repeat 10-task calibration leaves 50 files. The merge refuses inputs that are not one run — a differing arm, pre-registration, or tier policy — and refuses a repeat index that collided across chunks.</p>
+<div class="highlight"><pre><span></span><code>vornikctl bench agent calibrate &lt;journal&gt;... [flags]
 </code></pre></div>
 <table>
 <thead>
@@ -5147,6 +5261,11 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <td>project to run in</td>
 </tr>
 <tr>
+<td><code>--repeat-offset</code></td>
+<td><code>0</code></td>
+<td>shift the repeat index this invocation stamps, so a run split across several invocations produces globally unique (task, repeat) pairs. Pass chunk_index * repeat_batch. Without it every chunk numbers its repeats from 1, and calibration refuses the collision rather than counting one repeat many times</td>
+</tr>
+<tr>
 <td><code>--repeats</code></td>
 <td><code>1</code></td>
 <td>runs per task; repeats shrink a task's contribution to sigma_d but add no pairs</td>
@@ -5398,6 +5517,40 @@ exists to catch.</p>
 </code></pre></div>
 <h2 id="vornikctl-config">vornikctl config<a class="headerlink" href="#vornikctl-config" title="Permanent link">&para;</a></h2>
 <p>Inspect and control daemon configuration</p>
+<h2 id="vornikctl-config-keys">vornikctl config keys<a class="headerlink" href="#vornikctl-config-keys" title="Permanent link">&para;</a></h2>
+<p>List the project config keys this binary accepts, and which release introduced each</p>
+<p>Print every project config key THIS BINARY accepts.</p>
+<p>This answers two different upgrade questions, and they are not the same:</p>
+<p>"would my config load under this binary?"  — the full list, always correct,
+      because it is derived from the schema rather than maintained by hand.</p>
+<p>"what is new since the release I am running?" — pass --since <release>. Keys
+      that predate per-key provenance are reported as older than tracking
+      rather than guessed at.</p>
+<p>A key your config uses that is NOT in this list is why a project went dark:
+deploy the binary that knows the key first, then the config.</p>
+<div class="highlight"><pre><span></span><code>vornikctl config keys [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--json</code></td>
+<td><code>false</code></td>
+<td>JSON output instead of the table</td>
+</tr>
+<tr>
+<td><code>--since</code></td>
+<td></td>
+<td>Only keys introduced after this release (e.g. 2026.9.4)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-config-reload">vornikctl config reload<a class="headerlink" href="#vornikctl-config-reload" title="Permanent link">&para;</a></h2>
 <p>Trigger a configuration reload</p>
 <p>Trigger a manual reload of the daemon config and registry. Equivalent
@@ -8086,6 +8239,69 @@ configured 'default' rate (or zero) until pricing.yaml is updated.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="vornikctl-package">vornikctl package<a class="headerlink" href="#vornikctl-package" title="Permanent link">&para;</a></h2>
+<p>Install, list and uninstall Vornik extension packages</p>
+<p>A package is a manifest plus a payload tree — workflows and roles in
+this release — that an operator can hand someone and install in one step.</p>
+<p>It is NOT a marketplace and NOT a plugin API: nothing here loads code,
+and every contribution is data the daemon already knows how to validate.
+Trust is the operator's, exactly as it is for a workflow YAML today.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--configs-dir</code></td>
+<td></td>
+<td>Deployed configs directory (default: VORNIK_CONFIGS_DIR or ~/.config/vornik/configs)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-package-install">vornikctl package install<a class="headerlink" href="#vornikctl-package-install" title="Permanent link">&para;</a></h2>
+<p>Install a package into the deployed configs tree</p>
+<p>Validate a package, write its contributions into the DEPLOYED configs
+tree, and record provenance for each one with its content hash.</p>
+<p>A conflict is a refusal, not a merge: two packages contributing the same
+workflow id is an operator decision, not something an installer resolves
+by ordering. Every conflict is reported in one pass.</p>
+<p>The daemon picks the new config up on its next reload.</p>
+<div class="highlight"><pre><span></span><code>vornikctl package install &lt;dir-or-tarball&gt; [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dry-run</code></td>
+<td><code>false</code></td>
+<td>Print the would-be writes without touching disk or the provenance store</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-package-list">vornikctl package list<a class="headerlink" href="#vornikctl-package-list" title="Permanent link">&para;</a></h2>
+<p>List installed packages and what each contributed</p>
+<div class="highlight"><pre><span></span><code>vornikctl package list
+</code></pre></div>
+<h2 id="vornikctl-package-uninstall">vornikctl package uninstall<a class="headerlink" href="#vornikctl-package-uninstall" title="Permanent link">&para;</a></h2>
+<p>Remove a package's contributions</p>
+<p>Remove every row a package installed, provided each is still
+byte-for-byte what the package wrote.</p>
+<p>A file the operator EDITED stops the uninstall and is named: an operator
+who tuned a contributed workflow must not lose the tuning to a package
+lifecycle. A file the operator DELETED is not an error — its provenance
+row is simply cleared.</p>
+<div class="highlight"><pre><span></span><code>vornikctl package uninstall &lt;package&gt;
+</code></pre></div>
 <h2 id="vornikctl-project">vornikctl project<a class="headerlink" href="#vornikctl-project" title="Permanent link">&para;</a></h2>
 <p>Inspect projects loaded by the daemon</p>
 <h2 id="vornikctl-project-archive">vornikctl project archive<a class="headerlink" href="#vornikctl-project-archive" title="Permanent link">&para;</a></h2>

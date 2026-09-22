@@ -435,6 +435,8 @@
       
         
       
+        
+      
     
     
       
@@ -700,6 +702,27 @@
   
   <span class="md-ellipsis">
     Named secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/browser-login/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Signing in to the console
   </span>
   
 
@@ -2326,6 +2349,17 @@ and it is silent.</p>
 </tr>
 </tbody>
 </table>
+<p><strong>A file in the registry tree that this binary cannot read leaves its project
+DARK, and by default the daemon starts anyway.</strong> The loader prints which file
+and why, and <code>vornikctl doctor</code> reports it at ERROR (<code>project_config_skew</code>) — so
+a degraded start is loud, not silent. Refusing to start by default would turn
+one unreadable project into an unavailable deployment, which is the larger
+outage. A deployment that prefers the opposite sets
+<code>registry.refuse_start_on_rejected_project: true</code>.</p>
+<p><code>vornikctl config keys</code> lists every project key this binary accepts, which is
+the question behind most upgrade surprises: a key your config uses that is not
+in that list is why a project vanished. Deploy the binary that knows a key
+BEFORE the config that uses it, and remove the key BEFORE downgrading.</p>
 <p>The registry tree is resolved through a <strong>fallback chain</strong>, not a single variable,
 and the CLI's chain differs from the daemon's. <code>VORNIK_CONFIGS_DIR</code> is honoured only
 when the directory already contains all three subdirectories — otherwise it is
@@ -2517,6 +2551,12 @@ companion keys carrying explicit capability booleans (memory read, memory write,
 skill access).</p>
 <p><strong>Reference when enabled:</strong> every key scoped to one project with the narrowest
 capabilities its job needs. <strong>Never print or log a key.</strong></p>
+<p><strong>Browser sessions.</strong> Enterprise signs people in through an identity provider.
+Community can trade an API key for a bounded browser session
+(<code>auth.session.credential_exchange</code>, off by default) — the session records which
+key minted it, and revoking that key ends the session on its next request rather
+than at a cache expiry. A session never carries more than its originating
+credential currently has.</p>
 <p><strong>Sharp edge:</strong> after enabling auth, an endpoint that returns empty lists rather than
 a 401 usually means a visibility filter is missing an admin-class bypass — the data is
 there and the caller cannot see it.</p>

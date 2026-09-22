@@ -435,6 +435,8 @@
       
         
       
+        
+      
     
     
       
@@ -700,6 +702,27 @@
   
   <span class="md-ellipsis">
     Named secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/browser-login/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Signing in to the console
   </span>
   
 
@@ -1565,6 +1588,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      registry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#named_secrets" class="md-nav__link">
     <span class="md-ellipsis">
       named_secrets
@@ -2232,6 +2264,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      registry
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#named_secrets" class="md-nav__link">
     <span class="md-ellipsis">
       named_secrets
@@ -2650,6 +2691,25 @@
 </tr>
 </tbody>
 </table>
+<h2 id="registry">registry<a class="headerlink" href="#registry" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>registry</code></td>
+<td>struct</td>
+<td>Config-tree loading policy (what a rejected project file does at boot).</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="named_secrets">named_secrets<a class="headerlink" href="#named_secrets" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3020,6 +3080,12 @@
 <td><code>runtime.default_network</code></td>
 <td>string</td>
 <td>Default network policy for agent roles: host, none, or daemon-only (zero egress; requires server.unix_socket).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>runtime.agent_memory_limit</code></td>
+<td>string</td>
+<td>Per-agent-container memory cap (e.g. 2GiB). Absent derives from host memory and concurrency; "none" disables the limit.</td>
 <td>—</td>
 </tr>
 <tr>
@@ -4501,6 +4567,18 @@
 <td><code>auth.session.idle_timeout</code></td>
 <td>string</td>
 <td>Cut sessions idle longer than this.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>auth.session.credential_exchange</code></td>
+<td>bool</td>
+<td>Open POST /api/v1/auth/session, exchanging an API key for a browser session cookie.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>auth.session.allow_insecure_exchange</code></td>
+<td>bool</td>
+<td>Permit session cookies over plaintext HTTP. Development only; a cookie in the clear is the whole session.</td>
 <td>—</td>
 </tr>
 <tr>

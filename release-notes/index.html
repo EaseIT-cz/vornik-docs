@@ -433,6 +433,8 @@
       
         
       
+        
+      
     
     
       
@@ -698,6 +700,27 @@
   
   <span class="md-ellipsis">
     Named secrets
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/browser-login/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Signing in to the console
   </span>
   
 
@@ -1798,6 +1821,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#202696" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.9.6
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202695" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.5
@@ -2165,6 +2197,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#202696" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.9.6
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202695" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.5
@@ -2523,6 +2564,55 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="202696">2026.9.6<a class="headerlink" href="#202696" title="Permanent link">&para;</a></h2>
+<p><strong>One agent can no longer take the host down.</strong> Agent containers ran with no
+memory limit and no CPU quota at all, so a single runaway step was a
+machine-level event rather than a task-level one. They are bounded now. The
+limit is <strong>derived from your host</strong> rather than shipped as a fixed number: a
+constant default beside the shipped <code>max_concurrent_tasks</code> would have refused
+to boot on any host under 8GiB, which would have turned a load-dependent risk
+into a certain outage caused by upgrading. Set <code>runtime.agent_memory_limit</code>
+to override, or to <code>"none"</code> to keep the old unbounded behavior. A limit you set
+that cannot arithmetically fit is refused at startup with the arithmetic in the
+message; one that merely exceeds currently-free memory warns and boots.</p>
+<p><strong>The adoption board stops reporting numbers it did not measure.</strong> Two
+customer-reported defects (<a href="https://github.com/grinco/vornik/issues/14">#14</a>):</p>
+<ul>
+<li>Credentials were listed only if they had rows in three specific activity
+  ledgers, so a key used for the REST API, the UI, chat or A2A was <strong>absent
+  from the board however heavily it was used</strong> — and the board read as "nobody
+  is using this". Rows now come from your credential list, with authentication
+  itself as evidence of life. The same cause stalled the "last seen" column.
+  The board also silently truncated to 20 rows; it now says how many it is not
+  showing.</li>
+<li>A row could show a credential's LLM call count beside <strong>"0 of 30 active
+  days"</strong>. The active-days column read one ledger while the counts beside it
+  read another. It is now the union of all three: a credential that queried
+  memory and spent on a model the same afternoon counts as one active day, not
+  two, and the day boundary is UTC regardless of your daemon's timezone.</li>
+</ul>
+<p>What is still not counted is now stated on the page rather than left to be
+inferred: a credential whose only traffic is REST or the UI shows a recent
+"last seen" beside zero active days, because a key's last-used timestamp is one
+instant, not a history.</p>
+<p><strong>A config tree your next restart would refuse is caught before it flaps.</strong> A
+deployed workflow naming a step error class the installed binary rejects takes
+the daemon down on restart — and restarts it, forever, under
+<code>Restart=on-failure</code>. <code>vornikctl doctor</code> now reports it, and the same check runs
+against the <strong>new</strong> binary during <code>vornik-update.sh</code>, before the swap. Two other
+doctor checks that could never have passed are fixed: <code>image_freshness</code>
+compared a Community label against an Enterprise daemon, and <code>agent_image_uid</code>
+outlived the constraint it tested.</p>
+<p><strong>Community edition gains browser login</strong> — a credential exchanged for a
+bounded session, not a password. Revoking a key ends the browser sessions that
+key minted.</p>
+<p><strong>Fixes.</strong> A step prompt of 128 KiB or more is no longer silently dropped.
+<code>pricing.yaml</code> now reloads instead of reporting success and continuing to bill
+the old rates — this one was called out in 2026.9.5 as restart-only. A registry
+reload no longer drops a project the daemon is serving. A Slack command the
+daemon does not answer is no longer invisible. The agent image runs under any
+uid. Five dependency alerts on the Community repository are closed.</p>
 <hr />
 <h2 id="202695">2026.9.5<a class="headerlink" href="#202695" title="Permanent link">&para;</a></h2>
 <p><strong>Your memory knows what is current.</strong> Retrieval now ranks by freshness, and a
