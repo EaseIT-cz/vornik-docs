@@ -2607,6 +2607,16 @@ outlived the constraint it tested.</p>
 <p><strong>Community edition gains browser login</strong> — a credential exchanged for a
 bounded session, not a password. Revoking a key ends the browser sessions that
 key minted.</p>
+<p><strong>Our release pipeline was publishing inconsistently, and that reached you.</strong>
+Three repositories sat at three different versions on the same day, and the
+Community edition had a <code>2026.9.5</code> tag with no release attached to it. The
+causes were all the same shape — a step that worked because someone remembered
+to do it. Creating the Community release is now automatic on a version tag, the
+installers are checked against the version being released (they had been
+pinned two releases behind for five days, so fresh installs quietly took an
+older tree), and a weekly audit verifies each release actually produced the
+versioned agent image it promised. Every release from 2026.7.2 onward now has a
+matching tag and release entry.</p>
 <p><strong>Fixes.</strong> A step prompt of 128 KiB or more is no longer silently dropped.
 <code>pricing.yaml</code> now reloads instead of reporting success and continuing to bill
 the old rates — this one was called out in 2026.9.5 as restart-only. A registry
