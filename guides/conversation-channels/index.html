@@ -2517,31 +2517,29 @@ sends a voice message, vornik transcribes it, treats the transcript as a normal
 message, and — if the conversation started in voice — speaks its reply back.</p>
 <p>A conversation's "voice mode" is sticky: once someone speaks, vornik keeps
 replying with audio until the next message comes in as text.</p>
-<p>The current release uses local, open-weight speech engines that run on the same
-host as vornik:</p>
+<p>The current release uses local, open-weight speech engines:</p>
 <ul>
 <li><strong>Speech-to-text:</strong> <a href="https://github.com/ggerganov/whisper.cpp">whisper.cpp</a>
-  with a Whisper model file.</li>
+  (<code>whisper-cli</code>) with a Whisper ggml model file.</li>
 <li><strong>Text-to-speech:</strong> <a href="https://github.com/rhasspy/piper">Piper</a> with a Piper
   voice.</li>
-<li><strong>Audio conversion:</strong> <code>ffmpeg</code>, built with Opus support for Telegram and AAC
-  for Slack.</li>
+<li><strong>Audio conversion:</strong> <code>ffmpeg</code>, with Opus for Telegram and AAC for Slack.</li>
 </ul>
-<p>Install those binaries and download the model files, then point the
-configuration at them.</p>
+<p>Since 2026.9.7 the programs ship <strong>in the agent image</strong> and every voice note is
+processed there, in a one-shot container with no network and a memory, CPU and
+time limit (<code>sandbox_tools.limits.voice_stt</code> / <code>voice_tts</code>, see
+<a href="../artifacts-and-delivery/">Artifacts and delivery</a>). Nothing is installed on,
+or run on, the daemon host. You download only the <strong>model files</strong>; vornik
+mounts each model's directory read-only into the container.</p>
 <h3 id="configuration_3">Configuration<a class="headerlink" href="#configuration_3" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nt">voice</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">stt</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">"whisper-local"</span>
 <span class="w">    </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="s">"/path/to/ggml-base.en.bin"</span>
-<span class="w">    </span><span class="nt">binary_path</span><span class="p">:</span><span class="w"> </span><span class="s">"/usr/local/bin/whisper-cpp"</span>
-<span class="w">    </span><span class="nt">ffmpeg_path</span><span class="p">:</span><span class="w"> </span><span class="s">"/usr/bin/ffmpeg"</span>
-<span class="w">    </span><span class="nt">language_hint</span><span class="p">:</span><span class="w"> </span><span class="s">"en"</span><span class="w">        </span><span class="c1"># leave empty to auto-detect</span>
+<span class="w">    </span><span class="nt">language_hint</span><span class="p">:</span><span class="w"> </span><span class="s">"en"</span><span class="w">        </span><span class="c1"># leave empty for English</span>
 <span class="w">  </span><span class="nt">tts</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="s">"piper"</span>
 <span class="w">    </span><span class="nt">voice</span><span class="p">:</span><span class="w"> </span><span class="s">"/path/to/en_US-amy-medium.onnx"</span>
-<span class="w">    </span><span class="nt">binary_path</span><span class="p">:</span><span class="w"> </span><span class="s">"/usr/local/bin/piper"</span>
-<span class="w">    </span><span class="nt">ffmpeg_path</span><span class="p">:</span><span class="w"> </span><span class="s">"/usr/bin/ffmpeg"</span>
 <span class="w">    </span><span class="nt">speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
 <span class="w">    </span><span class="nt">max_text_runes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1500</span>
 </code></pre></div>
@@ -2553,12 +2551,21 @@ both.</p>
 <li><code>max_text_runes</code> caps how much text gets spoken (1500 is about 90 seconds).
   Telegram limits voice messages to 60 seconds, so set this to suit your
   channel; vornik trims overly long replies rather than failing silently.</li>
-<li>Your <code>ffmpeg</code> must be built with Opus support for Telegram audio and AAC for
-  Slack audio. A minimal build may be missing these.</li>
+<li><code>binary_path</code> and <code>ffmpeg_path</code> are <strong>ignored since 2026.9.7</strong>: the programs
+  come from the agent image. The daemon logs a warning while they are still set;
+  remove them. An agent image older than the release lacks the tools, and voice
+  then reports "not available in the agent image" — there is no fallback to a
+  program on the host.</li>
+<li>Run <code>vornikctl doctor</code>: its <code>sandbox_tools</code> check transcribes a one-second
+  clip with your Whisper model, synthesises a phrase with your Piper voice, and
+  round-trips Opus and AAC through <code>ffmpeg</code>, all in the sandbox, so a wrong or
+  missing model shows up there rather than at the first voice note.</li>
 <li>Use the smallest Whisper model that is accurate enough for you. On a machine
   without a GPU, larger models can take many seconds to transcribe a clip.</li>
 <li>For Piper, point <code>voice</code> at the <code>.onnx</code> file; its matching <code>.onnx.json</code>
-  must sit beside it.</li>
+  must sit beside it (the whole directory is mounted).</li>
+<li><code>voice.stt.model</code> also serves <strong>audio document extraction</strong> unless
+  <code>extractors.audio.model_path</code> names a different model.</li>
 </ul>
 <hr />
 <h2 id="a-note-on-history-and-replies">A note on history and replies<a class="headerlink" href="#a-note-on-history-and-replies" title="Permanent link">&para;</a></h2>

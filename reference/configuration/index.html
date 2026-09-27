@@ -1840,6 +1840,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sandbox_tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      sandbox_tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extractors" class="md-nav__link">
+    <span class="md-ellipsis">
+      extractors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#node" class="md-nav__link">
     <span class="md-ellipsis">
       node
@@ -2516,6 +2534,24 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sandbox_tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      sandbox_tools
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extractors" class="md-nav__link">
+    <span class="md-ellipsis">
+      extractors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#node" class="md-nav__link">
     <span class="md-ellipsis">
       node
@@ -3182,6 +3218,12 @@
 <td><code>runtime.project_workspace_path</code></td>
 <td>string</td>
 <td>Base directory for per-project persistent workspaces.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>runtime.dependency_cache_path</code></td>
+<td>string</td>
+<td>Directory for installed project dependency trees (empty: a deps/ sibling of project_workspace_path).</td>
 <td>—</td>
 </tr>
 <tr>
@@ -3947,6 +3989,18 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>chat.optional_work.disabled</code></td>
+<td>bool</td>
+<td>Refuse all optional LLM work (narration, memory titles/classes/narratives, reranking) on every model.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>chat.optional_work.disabled_models</code></td>
+<td>list</td>
+<td>Refuse optional LLM work on these model ids (exact match). For a backend too slow to serve it beside task traffic.</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>chat.timeout</code></td>
 <td>string</td>
 <td>Bound on a single LLM round-trip.</td>
@@ -4633,7 +4687,19 @@
 <tr>
 <td><code>voice.stt.model</code></td>
 <td>string</td>
-<td>Absolute path to the STT model file.</td>
+<td>Absolute path to the STT ggml model file; its directory is mounted read-only into the sandbox.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>voice.stt.binary_path</code></td>
+<td>string</td>
+<td>Ignored since 2026.9.7 (whisper-cli runs in the agent image); startup warns when set.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>voice.stt.ffmpeg_path</code></td>
+<td>string</td>
+<td>Ignored since 2026.9.7 (ffmpeg runs in the agent image); startup warns when set.</td>
 <td>—</td>
 </tr>
 <tr>
@@ -4645,7 +4711,19 @@
 <tr>
 <td><code>voice.tts.voice</code></td>
 <td>string</td>
-<td>Absolute path to the TTS voice model.</td>
+<td>Absolute path to the TTS voice model (.onnx, with its .onnx.json beside it); the directory is mounted read-only into the sandbox.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>voice.tts.binary_path</code></td>
+<td>string</td>
+<td>Ignored since 2026.9.7 (piper runs in the agent image); startup warns when set.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>voice.tts.ffmpeg_path</code></td>
+<td>string</td>
+<td>Ignored since 2026.9.7 (ffmpeg runs in the agent image); startup warns when set.</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -4695,6 +4773,68 @@
 <td><code>media.video.min_interval_seconds</code></td>
 <td>int</td>
 <td>Shortest gap between sampled keyframes. 0 = extractor default (5).</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sandbox_tools">sandbox_tools<a class="headerlink" href="#sandbox_tools" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sandbox_tools.max_concurrent</code></td>
+<td>int</td>
+<td>Most sandbox tool runs at once; with 2 or more, one slot is reserved for voice. 0 = default (2).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sandbox_tools.limits</code></td>
+<td>map</td>
+<td>Per-feature memory limit (e.g. render: 1GiB). Features: render, pdf, image_ocr, video, audio, voice_stt, voice_tts. Absent = the feature's default.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sandbox_tools.cpus</code></td>
+<td>map</td>
+<td>Per-feature CPU share as podman --cpus takes it (e.g. video: "1.5"). Absent = the feature's default (2 for video, audio and voice_stt; 1 otherwise).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sandbox_tools.timeouts</code></td>
+<td>map</td>
+<td>Per-feature timeout in seconds (e.g. render: 120). Absent = the feature's default.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>sandbox_tools.max_input_bytes</code></td>
+<td>int</td>
+<td>Largest total input of one run for EVERY feature, refused before any container starts. 0 = each feature's default (render 16 MiB, pdf 256 MiB, image_ocr 32 MiB, video 2 GiB, audio 512 MiB, voice_stt 64 MiB, voice_tts 16 MiB).</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="extractors">extractors<a class="headerlink" href="#extractors" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>extractors.audio.model_path</code></td>
+<td>string</td>
+<td>Absolute path to the ggml whisper model (.bin) audio extraction uses; its directory is mounted read-only into the sandbox. Empty = voice.stt.model; neither set = audio extraction not available.</td>
 <td>—</td>
 </tr>
 </tbody>

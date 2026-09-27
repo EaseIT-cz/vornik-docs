@@ -2410,8 +2410,31 @@ between a deterministic gate and one that fires on noise.</p>
 <td>n=3</td>
 <td><code>ed7ea84021e0</code></td>
 </tr>
+<tr>
+<td><code>2026.9.6-117-gee40525c8</code> (2026.9.7)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>4a95cccf5f7a</code></td>
+</tr>
 </tbody>
 </table>
+<p><strong>The fifth row is 2026.9.7's release build</strong>, measured on 2026-09-27 on the
+memory-benchmark deployment. Every metric is identical to the 2026.9.4 build
+that shipped, to four decimal places, across three deterministic runs. Its key
+is new (<code>4a95cccf5f7a</code>) because <code>daemon_revision</code> moved.</p>
+<p>The cycle between the two rows changed the retrieval path twice:
+- 2026.9.5 added recency ranking and series supersession.
+- 2026.9.7 added document supersession, and stores each document version
+  whole under chunk hashes salted by artifact.</p>
+<p>The row shows that neither moved tier-2 retrieval on this corpus. <strong>What it
+does NOT show:</strong> this benchmark ingests each item once into a cold store, so
+re-ingest supersession, the behaviour 2026.9.7 exists for, is never
+exercised. It is covered by the daemon's own tests and was verified live on
+the reference deployment, not by this table.</p>
 <p><strong>The fourth row is the build that shipped</strong>, re-measured on the binary actually
 installed in production (<code>2026.9.4-207-g61634a063</code>) rather than on a
 development build. Every metric is identical to the row above it, to four
@@ -2694,6 +2717,21 @@ each is stated:</p>
 <td><code>2026.9.4</code></td>
 <td>none</td>
 <td>No run could be taken: the benchmark arm's model endpoint has been unreachable since 2026-09-04 (it now accepts and immediately resets, which a port check reads as up). The cycle does not touch ingestion, embedding, retrieval or the scoring path; it does change what a multi-system-step workflow's agent receives, which is not measured here. Stated rather than left as a silent gap.</td>
+</tr>
+<tr>
+<td><code>2026.9.5</code></td>
+<td>none — <strong>a gap, not a waiver</strong></td>
+<td>No run was taken, and this cycle DID change the retrieval path: recall began ranking by recency and letting a recurring series supersede its earlier members. It shipped unmeasured on the axes above. Stated late — this row was added with 2026.9.7's, whose run measures the tree that includes it — rather than left as a silent gap.</td>
+</tr>
+<tr>
+<td><code>2026.9.6</code></td>
+<td>none</td>
+<td>No run was taken. The cycle bounds agent containers and fixes the adoption board; the board reads the retrieval and ingest audit ledgers but changes neither path. Stated late, with 2026.9.7's, rather than left as a silent gap.</td>
+</tr>
+<tr>
+<td><code>2026.9.7</code></td>
+<td><strong>yes</strong></td>
+<td>The memory open axis above, on the release build (<code>2026.9.6-117-gee40525c8</code>, n=3). The cycle changes ingestion and retrieval, so a waiver was not open to it. The v9 agent-harness arms run on the slow-hardware track and are reported in the release notes, not in this table.</td>
 </tr>
 </tbody>
 </table>

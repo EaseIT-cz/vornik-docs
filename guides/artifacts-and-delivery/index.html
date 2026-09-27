@@ -604,6 +604,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Rendering a document on the fly">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extraction-and-voice-run-in-the-same-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extraction and voice run in the same sandbox
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1952,6 +1967,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Rendering a document on the fly">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extraction-and-voice-run-in-the-same-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extraction and voice run in the same sandbox
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2061,8 +2091,10 @@ the same Telegram chat, Slack thread, or email thread the request came in on.
 You never name a recipient; the destination is bound to the conversation.</p>
 <h2 id="rendering-a-document-on-the-fly">Rendering a document on the fly<a class="headerlink" href="#rendering-a-document-on-the-fly" title="Permanent link">&para;</a></h2>
 <p><code>render_document</code> converts markdown you (or the agent) supply into one or more
-formats and sends each file back to the chat. It runs deterministically on the
-daemon host — no agent container, no extra model call.</p>
+formats and sends each file back to the chat. It runs deterministically, with no
+extra model call. The conversion happens inside the bundled agent image, in a
+short-lived container with no network access, never on the daemon host itself:
+the host needs podman and the agent image, not pandoc.</p>
 <p>Parameters:</p>
 <table>
 <thead>
@@ -2086,19 +2118,107 @@ daemon host — no agent container, no extra model call.</p>
 <tr>
 <td><code>formats</code></td>
 <td>no</td>
-<td>Any of <code>md</code>, <code>html</code>, <code>pdf</code>. Defaults to all three.</td>
+<td>Any of <code>md</code>, <code>html</code>, <code>pdf</code>, <code>docx</code>. Defaults to <code>md</code>, <code>html</code> and <code>pdf</code>.</td>
 </tr>
 </tbody>
 </table>
 <ul>
 <li><strong><code>md</code></strong> is always available — it's the source written to a file.</li>
-<li><strong><code>html</code></strong> is produced with <code>pandoc</code>. If pandoc isn't on the host it falls
-  back to a bundled renderer, and as a last resort to a plain unstyled wrapper,
-  so an HTML file is always delivered.</li>
-<li><strong><code>pdf</code></strong> is produced with <code>pandoc</code> + <code>weasyprint</code>. Both must be available
-  (directly on the host, or via the bundled agent image). If neither path can
-  render a PDF, the failure is reported plainly rather than silently dropped.</li>
+<li><strong><code>html</code></strong> is produced with <code>pandoc</code> in the agent image.</li>
+<li><strong><code>pdf</code></strong> is produced with <code>pandoc</code> + <code>weasyprint</code> in the agent image.</li>
+<li><strong><code>docx</code></strong> (a Word document) is produced with <code>pandoc</code> in the agent image.</li>
+<li>If the agent image isn't present locally (it is never pulled for this), or
+  podman isn't available, the tool reports that rendering is not available
+  rather than falling back to anything on the host. An <code>md</code> file you asked
+  for is still delivered.</li>
+<li>Each render is bounded: 1 GiB of memory, one CPU and 120 seconds by default
+  (<code>sandbox_tools.limits.render</code>, <code>sandbox_tools.timeouts.render</code>), and a
+  document over 16 MiB is refused before anything starts. A render that runs
+  out of time or memory reports "timed out" or "exceeded its memory limit".
+  Sandbox runs share a pool of two by default (<code>sandbox_tools.max_concurrent</code>),
+  one of them kept for voice, so renders run one at a time and queue behind
+  each other.</li>
 </ul>
+<h3 id="extraction-and-voice-run-in-the-same-sandbox">Extraction and voice run in the same sandbox<a class="headerlink" href="#extraction-and-voice-run-in-the-same-sandbox" title="Permanent link">&para;</a></h3>
+<p>Since 2026.9.7 every tool that parses an uploaded or spoken file runs in the
+agent image under the same bounds, never on the daemon host:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Tool</th>
+<th>Memory / CPUs / timeout</th>
+<th>Largest input</th>
+<th>Largest output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>render</code></td>
+<td>pandoc</td>
+<td>1 GiB / 1 / 120 s</td>
+<td>16 MiB</td>
+<td>256 MiB</td>
+</tr>
+<tr>
+<td><code>pdf</code></td>
+<td>pdftotext</td>
+<td>512 MiB / 1 / 60 s</td>
+<td>256 MiB</td>
+<td>256 MiB</td>
+</tr>
+<tr>
+<td><code>image_ocr</code></td>
+<td>tesseract</td>
+<td>512 MiB / 1 / 120 s</td>
+<td>32 MiB</td>
+<td>16 MiB</td>
+</tr>
+<tr>
+<td><code>video</code></td>
+<td>ffprobe, ffmpeg</td>
+<td>1 GiB / 2 / 300 s</td>
+<td>2 GiB</td>
+<td>256 MiB</td>
+</tr>
+<tr>
+<td><code>audio</code></td>
+<td>ffmpeg, whisper-cli</td>
+<td>2 GiB / 2 / 600 s</td>
+<td>512 MiB</td>
+<td>1 GiB</td>
+</tr>
+<tr>
+<td><code>voice_stt</code></td>
+<td>ffmpeg, whisper-cli</td>
+<td>2 GiB / 2 / 120 s</td>
+<td>64 MiB</td>
+<td>256 MiB</td>
+</tr>
+<tr>
+<td><code>voice_tts</code></td>
+<td>piper, ffmpeg</td>
+<td>2 GiB / 1 / 60 s</td>
+<td>16 MiB</td>
+<td>64 MiB</td>
+</tr>
+</tbody>
+</table>
+<p>Override memory, CPUs and timeouts per feature under <code>sandbox_tools.limits</code>,
+<code>sandbox_tools.cpus</code> and <code>sandbox_tools.timeouts</code>; <code>sandbox_tools.max_input_bytes</code>,
+when set, replaces every feature's input bound. A run whose output passes its
+bound fails. The agent image declares its tools in the
+<code>io.vornik.sandbox-tools</code> label; a feature whose tool the pinned image does not
+declare (an image older than the release) reports "not available in the agent
+image" without starting anything, and <code>vornikctl doctor</code> runs every tool on a
+fixture to prove it works.</p>
+<p><strong>Audio extraction changed in 2026.9.7.</strong> It used to run OpenAI's Python
+<code>whisper</code> CLI on the host with its <code>turbo</code> model. It now runs whisper.cpp
+(<code>whisper-cli</code>) in the sandbox with a ggml model you configure:
+<code>extractors.audio.model_path</code>, or — when that is unset — <code>voice.stt.model</code>.
+With neither, audio extraction reports "not available". Quality and language
+coverage follow the model you pick (<code>ggml-base.en.bin</code> is English-only; a
+multilingual model such as <code>ggml-small.bin</code> detects the language).</p>
 <p>Rendered files are <strong>transient</strong>: they're streamed straight to the chat and not
 kept in long-term storage. Use <code>render_document</code> for "make me this document
 now"; use <code>send_artifact</code> (below) for "give me the file that task produced."</p>

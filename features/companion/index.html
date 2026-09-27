@@ -1364,6 +1364,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#re-ingesting-a-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      Re-ingesting a document
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#digging-harder-when-the-fast-answer-misses" class="md-nav__link">
     <span class="md-ellipsis">
       Digging harder when the fast answer misses
@@ -1956,6 +1965,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#re-ingesting-a-document" class="md-nav__link">
+    <span class="md-ellipsis">
+      Re-ingesting a document
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#digging-harder-when-the-fast-answer-misses" class="md-nav__link">
     <span class="md-ellipsis">
       Digging harder when the fast answer misses
@@ -2250,6 +2268,25 @@ populated.</p>
 <p>Notes go through vornik's full ingest pipeline (secret scanning, dedup, policy),
 and large content should be sent through the ingest workflow rather than a single
 <code>remember</code> call.</p>
+<h3 id="re-ingesting-a-document">Re-ingesting a document<a class="headerlink" href="#re-ingesting-a-document" title="Permanent link">&para;</a></h3>
+<p>When you change a document and ingest it again, recall should serve the new
+version, not both. Claude's <code>/rag-ingest</code> sends each file's path within its git
+repository (<code>docs/design/index.md</code>, say) along with the bytes. That path is
+the document's identity: ingesting the same path again, in the same repo
+scope, retires the earlier versions, and recall serves only the newest. Two
+different files that share a name, such as two <code>index.md</code> files, stay
+separate because their paths differ.</p>
+<p><code>/rag-ingest</code> takes the repo scope from the repository that holds the files,
+not from the directory you run it in. It refuses an upload that mixes files
+from two repositories, or a repository with loose files, and names the scopes
+it found, so each repository's files land under their own scope. A file
+outside any repository is ingested as before, with no path. Codex, staging
+files by hand, sends the same <code>path</code> field on each input artifact.</p>
+<p>Documents ingested before paths existed carry only a file name. Re-ingest them
+with a current plugin, then retire the old versions with
+<code>vornikctl memory supersede-legacy-documents -p &lt;project&gt; --scope &lt;scope&gt; --root &lt;checkout&gt;</code>.
+It is a dry run until you add <code>--apply</code>, and it leaves alone any name that more
+than one file in the checkout shares.</p>
 <h3 id="digging-harder-when-the-fast-answer-misses">Digging harder when the fast answer misses<a class="headerlink" href="#digging-harder-when-the-fast-answer-misses" title="Permanent link">&para;</a></h3>
 <p><code>recall</code> is tuned for interactive use: one search pass, ranked by fusing semantic
 and keyword matches, back in well under a second. When that misses something you
@@ -2300,6 +2337,9 @@ and to quote what the agent needs from a large document inline in the prompt
 instead of attaching the whole thing. This is worth refusing early because the
 alternative is what used to happen: the agent runs, spends its budget, and then
 fails on its output contract, so you pay for a review you do not get.</p>
+<p>The check applies only to workflows where an agent reads the upload. An
+ingest workflow with no agent step, such as <code>companion-rag-ingest</code>, stores each
+file directly and is exempt, so a large document can be ingested whole.</p>
 <p>One note on <code>/upload</code>'s output, because its failure used to be quiet. A run that
 completed prints <code>VORNIK_UPLOAD_END</code> as its last line; output without that
 marker means the command was cut before it ran and there is no task to poll,

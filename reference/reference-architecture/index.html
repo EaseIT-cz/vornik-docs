@@ -2429,7 +2429,10 @@ without spawning a child task. Present-but-empty behaves differently from absent
 <span class="w">    </span><span class="nt">runtime</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">"localhost/vornik-agent:latest"</span><span class="w">   </span><span class="c1"># required</span>
 </code></pre></div>
-<p>Every role needs a runtime image. Roles routinely differ in model — a cheap model for
+<p>Every role needs a runtime image, and it must be the Vornik agent image:
+<code>ghcr.io/grinco/vornik-agent</code> or <code>localhost/vornik-agent</code>, any tag or digest (a
+bare <code>vornik-agent:&lt;tag&gt;</code> is qualified to the first). The daemon refuses to start
+a container from any other image. Roles routinely differ in model — a cheap model for
 classification, a stronger one for synthesis — and that heterogeneity is normal, not
 drift.</p>
 <p><strong>Observe:</strong> <code>GET /api/v1/projects</code> for what resolved, and
@@ -2509,14 +2512,14 @@ reported the gap. The request path was fixed, but the <em>shape</em> of the bug 
 a config value is a statement of intent, not evidence of behaviour.</p>
 <p><strong>Observe:</strong> the daemon logs the <strong>resolved</strong> state at start —
 <code>memory reranker ACTIVE</code> or <code>memory reranker INERT</code> with the reason and the specific
-gate that closed. Then confirm behaviour, not intent:</p>
+gate that closed. One such gate is <code>chat.optional_work</code>: a reranker whose model is listed there is configured on and refused on every call, so the line says INERT and names it. Then confirm behaviour, not intent:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">role</span><span class="p">,</span><span class="w"> </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">task_llm_usage</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">role</span><span class="w"> </span><span class="k">ILIKE</span><span class="w"> </span><span class="s1">'%rerank%'</span><span class="w"> </span><span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="k">role</span><span class="p">;</span>
 </code></pre></div>
 <p><strong>Reference:</strong> if <code>reranker.enabled</code> is true, the log says ACTIVE <strong>and</strong> the ledger
 accumulates reranker rows once context-assembly recall runs. Enabled-plus-zero-rows
 is a <strong>defect</strong>.</p>
 <p>Scored-sufficiency widening is <strong>reranker-gated</strong> — it cannot activate without a live
-reranker, so an enabled sufficiency block on an inert reranker is doing nothing.</p>
+reranker, so an enabled sufficiency block on an inert reranker is doing nothing. It is gated on what each round DID, not on configuration: a round whose rerank degraded (timed out, failed, refused by <code>chat.optional_work</code>) carries RRF scores, so it ends the widening rather than feeding the relevance floor (correction 2026-09-26).</p>
 <h3 id="scope-isolation">Scope isolation<a class="headerlink" href="#scope-isolation" title="Permanent link">&para;</a></h3>
 <p>Memory is partitioned by a repo-scope token so one operator's many repositories do
 not dilute each other's recall. A scoped query includes NULL-scoped content by

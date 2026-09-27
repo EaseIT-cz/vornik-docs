@@ -2218,7 +2218,8 @@ copies.</p>
 page in the UI) — the loop is cancelled.</p>
 <h2 id="backlog-autonomy-and-agent-deposits">Backlog autonomy and agent deposits<a class="headerlink" href="#backlog-autonomy-and-agent-deposits" title="Permanent link">&para;</a></h2>
 <p><code>backlog</code> mode reads a plain checklist file — <code>BACKLOG.md</code> by default
-(<code>autonomy.backlogFilePath</code> to point at another workspace-relative path) —
+(<code>autonomy.backlogFilePath</code> to point at another workspace-relative path, never
+inside <code>.git/</code>) —
 and fires the first pending line as a task, ticking it off when the task is
 accepted. You can hand-author that file, but agents can feed it too: any role
 permitted to call the <code>backlog_deposit</code> tool can record an off-scope finding —

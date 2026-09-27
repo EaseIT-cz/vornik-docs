@@ -2419,20 +2419,31 @@ vornikctl<span class="w"> </span>doctor
 </code></pre></div>
 <p><code>vornikctl doctor</code> runs a battery of checks (configuration validity, database
 schema, container runtime, agent images, stuck tasks) and prints actionable
-results. It is the fastest way to localize a problem. A few checks are worth
-knowing by name:</p>
+results. It is the fastest way to localize a problem. Most checks come from
+the daemon; the host checks (<code>podman_config</code>, <code>agent_images</code>,
+<code>agent_image_uid</code>, <code>image_freshness</code>) need podman, skopeo or systemctl, so
+<code>vornikctl doctor</code> runs them itself, on the host where you run it, and merges
+them into the same report. The daemon never runs a program on a request, so
+its own <code>/api/v1/doctor</code> answer lists them as a single <code>host_checks</code> entry
+pointing here. Run <code>vornikctl doctor</code> on the machine that runs the daemon for
+the host checks to mean anything. A few checks are worth knowing by name:</p>
 <ul>
 <li><strong><code>model_health</code></strong> — looks at the last 24 hours and flags a model that is
   failing too often or returning degenerate (near-empty) output, and
-  recommends the role's configured fallback model. It never switches models
-  for you — swapping a model under a live swarm is left to you.</li>
+  recommends the role's configured fallback model. Failures that were not the
+  model's — the agent's container could not start or could not read its
+  files — are counted separately, and when they are most of what went wrong
+  the check tells you to look at the host (<code>agent_image_uid</code>,
+  <code>image_freshness</code>), not the model. It never switches models for you —
+  swapping a model under a live swarm is left to you.</li>
 <li><strong><code>config_crlf</code></strong> — finds config files saved with Windows-style CRLF line
   endings, a common cause of phantom config drift (see
   <a href="#configuration-drift-after-editing-in-the-ui">Configuration drift after editing in the UI</a>).
   Run <code>vornikctl doctor --fix</code> to normalize them to LF in place.</li>
-<li><strong><code>model_route_coverage</code></strong> — confirms every model a role uses resolves to a
-  configured route and has a pricing entry, so nothing routes to an
-  unintended catch-all or has its cost silently estimated.</li>
+<li><strong><code>model_route_coverage</code></strong> — confirms every model a role uses is routed by
+  the running chat router (including the default routes an enabled provider
+  adds) and has a pricing entry, so nothing routes to an unintended catch-all
+  or has its cost silently estimated.</li>
 </ul>
 <h3 id="collect-evidence-before-asking-for-help">Collect evidence before asking for help<a class="headerlink" href="#collect-evidence-before-asking-for-help" title="Permanent link">&para;</a></h3>
 <p>When a problem is not obvious, make <code>vornikctl support-report</code> your <strong>first</strong>

@@ -1936,7 +1936,11 @@ Two settings are involved, and they live in different places:</p>
   endpoint before committing (the daemon connects and enumerates the
   server's tools), and files every add/remove as a
   <a href="../../features/control-plane/">control-plane proposal</a> you review as a
-  diff and apply — never a silent config write.</li>
+  diff and apply — never a silent config write. The tab handles HTTP servers
+  (<code>sse</code>, <code>streamable-http</code>) only: a <strong>stdio</strong> server is a program the daemon
+  runs, so it is registered by editing <code>config.yaml</code> on the host, never through
+  the daemon. The UI refuses to probe, add or change one, and so does any
+  control-plane proposal or project-config edit made through the daemon.</li>
 <li><strong>Community Edition</strong> — edit <code>mcp.servers</code> in <code>config.yaml</code> directly:</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="nt">mcp</span><span class="p">:</span>

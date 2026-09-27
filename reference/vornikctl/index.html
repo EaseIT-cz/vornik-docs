@@ -1897,6 +1897,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-doctor-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl doctor ack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-doctor-feature" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl doctor feature
@@ -2494,6 +2503,15 @@
   <a href="#vornikctl-memory-stats" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl memory stats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-memory-supersede-legacy-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl memory supersede-legacy-documents
     </span>
   </a>
   
@@ -3650,6 +3668,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-doctor-ack" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl doctor ack
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-doctor-feature" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl doctor feature
@@ -4247,6 +4274,15 @@
   <a href="#vornikctl-memory-stats" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl memory stats
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-memory-supersede-legacy-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl memory supersede-legacy-documents
     </span>
   </a>
   
@@ -4855,7 +4891,7 @@ is portable across hosts when restored via 'vornikctl restore'.</p>
 configuration, not a recording — so they can gate before any gold pass.</p>
 <h2 id="vornikctl-bench-agent-calibrate">vornikctl bench agent calibrate<a class="headerlink" href="#vornikctl-bench-agent-calibrate" title="Permanent link">&para;</a></h2>
 <p>Build a task calibration artifact from a repeated journal</p>
-<p>Several journals are merged before the artifact is derived, which is the form a long pass takes: one journal per repeat chunk and task batch, so a 10-repeat 10-task calibration leaves 50 files. The merge refuses inputs that are not one run — a differing arm, pre-registration, or tier policy — and refuses a repeat index that collided across chunks.</p>
+<p>Several journals are merged before the artifact is derived, which is the form a long pass takes: one journal per repeat chunk and task batch, so a 10-repeat 10-task calibration leaves 50 files. The merge refuses inputs that are not one run — a differing arm, pre-registration, or tier policy — and refuses a repeat index that collided across chunks. The pass must have been pre-registered with "kind": "calibration" (one arm, no sigma), and its pre-registration must be unedited since the run.</p>
 <div class="highlight"><pre><span></span><code>vornikctl bench agent calibrate &lt;journal&gt;... [flags]
 </code></pre></div>
 <table>
@@ -4993,6 +5029,11 @@ delete the pinned manifest — that is a reviewable diff.</p>
 <td></td>
 <td>JSON task set to run</td>
 </tr>
+<tr>
+<td><code>--workspace</code></td>
+<td></td>
+<td>the benchmark project's git workspace; each task's declared targets are cleared from it before the task runs, so it starts from a pristine tree (benchmark LLD §12.23)</td>
+</tr>
 </tbody>
 </table>
 <h2 id="vornikctl-bench-agent-gold-merge">vornikctl bench agent gold-merge<a class="headerlink" href="#vornikctl-bench-agent-gold-merge" title="Permanent link">&para;</a></h2>
@@ -5023,6 +5064,7 @@ recorded a path, because a task that passed once was measurable.</p>
 </table>
 <h2 id="vornikctl-bench-agent-noise-floor">vornikctl bench agent noise-floor<a class="headerlink" href="#vornikctl-bench-agent-noise-floor" title="Permanent link">&para;</a></h2>
 <p>Measure paired release-gate noise from two same-config arms</p>
+<p>Both journals must come from passes pre-registered with "kind": "noise_floor" (one arm, no sigma — the pass exists to measure it), with pre-registrations unedited since the run.</p>
 <div class="highlight"><pre><span></span><code>vornikctl bench agent noise-floor &lt;same-config-journal-a&gt; &lt;same-config-journal-b&gt; [flags]
 </code></pre></div>
 <table>
@@ -5186,9 +5228,14 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--acceptance-image</code></td>
+<td></td>
+<td>agent image the hidden acceptance suites run in (podman, no network); needed when --workspace is set and a task carries a suite (benchmark LLD §12.24)</td>
+</tr>
+<tr>
 <td><code>--arm</code></td>
 <td></td>
-<td>name of the arm being run</td>
+<td>name of the arm being run; must be one the pre-registration declares</td>
 </tr>
 <tr>
 <td><code>--benchmark-project</code></td>
@@ -5253,7 +5300,7 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <tr>
 <td><code>--preregistration</code></td>
 <td></td>
-<td>REQUIRED: committed manifest stating the arms, metric, intended delta and computed n</td>
+<td>REQUIRED: committed manifest stating the run kind, arms, metric, intended delta and computed n. A comparison (the default) names two or more arms; a calibration or noise_floor pass names one and declares no sigma. --arm must be a declared arm</td>
 </tr>
 <tr>
 <td><code>--project</code></td>
@@ -5289,6 +5336,11 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <td><code>--tasks</code></td>
 <td></td>
 <td>JSON task set to run</td>
+</tr>
+<tr>
+<td><code>--workspace</code></td>
+<td></td>
+<td>the benchmark project's git workspace; each task's declared targets are cleared from it before the task runs, so it starts from a pristine tree (benchmark LLD §12.23)</td>
 </tr>
 </tbody>
 </table>
@@ -5832,12 +5884,18 @@ proposal is filed.</p>
   role_prompt_sanity    Lint swarm role prompts: tool refs vs allowedTools, output shape, untrusted_content awareness
   eval_suite_lint       Parse configs/evals/*.json; flag suites with missing/incompatible project/workflow/swarm
   database_schema       Verify expected tables and indexes exist (incl. 2026.4.11+ additions)
-  orphan_fk_rows        Detect orphan rows in audit / llm_usage / watchers referencing missing tasks
+  orphan_fk_rows        Detect orphan audit / watcher rows referencing missing tasks (cost-ledger rows are kept, reported)
   orphan_worktrees      .worktrees/ subdirs with no matching live task
-  config_crlf           Config files with CRLF line endings (UI YAML-writer drift); --fix normalizes to LF</p>
-<p>Runtime:
+  config_crlf           Config files with CRLF line endings (UI YAML-writer drift); --fix normalizes to LF
+  config_template_drift Deployed configs that lack what this version's templates ship (preserve-existing
+                        upgrades never apply a template fix); needs the installer's .templates baseline</p>
+<p>Host (run by vornikctl on this host, not by the daemon — they need podman,
+skopeo or systemctl, and no daemon request may run a program):
   podman_config         Check podman availability and rootless configuration
   agent_images          Verify agent images referenced in swarm configs are available
+  agent_image_uid       Compare the agent image's baked uid with the keep-id mapping
+  image_freshness       Deployment images vs the daemon's build (release record)</p>
+<p>Runtime:
   env_file_freshness    Flag EnvironmentFile= entries modified after daemon
                         start (systemd reads them only at ExecStart, so
                         post-edit secrets are invisible until restart)</p>
@@ -5898,6 +5956,17 @@ because they require operator config changes or external runtime actions.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="vornikctl-doctor-ack">vornikctl doctor ack<a class="headerlink" href="#vornikctl-doctor-ack" title="Permanent link">&para;</a></h2>
+<p>Acknowledge a config_template_drift finding you have decided not to take</p>
+<p>Record that you decline what config_template_drift currently reports for one
+deployed config file, e.g.</p>
+<p>vornikctl doctor ack config_template_drift workflows/dev-pipeline.md</p>
+<p>The acknowledgement covers that file's findings AS THEY ARE NOW: a later
+template change, a new removal or an edit to a canonical override re-opens the
+row, because it is a new decision. Requires an admin key. Only
+config_template_drift is acknowledgeable.</p>
+<div class="highlight"><pre><span></span><code>vornikctl doctor ack &lt;check&gt; &lt;file&gt;
+</code></pre></div>
 <h2 id="vornikctl-doctor-feature">vornikctl doctor feature<a class="headerlink" href="#vornikctl-doctor-feature" title="Permanent link">&para;</a></h2>
 <p>Show feature-doctor diagnoses (all features, or one by id)</p>
 <p>Query the daemon's feature-doctor surface and render a status table.</p>
@@ -8127,6 +8196,63 @@ after a model change).</p>
 <td><code>-p</code>, <code>--project</code></td>
 <td></td>
 <td>Show only this project (default: all)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-memory-supersede-legacy-documents">vornikctl memory supersede-legacy-documents<a class="headerlink" href="#vornikctl-memory-supersede-legacy-documents" title="Permanent link">&para;</a></h2>
+<p>Retire bare-name document chunks that a path-identity re-ingest has replaced</p>
+<p>Documents uploaded before document paths existed carry only a bare file
+name, so re-ingesting them never superseded the earlier versions. For each
+bare name in the scope, this verb looks the name up in the checkout at --root:</p>
+<p>exactly one tracked file, and that path has a live re-ingest  -&gt; superseded
+  two or more tracked files with the name (e.g. index.md)       -&gt; left alone
+  no tracked file with the name                                 -&gt; left alone
+  one file, but not yet re-ingested under its path              -&gt; left alone
+  the path version predates whole-version ingest                -&gt; left alone
+                                                                   (re-ingest first)
+  a file at the repository root (its name is its path)          -&gt; older uploads
+                                                                   superseded, the
+                                                                   newest kept</p>
+<p>Re-ingest the documents with a current companion plugin first, then run this.
+A dry run by default: it prints, per name, the surviving upload and the chunks
+it would retire per ingest date. Nothing is written without --apply. The
+retirement records no epoch, so a corpus rollback does not restore it.</p>
+<p>Always runs against the live daemon's chunk store.</p>
+<div class="highlight"><pre><span></span><code>vornikctl memory supersede-legacy-documents [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--allow-scope-mismatch</code></td>
+<td><code>false</code></td>
+<td>Run although --scope is not the scope the checkout at --root resolves to (a pinned or retagged scope)</td>
+</tr>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>Write the plan; without it this is a dry run</td>
+</tr>
+<tr>
+<td><code>--root</code></td>
+<td></td>
+<td>A path inside the checkout the documents come from (required)</td>
+</tr>
+<tr>
+<td><code>--scope</code></td>
+<td></td>
+<td>Repo scope the documents were ingested under (required)</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
 </tr>
 </tbody>
 </table>
