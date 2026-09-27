@@ -1821,6 +1821,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#202698" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.9.8
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202697" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.7
@@ -2206,6 +2215,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#202698" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.9.8
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202697" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.7
@@ -2582,6 +2600,23 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="202698">2026.9.8<a class="headerlink" href="#202698" title="Permanent link">&para;</a></h2>
+<p><strong>Claude Code no longer loses the vornik companion when the daemon
+restarts.</strong> Since Claude Code 2.1.282, every daemon restart dropped the
+companion from an open session, and its tools stayed gone until you ran
+<code>/mcp</code>.</p>
+<p>The companion endpoint answered the MCP server-notification stream request
+with the wrong status, so Claude Code kept re-opening the stream and marked
+the server failed when a re-open landed during a restart. The endpoint now
+answers that request the way the MCP spec requires (<code>405</code>), Claude Code holds
+no stream, and a restart goes unnoticed between calls. Upgrade the daemon;
+nothing changes on the client side.</p>
+<p><strong>Fixes.</strong> Tests added in 2026.9.7 that failed only in the Community Edition
+tree now pass there.</p>
+<p><strong>Known issue.</strong> If one of your MCP servers is unreachable, a daemon restart
+can keep the API unavailable for about a minute while startup waits on it.
+The companion no longer disconnects over it; a fix is planned.</p>
 <hr />
 <h2 id="202697">2026.9.7<a class="headerlink" href="#202697" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
