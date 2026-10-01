@@ -2420,8 +2420,29 @@ between a deterministic gate and one that fires on noise.</p>
 <td>n=3</td>
 <td><code>4a95cccf5f7a</code></td>
 </tr>
+<tr>
+<td><code>2026.9.8-52-g86d3af802</code> (2026.10.1)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>0c4971cc78ae</code></td>
+</tr>
 </tbody>
 </table>
+<p><strong>The sixth row is 2026.10.1's release build</strong>, measured on 2026-10-01 on the
+memory-benchmark deployment, same embedder, reranker off, cold corpus. Every
+metric is identical to 2026.9.7 to four decimal places across three
+deterministic runs. The key is new (<code>0c4971cc78ae</code>) because
+<code>daemon_revision</code> moved. The run was required because the cycle lowered the
+minimum size of a deliberate deposit from a companion client, and this
+benchmark ingests through that path. <strong>What it shows about that change:</strong> the
+stored corpus is unchanged, 1,897 chunks before each run, exactly as in
+2026.9.7, so the lower floor admitted nothing the old one refused on this
+corpus. It is not a test of the floor itself; that is covered by the
+daemon's own tests.</p>
 <p><strong>The fifth row is 2026.9.7's release build</strong>, measured on 2026-09-27 on the
 memory-benchmark deployment. Every metric is identical to the 2026.9.4 build
 that shipped, to four decimal places, across three deterministic runs. Its key
@@ -2737,6 +2758,11 @@ each is stated:</p>
 <td><code>2026.9.8</code></td>
 <td>none</td>
 <td>No run was taken. The patch changes only the companion endpoint's reply to a <code>GET</code> stream request, plus test fixtures. It touches no ingestion, embedding, retrieval or scoring path, so the axes stand where 2026.9.7's measured row left them. Stated rather than left as a silent gap.</td>
+</tr>
+<tr>
+<td><code>2026.10.1</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, on the release build (n=3). The cycle lowers the minimum size of a deliberate memory deposit from a companion client, and this benchmark ingests through that path, so a waiver was not open to it. <strong>No agent row.</strong> The cycle changes the agent harness substantially (the router step, the retry ladder, the prompt-token budget and the tool-result cap), so this is a gap, not a waiver. The agent arm's model is the self-hosted Qwen3.8-27B on the endpoint that has been unreachable since 2026-09-04, and the comparability key pins the model, so a run on any other model would start a new table that cannot show a regression against the 2026.9.0 row. A substitute arm on a locally served 20B model was considered and not run: one arm is about 20M prompt tokens, which on the reference host's integrated GPU is days, not hours. The changes are covered instead by regression tests that replay each incident, and by an end-to-end lane that drives a front-end agent through the broker on a locally served model.</td>
 </tr>
 </tbody>
 </table>

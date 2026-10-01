@@ -697,6 +697,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#declaring-a-server-read-only-for-broker-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring a server read-only for broker workflows
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2132,6 +2141,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#declaring-a-server-read-only-for-broker-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring a server read-only for broker workflows
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2512,6 +2530,29 @@ expose-everything default.</p>
 <p>A generic parameter name such as <code>path</code> or <code>dir</code> is treated the same way. Where
 that parameter is really a <em>remote</em> path, the cost is one line in <code>allowed_tools</code>;
 the opposite mistake costs arbitrary file access.</p>
+<h3 id="declaring-a-server-read-only-for-broker-workflows">Declaring a server read-only for broker workflows<a class="headerlink" href="#declaring-a-server-read-only-for-broker-workflows" title="Permanent link">&para;</a></h3>
+<p>A <strong>broker project</strong> (see the companion guide) runs workflows on behalf of a
+front-end agent that must never hold your credentials. Its roles may only use
+MCP tools from servers you declare read-only, and only tools you list by name:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">mcp</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">servers</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gmail</span>
+<span class="w">      </span><span class="nt">transport</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sse</span>
+<span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://gmail-mcp:8080/sse</span>
+<span class="w">      </span><span class="nt">broker_read_only</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">        </span><span class="c1"># every tool in allowed_tools only reads</span>
+<span class="w">      </span><span class="nt">allowed_tools</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">search_messages</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">get_message</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">operator_authored</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">      </span><span class="c1"># the content is third-party mail (default)</span>
+</code></pre></div>
+<p>A server whose tools <strong>write</strong> is declared <code>broker_write: true</code> instead. Only
+the daemon calls those tools, to execute a write a broker workflow proposed and
+a person approved in <code>/inbox</code>. No broker role may hold them, a server cannot
+be both <code>broker_read_only</code> and <code>broker_write</code>, and nothing executes unless
+the daemon runs with <code>broker.writes: on</code>.</p>
+<p>Vornik cannot check either claim. <code>broker_read_only</code> is your statement that the
+listed tools do not change anything. <code>operator_authored: true</code> says the server
+serves only content you wrote, and it is what lets a broker workflow skip the
+injection scan on its output. Leave it off for mail, web pages, tickets or
+anything else a stranger can write into.</p>
 <h2 id="throttling-tools-with-toolratelimits">Throttling tools with <code>toolRateLimits</code><a class="headerlink" href="#throttling-tools-with-toolratelimits" title="Permanent link">&para;</a></h2>
 <p>Some tools are expensive or sensitive — placing orders, scraping the web. Give
 them an in-daemon ceiling so vornik degrades gracefully instead of leaning on
@@ -2602,6 +2643,20 @@ re-probe does not change what you see: the row keeps showing the previous result
 and the time it was taken, until the new probe lands and replaces it. So a
 failing server reads <code>unreachable</code> continuously rather than flickering — the
 <code>last checked</code> timestamp is what tells you how old that verdict is.</p>
+<p><strong>This view is an inventory, not a project's connection.</strong> <code>reachable</code> comes
+from a probe the daemon runs on its own. It says nothing about whether a
+given project's client is connected. A project's server can be down while
+this table says <code>reachable</code>: for example, when the project's own connect
+failed because the server was restarting at that moment. For per-project
+connection state, run <code>vornikctl doctor</code> and read <code>mcp_project_connections</code>.
+It lists every project server that has been trying to reconnect for more
+than two minutes, with its last error.</p>
+<p>The daemon retries a project server whose connect failed. It retries in the
+background with backoff (15 s, then up to every 5 minutes), and immediately
+when a task calls one of the server's tools. After 10 minutes it sends one
+operator alert, and one more when the server reconnects. Until it
+reconnects, the model is told that the server is down, not that its
+arguments were wrong.</p>
 <p><strong>Call a tool directly</strong>, skipping the model — the fastest way to confirm a
 tool works and check its arguments:</p>
 <div class="highlight"><pre><span></span><code>vornikctl mcp call -p acme --tool mcp__scraper__web_fetch \

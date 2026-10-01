@@ -2056,7 +2056,9 @@ project, source, task, role+model, and <strong>API key</strong>. Alongside total
 token counts it surfaces a few efficiency signals.</p>
 <p>Embedding spend appears under the role <strong>Memory · Embedder</strong> and the source
 <strong>Memory embedding</strong>. It is included in every rollup on the page — a deployment using a hosted embedder can see what
-ingest and retrieval cost, not only what chat cost.</p>
+ingest and retrieval cost, not only what chat cost. The LLM reranker that
+reorders recall candidates appears as <strong>Memory · Reranker</strong> (source <strong>Memory
+reranking</strong>).</p>
 <ul>
 <li><strong>Input ratio</strong> — prompt tokens as a share of total; a persistently high ratio
   flags context bloat.</li>

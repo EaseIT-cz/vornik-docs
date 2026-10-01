@@ -1821,6 +1821,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026101" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.10.1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202698" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.8
@@ -2215,6 +2224,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026101" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.10.1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#202698" class="md-nav__link">
     <span class="md-ellipsis">
       2026.9.8
@@ -2600,6 +2618,132 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="2026101">2026.10.1<a class="headerlink" href="#2026101" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>Rebuild or pull the agent image with this release.</strong> The agent-side
+  fixes below (the router, the prompt-token budget, the tool-result cap,
+  request sizing and the memory-peak report) live in the image; with an
+  older image none of them takes effect.</li>
+<li><strong>SQLite: the first start rewrites stored timestamps</strong> into one
+  fixed-width form, once, one column at a time. Take a backup first.
+  Postgres is not affected.</li>
+<li><strong>A workflow whose <code>retry.on</code> names a deterministic error class no
+  longer loads.</strong> <code>retry.on</code> may name only <code>unclassified</code>,
+  <code>llm_call_failed</code>, <code>container_start_failed</code>, <code>container_wait_failed</code>,
+  <code>container_killed</code> and <code>context_timeout</code>; the error lists them. The
+  shipped workflows already name only these.</li>
+<li><strong>Fresh quickstart installs require an API key</strong> (see Security). An
+  existing install is not changed; re-running the quickstart over a
+  config with <code>api.auth_enabled: false</code> prints a warning and leaves the
+  file alone. If your install is reachable beyond your own machine with
+  auth off, turn auth on.</li>
+<li>Set <code>broker: true</code> on a project only after upgrading the daemon; an
+  older daemon rejects a project file that carries it.</li>
+<li>The <code>config_template_drift</code> doctor check can report findings it did not
+  report before (a template value your deployment never took).</li>
+<li>An MCP subscription by name only, with no matching server in
+  <code>config.yaml</code>, is now withheld, and the doctor's
+  <code>mcp_project_connections</code> row reports it as a warning.</li>
+</ul>
+</div>
+<p><strong>Security fixes from an external scan, and safer quickstart defaults.</strong> An
+external scan of a deployment found three real problems:</p>
+<ul>
+<li><code>GET /api/v1/config</code> returned <code>admin.allowed_keys</code> and the S3
+  <code>access_key_id</code> values in plaintext to an operator-scope caller. The dump
+  redacts by key name and these names matched none of its rules. They are
+  redacted now, and a test checks every credential-shaped config field.
+  What it does not cover: a secret stored under a name that contains none of
+  <code>key</code>, <code>pass</code>, <code>secret</code>, <code>token</code>, <code>cred</code> or <code>private</code>.</li>
+<li>The configuration assistant could pass a secret-named list (<code>api_keys:</code>,
+  <code>allowed_keys:</code> written as a literal list in a project file) to the model.
+  Such lists are now redacted whole, including lists of lists and lists of
+  maps; a list of <code>${VAR}</code> references stays editable. A secret reached
+  through a YAML alias (<code>api_key: *tok</code>, with the value defined under a
+  harmless key) also passed; the assistant now refuses to read such a file
+  until the value is inlined or moved to <code>${VAR}</code>. It also refuses a YAML
+  file with more than one <code>---</code> document, whose later documents were never
+  screened.</li>
+<li><code>/ui/static/</code>, which is public so the login page can load, served a list of
+  its files. Directory requests now return 404; the files themselves stay
+  public.</li>
+</ul>
+<p>The quickstart seed (also used by the Lima and macOS installers) listened on
+all interfaces with auth off. A fresh install now generates an API key into
+<code>~/.config/vornik/secrets/api.env</code> (readable only by you) and requires it;
+log in to the UI with it, and source <code>~/.config/vornik/shell-env.sh</code> for
+<code>vornikctl</code>. A fresh install also gets its own database password, but only
+when no database exists yet, so a re-run never locks you out.</p>
+<p><strong>Browser-login sessions can use the console again.</strong> Since 2026.9.6 every
+action that changed something (pausing a task, rechecking a channel) was
+refused with <code>403</code> for a session logged in through the browser, because the
+console never sent its CSRF token. It does now, and the <code>403</code> names the real
+cause instead of blaming Basic Auth.</p>
+<p><strong>Vornik as the broker for a front-end agent.</strong> A chat agent such as Hermes
+Agent can now hold no credentials at all: it delegates to workflows you write
+in a project marked <code>broker: true</code>, passes typed inputs, and reads back only
+one declared, schema-checked result document. Raw task content stays inside
+Vornik. A broker workflow can also propose a write (a mail reply, say); you
+approve it in <code>/inbox</code>, and Vornik executes exactly the arguments you
+approved, once, with no model in between. Writes are off until you set
+<code>broker.writes: on</code>. <code>result</code> can wait up to 25 seconds for a task to finish,
+and a harness with a webhook can be pushed task and action states instead of
+polling. <code>vornikctl companion grant --no-delegate</code> mints a memory-only key
+that cannot start tasks. The Hermes plugin in <code>contrib/hermes-companion/</code> is
+at 0.2.2; earlier READMEs named the memory provider <code>vornik</code>, which selects
+nothing — it is <code>vornik-companion</code>. See the companion guide.</p>
+<p><strong>Agents stop spending tokens on work that cannot change the result.</strong></p>
+<ul>
+<li>The adaptive router step gets no tools and a fixed answer format. It used
+  to be offered tools, and a correct first answer was re-prompted into
+  exploring the workspace.</li>
+<li>The retry ladder re-runs only transient failures. A schema violation used
+  to be retried with identical inputs.</li>
+<li>The prompt-token budget leaves room for the final answer instead of
+  stopping a step after its research and losing the work.</li>
+<li>A tool result enters the conversation capped at 32 KiB, with the full
+  output kept for <code>tool_result_read</code>, which can now page through it.</li>
+</ul>
+<p><strong>MCP servers recover on their own.</strong> A project MCP server whose first
+connection failed (for example, its container was restarting) was dropped
+until the next restart, and every call to it failed with "not connected". It
+is now retried in the background, you are alerted if it stays down for 10
+minutes, and the doctor's new <code>mcp_project_connections</code> row lists such
+servers. An unreachable server also no longer holds the API closed at
+startup, which closes the 2026.9.8 known issue; a step whose server is still
+starting waits up to 10 seconds for its tools.</p>
+<p><strong>New.</strong> <code>vornikctl package upgrade</code> upgrades an installed extension package
+file by file and refuses, with every reason, if you edited or deleted
+anything it contributed. Each step that runs in a fresh (non-warm) agent
+container now records that container's memory peak.</p>
+<p><strong>Fixes.</strong></p>
+<ul>
+<li>Opening a live task page no longer makes other open pages show finished
+  steps as running again.</li>
+<li>A config edit made while another reload was running is applied instead of
+  silently skipped.</li>
+<li>SQLite lease expiry and task update-time comparisons are exact; mixed
+  timestamp formats made lease expiry wrong by up to a second and task update
+  times compare wrongly by up to a day.</li>
+<li>Chat replies no longer start with invented markers such as "[from your
+  notes: not applicable.]"; the model had been copying them from its own
+  earlier replies.</li>
+<li>A fact you deliberately save to memory from chat or a companion needs three
+  words, not 64 characters.</li>
+<li>Secret findings in artifacts, webhooks, backlog deposits and container logs
+  now appear in the task's scan history.</li>
+<li>The spend page labels memory reranking instead of showing a raw value.</li>
+</ul>
+<p><strong>Known issues.</strong></p>
+<ul>
+<li>Ingesting HTML or EPUB files through the companion's RAG-ingest workflow
+  stores markup and archive bytes rather than the extracted text.</li>
+<li>Deleting or retiring memory does not yet remove the knowledge-graph
+  entities and edges that only that memory supported.</li>
+</ul>
 <hr />
 <h2 id="202698">2026.9.8<a class="headerlink" href="#202698" title="Permanent link">&para;</a></h2>
 <p><strong>Claude Code no longer loses the vornik companion when the daemon

@@ -2581,6 +2581,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-package-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package upgrade
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-project" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl project
@@ -4346,6 +4355,15 @@
   <a href="#vornikctl-package-uninstall" class="md-nav__link">
     <span class="md-ellipsis">
       vornikctl package uninstall
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-package-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      vornikctl package upgrade
     </span>
   </a>
   
@@ -8428,6 +8446,37 @@ lifecycle. A file the operator DELETED is not an error — its provenance
 row is simply cleared.</p>
 <div class="highlight"><pre><span></span><code>vornikctl package uninstall &lt;package&gt;
 </code></pre></div>
+<h2 id="vornikctl-package-upgrade">vornikctl package upgrade<a class="headerlink" href="#vornikctl-package-upgrade" title="Permanent link">&para;</a></h2>
+<p>Upgrade an installed package to the version in an archive</p>
+<p>Replace an installed package's contributions with the version in an
+archive, deciding per file:</p>
+<p>unedited                  replaced with the new version (or kept if identical)
+  already the new version   adopted
+  dropped by the new version removed if unedited
+  new in this version       added, with install's conflict checks</p>
+<p>Provenance records each file's hash at install, not its content, so an
+upgrade cannot merge: a contribution you EDITED or DELETED refuses the whole
+upgrade, naming every file. Restore it (or copy your tuning aside), upgrade,
+then reapply.</p>
+<p>The daemon picks the new config up on its next reload.</p>
+<div class="highlight"><pre><span></span><code>vornikctl package upgrade &lt;dir-or-tarball&gt; [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--dry-run</code></td>
+<td><code>false</code></td>
+<td>Print the plan without touching disk or the provenance store</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-project">vornikctl project<a class="headerlink" href="#vornikctl-project" title="Permanent link">&para;</a></h2>
 <p>Inspect projects loaded by the daemon</p>
 <h2 id="vornikctl-project-archive">vornikctl project archive<a class="headerlink" href="#vornikctl-project-archive" title="Permanent link">&para;</a></h2>

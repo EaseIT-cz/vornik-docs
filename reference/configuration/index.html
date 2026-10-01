@@ -1921,6 +1921,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      broker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gateway" class="md-nav__link">
     <span class="md-ellipsis">
       gateway
@@ -2609,6 +2618,15 @@
   <a href="#web" class="md-nav__link">
     <span class="md-ellipsis">
       web
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      broker
     </span>
   </a>
   
@@ -5124,6 +5142,31 @@
 <td><code>web.submit_secret_file</code></td>
 <td>string</td>
 <td>Path to a file holding the web_submit capability secret (preferred over inline submit_secret).</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="broker">broker<a class="headerlink" href="#broker" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>broker.writes</code></td>
+<td>string</td>
+<td>Broker write-action mode: off (default; delegating a workflow that proposes writes is refused and nothing approved executes) or on (writes execute after approval in /inbox, each also gated by its MCP server's broker_write declaration).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>broker.action_timeout</code></td>
+<td>string</td>
+<td>Bound on one approved write's tool call (default 60s, at most 10m). A call that times out is recorded as unknown, never retried.</td>
 <td>—</td>
 </tr>
 </tbody>

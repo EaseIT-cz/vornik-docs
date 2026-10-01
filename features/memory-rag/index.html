@@ -1318,6 +1318,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#minimum-length-of-a-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimum length of a note
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#audit-and-compliance-export" class="md-nav__link">
     <span class="md-ellipsis">
       Audit and compliance export
@@ -2009,6 +2018,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#minimum-length-of-a-note" class="md-nav__link">
+    <span class="md-ellipsis">
+      Minimum length of a note
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#audit-and-compliance-export" class="md-nav__link">
     <span class="md-ellipsis">
       Audit and compliance export
@@ -2141,6 +2159,14 @@ vornikctl<span class="w"> </span>memory<span class="w"> </span>firewall<span cla
   rejected outright rather than stored as a husk. The escape hatch
   <code>VORNIK_ALLOW_UNSCANNED_MEMORY</code> exists for deliberate, audited exceptions.</li>
 </ul>
+<h2 id="minimum-length-of-a-note">Minimum length of a note<a class="headerlink" href="#minimum-length-of-a-note" title="Permanent link">&para;</a></h2>
+<p>Memory also refuses content too short to carry a fact. A note you or an
+agent deposit deliberately, through the companion <code>remember</code> tool or by
+asking the assistant in chat to remember something, needs at least three
+words and ten characters. "My dentist is Dr Novak." is kept; "Dr Novak" is
+refused, and the caller is told nothing was saved. Content from documents
+and agent output is held to a higher floor (64 characters and 10 words),
+because a fragment that short is usually leftover from splitting a document.</p>
 <h2 id="audit-and-compliance-export">Audit and compliance export<a class="headerlink" href="#audit-and-compliance-export" title="Permanent link">&para;</a></h2>
 <p>Every recall decision — in every mode, including <code>off</code> — writes an audit row
 recording the chunk, the requesting role and purpose, the decision, and a digest
