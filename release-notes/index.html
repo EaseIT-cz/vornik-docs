@@ -435,6 +435,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -616,6 +620,48 @@
   
   <span class="md-ellipsis">
     Approvals &amp; human-in-the-loop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/assistant-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Let your assistant set up Vornik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/assistant-setup-acceptance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Acceptance check: an assistant sets up Vornik
   </span>
   
 
@@ -1821,6 +1867,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026102" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.10.2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026101" class="md-nav__link">
     <span class="md-ellipsis">
       2026.10.1
@@ -2224,6 +2279,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026102" class="md-nav__link">
+    <span class="md-ellipsis">
+      2026.10.2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026101" class="md-nav__link">
     <span class="md-ellipsis">
       2026.10.1
@@ -2618,6 +2682,77 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="2026102">2026.10.2<a class="headerlink" href="#2026102" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>Migrations 205–211</strong> add the tables for agent credentials, approver
+  devices and approval requests, and agent key columns. All additive.</li>
+<li><strong>Back up <code>~/.config/vornik/secrets/store.key</code> once it exists.</strong> Vornik
+  creates it the first time an assistant's credential is stored, and the
+  stored credentials cannot be opened without it.</li>
+<li><strong>Deploy the new config assets once after this update.</strong> This update
+  runs the previous release's <code>vornik-update.sh</code>, which does not yet
+  deploy them:
+  <code>VORNIK_DEPLOY_REVISION=$(git -C ~/vornik rev-parse HEAD) ~/vornik/scripts/config-deploy.sh ~/.config/vornik</code>.
+  From the next update on, the updater does it. Vornik picks them up
+  without a restart.</li>
+<li>No agent image rebuild is needed for this release.</li>
+</ul>
+</div>
+<p><strong>Vornik now lives at <a href="https://github.com/EaseIT-cz/vornik">github.com/EaseIT-cz/vornik</a>.</strong>
+The repository moved from <code>grinco/vornik</code>. Issues, releases and history came
+with it, and the old address redirects, so an existing checkout keeps
+updating.</p>
+<ul>
+<li>The agent image is now <code>ghcr.io/easeit-cz/vornik-agent</code>, with every
+  earlier tag copied unchanged.</li>
+<li>If your configs still name <code>ghcr.io/grinco/vornik-agent</code>, they keep
+  working: Vornik maps the old name. <code>vornikctl doctor</code> lists the files and
+  the one-line command that updates them.</li>
+</ul>
+<p><strong>Let your assistant set up Vornik, with Vornik as its safety layer.</strong> Hermes,
+Claude Code (including the Claude desktop app's Code-tab routines), Claude
+Desktop and Codex connect with <code>vornikctl agent connect</code>. The assistant then
+sets up its own projects, workflows (with schedules), REST APIs and MCP servers
+through Vornik's MCP tools, and runs them. It never sees a credential:
+credentials are entered on your paired phone. Every new connection, every
+credential and every write the assistant wants to make is approved there, and
+it receives only results shaped by the schema you approved. See
+<a href="../guides/assistant-setup/">Let your assistant set up Vornik</a>.</p>
+<ul>
+<li><code>vornikctl pair-device</code> pairs your phone. Do it yourself, never through the
+  assistant.</li>
+<li><code>--url https://…</code> connects an assistant on another machine, for example a
+  Mac, to your Vornik. <code>vornikctl</code> for macOS is now part of each release.</li>
+<li>The console's <strong>Assistants</strong> page shows what each assistant has set up.</li>
+</ul>
+<p><strong>Fixes to <code>vornik-update.sh</code>:</strong></p>
+<ul>
+<li>After pulling the agent image, the update now tags it. Before, the image
+  arrived untagged, so <code>ghcr.io/easeit-cz/vornik-agent:latest</code> named nothing, or
+  the previous image, after an update that reported success. This fix applies
+  on the update to this release.</li>
+<li>The rollback record (<code>STATE.txt</code>) now names the commit that was installed,
+  not the checkout's, and prints no rollback commit when it cannot tell. An
+  install whose checkout already sits at the target is updated without
+  <code>--force</code>. A backup written by an earlier release can name the wrong commit
+  here; use <code>&lt;backup&gt;/vornik.prev -version</code> instead.</li>
+<li>A missing <code>skopeo</code> is now named, rather than reported as "the registry could
+  not be reached".</li>
+<li>An interrupted image build removes the build containers it left; older
+  leftovers are reported with the command that removes them.</li>
+<li>Updates and re-run quickstarts now deploy config files a release adds,
+  without changing any you have edited.</li>
+</ul>
+<p><strong>Releases carry binaries.</strong> Each Community release now attaches <code>vornik</code> and
+<code>vornikctl</code> for Linux (amd64, arm64) and <code>vornikctl</code> for macOS (arm64, amd64),
+with checksums, an SBOM and build provenance attestations. The macOS binary is
+not signed: check it against <code>checksums.txt</code>, then run
+<code>xattr -d com.apple.quarantine vornikctl</code>.</p>
+<p><strong>Also fixed:</strong> the task link in Slack and chat completion notices opened a
+"project not found" page; it opens the task.</p>
 <hr />
 <h2 id="2026101">2026.10.1<a class="headerlink" href="#2026101" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">

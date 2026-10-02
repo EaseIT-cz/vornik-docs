@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://docs.vornik.io/features/instinct/">
+        <link rel="canonical" href="https://docs.vornik.io/guides/assistant-setup-acceptance/">
       
       
-        <link rel="prev" href="../self-healing/">
+        <link rel="prev" href="../assistant-setup/">
       
       
-        <link rel="next" href="../auth/">
+        <link rel="next" href="../recovery/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Instinct layer - Vornik documentation</title>
+        <title>Acceptance check: an assistant sets up Vornik - Vornik documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#instinct-layer" class="md-skip">
+        <a href="#acceptance-check-an-assistant-sets-up-vornik" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Instinct layer
+              Acceptance check: an assistant sets up Vornik
             
           </span>
         </div>
@@ -392,6 +392,8 @@
       
   
   
+    
+  
   
   
     
@@ -449,16 +451,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guides/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -475,7 +477,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -491,7 +493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/conversation-channels/" class="md-nav__link">
+      <a href="../conversation-channels/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -512,7 +514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/workflows-and-llm-controls/" class="md-nav__link">
+      <a href="../workflows-and-llm-controls/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -533,7 +535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/mcp-tools/" class="md-nav__link">
+      <a href="../mcp-tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -554,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/artifacts-and-delivery/" class="md-nav__link">
+      <a href="../artifacts-and-delivery/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -575,7 +577,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/autonomy/" class="md-nav__link">
+      <a href="../autonomy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -596,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/cross-project/" class="md-nav__link">
+      <a href="../cross-project/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -617,7 +619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/approvals/" class="md-nav__link">
+      <a href="../approvals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -638,7 +640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/assistant-setup/" class="md-nav__link">
+      <a href="../assistant-setup/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -656,10 +658,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guides/assistant-setup-acceptance/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Acceptance check: an assistant sets up Vornik
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -668,6 +690,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#for-each-of-claude-desktop-and-claude-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      For each of Claude Desktop and Claude Code
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#record-the-result" class="md-nav__link">
+    <span class="md-ellipsis">
+      Record the result
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -680,7 +749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/recovery/" class="md-nav__link">
+      <a href="../recovery/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -701,7 +770,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/cost-and-caching/" class="md-nav__link">
+      <a href="../cost-and-caching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -722,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/inference-speed-timeouts/" class="md-nav__link">
+      <a href="../inference-speed-timeouts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -743,7 +812,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/secrets/" class="md-nav__link">
+      <a href="../secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -764,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/browser-login/" class="md-nav__link">
+      <a href="../browser-login/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -785,7 +854,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/observability/" class="md-nav__link">
+      <a href="../observability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -806,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/storage-and-retention/" class="md-nav__link">
+      <a href="../storage-and-retention/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -827,7 +896,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/feature-doctor/" class="md-nav__link">
+      <a href="../feature-doctor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -848,7 +917,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/evals/" class="md-nav__link">
+      <a href="../evals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -869,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/clustering/" class="md-nav__link">
+      <a href="../clustering/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -890,7 +959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/automation-composer/" class="md-nav__link">
+      <a href="../automation-composer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1093,10 +1162,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -1136,11 +1203,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1154,7 +1221,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Features
@@ -1168,7 +1235,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blackbox/" class="md-nav__link">
+      <a href="../../features/blackbox/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1189,7 +1256,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../self-healing/" class="md-nav__link">
+      <a href="../../features/self-healing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1207,30 +1274,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Instinct layer
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../features/instinct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1239,86 +1286,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-learns" class="md-nav__link">
-    <span class="md-ellipsis">
-      How it learns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="How it learns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confidence-and-decay" class="md-nav__link">
-    <span class="md-ellipsis">
-      Confidence and decay
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-consumes-instincts" class="md-nav__link">
-    <span class="md-ellipsis">
-      What consumes instincts
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enabling-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enabling it
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inspecting-what-it-learned" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspecting what it learned
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1331,7 +1298,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../auth/" class="md-nav__link">
+      <a href="../../features/auth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1352,7 +1319,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../memory-rag/" class="md-nav__link">
+      <a href="../../features/memory-rag/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1373,7 +1340,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../zero-egress/" class="md-nav__link">
+      <a href="../../features/zero-egress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1394,7 +1361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cluster/" class="md-nav__link">
+      <a href="../../features/cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1415,7 +1382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../forge/" class="md-nav__link">
+      <a href="../../features/forge/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1436,7 +1403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../companion/" class="md-nav__link">
+      <a href="../../features/companion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1457,7 +1424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../knowledge-skills/" class="md-nav__link">
+      <a href="../../features/knowledge-skills/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1478,7 +1445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../control-plane/" class="md-nav__link">
+      <a href="../../features/control-plane/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1499,7 +1466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identity/" class="md-nav__link">
+      <a href="../../features/identity/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1520,7 +1487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../config-assistant/" class="md-nav__link">
+      <a href="../../features/config-assistant/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1541,7 +1508,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architect-consult/" class="md-nav__link">
+      <a href="../../features/architect-consult/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1965,60 +1932,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-it-learns" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
-      How it learns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="How it learns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confidence-and-decay" class="md-nav__link">
-    <span class="md-ellipsis">
-      Confidence and decay
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-consumes-instincts" class="md-nav__link">
-    <span class="md-ellipsis">
-      What consumes instincts
+      Before you start
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enabling-it" class="md-nav__link">
+  <a href="#for-each-of-claude-desktop-and-claude-code" class="md-nav__link">
     <span class="md-ellipsis">
-      Enabling it
+      For each of Claude Desktop and Claude Code
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#inspecting-what-it-learned" class="md-nav__link">
+  <a href="#record-the-result" class="md-nav__link">
     <span class="md-ellipsis">
-      Inspecting what it learned
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration
+      Record the result
     </span>
   </a>
   
@@ -2039,168 +1973,53 @@
                   
 
 
-<h1 id="instinct-layer">Instinct layer<a class="headerlink" href="#instinct-layer" title="Permanent link">&para;</a></h1>
-<div class="admonition abstract">
-<p class="admonition-title">Enterprise Edition</p>
-<p>This capability is part of the <strong>Enterprise Edition</strong> — a proprietary overlay on the open-source core. See <a href="../../editions/">Editions</a> for the full Community vs Enterprise matrix.</p>
-</div>
-<p>The instinct layer lets vornik learn from its own history. It mines the
-telemetry every task already produces, distils recurring patterns into
-confidence-scored <strong>instincts</strong> — "in situation T, action A held up" — and
-makes those instincts available as <em>evidence</em> to the parts of vornik that
-decide how the next task runs.</p>
-<p>The defining rule: <strong>instincts are advisory. Nothing mutates silently.</strong> An
-instinct can raise the confidence of a workflow proposal an operator is already
-reviewing, or surface a remediation hint on a failed task — but it never edits a
-prompt, swaps a model, deletes a memory, or promotes a workflow on its own.
-Every behaviour-affecting decision still passes through the same operator and
-review gates it always did. With the layer disabled (the default), behaviour is
-unchanged.</p>
-<h2 id="how-it-learns">How it learns<a class="headerlink" href="#how-it-learns" title="Permanent link">&para;</a></h2>
-<p>A background worker runs on a cadence (30 minutes by default) and reads the
-<strong>audit spine</strong> — the step outcomes, tool-call log, and memory-retrieval log
-that vornik writes for every task. Deterministic extractors turn finalised
-outcomes into atomic patterns; only genuinely ambiguous clusters fall through to
-a cheap distillation model. Each pattern is deduplicated by a canonical trigger
-key and scored.</p>
-<h3 id="confidence-and-decay">Confidence and decay<a class="headerlink" href="#confidence-and-decay" title="Permanent link">&para;</a></h3>
-<p>An instinct's confidence is a <strong>Wilson lower bound</strong> on its success rate
-(so a pattern seen 3 times is trusted far less than one seen 300 times),
-multiplied by a <strong>recency decay</strong> with a 30-day half-life (so a pattern that
-stops recurring fades rather than lingering forever). An instinct moves through
-states as the evidence accumulates:</p>
-<table>
-<thead>
-<tr>
-<th>State</th>
-<th>Reached when</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>candidate</code></td>
-<td>freshly mined; not yet trusted</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>confidence ≥ 0.6 and seen at least 3 times</td>
-</tr>
-<tr>
-<td><code>promoted</code></td>
-<td>holds across ≥ 2 projects at confidence ≥ 0.8 (becomes a global prior)</td>
-</tr>
-<tr>
-<td><code>retired</code></td>
-<td>confidence falls below 0.2 (sticky — stays retired)</td>
-</tr>
-</tbody>
-</table>
-<p>These thresholds are tunable (see <a href="#configuration">Configuration</a>).</p>
-<h2 id="what-consumes-instincts">What consumes instincts<a class="headerlink" href="#what-consumes-instincts" title="Permanent link">&para;</a></h2>
-<p>Four consumers read instincts, each independently switchable and each strictly
-advisory:</p>
+<h1 id="acceptance-check-an-assistant-sets-up-vornik">Acceptance check: an assistant sets up Vornik<a class="headerlink" href="#acceptance-check-an-assistant-sets-up-vornik" title="Permanent link">&para;</a></h1>
+<p>The automated lane covers Hermes and Codex with scripted models, plus a protocol-level stand-in for Claude Desktop. Claude Desktop and Claude Code themselves need vendor accounts, so a person runs this check once per release. It takes about twenty minutes per assistant.</p>
+<p>It also checks the one thing the automated lane cannot: that a real model, prompted only in plain language, uses the admin tools as the guidance tells it to.</p>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Failure-class playbooks</strong> — when a task fails, high-confidence remediation
-  instincts for that failure class are surfaced on the task's detail page and
-  offered to the lead as recovery <em>context</em>. The operator's recovery-approval
-  gate is unchanged.</li>
-<li><strong>Architect evidence priors</strong> — when the workflow architect proposes a change,
-  matching instincts act as priors. They can only nudge the proposal's
-  confidence <em>up</em> toward the strongest supporting evidence (never above what the
-  model itself reported, never widening the edit's scope); a rejected proposal is
-  written back as contrary evidence.</li>
-<li><strong>Memory hygiene</strong> — instincts suggest which memory scopes to boost and which
-  chunks are prune candidates. The consolidation sweeper <em>surfaces</em> these; it
-  never deletes on their say-so, and firewall-sensitive chunks are screened out.</li>
-<li><strong>Tool-budget tiers</strong> — when a planner gives no explicit complexity verdict,
-  a learned tier can fill the gap. An explicit verdict always wins, and the
-  configured budget caps still bound the result.</li>
+<li>A Vornik install with no assistant connected (<code>/ui/admin/agents</code> says "No assistant is connected").</li>
+<li>A phone paired with <code>vornikctl pair-device</code>.</li>
+<li>A bank or accounting API you can use for a test, with a test key; or any REST API that returns a list of transactions.</li>
+<li>A mailbox reachable through an MCP server, with a test token.</li>
+<li>Two values you can recognise later: write down the first and last six characters of the API key and of the mail token you will enter on the phone.</li>
 </ul>
-<p>There is an optional <code>auto_apply</code> mode (off by default, gated by its own
-confidence floor) that changes only how <em>strongly</em> a recovery remediation is
-presented to the lead — it does not bypass the approval gate.</p>
-<h2 id="enabling-it">Enabling it<a class="headerlink" href="#enabling-it" title="Permanent link">&para;</a></h2>
-<p>Run the feature doctor to diagnose prerequisites and enable:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>instinct
+<h2 id="for-each-of-claude-desktop-and-claude-code">For each of Claude Desktop and Claude Code<a class="headerlink" href="#for-each-of-claude-desktop-and-claude-code" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Connect it:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>vornikctl agent connect claude-desktop     # or claude-code
 </code></pre></div>
-<p>This sets <code>instinct.enabled</code> plus the consumer gates and restarts the daemon
-during an idle window. Because it is restart-gated, the doctor refuses to apply
-while tasks are running and waits for an idle window. (The tool-budget and
-<code>auto_apply</code> consumers stay manually opt-in.)</p>
-<h2 id="inspecting-what-it-learned">Inspecting what it learned<a class="headerlink" href="#inspecting-what-it-learned" title="Permanent link">&para;</a></h2>
-<p>Everything the layer knows is browsable. Use the CLI:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>instinct<span class="w"> </span>list<span class="w"> </span>--domain<span class="w"> </span>recovery<span class="w"> </span>--min-confidence<span class="w"> </span><span class="m">0</span>.8
-vornikctl<span class="w"> </span>instinct<span class="w"> </span>show<span class="w"> </span>&lt;instinct_id&gt;
-vornikctl<span class="w"> </span>instinct<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-o<span class="w"> </span>instincts.json<span class="w">        </span><span class="c1"># filtered snapshot</span>
-vornikctl<span class="w"> </span>instinct<span class="w"> </span>retire<span class="w"> </span>&lt;instinct_id&gt;<span class="w">            </span><span class="c1"># advisory; the row stays for audit</span>
+<p>For Claude Code under your own OS user, connect refuses and explains why. Re-run with <code>--accept-shared-user</code> only for this test install.
+2. Restart the assistant. Ask it: <em>"What can you do with Vornik?"</em>
+   - <strong>Expected:</strong> it calls <code>describe_installation</code>, and says it needs your approval on your phone for connections and credentials.
+3. Ask: <em>"Every month, send me a summary of my spending from my bank."</em> Give it the API's address when it asks.
+   - <strong>Expected:</strong>
+     - Your phone shows a request to connect the API, worded plainly. Approve it.
+     - It asks for the key <strong>through Vornik</strong>, never in the chat. Your phone shows a request to enter the key. Enter it there.
+     - It defines a workflow with a schedule. Your phone says when it runs, in which timezone and with what inputs. Approve it.
+   - <strong>Fail if</strong> it asks you to paste the key into the chat.
+4. Ask: <em>"Run last month's summary now."</em>
+   - <strong>Expected:</strong> a short summary (totals, categories). No transaction lines, no account numbers.
+5. Ask: <em>"Set up something that drafts replies to my mail. Don't send anything without asking me."</em> Give it the MCP server's address when it asks.
+   - <strong>Expected:</strong> the same pattern. Connect, enter the token on the phone, approve the workflow. Then a draft is <strong>proposed</strong>, and appears only after you approve it on the phone.
+6. Open <code>/ui/admin/agents/&lt;namespace&gt;</code>.
+   - <strong>Expected:</strong> the two projects, their workflows with the schedule in words and the next run, the connections approved, and the credentials <strong>by name and status only</strong>.
+7. Search the assistant's own conversation files for the values you entered:</p>
+<div class="highlight"><pre><span></span><code># Claude Code: ~/.claude/projects/   Claude Desktop (Linux): ~/.config/Claude/
+grep -rl "&lt;first six characters of the key&gt;" ~/.claude/projects/ ~/.config/Claude/ 2&gt;/dev/null
 </code></pre></div>
-<p><code>list</code> filters by <code>--domain</code>, <code>--scope</code>, <code>--project</code>, <code>--status</code>, and
-<code>--min-confidence</code>. The same inventory is available as a read-only browser at
-<code>/ui/admin/instincts</code>, and failed tasks show their learned remediations inline
-on the task detail page. All admin surfaces require an admin-scoped key.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The layer is configured under the <code>instinct</code> block. The most useful keys:</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Default</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>instinct.enabled</code></td>
-<td><code>false</code></td>
-<td>master switch</td>
-</tr>
-<tr>
-<td><code>instinct.cadence_seconds</code></td>
-<td><code>1800</code></td>
-<td>how often the miner runs</td>
-</tr>
-<tr>
-<td><code>instinct.min_support</code></td>
-<td><code>3</code></td>
-<td>observations before a pattern can leave <code>candidate</code></td>
-</tr>
-<tr>
-<td><code>instinct.active_confidence</code></td>
-<td><code>0.6</code></td>
-<td>promotion-to-<code>active</code> threshold</td>
-</tr>
-<tr>
-<td><code>instinct.promote_confidence</code></td>
-<td><code>0.8</code></td>
-<td>cross-project global-promotion threshold</td>
-</tr>
-<tr>
-<td><code>instinct.promote_projects</code></td>
-<td><code>2</code></td>
-<td>projects a pattern must hold across to go global</td>
-</tr>
-<tr>
-<td><code>instinct.retire_floor</code></td>
-<td><code>0.2</code></td>
-<td>confidence below which an instinct retires</td>
-</tr>
-<tr>
-<td><code>instinct.decay_halflife_days</code></td>
-<td><code>30</code></td>
-<td>recency-decay half-life</td>
-</tr>
-<tr>
-<td><code>instinct.model</code></td>
-<td><code>chat.model</code></td>
-<td>distillation model for ambiguous clusters</td>
-</tr>
-</tbody>
-</table>
-<p>The four consumers are toggled under <code>instinct.consumers</code>:
-<code>failure_playbooks</code>, <code>architect_priors</code>, <code>memory_hygiene</code>,
-<code>application_feedback</code>, and <code>tool_budget</code>. The optional auto-apply mode lives
-under <code>instinct.consumers.auto_apply</code> (<code>enabled</code>, <code>min_confidence</code>,
-<code>allowed_error_classes</code>).</p>
+<ul>
+<li><strong>Expected:</strong> no file. Repeat for the mail token.</li>
+<li>Disconnect: <code>vornikctl agent disconnect &lt;namespace&gt;</code>. Ask the assistant anything about Vornik.</li>
+<li><strong>Expected:</strong> it can no longer reach Vornik, and its config no longer has the <code>vornik-&lt;namespace&gt;</code> entry.</li>
+</ul>
+<h2 id="record-the-result">Record the result<a class="headerlink" href="#record-the-result" title="Permanent link">&para;</a></h2>
+<p>Note for each assistant:
+- the release;
+- pass or fail per step;
+- for any fail, what the assistant said.</p>
+<p>A fail in step 3 or 7 blocks the release. A fail elsewhere is a defect to file.</p>
 
 
 

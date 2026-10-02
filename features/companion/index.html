@@ -437,6 +437,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -618,6 +622,48 @@
   
   <span class="md-ellipsis">
     Approvals &amp; human-in-the-loop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/assistant-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Let your assistant set up Vornik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/assistant-setup-acceptance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Acceptance check: an assistant sets up Vornik
   </span>
   
 
@@ -2269,12 +2315,20 @@ which findings <code>--fix</code> can repair and which are diagnostic only, so y
 get sent in a circle.</p>
 <p><strong><code>report-problem</code></strong> — filing an <strong>anonymized</strong> Vornik problem report (a bug,
 a crash, a misbehaving swarm, or an install failure) as a prefilled
-<code>github.com/grinco/vornik</code> issue. The work is done by the deterministic
+<code>github.com/EaseIT-cz/vornik</code> issue. The work is done by the deterministic
 <code>vornikctl report</code> CLI (rich diagnostics when the daemon is up, <code>--offline</code>
 static checks when it is down) plus the quickstart installer's own failure URL
 for pre-daemon install errors; the skill is the guardrail — review the
 anonymized body before submitting, and you file it under your own GitHub
 account (nothing is ever posted automatically).</p>
+<p><strong><code>vornik-admin</code></strong>: working as an administering assistant. It is in the Claude Code, Codex and Hermes bundles. It applies only to an assistant connected with an <strong>agent admin key</strong>, which can set up its own projects, workflows and connections in its own namespace, with you approving each change on your phone.</p>
+<p>The skill tells the assistant to:
+- start with <code>describe_installation</code>;
+- never ask for or accept a credential in chat (it calls <code>request_credential</code>, and you enter the value on your phone);
+- say plainly what you are about to approve;
+- treat every write as a proposal you approve one by one;
+- stay inside its namespace.</p>
+<p>Vornik also serves the same text to such a key directly: in the MCP <code>initialize</code> instructions and as <code>describe_installation</code>'s <code>how_to_work</code>. So an assistant without the bundle, such as Claude Desktop, still gets it. No other key ever sees it.</p>
 <h2 id="project-memory-and-repo-scope">Project memory and repo scope<a class="headerlink" href="#project-memory-and-repo-scope" title="Permanent link">&para;</a></h2>
 <p><code>recall</code> and <code>remember</code> operate on the memory of the vornik <strong>project</strong> your key
 is bound to. Because one project can back several repositories, every note

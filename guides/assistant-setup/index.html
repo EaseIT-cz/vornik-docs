@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://docs.vornik.io/features/instinct/">
+        <link rel="canonical" href="https://docs.vornik.io/guides/assistant-setup/">
       
       
-        <link rel="prev" href="../self-healing/">
+        <link rel="prev" href="../approvals/">
       
       
-        <link rel="next" href="../auth/">
+        <link rel="next" href="../assistant-setup-acceptance/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Instinct layer - Vornik documentation</title>
+        <title>Let your assistant set up Vornik - Vornik documentation</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#instinct-layer" class="md-skip">
+        <a href="#let-your-assistant-set-up-vornik" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Instinct layer
+              Let your assistant set up Vornik
             
           </span>
         </div>
@@ -392,6 +392,8 @@
       
   
   
+    
+  
   
   
     
@@ -449,16 +451,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../guides/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -475,7 +477,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Guides
@@ -491,7 +493,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/conversation-channels/" class="md-nav__link">
+      <a href="../conversation-channels/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -512,7 +514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/workflows-and-llm-controls/" class="md-nav__link">
+      <a href="../workflows-and-llm-controls/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -533,7 +535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/mcp-tools/" class="md-nav__link">
+      <a href="../mcp-tools/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -554,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/artifacts-and-delivery/" class="md-nav__link">
+      <a href="../artifacts-and-delivery/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -575,7 +577,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/autonomy/" class="md-nav__link">
+      <a href="../autonomy/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -596,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/cross-project/" class="md-nav__link">
+      <a href="../cross-project/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -617,7 +619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/approvals/" class="md-nav__link">
+      <a href="../approvals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -635,10 +637,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../guides/assistant-setup/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Let your assistant set up Vornik
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -647,6 +669,89 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      Before you start
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connect-the-assistant" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connect the assistant
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assistants-that-can-run-shell-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assistants that can run shell commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornik-on-another-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vornik on another machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assistants-that-run-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assistants that run as a service
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-what-an-assistant-has-set-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      See what an assistant has set up
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disconnect
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -659,7 +764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/assistant-setup-acceptance/" class="md-nav__link">
+      <a href="../assistant-setup-acceptance/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -680,7 +785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/recovery/" class="md-nav__link">
+      <a href="../recovery/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -701,7 +806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/cost-and-caching/" class="md-nav__link">
+      <a href="../cost-and-caching/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -722,7 +827,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/inference-speed-timeouts/" class="md-nav__link">
+      <a href="../inference-speed-timeouts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -743,7 +848,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/secrets/" class="md-nav__link">
+      <a href="../secrets/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -764,7 +869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/browser-login/" class="md-nav__link">
+      <a href="../browser-login/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -785,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/observability/" class="md-nav__link">
+      <a href="../observability/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -806,7 +911,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/storage-and-retention/" class="md-nav__link">
+      <a href="../storage-and-retention/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -827,7 +932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/feature-doctor/" class="md-nav__link">
+      <a href="../feature-doctor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -848,7 +953,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/evals/" class="md-nav__link">
+      <a href="../evals/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -869,7 +974,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/clustering/" class="md-nav__link">
+      <a href="../clustering/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -890,7 +995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../guides/automation-composer/" class="md-nav__link">
+      <a href="../automation-composer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1093,10 +1198,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -1136,11 +1239,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
@@ -1154,7 +1257,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Features
@@ -1168,7 +1271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blackbox/" class="md-nav__link">
+      <a href="../../features/blackbox/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1189,7 +1292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../self-healing/" class="md-nav__link">
+      <a href="../../features/self-healing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1207,30 +1310,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Instinct layer
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../features/instinct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1239,86 +1322,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-it-learns" class="md-nav__link">
-    <span class="md-ellipsis">
-      How it learns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="How it learns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confidence-and-decay" class="md-nav__link">
-    <span class="md-ellipsis">
-      Confidence and decay
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-consumes-instincts" class="md-nav__link">
-    <span class="md-ellipsis">
-      What consumes instincts
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#enabling-it" class="md-nav__link">
-    <span class="md-ellipsis">
-      Enabling it
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inspecting-what-it-learned" class="md-nav__link">
-    <span class="md-ellipsis">
-      Inspecting what it learned
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1331,7 +1334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../auth/" class="md-nav__link">
+      <a href="../../features/auth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1352,7 +1355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../memory-rag/" class="md-nav__link">
+      <a href="../../features/memory-rag/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1373,7 +1376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../zero-egress/" class="md-nav__link">
+      <a href="../../features/zero-egress/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1394,7 +1397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cluster/" class="md-nav__link">
+      <a href="../../features/cluster/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1415,7 +1418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../forge/" class="md-nav__link">
+      <a href="../../features/forge/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1436,7 +1439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../companion/" class="md-nav__link">
+      <a href="../../features/companion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1457,7 +1460,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../knowledge-skills/" class="md-nav__link">
+      <a href="../../features/knowledge-skills/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1478,7 +1481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../control-plane/" class="md-nav__link">
+      <a href="../../features/control-plane/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1499,7 +1502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../identity/" class="md-nav__link">
+      <a href="../../features/identity/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1520,7 +1523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../config-assistant/" class="md-nav__link">
+      <a href="../../features/config-assistant/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1541,7 +1544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architect-consult/" class="md-nav__link">
+      <a href="../../features/architect-consult/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1965,60 +1968,63 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-it-learns" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
-      How it learns
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="How it learns">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#confidence-and-decay" class="md-nav__link">
-    <span class="md-ellipsis">
-      Confidence and decay
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-consumes-instincts" class="md-nav__link">
-    <span class="md-ellipsis">
-      What consumes instincts
+      Before you start
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#enabling-it" class="md-nav__link">
+  <a href="#connect-the-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      Enabling it
+      Connect the assistant
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#inspecting-what-it-learned" class="md-nav__link">
+  <a href="#assistants-that-can-run-shell-commands" class="md-nav__link">
     <span class="md-ellipsis">
-      Inspecting what it learned
+      Assistants that can run shell commands
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
+  <a href="#vornik-on-another-machine" class="md-nav__link">
     <span class="md-ellipsis">
-      Configuration
+      Vornik on another machine
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#assistants-that-run-as-a-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assistants that run as a service
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-what-an-assistant-has-set-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      See what an assistant has set up
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disconnect
     </span>
   </a>
   
@@ -2039,168 +2045,111 @@
                   
 
 
-<h1 id="instinct-layer">Instinct layer<a class="headerlink" href="#instinct-layer" title="Permanent link">&para;</a></h1>
-<div class="admonition abstract">
-<p class="admonition-title">Enterprise Edition</p>
-<p>This capability is part of the <strong>Enterprise Edition</strong> — a proprietary overlay on the open-source core. See <a href="../../editions/">Editions</a> for the full Community vs Enterprise matrix.</p>
-</div>
-<p>The instinct layer lets vornik learn from its own history. It mines the
-telemetry every task already produces, distils recurring patterns into
-confidence-scored <strong>instincts</strong> — "in situation T, action A held up" — and
-makes those instincts available as <em>evidence</em> to the parts of vornik that
-decide how the next task runs.</p>
-<p>The defining rule: <strong>instincts are advisory. Nothing mutates silently.</strong> An
-instinct can raise the confidence of a workflow proposal an operator is already
-reviewing, or surface a remediation hint on a failed task — but it never edits a
-prompt, swaps a model, deletes a memory, or promotes a workflow on its own.
-Every behaviour-affecting decision still passes through the same operator and
-review gates it always did. With the layer disabled (the default), behaviour is
-unchanged.</p>
-<h2 id="how-it-learns">How it learns<a class="headerlink" href="#how-it-learns" title="Permanent link">&para;</a></h2>
-<p>A background worker runs on a cadence (30 minutes by default) and reads the
-<strong>audit spine</strong> — the step outcomes, tool-call log, and memory-retrieval log
-that vornik writes for every task. Deterministic extractors turn finalised
-outcomes into atomic patterns; only genuinely ambiguous clusters fall through to
-a cheap distillation model. Each pattern is deduplicated by a canonical trigger
-key and scored.</p>
-<h3 id="confidence-and-decay">Confidence and decay<a class="headerlink" href="#confidence-and-decay" title="Permanent link">&para;</a></h3>
-<p>An instinct's confidence is a <strong>Wilson lower bound</strong> on its success rate
-(so a pattern seen 3 times is trusted far less than one seen 300 times),
-multiplied by a <strong>recency decay</strong> with a 30-day half-life (so a pattern that
-stops recurring fades rather than lingering forever). An instinct moves through
-states as the evidence accumulates:</p>
-<table>
-<thead>
-<tr>
-<th>State</th>
-<th>Reached when</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>candidate</code></td>
-<td>freshly mined; not yet trusted</td>
-</tr>
-<tr>
-<td><code>active</code></td>
-<td>confidence ≥ 0.6 and seen at least 3 times</td>
-</tr>
-<tr>
-<td><code>promoted</code></td>
-<td>holds across ≥ 2 projects at confidence ≥ 0.8 (becomes a global prior)</td>
-</tr>
-<tr>
-<td><code>retired</code></td>
-<td>confidence falls below 0.2 (sticky — stays retired)</td>
-</tr>
-</tbody>
-</table>
-<p>These thresholds are tunable (see <a href="#configuration">Configuration</a>).</p>
-<h2 id="what-consumes-instincts">What consumes instincts<a class="headerlink" href="#what-consumes-instincts" title="Permanent link">&para;</a></h2>
-<p>Four consumers read instincts, each independently switchable and each strictly
-advisory:</p>
+<h1 id="let-your-assistant-set-up-vornik">Let your assistant set up Vornik<a class="headerlink" href="#let-your-assistant-set-up-vornik" title="Permanent link">&para;</a></h1>
+<p>You can let an AI assistant (Hermes, Claude Desktop, Claude Code or Codex) build your automations for you through Vornik. It can create projects and workflows, and connect your mail, bank, calendar or any other service that has an MCP server or a REST API. It then runs that work for you.</p>
+<p>Vornik is the safety harness around it:</p>
 <ul>
-<li><strong>Failure-class playbooks</strong> — when a task fails, high-confidence remediation
-  instincts for that failure class are surfaced on the task's detail page and
-  offered to the lead as recovery <em>context</em>. The operator's recovery-approval
-  gate is unchanged.</li>
-<li><strong>Architect evidence priors</strong> — when the workflow architect proposes a change,
-  matching instincts act as priors. They can only nudge the proposal's
-  confidence <em>up</em> toward the strongest supporting evidence (never above what the
-  model itself reported, never widening the edit's scope); a rejected proposal is
-  written back as contrary evidence.</li>
-<li><strong>Memory hygiene</strong> — instincts suggest which memory scopes to boost and which
-  chunks are prune candidates. The consolidation sweeper <em>surfaces</em> these; it
-  never deletes on their say-so, and firewall-sensitive chunks are screened out.</li>
-<li><strong>Tool-budget tiers</strong> — when a planner gives no explicit complexity verdict,
-  a learned tier can fill the gap. An explicit verdict always wins, and the
-  configured budget caps still bound the result.</li>
+<li><strong>The assistant never sees a credential.</strong> When a service needs a password, token or sign-in, the assistant asks Vornik for it. You enter the value, or sign in, <strong>on your own phone</strong>, and Vornik stores it where the assistant cannot read it.</li>
+<li><strong>Nothing that widens its reach happens without you.</strong> Each of these is an approval request on your phone, worded plainly:</li>
+<li>connecting a service;</li>
+<li>every credential;</li>
+<li>each new workflow, and each change to what a workflow returns or can reach;</li>
+<li>a higher budget.</li>
+<li><strong>Automations run on a schedule only if you approve it.</strong> When the assistant gives a workflow a schedule (for example 08:00 on the 1st of every month), your phone shows the schedule in words, its timezone and the fixed inputs each run gets. Any change to them is a new approval. A schedule runs at most hourly. A run whose time passed while Vornik was down is skipped, not made up later.</li>
+<li><strong>Writes are proposals.</strong> A workflow that would send, pay, book or change something proposes it, and you approve each one before it happens.</li>
+<li><strong>It stays in its own namespace.</strong> Everything it creates is prefixed with its namespace (for example <code>hermes--finance</code>), and it cannot touch anything else: not another assistant's setup, not your own projects, not Vornik's settings.</li>
+<li><strong>Keys and tokens do not leak out through it.</strong> Arguments, API requests, proposed writes and returned results are scanned for credential-shaped values. A finding refuses the call.</li>
 </ul>
-<p>There is an optional <code>auto_apply</code> mode (off by default, gated by its own
-confidence floor) that changes only how <em>strongly</em> a recovery remediation is
-presented to the lead — it does not bypass the approval gate.</p>
-<h2 id="enabling-it">Enabling it<a class="headerlink" href="#enabling-it" title="Permanent link">&para;</a></h2>
-<p>Run the feature doctor to diagnose prerequisites and enable:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>instinct
+<p>What it does receive is what you asked for. If you ask "summarise my spending", the summary of your spending reaches the assistant: that output was approved, by you, when the workflow was.</p>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Pair your phone</strong> once, from the machine that runs Vornik:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>vornikctl pair-device
 </code></pre></div>
-<p>This sets <code>instinct.enabled</code> plus the consumer gates and restarts the daemon
-during an idle window. Because it is restart-gated, the doctor refuses to apply
-while tasks are running and waits for an idle window. (The tool-budget and
-<code>auto_apply</code> consumers stay manually opt-in.)</p>
-<h2 id="inspecting-what-it-learned">Inspecting what it learned<a class="headerlink" href="#inspecting-what-it-learned" title="Permanent link">&para;</a></h2>
-<p>Everything the layer knows is browsable. Use the CLI:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>instinct<span class="w"> </span>list<span class="w"> </span>--domain<span class="w"> </span>recovery<span class="w"> </span>--min-confidence<span class="w"> </span><span class="m">0</span>.8
-vornikctl<span class="w"> </span>instinct<span class="w"> </span>show<span class="w"> </span>&lt;instinct_id&gt;
-vornikctl<span class="w"> </span>instinct<span class="w"> </span><span class="nb">export</span><span class="w"> </span>-o<span class="w"> </span>instincts.json<span class="w">        </span><span class="c1"># filtered snapshot</span>
-vornikctl<span class="w"> </span>instinct<span class="w"> </span>retire<span class="w"> </span>&lt;instinct_id&gt;<span class="w">            </span><span class="c1"># advisory; the row stays for audit</span>
+<p>Open the printed address on your phone and enter the code. The phone is now what approves everything the assistant asks for. Without a paired phone, no assistant can be connected.</p>
+<p><strong>Do this yourself, never through the assistant.</strong> The first phone is paired by the code alone, so an assistant that runs this command, or sees its output, could pair itself as the approver of its own requests.</p>
+<ol>
+<li>Make sure your <code>vornikctl</code> can reach Vornik with the operator's admin key, as for any other admin command (<code>VORNIK_API_KEY</code>, or <code>vornikctl auth login</code>).</li>
+</ol>
+<p>Agent administration is on by default (<code>agent_admin.enabled</code>). On its own that opens nothing: an assistant can use it only with an agent key, which only you can mint, and only once a phone is paired.</p>
+<p>It also needs the agent templates that <code>make install-config-assets</code> installs. If connect says Vornik does not offer agent administration, check <code>agent_admin.enabled</code> and run <code>make install-config-assets</code>; Vornik picks the templates up without a restart.</p>
+<h2 id="connect-the-assistant">Connect the assistant<a class="headerlink" href="#connect-the-assistant" title="Permanent link">&para;</a></h2>
+<p>Run this as the OS user the assistant runs as:</p>
+<div class="highlight"><pre><span></span><code>vornikctl agent connect hermes          # or: claude-desktop, claude-code, codex
 </code></pre></div>
-<p><code>list</code> filters by <code>--domain</code>, <code>--scope</code>, <code>--project</code>, <code>--status</code>, and
-<code>--min-confidence</code>. The same inventory is available as a read-only browser at
-<code>/ui/admin/instincts</code>, and failed tasks show their learned remediations inline
-on the task detail page. All admin surfaces require an admin-scoped key.</p>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>The layer is configured under the <code>instinct</code> block. The most useful keys:</p>
+<p>Connect does five things:</p>
+<ol>
+<li>It checks that Vornik offers agent administration and that a phone is paired.</li>
+<li>It mints a key for the assistant's namespace. The default namespace is the assistant's name without dashes (<code>hermes</code>, <code>claudedesktop</code>, <code>claudecode</code>, <code>codex</code>); choose another with <code>--namespace</code>.</li>
+<li>It stores the key in <code>~/.config/vornik/agents/&lt;namespace&gt;.key</code>. The file is readable by you only, and <strong>no assistant config file ever contains the key</strong>.</li>
+<li>It adds one MCP server entry, <code>vornik-&lt;namespace&gt;</code>, to the assistant's own config. The entry runs <code>vornikctl agent mcp-bridge</code> with Vornik's address, which relays the assistant's requests to Vornik using the key file. Connect keeps everything else in that file, comments included.</li>
+<li>It prints what it did and what to do next.</li>
+</ol>
 <table>
 <thead>
 <tr>
-<th>Key</th>
-<th>Default</th>
-<th>Meaning</th>
+<th>Assistant</th>
+<th>Config file connect edits</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>instinct.enabled</code></td>
-<td><code>false</code></td>
-<td>master switch</td>
+<td>Hermes</td>
+<td><code>$HERMES_HOME/config.yaml</code> (default <code>~/.hermes/config.yaml</code>)</td>
 </tr>
 <tr>
-<td><code>instinct.cadence_seconds</code></td>
-<td><code>1800</code></td>
-<td>how often the miner runs</td>
+<td>Claude Desktop</td>
+<td><code>~/.config/Claude/claude_desktop_config.json</code> (Linux), <code>~/Library/Application Support/Claude/claude_desktop_config.json</code> (macOS)</td>
 </tr>
 <tr>
-<td><code>instinct.min_support</code></td>
-<td><code>3</code></td>
-<td>observations before a pattern can leave <code>candidate</code></td>
+<td>Claude Code</td>
+<td><code>~/.claude.json</code></td>
 </tr>
 <tr>
-<td><code>instinct.active_confidence</code></td>
-<td><code>0.6</code></td>
-<td>promotion-to-<code>active</code> threshold</td>
-</tr>
-<tr>
-<td><code>instinct.promote_confidence</code></td>
-<td><code>0.8</code></td>
-<td>cross-project global-promotion threshold</td>
-</tr>
-<tr>
-<td><code>instinct.promote_projects</code></td>
-<td><code>2</code></td>
-<td>projects a pattern must hold across to go global</td>
-</tr>
-<tr>
-<td><code>instinct.retire_floor</code></td>
-<td><code>0.2</code></td>
-<td>confidence below which an instinct retires</td>
-</tr>
-<tr>
-<td><code>instinct.decay_halflife_days</code></td>
-<td><code>30</code></td>
-<td>recency-decay half-life</td>
-</tr>
-<tr>
-<td><code>instinct.model</code></td>
-<td><code>chat.model</code></td>
-<td>distillation model for ambiguous clusters</td>
+<td>Codex</td>
+<td><code>$CODEX_HOME/config.toml</code> (default <code>~/.codex/config.toml</code>)</td>
 </tr>
 </tbody>
 </table>
-<p>The four consumers are toggled under <code>instinct.consumers</code>:
-<code>failure_playbooks</code>, <code>architect_priors</code>, <code>memory_hygiene</code>,
-<code>application_feedback</code>, and <code>tool_budget</code>. The optional auto-apply mode lives
-under <code>instinct.consumers.auto_apply</code> (<code>enabled</code>, <code>min_confidence</code>,
-<code>allowed_error_classes</code>).</p>
+<p>Then <strong>restart the assistant</strong> and ask it what it can do with Vornik. It starts by reading <code>describe_installation</code>, which tells it the rules above and what you have already set up. For Claude Code and Codex, update the <code>vornik-companion</code> plugin first. Its <code>vornik-admin</code> skill carries the same guidance, and Vornik also sends that guidance over the connection itself.</p>
+<p><code>--dry-run</code> checks everything and prints what would be done, without changing anything.</p>
+<p>If connect refuses because it cannot handle a config file (malformed JSON, or a Codex entry written in an unusual form), it says which file and changes nothing. Fix the file, or remove the old entry by hand, and run it again.</p>
+<h2 id="assistants-that-can-run-shell-commands">Assistants that can run shell commands<a class="headerlink" href="#assistants-that-can-run-shell-commands" title="Permanent link">&para;</a></h2>
+<p>Claude Code and Codex can run commands as your OS user. If Vornik also runs as <strong>your</strong> user, the assistant's shell could read Vornik's files directly (its secrets, its database and the assistant's own key), and no Vornik control can stop that.</p>
+<p>So for these two assistants, connect tries to open Vornik's secret-store key as you:</p>
+<ul>
+<li><strong>Not readable:</strong> Vornik runs as another OS user, and connect proceeds. This checks one file. It is good evidence of a separate user, but not a test of every file.</li>
+<li><strong>Readable:</strong> connect refuses. Run Vornik as a separate OS user (recommended), or pass <code>--accept-shared-user</code> to accept the risk knowingly.</li>
+<li><strong>Cannot be checked</strong> (Vornik is on another machine or in a container): connect refuses unless you pass <code>--accept-shared-user</code>.</li>
+</ul>
+<p>Connect prints which guarantees hold in your case. With a shared OS user, the very first phone pairing is also not protected. Every pairing raises an alert, so a pairing you did not make is detectable, but not prevented.</p>
+<p>Hermes and Claude Desktop reach Vornik only through the MCP connection, so this check does not apply to them.</p>
+<h2 id="vornik-on-another-machine">Vornik on another machine<a class="headerlink" href="#vornik-on-another-machine" title="Permanent link">&para;</a></h2>
+<p>The assistant can run on your laptop while Vornik runs on a server.</p>
+<ul>
+<li>Connect <strong>on the laptop</strong>, as the user the assistant runs as.</li>
+<li>Pass Vornik's HTTPS address with <code>--url</code>. Connect refuses plain HTTP to another machine. A tunnel or a reverse proxy with a certificate both work.</li>
+<li><code>connect</code> needs the operator's admin key for this one command. Put it in that command's environment only, from a terminal the assistant does not control:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>VORNIK_API_KEY=&lt;admin key&gt; vornikctl agent connect claude-code --url https://vornik.example --dry-run
+VORNIK_API_KEY=&lt;admin key&gt; vornikctl agent connect claude-code --url https://vornik.example
+</code></pre></div>
+<ul>
+<li><strong>Which name to use for Claude.</strong></li>
+<li><code>claude-code</code> for Claude Code, including routines created in the Claude desktop app's <strong>Code</strong> tab.</li>
+<li><code>claude-desktop</code> for Claude Desktop chats, and Cowork tasks that run on your computer.</li>
+<li><strong>On a Mac,</strong> download <code>vornikctl</code> for your Mac (<code>darwin-arm64</code> on Apple silicon, <code>darwin-amd64</code> on Intel) from the release, and check it against <code>checksums.txt</code>. It is not signed, so clear macOS's download quarantine before running it: <code>xattr -d com.apple.quarantine vornikctl</code>.</li>
+<li><strong>The shell check.</strong> For Claude Code and Codex, connect cannot see from the laptop whether the assistant can read Vornik's files, so it refuses until you pass <code>--accept-shared-user</code>. Pass it only when the assistant has <strong>no shell or SSH access to the Vornik server</strong> as the user Vornik runs as. With that access, the assistant could read Vornik's secrets and database directly, and nothing Vornik does can prevent that. Remove that access, or limit it to an OS user with no access to Vornik's files, first.</li>
+</ul>
+<h2 id="assistants-that-run-as-a-service">Assistants that run as a service<a class="headerlink" href="#assistants-that-run-as-a-service" title="Permanent link">&para;</a></h2>
+<p>If the assistant runs as its own service user (for example a Hermes gateway under systemd), run <code>vornikctl agent connect</code> <strong>as that user</strong>, so the key file and the config entry belong to it. The bridge refuses a key file owned by anyone else and says so.</p>
+<h2 id="see-what-an-assistant-has-set-up">See what an assistant has set up<a class="headerlink" href="#see-what-an-assistant-has-set-up" title="Permanent link">&para;</a></h2>
+<p>The console's <strong>Assistants</strong> page (<code>/ui/admin/agents</code>) lists each connected assistant: its namespace, its key and when it was last used, its projects, and the requests waiting on your phone. Open one to see its projects, workflows (with their schedules and next run) and connections with their approval status, and its credentials by name and status. Credential values are never shown.</p>
+<h2 id="disconnect">Disconnect<a class="headerlink" href="#disconnect" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>vornikctl agent disconnect &lt;namespace&gt;
+</code></pre></div>
+<p>This revokes the assistant's key, removes the <code>vornik-&lt;namespace&gt;</code> entry from its config, and deletes the key file. Its projects, workflows and approvals stay, so connecting again picks up where it left off. After a disconnect, the assistant's next call to Vornik fails, and the message tells it to connect again.</p>
 
 
 

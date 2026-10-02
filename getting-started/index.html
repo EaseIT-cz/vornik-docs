@@ -439,6 +439,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -620,6 +624,48 @@
   
   <span class="md-ellipsis">
     Approvals &amp; human-in-the-loop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/assistant-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Let your assistant set up Vornik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/assistant-setup-acceptance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Acceptance check: an assistant sets up Vornik
   </span>
   
 
@@ -1980,7 +2026,7 @@ everything on this page for you — paste this into your agent:</p>
 <blockquote>
 <p>Set up Vornik for me. Follow the runbook at https://agents.vornik.io</p>
 </blockquote>
-<p><a href="https://github.com/grinco/vornik/blob/main/AGENTS.md">AGENTS.md</a> is an
+<p><a href="https://github.com/EaseIT-cz/vornik/blob/main/AGENTS.md">AGENTS.md</a> is an
 agent-executable runbook: install (via the same <code>get.vornik.io</code> script
 below), LLM key setup, a first task, and the agent's own companion
 project + persistent RAG memory + knowledge-skill store (so it can
@@ -1999,8 +2045,8 @@ service that spawns agent containers via your rootless Podman:</p>
 <code>VORNIK_REF=main</code> for bleeding-edge. To verify the script against its published
 checksum before piping it to a shell (catches transit/redirect tampering — not
 a signature), fetch both first:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">REF</span><span class="o">=</span>&lt;release&gt;<span class="w">  </span><span class="c1"># a tag from github.com/grinco/vornik/releases that ships quickstart.sh.sha256</span>
-<span class="nv">base</span><span class="o">=</span><span class="s2">"https://raw.githubusercontent.com/grinco/vornik/</span><span class="nv">$REF</span><span class="s2">/deployments/podman"</span>
+<div class="highlight"><pre><span></span><code><span class="nv">REF</span><span class="o">=</span>&lt;release&gt;<span class="w">  </span><span class="c1"># a tag from github.com/EaseIT-cz/vornik/releases that ships quickstart.sh.sha256</span>
+<span class="nv">base</span><span class="o">=</span><span class="s2">"https://raw.githubusercontent.com/EaseIT-cz/vornik/</span><span class="nv">$REF</span><span class="s2">/deployments/podman"</span>
 curl<span class="w"> </span>-fsSLO<span class="w"> </span><span class="s2">"</span><span class="nv">$base</span><span class="s2">/quickstart.sh"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>-fsSLO<span class="w"> </span><span class="s2">"</span><span class="nv">$base</span><span class="s2">/quickstart.sh.sha256"</span>
 sha256sum<span class="w"> </span>-c<span class="w"> </span>quickstart.sh.sha256<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">VORNIK_REF</span><span class="o">=</span><span class="s2">"</span><span class="nv">$REF</span><span class="s2">"</span><span class="w"> </span>bash<span class="w"> </span>quickstart.sh
 </code></pre></div>
@@ -2013,7 +2059,7 @@ connecting an LLM endpoint and key (with a live connection test), optional
 memory/RAG, and creating your first project. To do the same from the terminal,
 set <code>VORNIK_CHAT_API_KEY</code> in <code>~/.config/vornik/vornik.env</code> and run
 <code>systemctl --user restart vornik</code>. See the
-<a href="https://github.com/grinco/vornik/tree/main/deployments/podman">Podman deployment notes</a>
+<a href="https://github.com/EaseIT-cz/vornik/tree/main/deployments/podman">Podman deployment notes</a>
 for tunables and the runtime model.</p>
 <p>This is the fastest way to get a working instance; the rest of this page builds
 the same thing by hand so you understand each piece.</p>

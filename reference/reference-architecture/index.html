@@ -437,6 +437,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -618,6 +622,48 @@
   
   <span class="md-ellipsis">
     Approvals &amp; human-in-the-loop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/assistant-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Let your assistant set up Vornik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/assistant-setup-acceptance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Acceptance check: an assistant sets up Vornik
   </span>
   
 
@@ -2430,7 +2476,7 @@ without spawning a child task. Present-but-empty behaves differently from absent
 <span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="s">"localhost/vornik-agent:latest"</span><span class="w">   </span><span class="c1"># required</span>
 </code></pre></div>
 <p>Every role needs a runtime image, and it must be the Vornik agent image:
-<code>ghcr.io/grinco/vornik-agent</code> or <code>localhost/vornik-agent</code>, any tag or digest (a
+<code>ghcr.io/easeit-cz/vornik-agent</code> or <code>localhost/vornik-agent</code>, any tag or digest (a
 bare <code>vornik-agent:&lt;tag&gt;</code> is qualified to the first). The daemon refuses to start
 a container from any other image. Roles routinely differ in model — a cheap model for
 classification, a stronger one for synthesis — and that heterogeneity is normal, not

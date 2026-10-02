@@ -437,6 +437,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -618,6 +622,48 @@
   
   <span class="md-ellipsis">
     Approvals &amp; human-in-the-loop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/assistant-setup/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Let your assistant set up Vornik
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/assistant-setup-acceptance/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Acceptance check: an assistant sets up Vornik
   </span>
   
 
@@ -1930,6 +1976,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#agent_admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      agent_admin
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gateway" class="md-nav__link">
     <span class="md-ellipsis">
       gateway
@@ -2627,6 +2682,15 @@
   <a href="#broker" class="md-nav__link">
     <span class="md-ellipsis">
       broker
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#agent_admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      agent_admin
     </span>
   </a>
   
@@ -5167,6 +5231,43 @@
 <td><code>broker.action_timeout</code></td>
 <td>string</td>
 <td>Bound on one approved write's tool call (default 60s, at most 10m). A call that times out is recorded as unknown, never retried.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="agent_admin">agent_admin<a class="headerlink" href="#agent_admin" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agent_admin.enabled</code></td>
+<td>bool</td>
+<td>Offer the agent admin verbs to agent admin keys on the companion endpoint. On by default: nothing is reachable without an agent admin key, which only an operator mints (vornikctl agent connect) and only after an approver device is paired (vornikctl pair-device). Set false to turn the verbs off.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.default_project_budget_usd</code></td>
+<td>float</td>
+<td>Monthly budget of a project an agent creates (default 2). Raising a project's budget needs approval on an approver device.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.namespace_budget_usd</code></td>
+<td>float</td>
+<td>Ceiling on the sum of an agent's project budgets until a device approves more (default 10).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.agent_image</code></td>
+<td>string</td>
+<td>Runtime image of the roles an agent defines (default the standard agent image).</td>
 <td>—</td>
 </tr>
 </tbody>
