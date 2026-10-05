@@ -3380,24 +3380,66 @@ new behavior; those are called out below.</p>
 </div>
 <hr />
 <h2 id="2026104">2026.10.4<a class="headerlink" href="#2026104" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>Rebuild the agent image.</strong> It now contains the output-cap guard and
+  the <code>glob</code> fix for a trailing <code>**</code>.</li>
+<li><strong>Broker workflow schemas may no longer use property names containing
+  <code>.</code>, <code>[</code> or <code>]</code></strong> in their input or proposal schemas. Rename such
+  fields before you upgrade, or the workflow will not load.</li>
+<li><strong>Project APIs no longer follow redirects.</strong> Point <code>base_url</code> at the
+  final endpoint.</li>
+<li><strong>The updater now replaces config files you never edited</strong> in canonical
+  config directories, and lists each one it replaces. Files you edited are
+  kept.</li>
+<li><strong>Migrations 212–215</strong> are additive and applied automatically.</li>
+<li>Plugins: Hermes 0.11.1, Claude Code companion 0.32.0, Codex companion
+  0.29.0.</li>
+</ul>
+</div>
 <p>A reliability and agent-admin release.</p>
 <ul>
-<li><strong>Agent-admin setup flows can continue after phone approval.</strong> <code>list_my_setup</code>
-  now includes content-free terminal notifications for setup approvals, so a
-  client can refresh after a paired-phone approval, rejection, failure or
-  expiry without seeing rendered config or credential values.</li>
-<li><strong>Credential entry refuses blank secrets.</strong> Whitespace-only and invisible-only
-  credential values are rejected before they can be stored as <code>set</code>; accepted
-  secrets are still stored exactly as entered.</li>
+<li><strong>Paired phones stay paired.</strong></li>
+<li>A double tap, two open tabs, or a slow decision could sign an approver
+    phone out while other devices still listed it as active. Requests already
+    in flight now share one renewed sign-in, so concurrency no longer signs a
+    phone out.</li>
+<li>A phone that does sign out, because its last answer never arrived, is told
+    why. A <code>vornikctl pair-device</code> code restores the same device.</li>
+<li>Per-approval renewal is kept, so a copied sign-in still dies at the
+    phone's next approval. A browser riding along on the phone's approvals
+    raises an alert.</li>
+<li><strong>Recipes, document input, per-role models.</strong></li>
+<li>Agents can install tested recipe workflows: inbox digest, agenda and
+    morning brief.</li>
+<li>A workflow can take a text document as input, read-only.</li>
+<li>An agent role may choose a model from the operator's catalogue. A remote
+    destination needs one approval on the phone.</li>
+<li><strong>Setup clients see when a phone decision completes.</strong> <code>list_my_setup</code>
+  carries content-free notifications for setup approvals.</li>
+<li><strong>Credential entry refuses blank secrets.</strong> Whitespace-only and
+  invisible-only values are rejected; accepted values are stored exactly as
+  entered.</li>
+<li><strong>Approvals.</strong></li>
+<li>Plain-language summaries and risk levels.</li>
+<li>Batch review of a workflow's proposed writes.</li>
+<li>Bounded standing grants for repeated broker writes.</li>
+<li>Hermes's own safety prompts can be answered on the paired phone.</li>
+<li>An approval link opened in an unpaired browser leads back to the approval
+    after pairing.</li>
+<li><strong>Agent-built workflows.</strong></li>
+<li>Roles receive their instructions again.</li>
+<li>A reply cut off at the output cap is never accepted as an answer.</li>
+<li>A step that does not produce its handoff file fails instead of silently
+    succeeding.</li>
+<li>Failures keep their precise class for <code>task explain</code>.</li>
+<li><strong>Project APIs</strong> support <code>auth.query_param</code>.</li>
 <li><strong>Older uid-agnostic agent launches are fixed.</strong> With <code>keep-id</code> and no
-  <code>run_as_user</code>, uid-agnostic agent images now run as the daemon UID/GID, and
-  doctor reports the actual safe/unsafe shape.</li>
-<li><strong>Broker and agent-admin first-use fixes.</strong> Broker steps receive the approved
-  egress shape and workspace write tool they need, missing handoff files fail
-  closed, catalog/setup views expose approved workflows and next steps, and
-  approval pages show daemon-generated summaries and risk levels.</li>
-<li><strong>Dependencies.</strong> The telemetry server now uses <code>undici 7.29.1</code>; public docs
-  use <code>mkdocs-material 9.7.7</code>.</li>
+  <code>run_as_user</code>, uid-agnostic agent images run as the daemon's UID and GID,
+  and doctor reports the real shape.</li>
+<li><strong>Dependencies.</strong> The telemetry server uses <code>undici 7.29.1</code>; the docs use
+  <code>mkdocs-material 9.7.7</code>.</li>
 </ul>
 <h2 id="2026103">2026.10.3<a class="headerlink" href="#2026103" title="Permanent link">&para;</a></h2>
 <p>A patch release.</p>

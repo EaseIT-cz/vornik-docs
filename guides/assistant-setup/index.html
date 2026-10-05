@@ -2610,6 +2610,12 @@
 </code></pre></div>
 <p>Open the printed address on your phone and enter the code. The phone is now what approves everything the assistant asks for. Without a paired phone, no assistant can be connected.</p>
 <p><strong>Do this yourself, never through the assistant.</strong> The first phone is paired by the code alone, so an assistant that runs this command, or sees its output, could pair itself as the approver of its own requests.</p>
+<p><strong>If the phone later shows the pairing page instead of your approvals,</strong> the page says why:</p>
+<ul>
+<li><strong>The answer to its last approval did not reach it.</strong> For example, you switched apps or lost the connection mid-tap. Run <code>vornikctl pair-device</code> again and enter the new code on that phone. It restores the same device; nothing needs revoking.</li>
+<li><strong>Another browser used its sign-in.</strong> A code alone does not restore it: a device you already use must approve it again. If you did not expect this, revoke the device first (<code>vornikctl devices revoke</code>).</li>
+</ul>
+<p>Vornik renews the phone's sign-in on every approval, so a copied sign-in stops working at your next approval. Every restore, and a browser that keeps using the phone's sign-in, raises an alert on your notification channel.</p>
 <ol>
 <li>Make sure your <code>vornikctl</code> can reach Vornik with the operator's admin key, as for any other admin command (<code>VORNIK_API_KEY</code>, or <code>vornikctl auth login</code>).</li>
 </ol>
