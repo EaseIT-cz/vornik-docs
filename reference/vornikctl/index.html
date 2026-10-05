@@ -482,6 +482,8 @@
       
         
       
+        
+      
     
     
     
@@ -747,6 +749,34 @@
     
   
     Let your assistant set up Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hermes-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up Hermes with Vornik
   
 
     
@@ -2032,6 +2062,17 @@
     <span class="md-ellipsis">
       
         vornikctl agent disconnect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-agent-host-approval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl agent host-approval
       
     </span>
   </a>
@@ -4304,6 +4345,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-agent-host-approval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl agent host-approval
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-agent-mcp-bridge" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6277,6 +6329,43 @@ approvals stay, so connecting again resumes where it left off.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="vornikctl-agent-host-approval">vornikctl agent host-approval<a class="headerlink" href="#vornikctl-agent-host-approval" title="Permanent link">&para;</a></h2>
+<p>Ask the paired phone to answer an assistant's own safety prompt (run by the assistant, not by you)</p>
+<p>Read an approval request from the assistant (Hermes) on stdin, file it with
+Vornik under the namespace's key, wait for the paired phone's answer until
+--deadline (unix seconds), and print {"choice": "once"|"session"|"deny",
+"reason": ...} on stdout.</p>
+<p>An answer from the phone exits 0. Anything else (Vornik unreachable, too
+many requests, the deadline passed) prints "deny" with the reason and exits
+non-zero. The key is never printed.</p>
+<div class="highlight"><pre><span></span><code>vornikctl agent host-approval [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--deadline</code></td>
+<td><code>0</code></td>
+<td>Unix time (seconds) after which the answer is deny (required)</td>
+</tr>
+<tr>
+<td><code>--namespace</code></td>
+<td></td>
+<td>The agent namespace whose key to use (required)</td>
+</tr>
+<tr>
+<td><code>--url</code></td>
+<td></td>
+<td>Vornik's URL (default $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-agent-mcp-bridge">vornikctl agent mcp-bridge<a class="headerlink" href="#vornikctl-agent-mcp-bridge" title="Permanent link">&para;</a></h2>
 <p>Relay MCP over stdio to Vornik (run by the assistant, not by you)</p>
 <p>Relay newline-delimited MCP JSON-RPC between stdin/stdout and Vornik's
@@ -7391,7 +7480,9 @@ skopeo or systemctl, and no daemon request may run a program):
   secrets_permissions   Secrets files/dirs with world-readable permissions
   config_secret_hygiene Config.yaml plaintext secrets or loose permissions (recommends ${ENV_VAR})
   secret_store_key      Agent credential store: a missing or wrong key while credentials exist is an error
-  approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push</p>
+  approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push
+  agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
+  agent_model_catalogue Agent role models: agent_admin.models entries not offered to agent roles (no route, a command-line provider, or remote without an exact price)</p>
 <p>Models:
   model_health          Role-pinned models with high recent failure rate or
                         degenerate output; RECOMMENDS the role's modelFallback

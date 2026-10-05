@@ -14,7 +14,7 @@
         <link rel="prev" href="../approvals/">
       
       
-        <link rel="next" href="../assistant-setup-acceptance/">
+        <link rel="next" href="../hermes-setup/">
       
       
         
@@ -484,6 +484,8 @@
       
         
       
+        
+      
     
     
     
@@ -856,6 +858,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#answer-hermess-own-approvals-on-your-phone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answer Hermes's own approvals on your phone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-what-an-assistant-has-set-up" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -881,6 +894,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hermes-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up Hermes with Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2489,6 +2530,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#answer-hermess-own-approvals-on-your-phone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Answer Hermes's own approvals on your phone
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#see-what-an-assistant-has-set-up" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2528,7 +2580,7 @@
 
 
 <h1 id="let-your-assistant-set-up-vornik">Let your assistant set up Vornik<a class="headerlink" href="#let-your-assistant-set-up-vornik" title="Permanent link">&para;</a></h1>
-<p>You can let an AI assistant (Hermes, Claude Desktop, Claude Code or Codex) build your automations for you through Vornik. It can create projects and workflows, and connect your mail, bank, calendar or any other service that has an MCP server or a REST API. It then runs that work for you.</p>
+<p>You can let an AI assistant (Hermes, Claude Desktop, Claude Code or Codex) build your automations for you through Vornik. For Hermes, start with <a href="../hermes-setup/">Set up Hermes with Vornik</a>: its default is the narrower broker setup, and this page is the opt-in. It can create projects and workflows, and connect your mail, bank, calendar or any other service that has an MCP server or a REST API. It then runs that work for you.</p>
 <p>Vornik is the safety harness around it:</p>
 <ul>
 <li><strong>The assistant never sees a credential.</strong> When a service needs a password, token or sign-in, the assistant asks Vornik for it. You enter the value, or sign in, <strong>on your own phone</strong>, and Vornik stores it where the assistant cannot read it.</li>
@@ -2536,11 +2588,18 @@
 <li>connecting a service;</li>
 <li>every credential;</li>
 <li>each new workflow, and each change to what a workflow returns or can reach;</li>
+<li>a team member on a remote model, once per destination (the provider and its host): what that member works on is sent there;</li>
 <li>a higher budget.</li>
+<li><strong>Models come from your operator's list.</strong> A team member may use a model your operator listed for assistants (<code>agent_admin.models</code>); the assistant cannot pick any other. A model on this machine or your local network applies at once. Nothing else changes for a member given no model: it runs on the installation's default, which may itself be a remote provider. A local proxy that forwards to a remote provider counts as local, because Vornik sees only the proxy's address: whoever sets one up is responsible for what it forwards.</li>
 <li><strong>Automations run on a schedule only if you approve it.</strong> When the assistant gives a workflow a schedule (for example 08:00 on the 1st of every month), your phone shows the schedule in words, its timezone and the fixed inputs each run gets. Any change to them is a new approval. A schedule runs at most hourly. A run whose time passed while Vornik was down is skipped, not made up later.</li>
-<li><strong>Writes are proposals.</strong> A workflow that would send, pay, book or change something proposes it, and you approve each one before it happens.</li>
+<li><strong>Writes are proposals.</strong> A workflow that would send, pay, book or change something proposes it, and you approve each one before it happens. If the workflow declares it (and you approved that declaration with the workflow), the approval page also offers to approve future writes to the same recipient for up to 7 days, at most 20 times (your operator can lower both). Those later writes are sent without being shown to you first. Your phone's Standing approvals page lists each one with every write it sent, and pauses or revokes it with one tap; once a day you get a count of what was sent.</li>
 <li><strong>It stays in its own namespace.</strong> Everything it creates is prefixed with its namespace (for example <code>hermes--finance</code>), and it cannot touch anything else: not another assistant's setup, not your own projects, not Vornik's settings.</li>
-<li><strong>Keys and tokens do not leak out through it.</strong> Arguments, API requests, proposed writes and returned results are scanned for credential-shaped values. A finding refuses the call.</li>
+<li>
+<p><strong>Keys and tokens do not leak out through it.</strong> Arguments, API requests, proposed writes and returned results are scanned for credential-shaped values. A finding refuses the call.</p>
+</li>
+<li>
+<p><strong>Ready-made workflows come first.</strong> Vornik ships tested recipes: an inbox digest, an agenda and a morning brief (mail and calendar together). The assistant installs one into a project as a single change, which you approve once; your phone then asks for each credential it needs. Until a credential is entered the workflow is installed but does not run. A recipe's answer names its source for each item, says when the data was read, and tells "nothing arrived" apart from "could not read".</p>
+</li>
 </ul>
 <p>What it does receive is what you asked for. If you ask "summarise my spending", the summary of your spending reaches the assistant: that output was approved, by you, when the workflow was.</p>
 <h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
@@ -2595,6 +2654,7 @@
 </tbody>
 </table>
 <p>Then <strong>restart the assistant</strong> and ask it what it can do with Vornik. It starts by reading <code>describe_installation</code>, which tells it the rules above and what you have already set up. For Claude Code and Codex, update the <code>vornik-companion</code> plugin first. Its <code>vornik-admin</code> skill carries the same guidance, and Vornik also sends that guidance over the connection itself.</p>
+<p>An assistant reads Vornik's list of tools when its session starts. After you upgrade Vornik, or change the models offered to assistants, a session that was already open can still hold the old list and refuse an option Vornik now accepts. The connection tells the assistant when the list changes, and an assistant that supports this reads it again by itself. If yours does not, it asks you to reconnect: restart the assistant, or reconnect Vornik in its MCP settings.</p>
 <p><code>--dry-run</code> checks everything and prints what would be done, without changing anything.</p>
 <p>If connect refuses because it cannot handle a config file (malformed JSON, or a Codex entry written in an unusual form), it says which file and changes nothing. Fix the file, or remove the old entry by hand, and run it again.</p>
 <h2 id="assistants-that-can-run-shell-commands">Assistants that can run shell commands<a class="headerlink" href="#assistants-that-can-run-shell-commands" title="Permanent link">&para;</a></h2>
@@ -2612,10 +2672,12 @@
 <ul>
 <li>Connect <strong>on the laptop</strong>, as the user the assistant runs as.</li>
 <li>Pass Vornik's HTTPS address with <code>--url</code>. Connect refuses plain HTTP to another machine. A tunnel or a reverse proxy with a certificate both work.</li>
-<li><code>connect</code> needs the operator's admin key for this one command. Put it in that command's environment only, from a terminal the assistant does not control:</li>
+<li><code>connect</code> needs the operator's admin key for this one command. Put it in that command's environment only, from a terminal the assistant does not control, and read it so it is not on a command line or in your shell history:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>VORNIK_API_KEY=&lt;admin key&gt; vornikctl agent connect claude-code --url https://vornik.example --dry-run
-VORNIK_API_KEY=&lt;admin key&gt; vornikctl agent connect claude-code --url https://vornik.example
+<div class="highlight"><pre><span></span><code>read -rs VORNIK_API_KEY &amp;&amp; export VORNIK_API_KEY     # paste the admin key
+vornikctl agent connect claude-code --url https://vornik.example --dry-run
+vornikctl agent connect claude-code --url https://vornik.example
+unset VORNIK_API_KEY
 </code></pre></div>
 <ul>
 <li><strong>Which name to use for Claude.</strong></li>
@@ -2626,6 +2688,20 @@ VORNIK_API_KEY=&lt;admin key&gt; vornikctl agent connect claude-code --url https
 </ul>
 <h2 id="assistants-that-run-as-a-service">Assistants that run as a service<a class="headerlink" href="#assistants-that-run-as-a-service" title="Permanent link">&para;</a></h2>
 <p>If the assistant runs as its own service user (for example a Hermes gateway under systemd), run <code>vornikctl agent connect</code> <strong>as that user</strong>, so the key file and the config entry belong to it. The bridge refuses a key file owned by anyone else and says so.</p>
+<p>That user needs a <code>vornikctl</code> it can execute at a path that stays put, because connect records the path into the assistant's config, and the admin key for the one connect command, since your own sign-in lives in your home. <a href="../hermes-setup/#admin-setup-opt-in">Set up Hermes with Vornik</a> shows both for Hermes; the same steps apply to any assistant under its own user.</p>
+<h2 id="answer-hermess-own-approvals-on-your-phone">Answer Hermes's own approvals on your phone<a class="headerlink" href="#answer-hermess-own-approvals-on-your-phone" title="Permanent link">&para;</a></h2>
+<p>Hermes has its own safety rules: when it wants to run a command they flag (a recursive delete, a force-push, a write outside its workspace), it asks you in its terminal or chat, and an unattended Hermes waits and then refuses. With Hermes connected and the plugin installed (version 0.7.0 or later), the phone you paired for Vornik can answer those questions too:</p>
+<div class="highlight"><pre><span></span><code>hermes vornik approvals on
+</code></pre></div>
+<p>This sets <code>security.approval.transport: vornik</code> in Hermes's config. From then on, each flagged command appears on your phone with Hermes's own description and the command (secrets masked), and you choose <strong>Allow once</strong>, <strong>Allow for this session</strong> (when Hermes offers it) or <strong>Deny</strong>. "Always allow" stays in Hermes's terminal: a permanent change to Hermes's safety rules is not something to approve in a few seconds on a phone. <code>hermes vornik approvals off</code> returns the questions to Hermes's own prompt; <code>hermes vornik status</code> shows whether the transport is on and which namespace answers.</p>
+<p>What this does and does not promise:</p>
+<ul>
+<li>Hermes still decides and enforces. Vornik shows Hermes's text, records which phone answered and when, and hands the answer back. A modified Hermes, or one with the transport switched off, ignores the phone.</li>
+<li>Only a paired phone can answer. The assistant's own key cannot, and neither can an operator key or a console session.</li>
+<li>While it is on, an answer needs Vornik. If Vornik is down or unreachable, Hermes refuses every flagged command, unless you also set <code>security.approval.transport_fallback: builtin</code> in Hermes's config, in which case Hermes asks in its own prompt instead.</li>
+<li>The phone answers questions Hermes asks while you, or a chat gateway, are present. Hermes's single-query mode (<code>hermes -z</code>) and cron jobs never ask: they follow their own <code>approvals.*_mode</code> settings.</li>
+<li>At most 3 questions wait at once per assistant, and 30 an hour; beyond that Hermes is told no.</li>
+</ul>
 <h2 id="see-what-an-assistant-has-set-up">See what an assistant has set up<a class="headerlink" href="#see-what-an-assistant-has-set-up" title="Permanent link">&para;</a></h2>
 <p>The console's <strong>Assistants</strong> page (<code>/ui/admin/agents</code>) lists each connected assistant: its namespace, its key and when it was last used, its projects, and the requests waiting on your phone. Open one to see its projects, workflows (with their schedules and next run) and connections with their approval status, and its credentials by name and status. Credential values are never shown.</p>
 <h2 id="disconnect">Disconnect<a class="headerlink" href="#disconnect" title="Permanent link">&para;</a></h2>

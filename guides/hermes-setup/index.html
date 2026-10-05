@@ -8,31 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://docs.vornik.io/compliance/">
+        <link rel="canonical" href="https://docs.vornik.io/guides/hermes-setup/">
       
       
-        <link rel="prev" href="../benchmarks/results/">
+        <link rel="prev" href="../assistant-setup/">
       
       
-        <link rel="next" href="../ai-transparency/">
+        <link rel="next" href="../assistant-setup-acceptance/">
       
       
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>Compliance status - Vornik documentation</title>
+        <title>Set up Hermes with Vornik - Vornik documentation</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,7 +51,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#compliance-status" class="md-skip">
+        <a href="#set-up-hermes-with-vornik" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="Vornik documentation" class="md-header__button md-logo" aria-label="Vornik documentation" data-md-component="logo">
+    <a href="../.." title="Vornik documentation" class="md-header__button md-logo" aria-label="Vornik documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Compliance status
+              Set up Hermes with Vornik
             
           </span>
         </div>
@@ -218,7 +218,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="Vornik documentation" class="md-nav__button md-logo" aria-label="Vornik documentation" data-md-component="logo">
+    <a href="../.." title="Vornik documentation" class="md-nav__button md-logo" aria-label="Vornik documentation" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -236,7 +236,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -286,7 +286,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../getting-started/" class="md-nav__link ">
+            <a href="../../getting-started/" class="md-nav__link ">
               
   
   
@@ -357,7 +357,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../concepts/" class="md-nav__link ">
+            <a href="../../concepts/" class="md-nav__link ">
               
   
   
@@ -401,7 +401,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../concepts/architecture/" class="md-nav__link">
+      <a href="../../concepts/architecture/" class="md-nav__link">
         
   
   
@@ -433,6 +433,8 @@
       
   
   
+    
+  
   
   
     
@@ -493,15 +495,15 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../guides/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -525,7 +527,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -545,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/conversation-channels/" class="md-nav__link">
+      <a href="../conversation-channels/" class="md-nav__link">
         
   
   
@@ -573,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/workflows-and-llm-controls/" class="md-nav__link">
+      <a href="../workflows-and-llm-controls/" class="md-nav__link">
         
   
   
@@ -601,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/mcp-tools/" class="md-nav__link">
+      <a href="../mcp-tools/" class="md-nav__link">
         
   
   
@@ -629,7 +631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/artifacts-and-delivery/" class="md-nav__link">
+      <a href="../artifacts-and-delivery/" class="md-nav__link">
         
   
   
@@ -657,7 +659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/autonomy/" class="md-nav__link">
+      <a href="../autonomy/" class="md-nav__link">
         
   
   
@@ -685,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/cross-project/" class="md-nav__link">
+      <a href="../cross-project/" class="md-nav__link">
         
   
   
@@ -713,7 +715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/approvals/" class="md-nav__link">
+      <a href="../approvals/" class="md-nav__link">
         
   
   
@@ -741,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/assistant-setup/" class="md-nav__link">
+      <a href="../assistant-setup/" class="md-nav__link">
         
   
   
@@ -766,10 +768,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../guides/hermes-setup/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up Hermes with Vornik
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -785,6 +814,142 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#two-setups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two setups
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#who-runs-what" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who runs what
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broker-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broker setup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Broker setup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-two-projects-the-broker-and-the-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Two projects: the broker and the memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-two-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Two keys
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-hand-the-keys-to-hermes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Hand the keys to Hermes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-install-the-plugin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Install the plugin
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#admin-setup-opt-in" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Admin setup (opt-in)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hermes-on-another-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hermes on another machine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-it-does-not-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When it does not work
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -797,7 +962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/assistant-setup-acceptance/" class="md-nav__link">
+      <a href="../assistant-setup-acceptance/" class="md-nav__link">
         
   
   
@@ -825,7 +990,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/recovery/" class="md-nav__link">
+      <a href="../recovery/" class="md-nav__link">
         
   
   
@@ -853,7 +1018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/cost-and-caching/" class="md-nav__link">
+      <a href="../cost-and-caching/" class="md-nav__link">
         
   
   
@@ -881,7 +1046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/inference-speed-timeouts/" class="md-nav__link">
+      <a href="../inference-speed-timeouts/" class="md-nav__link">
         
   
   
@@ -909,7 +1074,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/secrets/" class="md-nav__link">
+      <a href="../secrets/" class="md-nav__link">
         
   
   
@@ -937,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/browser-login/" class="md-nav__link">
+      <a href="../browser-login/" class="md-nav__link">
         
   
   
@@ -965,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/observability/" class="md-nav__link">
+      <a href="../observability/" class="md-nav__link">
         
   
   
@@ -993,7 +1158,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/storage-and-retention/" class="md-nav__link">
+      <a href="../storage-and-retention/" class="md-nav__link">
         
   
   
@@ -1021,7 +1186,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/feature-doctor/" class="md-nav__link">
+      <a href="../feature-doctor/" class="md-nav__link">
         
   
   
@@ -1049,7 +1214,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/evals/" class="md-nav__link">
+      <a href="../evals/" class="md-nav__link">
         
   
   
@@ -1077,7 +1242,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/clustering/" class="md-nav__link">
+      <a href="../clustering/" class="md-nav__link">
         
   
   
@@ -1105,7 +1270,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../guides/automation-composer/" class="md-nav__link">
+      <a href="../automation-composer/" class="md-nav__link">
         
   
   
@@ -1173,7 +1338,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../integrations/" class="md-nav__link ">
+            <a href="../../integrations/" class="md-nav__link ">
               
   
   
@@ -1217,7 +1382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integrations/telegram/" class="md-nav__link">
+      <a href="../../integrations/telegram/" class="md-nav__link">
         
   
   
@@ -1245,7 +1410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integrations/mcp/" class="md-nav__link">
+      <a href="../../integrations/mcp/" class="md-nav__link">
         
   
   
@@ -1273,7 +1438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integrations/email/" class="md-nav__link">
+      <a href="../../integrations/email/" class="md-nav__link">
         
   
   
@@ -1301,7 +1466,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integrations/github-app/" class="md-nav__link">
+      <a href="../../integrations/github-app/" class="md-nav__link">
         
   
   
@@ -1329,7 +1494,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../integrations/slack/" class="md-nav__link">
+      <a href="../../integrations/slack/" class="md-nav__link">
         
   
   
@@ -1446,7 +1611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/blackbox/" class="md-nav__link">
+      <a href="../../features/blackbox/" class="md-nav__link">
         
   
   
@@ -1474,7 +1639,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/self-healing/" class="md-nav__link">
+      <a href="../../features/self-healing/" class="md-nav__link">
         
   
   
@@ -1502,7 +1667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/instinct/" class="md-nav__link">
+      <a href="../../features/instinct/" class="md-nav__link">
         
   
   
@@ -1530,7 +1695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/auth/" class="md-nav__link">
+      <a href="../../features/auth/" class="md-nav__link">
         
   
   
@@ -1558,7 +1723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/memory-rag/" class="md-nav__link">
+      <a href="../../features/memory-rag/" class="md-nav__link">
         
   
   
@@ -1586,7 +1751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/zero-egress/" class="md-nav__link">
+      <a href="../../features/zero-egress/" class="md-nav__link">
         
   
   
@@ -1614,7 +1779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/cluster/" class="md-nav__link">
+      <a href="../../features/cluster/" class="md-nav__link">
         
   
   
@@ -1642,7 +1807,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/forge/" class="md-nav__link">
+      <a href="../../features/forge/" class="md-nav__link">
         
   
   
@@ -1670,7 +1835,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/companion/" class="md-nav__link">
+      <a href="../../features/companion/" class="md-nav__link">
         
   
   
@@ -1698,7 +1863,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/knowledge-skills/" class="md-nav__link">
+      <a href="../../features/knowledge-skills/" class="md-nav__link">
         
   
   
@@ -1726,7 +1891,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/control-plane/" class="md-nav__link">
+      <a href="../../features/control-plane/" class="md-nav__link">
         
   
   
@@ -1754,7 +1919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/identity/" class="md-nav__link">
+      <a href="../../features/identity/" class="md-nav__link">
         
   
   
@@ -1782,7 +1947,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/config-assistant/" class="md-nav__link">
+      <a href="../../features/config-assistant/" class="md-nav__link">
         
   
   
@@ -1810,7 +1975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/architect-consult/" class="md-nav__link">
+      <a href="../../features/architect-consult/" class="md-nav__link">
         
   
   
@@ -1874,7 +2039,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../reference/" class="md-nav__link ">
+            <a href="../../reference/" class="md-nav__link ">
               
   
   
@@ -1918,7 +2083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/reference-architecture/" class="md-nav__link">
+      <a href="../../reference/reference-architecture/" class="md-nav__link">
         
   
   
@@ -1946,7 +2111,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/configuration/" class="md-nav__link">
+      <a href="../../reference/configuration/" class="md-nav__link">
         
   
   
@@ -1974,7 +2139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reference/vornikctl/" class="md-nav__link">
+      <a href="../../reference/vornikctl/" class="md-nav__link">
         
   
   
@@ -2034,7 +2199,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../benchmarks/" class="md-nav__link ">
+            <a href="../../benchmarks/" class="md-nav__link ">
               
   
   
@@ -2078,7 +2243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../benchmarks/results/" class="md-nav__link">
+      <a href="../../benchmarks/results/" class="md-nav__link">
         
   
   
@@ -2110,10 +2275,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -2132,11 +2295,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
@@ -2157,7 +2320,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2172,37 +2335,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Compliance status
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../compliance/" class="md-nav__link">
         
   
   
@@ -2218,170 +2354,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#the-short-version" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The short version
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#the-self-hosting-position-which-matters-more-than-any-badge" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The self-hosting position, which matters more than any badge
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#eu-ai-act" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        EU AI Act
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="EU AI Act">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#article-501-you-must-be-told-you-are-talking-to-an-ai" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Article 50(1) — you must be told you are talking to an AI
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#article-502-machine-readable-marking-of-ai-generated-content" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Article 50(2) — machine-readable marking of AI-generated content
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#article-4-ai-literacy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Article 4 — AI literacy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#high-risk-obligations-annex-iii" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        High-risk obligations (Annex III)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#gdpr" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GDPR
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="GDPR">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#what-is-in-place" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is in place
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#what-is-not-in-place" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is not in place
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sub-processors" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sub-processors
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reporting-a-problem" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reporting a problem
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2394,7 +2366,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ai-transparency/" class="md-nav__link">
+      <a href="../../ai-transparency/" class="md-nav__link">
         
   
   
@@ -2422,7 +2394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../licensing/" class="md-nav__link">
+      <a href="../../licensing/" class="md-nav__link">
         
   
   
@@ -2457,7 +2429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshooting/" class="md-nav__link">
+      <a href="../../troubleshooting/" class="md-nav__link">
         
   
   
@@ -2484,7 +2456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../release-notes/" class="md-nav__link">
+      <a href="../../release-notes/" class="md-nav__link">
         
   
   
@@ -2531,10 +2503,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#the-short-version" class="md-nav__link">
+  <a href="#two-setups" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The short version
+        Two setups
       
     </span>
   </a>
@@ -2542,10 +2514,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#the-self-hosting-position-which-matters-more-than-any-badge" class="md-nav__link">
+  <a href="#who-runs-what" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The self-hosting position, which matters more than any badge
+        Who runs what
       
     </span>
   </a>
@@ -2553,22 +2525,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#eu-ai-act" class="md-nav__link">
+  <a href="#broker-setup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        EU AI Act
+        Broker setup
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="EU AI Act">
+    <nav class="md-nav" aria-label="Broker setup">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#article-501-you-must-be-told-you-are-talking-to-an-ai" class="md-nav__link">
+  <a href="#1-two-projects-the-broker-and-the-memory" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Article 50(1) — you must be told you are talking to an AI
+        1. Two projects: the broker and the memory
       
     </span>
   </a>
@@ -2576,10 +2548,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#article-502-machine-readable-marking-of-ai-generated-content" class="md-nav__link">
+  <a href="#2-two-keys" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Article 50(2) — machine-readable marking of AI-generated content
+        2. Two keys
       
     </span>
   </a>
@@ -2587,10 +2559,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#article-4-ai-literacy" class="md-nav__link">
+  <a href="#3-hand-the-keys-to-hermes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Article 4 — AI literacy
+        3. Hand the keys to Hermes
       
     </span>
   </a>
@@ -2598,10 +2570,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#high-risk-obligations-annex-iii" class="md-nav__link">
+  <a href="#4-install-the-plugin" class="md-nav__link">
     <span class="md-ellipsis">
       
-        High-risk obligations (Annex III)
+        4. Install the plugin
       
     </span>
   </a>
@@ -2614,60 +2586,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#gdpr" class="md-nav__link">
+  <a href="#admin-setup-opt-in" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GDPR
+        Admin setup (opt-in)
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="GDPR">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#what-is-in-place" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is in place
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#what-is-not-in-place" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What is not in place
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#sub-processors" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sub-processors
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#reporting-a-problem" class="md-nav__link">
+  <a href="#hermes-on-another-machine" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reporting a problem
+        Hermes on another machine
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#when-it-does-not-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        When it does not work
       
     </span>
   </a>
@@ -2691,165 +2635,282 @@
 
 
 
-<h1 id="compliance-status">Compliance status<a class="headerlink" href="#compliance-status" title="Permanent link">&para;</a></h1>
-<p><strong>Last updated:</strong> 28 July 2026</p>
-<p>This page states where Vornik actually stands on EU AI Act and GDPR
-conformity — including what is <strong>not</strong> done. We publish the gaps because a
-vendor's compliance page is the first thing a buyer's legal team tests, and an
-unverifiable claim fails that test immediately.</p>
-<p>If you need a document listed below as "in preparation", ask — the timeline is
-real and we would rather tell you than have you discover it in procurement.</p>
-<hr />
-<h2 id="the-short-version">The short version<a class="headerlink" href="#the-short-version" title="Permanent link">&para;</a></h2>
+<h1 id="set-up-hermes-with-vornik">Set up Hermes with Vornik<a class="headerlink" href="#set-up-hermes-with-vornik" title="Permanent link">&para;</a></h1>
+<p><a href="https://hermes-agent.nousresearch.com">Hermes Agent</a> can use Vornik as a
+broker: when a request needs your mail, calendar or accounts, Hermes runs a
+workflow you chose on Vornik and gets back a short, schema-checked answer.
+Hermes never holds the credential. Vornik can also be Hermes's long-term
+memory.</p>
+<p>This page covers the usual layout: Vornik and Hermes on one machine, each
+under its own OS user. It also works with Hermes on another machine (see
+<a href="#hermes-on-another-machine">the end of this page</a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">If you are Hermes, or another assistant, reading this</p>
+<p>The steps run as <code>vornik</code> below need the operator's admin key and the
+operator's paired phone. <strong>Do not run them yourself.</strong> Give the operator
+the commands for their terminal, and wait for them to tell you the setup
+is done. Only the plugin install in step 4 runs as the Hermes user. Never
+ask for the admin key, never put it in your own environment or files,
+and never mint a key for yourself. A key you mint is a key you chose the
+limits of.</p>
+</div>
+<h2 id="two-setups">Two setups<a class="headerlink" href="#two-setups" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th></th>
-<th>Status</th>
+<th>Setup</th>
+<th>What Hermes can do</th>
+<th>Who decides what it can reach</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>EU AI Act Art 50</strong> (AI-interaction transparency)</td>
-<td>🟡 Implemented, shipping for the 2 Aug 2026 deadline</td>
+<td><strong>Broker</strong> (the default)</td>
+<td>Run the workflows you allowed, within a budget, and read their answers</td>
+<td>You, once, when you grant its key</td>
 </tr>
 <tr>
-<td><strong>EU AI Act Art 50(2)</strong> (machine-readable marking)</td>
-<td>🔴 Not started — due 2 Dec 2026 under transitional relief</td>
-</tr>
-<tr>
-<td><strong>EU AI Act high-risk (Annex III)</strong></td>
-<td>⚪ Not applicable today — obligations begin 2 Dec 2027</td>
-</tr>
-<tr>
-<td><strong>GDPR — technical measures</strong></td>
-<td>🟡 Substantially in place, one significant gap</td>
-</tr>
-<tr>
-<td><strong>GDPR — documentation</strong></td>
-<td>🔴 In preparation</td>
+<td><strong>Admin</strong> (opt-in)</td>
+<td>Build its own projects, workflows and connections in its own namespace</td>
+<td>You, on your phone, for each change</td>
 </tr>
 </tbody>
 </table>
-<p><strong>We do not currently claim to be "GDPR compliant."</strong> Two mandatory documents
-are still being written. See below.</p>
-<hr />
-<h2 id="the-self-hosting-position-which-matters-more-than-any-badge">The self-hosting position, which matters more than any badge<a class="headerlink" href="#the-self-hosting-position-which-matters-more-than-any-badge" title="Permanent link">&para;</a></h2>
-<p>Vornik is self-hosted. In a self-hosted deployment:</p>
-<ul>
-<li><strong>You are the data controller.</strong> Your data lives in your Postgres, on your
-  infrastructure.</li>
-<li>The only data leaving your network is what you send to the model providers
-  <strong>you</strong> configure — and if you run local models, nothing leaves at all.</li>
-<li>There is no Vornik-operated cloud holding your data, so there is no
-  vendor-side breach surface to trust us about.</li>
-</ul>
-<p>For a privacy-motivated buyer this is a stronger guarantee than a certification
-on a page, because it is structural rather than contractual.</p>
-<hr />
-<h2 id="eu-ai-act">EU AI Act<a class="headerlink" href="#eu-ai-act" title="Permanent link">&para;</a></h2>
-<h3 id="article-501-you-must-be-told-you-are-talking-to-an-ai">Article 50(1) — you must be told you are talking to an AI<a class="headerlink" href="#article-501-you-must-be-told-you-are-talking-to-an-ai" title="Permanent link">&para;</a></h3>
-<p><strong>Status: implemented, shipping for 2 August 2026.</strong></p>
-<p>Every conversational surface — Telegram, Slack, email, GitHub comments, web
-chat — discloses that replies are AI-generated. Continuous chat surfaces
-disclose once at the start of a conversation; email replies and GitHub comments
-carry the notice on every message, because those get forwarded and quoted away
-from their original thread.</p>
-<p>Each disclosure is recorded with a timestamp and a hash of the exact wording
-served, so conformity can be demonstrated rather than asserted.</p>
-<p>Details: <a href="../ai-transparency/">AI transparency</a>.</p>
-<h3 id="article-502-machine-readable-marking-of-ai-generated-content">Article 50(2) — machine-readable marking of AI-generated content<a class="headerlink" href="#article-502-machine-readable-marking-of-ai-generated-content" title="Permanent link">&para;</a></h3>
-<p><strong>Status: not started. Due 2 December 2026.</strong></p>
-<p>Vornik generates synthetic text — pull request bodies, commit messages, issue
-comments, emails. Article 50(2) requires that content be marked in a
-machine-readable way.</p>
-<p>Vornik was placed on the market before 2 August 2026 and therefore qualifies
-for the transitional relief that moves this obligation to <strong>2 December 2026</strong>.
-We are relying on that relief deliberately and disclosing that we are.</p>
-<h3 id="article-4-ai-literacy">Article 4 — AI literacy<a class="headerlink" href="#article-4-ai-literacy" title="Permanent link">&para;</a></h3>
-<p><strong>Status: documentation published for operators.</strong></p>
-<h3 id="high-risk-obligations-annex-iii">High-risk obligations (Annex III)<a class="headerlink" href="#high-risk-obligations-annex-iii" title="Permanent link">&para;</a></h3>
-<p><strong>Status: not applicable today.</strong></p>
-<p>Vornik is not currently placed on the market as a high-risk AI system. If you
-deploy it into an Annex III use case — recruitment, credit scoring, education,
-essential services, critical infrastructure — <strong>you</strong> become the deployer of a
-high-risk system from <strong>2 December 2027</strong> and inherit Article 26 duties.</p>
-<p>We are building the vendor-side evidence pack you would need (logging
-guarantees, instructions for use, human-oversight documentation, data
-governance) ahead of that date. Ask if you need it sooner; tell us if you are
-planning such a deployment.</p>
-<hr />
-<h2 id="gdpr">GDPR<a class="headerlink" href="#gdpr" title="Permanent link">&para;</a></h2>
-<h3 id="what-is-in-place">What is in place<a class="headerlink" href="#what-is-in-place" title="Permanent link">&para;</a></h3>
-<p>These are properties of the shipped code, not intentions:</p>
-<ul>
-<li><strong>Erasure.</strong> Project-scoped hard deletion across the full table set, plus
-  chunk-level eviction of memory with a tombstone audit trail, so a deletion
-  can itself be evidenced.</li>
-<li><strong>Retention.</strong> A configurable sweeper with per-table and per-project
-  windows. <strong>Off by default</strong> so an upgrade never silently deletes your data —
-  which means you must turn it on and choose your windows. See below.</li>
-<li><strong>Purpose limitation.</strong> Memory chunks carry sensitivity and purpose policy,
-  evaluated on every retrieval, with the block decisions retained for a year.</li>
-<li><strong>Accountability.</strong> Full tool-call, chat, retrieval and ingest audit trails.</li>
-<li><strong>Access control.</strong> OIDC with group-based permissions, per-project scoping,
-  and API-key authentication.</li>
-</ul>
-<h3 id="what-is-not-in-place">What is not in place<a class="headerlink" href="#what-is-not-in-place" title="Permanent link">&para;</a></h3>
-<p>We would rather you read this from us than find it in a questionnaire.</p>
+<p>Start with the broker. It gives Hermes the least: a fixed list of
+workflows, a spending cap, and answers whose shape you approved. Use the
+admin setup only when you want Hermes to build automations itself; it is
+described in <a href="../assistant-setup/">Let your assistant set up Vornik</a>.</p>
+<h2 id="who-runs-what">Who runs what<a class="headerlink" href="#who-runs-what" title="Permanent link">&para;</a></h2>
+<p>In this guide <code>vornik</code> is the OS user Vornik runs as, and <code>hermes</code> is the OS
+user Hermes runs as. Use your own names.</p>
 <table>
 <thead>
 <tr>
-<th>Gap</th>
-<th>Consequence</th>
-<th>Status</th>
+<th>Step</th>
+<th>Run as</th>
+<th>Why</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Records of processing (Art 30)</strong></td>
-<td>Mandatory document; does not yet exist</td>
-<td>In preparation</td>
+<td>Pair your phone, create projects, grant keys</td>
+<td><code>vornik</code> (the operator)</td>
+<td>Needs the admin key and the daemon's config tree</td>
 </tr>
 <tr>
-<td><strong>Data processing agreement (Art 28)</strong></td>
-<td>No standard processor terms to sign</td>
-<td>In preparation</td>
+<td>Write Hermes's <code>.env</code></td>
+<td>the operator, writing into <code>hermes</code>'s home</td>
+<td>Hermes reads its tokens from there</td>
 </tr>
 <tr>
-<td><strong>No data-subject identifier</strong></td>
-<td>Access / erasure / portability requests cannot be scoped to one person — deletion works at project or record level, not per data subject</td>
-<td>Engineering work scheduled</td>
-</tr>
-<tr>
-<td><strong>DPIA (Art 35)</strong></td>
-<td>Not yet performed</td>
-<td>In preparation</td>
-</tr>
-<tr>
-<td><strong>Retention off by default</strong></td>
-<td>Personal data is kept indefinitely unless you enable the sweeper</td>
-<td>Recommended profile + a startup warning being added</td>
-</tr>
-<tr>
-<td><strong>Breach notification (Art 33)</strong></td>
-<td>No formalised controller-notification pipeline</td>
-<td>Planned</td>
+<td>Install and enable the plugin, check status</td>
+<td><code>hermes</code></td>
+<td>The plugin lives in Hermes's home</td>
 </tr>
 </tbody>
 </table>
-<p>The third row is the one to weigh if you are evaluating Vornik for personal
-data at scale. Deleting <em>a project</em> or <em>a record</em> works well today; deleting
-<em>everything about one person</em> requires manual work.</p>
-<h3 id="sub-processors">Sub-processors<a class="headerlink" href="#sub-processors" title="Permanent link">&para;</a></h3>
-<p>Where configured, conversation content is transmitted to the model providers
-listed on the <a href="../ai-transparency/">AI transparency</a> page. In a self-hosted
-deployment you choose these, and a local-model configuration transmits nothing
-externally.</p>
-<hr />
-<h2 id="reporting-a-problem">Reporting a problem<a class="headerlink" href="#reporting-a-problem" title="Permanent link">&para;</a></h2>
-<p>Security issues: see <a href="../security/">security</a>.
-Compliance and data-protection questions: <strong>enterprise@vornik.io</strong>.</p>
+<p>Hermes's user runs no <code>vornikctl</code> for the broker setup, and never needs
+the admin key. The operator writes Hermes's <code>.env</code>, but as the <code>hermes</code>
+user, so the file belongs to Hermes.</p>
+<h2 id="broker-setup">Broker setup<a class="headerlink" href="#broker-setup" title="Permanent link">&para;</a></h2>
+<h3 id="1-two-projects-the-broker-and-the-memory">1. Two projects: the broker and the memory<a class="headerlink" href="#1-two-projects-the-broker-and-the-memory" title="Permanent link">&para;</a></h3>
+<p>The broker key and the memory key live in <strong>two different projects</strong>. A
+broker project (<code>broker: true</code>) refuses memory and skills on every key, so
+nothing Hermes delegates can be recalled later as raw text. Hermes's memory
+goes in an ordinary project whose key cannot delegate.</p>
+<p>As <code>vornik</code>, create the broker project in the daemon's projects directory
+(by default <code>~/.config/vornik/configs/projects/</code>; check
+<code>vornikctl config show</code> if you changed it). This one reads mail and never
+writes:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ~/.config/vornik/configs/projects/broker-mail.yaml</span>
+<span class="nt">projectId</span><span class="p">:</span><span class="w"> </span><span class="s">"broker-mail"</span>
+<span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">"Mail</span><span class="nv"> </span><span class="s">broker"</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Read-only</span><span class="nv"> </span><span class="s">mail</span><span class="nv"> </span><span class="s">access</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">Hermes.</span><span class="nv"> </span><span class="s">Broker</span><span class="nv"> </span><span class="s">workflows</span><span class="nv"> </span><span class="s">only."</span>
+<span class="nt">swarmId</span><span class="p">:</span><span class="w"> </span><span class="s">"broker-swarm"</span>
+<span class="nt">defaultWorkflowId</span><span class="p">:</span><span class="w"> </span><span class="s">"mail-digest"</span>
+<span class="nt">defaultPriority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="nt">maxConcurrentTasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">broker</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">mcp</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">servers</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Narrows the daemon-level google-workspace server and declares the</span>
+<span class="w">    </span><span class="c1"># narrowing read-only. Vornik cannot verify that claim: list only tools</span>
+<span class="w">    </span><span class="c1"># that change nothing.</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"google-workspace"</span>
+<span class="w">      </span><span class="nt">broker_read_only</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">allowed_tools</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"time_getCurrentDate"</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"gmail_search"</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"gmail_get"</span>
+
+<span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">allowedTools</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"current_time"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"file_write"</span><span class="w">      </span><span class="c1"># writes the workflow's own result file, not mail</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"mcp__google-workspace__time_getCurrentDate"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"mcp__google-workspace__gmail_search"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"mcp__google-workspace__gmail_get"</span>
+</code></pre></div>
+<p>It narrows a <code>google-workspace</code> MCP server that must already be configured
+at the daemon level with your mail account; see
+<a href="../mcp-tools/">Connect your tools (MCP)</a>. <code>mail-digest</code> and <code>broker-swarm</code>
+ship with Vornik (<code>make install-config-assets</code> installs them). To let Hermes also draft replies that
+you approve before they are sent, see
+<a href="../../features/companion/#proposed-writes-a-person-approves-every-one">Proposed writes</a>.</p>
+<p>Scaffold the memory project rather than writing it by hand:</p>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>project<span class="w"> </span>hermes-memory<span class="w"> </span>--config-dir<span class="w"> </span>~/.config/vornik/configs<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--display-name<span class="w"> </span><span class="s2">"Hermes memory"</span>
+</code></pre></div>
+<p>Load both, and check that the daemon accepted them:</p>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>config<span class="w"> </span>reload
+vornikctl<span class="w"> </span>config<span class="w"> </span>reload-status
+vornikctl<span class="w"> </span>project<span class="w"> </span>list<span class="w">            </span><span class="c1"># expect broker-mail and hermes-memory</span>
+</code></pre></div>
+<h3 id="2-two-keys">2. Two keys<a class="headerlink" href="#2-two-keys" title="Permanent link">&para;</a></h3>
+<p>Still as <code>vornik</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># delegation only, to the workflows you name, within a budget</span>
+vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>broker-mail<span class="w"> </span>--client<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--workflows<span class="w"> </span>mail-digest<span class="w"> </span>--budget-usd<span class="w"> </span><span class="m">5</span>
+<span class="c1"># memory only: this key can never delegate</span>
+vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>hermes-memory<span class="w"> </span>--client<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--memory-all<span class="w"> </span>--no-delegate
+</code></pre></div>
+<p>Each prints its secret once. Grant nothing else to a Hermes key:</p>
+<ul>
+<li>no <code>--skill-all</code> or other skill flags: the knowledge-skill store is for
+  coding assistants;</li>
+<li>no <code>companion-*</code> workflows: those are developer workflows
+  (reviews, ingest) for the coding-assistant companion, not for Hermes;</li>
+<li>no memory flags on the broker key: grant refuses them on a broker project,
+  and that refusal is the design.</li>
+</ul>
+<p>The generic recipe in <a href="../../features/companion/#setting-it-up">Companion plugin → Setting it up</a>
+is for Claude Code and Codex; do not adapt it for Hermes.</p>
+<h3 id="3-hand-the-keys-to-hermes">3. Hand the keys to Hermes<a class="headerlink" href="#3-hand-the-keys-to-hermes" title="Permanent link">&para;</a></h3>
+<p>Hermes loads <code>$HERMES_HOME/.env</code> (by default <code>~/.hermes/.env</code>) into its
+environment every time it starts, including as a service (read in Hermes
+v2026.9.24, 0.21.5; if your Hermes is a different version and
+<code>hermes vornik status</code> shows the tokens unset, check its own docs on
+<code>.env</code>). Put the URL and
+both keys there, not in an <code>export</code> in some shell: a gateway started by
+systemd, or after a reboot, never sees a shell's exports.</p>
+<p>From the operator's terminal, open the file in an editor as <code>hermes</code>, so
+the secrets go into neither Hermes's conversation nor your shell history:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'umask 077; mkdir -p ~/.hermes; touch ~/.hermes/.env; chmod 600 ~/.hermes/.env; exec vi ~/.hermes/.env'</span>
+</code></pre></div>
+<p>(<code>sudo</code> drops your <code>EDITOR</code>; put another editor in place of <code>vi</code> if you
+prefer.)</p>
+<p>and add:</p>
+<div class="highlight"><pre><span></span><code>VORNIK_URL=http://localhost:8080
+VORNIK_BROKER_TOKEN=&lt;the broker-mail secret&gt;
+VORNIK_MEMORY_TOKEN=&lt;the hermes-memory secret&gt;
+</code></pre></div>
+<p>If Hermes runs with <code>HERMES_HOME</code> set to another directory (a service
+often does), edit <code>.env</code> there instead.</p>
+<p><code>http://localhost:8080</code> is right when both users are on the same machine
+and Vornik listens on its default port. Plain <code>http</code> is only acceptable on
+loopback; for any other host use <code>https</code>.</p>
+<h3 id="4-install-the-plugin">4. Install the plugin<a class="headerlink" href="#4-install-the-plugin" title="Permanent link">&para;</a></h3>
+<p>As <code>hermes</code>:</p>
+<div class="highlight"><pre><span></span><code>hermes<span class="w"> </span>plugins<span class="w"> </span>install<span class="w"> </span>vornik-companion
+hermes<span class="w"> </span>plugins<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>vornik-companion
+hermes<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>memory.provider<span class="w"> </span>vornik-companion<span class="w">   </span><span class="c1"># Vornik as long-term memory</span>
+hermes<span class="w"> </span>vornik<span class="w"> </span>status<span class="w">        </span><span class="c1"># URL, which tokens are set, the daemon's capabilities</span>
+hermes<span class="w"> </span>memory<span class="w"> </span>status<span class="w">        </span><span class="c1"># expect "installed" and "available"</span>
+</code></pre></div>
+<p>Restart Hermes (or its gateway) so it reads the new <code>.env</code>. Then ask it to
+list what it can run: it should name <code>mail-digest</code> and nothing else.</p>
+<h2 id="admin-setup-opt-in">Admin setup (opt-in)<a class="headerlink" href="#admin-setup-opt-in" title="Permanent link">&para;</a></h2>
+<p>Read <a href="../assistant-setup/">Let your assistant set up Vornik</a> first; it
+explains what an administering assistant can and cannot do. With Hermes on
+its own OS user, two things differ from that page.</p>
+<p><strong>Hermes's user needs its own <code>vornikctl</code>.</strong> Connect writes the path of
+the <code>vornikctl</code> it runs into Hermes's config, and Hermes runs that path
+every time it starts (the MCP bridge) and for every approval it sends to
+your phone. A <code>vornikctl</code> inside <code>vornik</code>'s home is usually not executable
+by <code>hermes</code>, and the entry then fails at every start. Install a copy where
+<code>hermes</code> can run it and where it stays put, then always run that copy:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>vornikctl<span class="k">)</span><span class="s2">"</span><span class="w"> </span>/usr/local/bin/vornikctl
+</code></pre></div>
+<p>When you upgrade Vornik, replace the file at the same path; the recorded
+path then stays valid.</p>
+<p><strong>Connect needs the admin key once, from your terminal.</strong> The sign-in from
+<code>vornikctl auth login</code> lives in <code>vornik</code>'s home, so <code>hermes</code>'s <code>vornikctl</code>
+is not signed in. Give the key to that one command only, typed by you, so
+it is in neither a command line nor a shell history, and not in anything
+Hermes can read:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rs<span class="w"> </span>VORNIK_API_KEY<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span>VORNIK_API_KEY<span class="w">     </span><span class="c1"># paste the admin key</span>
+<span class="c1"># sudo drops your environment; --preserve-env carries this one variable</span>
+sudo<span class="w"> </span>--preserve-env<span class="o">=</span>VORNIK_API_KEY<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/usr/local/bin/vornikctl<span class="w"> </span>agent<span class="w"> </span>connect<span class="w"> </span>hermes<span class="w"> </span>--dry-run
+sudo<span class="w"> </span>--preserve-env<span class="o">=</span>VORNIK_API_KEY<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>/usr/local/bin/vornikctl<span class="w"> </span>agent<span class="w"> </span>connect<span class="w"> </span>hermes
+<span class="nb">unset</span><span class="w"> </span>VORNIK_API_KEY
+</code></pre></div>
+<p>Do not run <code>hermes vornik connect</code> with the admin key in Hermes's own
+environment: it passes its environment to <code>vornikctl</code>, and that environment
+is Hermes's. Connect stores the assistant's own key in
+<code>~hermes/.config/vornik/agents/hermes.key</code>, readable by <code>hermes</code> only; the
+admin key is not stored anywhere.</p>
+<h2 id="hermes-on-another-machine">Hermes on another machine<a class="headerlink" href="#hermes-on-another-machine" title="Permanent link">&para;</a></h2>
+<p>The broker setup is the same, with two changes: <code>VORNIK_URL</code> is Vornik's
+<code>https://</code> address (a tunnel or a reverse proxy with a certificate), and
+you carry the two secrets to the Hermes machine yourself: sign in there as
+the Hermes user and write <code>.env</code> with the same <code>umask 077</code> and mode 600. For the admin
+setup, follow <a href="../assistant-setup/#vornik-on-another-machine">Vornik on another machine</a>.</p>
+<h2 id="when-it-does-not-work">When it does not work<a class="headerlink" href="#when-it-does-not-work" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>What you see</th>
+<th>Why</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hermes vornik status</code> says a token is not set</td>
+<td>It was exported in a shell, not written to <code>.env</code>, or Hermes was not restarted</td>
+<td>Step 3, then restart Hermes</td>
+</tr>
+<tr>
+<td>Hermes says it has no Vornik tools</td>
+<td>The daemon is older than the broker (no <code>companion-broker</code> capability), or Hermes hides plugin tools behind <code>tool_search</code></td>
+<td>Check <code>hermes vornik status</code>; for small local models, <code>hermes config set tools.tool_search.enabled off</code></td>
+</tr>
+<tr>
+<td><code>vornikctl companion grant</code> refuses <code>--memory-all</code></td>
+<td>Memory on a broker project is refused by design</td>
+<td>Grant memory on the separate memory project</td>
+</tr>
+<tr>
+<td><code>vornikctl companion grant</code> says unauthorized</td>
+<td>It ran without the admin key, for example as <code>hermes</code></td>
+<td>Run it as <code>vornik</code>, signed in</td>
+</tr>
+<tr>
+<td>Admin setup: the Vornik MCP entry fails at every Hermes start</td>
+<td>The <code>vornikctl</code> path connect recorded is not executable by <code>hermes</code></td>
+<td>Install <code>vornikctl</code> in <code>/usr/local/bin</code> and connect again with that copy</td>
+</tr>
+<tr>
+<td>Admin setup: connect says it cannot reach Vornik, or is unauthorized</td>
+<td><code>hermes</code>'s <code>vornikctl</code> has no admin key, or a different URL</td>
+<td>Pass the key as shown above; add <code>--url</code> if Vornik is not on <code>localhost:8080</code></td>
+</tr>
+<tr>
+<td>A memory note is refused</td>
+<td>Vornik refuses notes under about ten words</td>
+<td>Write the fact as a full sentence with its context</td>
+</tr>
+</tbody>
+</table>
+<p>More on the plugin itself, including what it does on your machine and how
+forgetting works, is on its catalog page in the Hermes plugin catalog and in
+the <a href="../../features/companion/#broker-projects-a-front-end-agent-without-the-keys">Companion plugin</a>
+page.</p>
 
 
 
@@ -2905,10 +2966,10 @@ Compliance and data-protection questions: <strong>enterprise@vornik.io</strong>.
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -482,6 +482,8 @@
       
         
       
+        
+      
     
     
     
@@ -747,6 +749,34 @@
     
   
     Let your assistant set up Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hermes-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up Hermes with Vornik
   
 
     
@@ -5867,6 +5897,24 @@
 <td>Bound on one approved write's tool call (default 60s, at most 10m). A call that times out is recorded as unknown, never retried.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>broker.standing_grants.max_days</code></td>
+<td>int</td>
+<td>Longest standing grant a person may set, in days (default and ceiling 7).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>broker.standing_grants.max_uses</code></td>
+<td>int</td>
+<td>Most writes one standing grant may cover (default and ceiling 20).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>broker.standing_grants.max_live_per_project</code></td>
+<td>int</td>
+<td>Most live standing grants per project (default and ceiling 10).</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="agent_admin">agent_admin<a class="headerlink" href="#agent_admin" title="Permanent link">&para;</a></h2>
@@ -5902,6 +5950,12 @@
 <td><code>agent_admin.agent_image</code></td>
 <td>string</td>
 <td>Runtime image of the roles an agent defines (default the standard agent image).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.models</code></td>
+<td>list</td>
+<td>Models an agent's roles may choose (empty, the default: none; every agent role runs on the global agent model). Whether each is local or remote is computed from where the chat router sends it: local only for an HTTP endpoint on a loopback or private address. A role on a remote model needs approval on an approver device, once per destination (sub-provider and endpoint host). Entries served by a command-line provider, with no route, or remote without an exact pricing.yaml entry are not offered; vornikctl doctor names them (agent_model_catalogue).</td>
 <td>—</td>
 </tr>
 </tbody>

@@ -480,6 +480,8 @@
       
         
       
+        
+      
     
     
     
@@ -745,6 +747,34 @@
     
   
     Let your assistant set up Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/hermes-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up Hermes with Vornik
   
 
     
@@ -2319,6 +2349,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026104" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.10.4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026103" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2826,6 +2867,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026104" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.10.4
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026103" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3327,6 +3379,26 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
+<h2 id="2026104">2026.10.4<a class="headerlink" href="#2026104" title="Permanent link">&para;</a></h2>
+<p>A reliability and agent-admin release.</p>
+<ul>
+<li><strong>Agent-admin setup flows can continue after phone approval.</strong> <code>list_my_setup</code>
+  now includes content-free terminal notifications for setup approvals, so a
+  client can refresh after a paired-phone approval, rejection, failure or
+  expiry without seeing rendered config or credential values.</li>
+<li><strong>Credential entry refuses blank secrets.</strong> Whitespace-only and invisible-only
+  credential values are rejected before they can be stored as <code>set</code>; accepted
+  secrets are still stored exactly as entered.</li>
+<li><strong>Older uid-agnostic agent launches are fixed.</strong> With <code>keep-id</code> and no
+  <code>run_as_user</code>, uid-agnostic agent images now run as the daemon UID/GID, and
+  doctor reports the actual safe/unsafe shape.</li>
+<li><strong>Broker and agent-admin first-use fixes.</strong> Broker steps receive the approved
+  egress shape and workspace write tool they need, missing handoff files fail
+  closed, catalog/setup views expose approved workflows and next steps, and
+  approval pages show daemon-generated summaries and risk levels.</li>
+<li><strong>Dependencies.</strong> The telemetry server now uses <code>undici 7.29.1</code>; public docs
+  use <code>mkdocs-material 9.7.7</code>.</li>
+</ul>
 <h2 id="2026103">2026.10.3<a class="headerlink" href="#2026103" title="Permanent link">&para;</a></h2>
 <p>A patch release.</p>
 <ul>
@@ -3366,7 +3438,12 @@ updating.</p>
   earlier tag copied unchanged.</li>
 <li>If your configs still name <code>ghcr.io/grinco/vornik-agent</code>, they keep
   working: Vornik maps the old name. <code>vornikctl doctor</code> lists the files and
-  the one-line command that updates them.</li>
+  the one-line command that updates them.
+  <em>Correction (2026-10-02): in 2026.10.2 and 2026.10.3 that doctor check
+  does not run in <code>vornikctl doctor</code> (it was wired into the wrong report);
+  it does from the next release. Until then, find the files with
+  <code>grep -rl ghcr.io/grinco/vornik-agent ~/.config/vornik/configs</code> and update
+  them with <code>sed -i 's#ghcr.io/grinco/vornik-agent#ghcr.io/easeit-cz/vornik-agent#g'</code>.</em></li>
 </ul>
 <p><strong>Let your assistant set up Vornik, with Vornik as its safety layer.</strong> Hermes,
 Claude Code (including the Claude desktop app's Code-tab routines), Claude

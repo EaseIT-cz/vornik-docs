@@ -482,6 +482,8 @@
       
         
       
+        
+      
     
     
     
@@ -747,6 +749,34 @@
     
   
     Let your assistant set up Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/hermes-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set up Hermes with Vornik
   
 
     
@@ -2818,11 +2848,14 @@ account (nothing is ever posted automatically).</p>
 <p><strong><code>vornik-admin</code></strong>: working as an administering assistant. It is in the Claude Code, Codex and Hermes bundles. It applies only to an assistant connected with an <strong>agent admin key</strong>, which can set up its own projects, workflows and connections in its own namespace, with you approving each change on your phone.</p>
 <p>The skill tells the assistant to:
 - start with <code>describe_installation</code>;
+- build teams, not individuals: a project is a domain, a workflow is a capability, and the swarm is a team of roles, each with only the tools its job needs;
+- hand work between steps only through files under <code>artifacts/out/</code>, with only the last step writing <code>result.json</code>;
 - never ask for or accept a credential in chat (it calls <code>request_credential</code>, and you enter the value on your phone);
 - say plainly what you are about to approve;
 - treat every write as a proposal you approve one by one;
 - stay inside its namespace.</p>
 <p>Vornik also serves the same text to such a key directly: in the MCP <code>initialize</code> instructions and as <code>describe_installation</code>'s <code>how_to_work</code>. So an assistant without the bundle, such as Claude Desktop, still gets it. No other key ever sees it.</p>
+<p><strong>Working alongside Vornik.</strong> Every companion connection, except one bound to a broker project, also receives a short set of working rules in its MCP <code>initialize</code> instructions: delegate the user's work to Vornik first (unless doing it yourself is quicker, it depends on what only your session holds, or the user asked you not to), never wait idle and never delegate just to stay busy, never send a secret or personal data to a workflow, check what comes back, recall before delegating, and write side problems and the user's ideas down instead of chasing them. The <code>delegate</code> skill in the Claude Code and Codex bundles opens with the same text, and the Claude Code SessionStart hook plants it again after each compaction. A memory-only key skips the two delegation rules. A broker key gets none of it: a broker serves one request, and the <code>vornik-broker</code> skill already says how.</p>
 <h2 id="project-memory-and-repo-scope">Project memory and repo scope<a class="headerlink" href="#project-memory-and-repo-scope" title="Permanent link">&para;</a></h2>
 <p><code>recall</code> and <code>remember</code> operate on the memory of the vornik <strong>project</strong> your key
 is bound to. Because one project can back several repositories, every note
@@ -2987,6 +3020,15 @@ about it is stricter:</p>
   with a <code>maxLength</code> of 512 or less. All untrusted strings together may carry
   at most 1024 characters. Untrusted values reach the broker's agent wrapped as
   data, never as instructions.</li>
+<li><strong>A document in, as a declared input.</strong> A top-level input may be declared
+  <code>{type: string, x-untrusted-document: {max_bytes: N, media_type: T}}</code>, with
+  <code>T</code> one of <code>text/plain</code>, <code>text/markdown</code> or <code>text/x-diff</code> and <code>N</code> at most
+  262,144 bytes (two such inputs per workflow, 524,288 bytes together). The
+  front agent passes the text as the input's value; <code>delegate</code> refuses it if
+  it is larger, not valid UTF-8, or holds a NUL. The text is never put into
+  the prompt: each step finds it as a read-only file at
+  <code>artifacts/in/&lt;property&gt;.&lt;ext&gt;</code>, labelled as untrusted data, and <code>result</code>
+  never returns it. <code>inputArtifacts</code> stay refused.</li>
 <li><strong>One document out.</strong> <code>result</code> returns only the file named in
   <code>egress.output</code>, validated against <code>egress.schema</code> and capped at
   <code>egress.max_bytes</code> (at most 64 KiB). No other artifact of the task is
@@ -3090,12 +3132,21 @@ message was found and a one-line summary of the draft.
 <code>configs/examples/broker-mail.yaml</code> declares the send-capable server it needs.</p>
 <p><strong>Hermes Agent</strong> has a ready-made plugin in <code>contrib/hermes-companion/</code>. It
 adds the broker tools, a skill teaching Hermes when to use them, a hook that
-announces finished tasks, and a <code>vornik</code> memory provider. Install steps are in
-its README.</p>
+announces finished tasks, and a <code>vornik</code> memory provider. Since 0.8.0 an entry
+Hermes removes from its own memory is forgotten in Vornik too (refuted, so no
+longer recalled; the record stays until retention or the operator erases it),
+and <code>/vornik-memory</code> and <code>/vornik-forget &lt;id&gt;</code> let the user see what Vornik
+keeps and forget one item. Setting Hermes up, including Hermes and Vornik
+under separate OS users, is in <a href="../../guides/hermes-setup/">Set up Hermes with Vornik</a>.</p>
 <p>The shipped reference is the <code>mail-digest</code> workflow with the <code>broker-swarm</code>
 swarm: a digest of recent mail carrying sender domain, time, category, whether
 it needs a reply and a one-line summary, and never a body or an address.</p>
 <h2 id="setting-it-up">Setting it up<a class="headerlink" href="#setting-it-up" title="Permanent link">&para;</a></h2>
+<p>This is the setup for a <strong>coding assistant</strong> (Claude Code, Codex). For
+Hermes, or any other front-end agent, use the broker setup in
+<a href="../../guides/hermes-setup/">Set up Hermes with Vornik</a> instead: the key
+below grants developer workflows and the knowledge-skill store, which a
+front-end agent should not have.</p>
 <p>On the <strong>daemon</strong> side, an operator prepares a companion project and mints a
 <strong>companion-scoped key</strong> (a plain API key won't be accepted on the companion
 endpoint):</p>
