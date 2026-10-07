@@ -18,7 +18,7 @@
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../assets/vornik-mark.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
@@ -41,13 +41,11 @@
     
     
       
-        
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
     
+    
+      <link rel="stylesheet" href="../assets/brand/brand-tokens.css">
+    
+      <link rel="stylesheet" href="../stylesheets/brand.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -65,7 +63,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -92,8 +90,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Vornik documentation" class="md-header__button md-logo" aria-label="Vornik documentation" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/vornik-mark-header.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -123,7 +120,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
@@ -133,7 +130,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
     
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
@@ -218,8 +215,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Vornik documentation" class="md-nav__button md-logo" aria-label="Vornik documentation" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="../assets/vornik-mark-header.svg" alt="logo">
 
     </a>
     Vornik documentation
@@ -482,6 +478,8 @@
       
         
       
+        
+      
     
     
     
@@ -607,6 +605,34 @@
     
   
     Connect Your Tools (MCP)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/redirect-discovery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discover and validate redirects
   
 
     
@@ -2119,6 +2145,8 @@
       
         
       
+        
+      
     
     
     
@@ -2248,6 +2276,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../brand/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Vornik logo
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2347,6 +2403,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#2026105" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.10.5
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#2026104" class="md-nav__link">
@@ -2867,6 +2934,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026105" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.10.5
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026104" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3379,6 +3457,85 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
+<h2 id="2026105">2026.10.5<a class="headerlink" href="#2026105" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>Pairing and approving need HTTPS.</strong> <code>/ui/pair</code> and <code>/ui/approve/</code>
+  refuse plain http to a non-loopback host. Serve TLS, use a TLS proxy, or
+  browse to <code>http://localhost</code>.</li>
+<li><strong><code>X-Forwarded-Proto</code> counts only from a trusted proxy.</strong> Enable
+  <code>server.real_ip</code> and list the proxy host's own addresses in
+  <code>server.real_ip.trusted_proxies</code> as single addresses (<code>/32</code>, <code>/128</code>,
+  <code>127.0.0.1/32</code>), never a subnet that carries containers. The proxy must
+  replace the header, not append to it. Behind a TLS proxy that is not
+  listed, pairing and approving answer "HTTPS required". The daemon warns at
+  startup when its public origin is https and <code>server.real_ip</code> is not
+  configured.</li>
+<li><strong>Idle memory retention can require phone approval (opt-in).</strong> Set
+  <code>retention.memory_require_approval: true</code> on a project and unused
+  memory is no longer deleted automatically: after the idle window
+  (<code>retention.memory_idle_days</code>, default 365) the daemon asks on the paired
+  phone. Rejected or unanswered requests keep the data. Deploy this release
+  before adding the key, then <code>vornikctl config reload</code>. Turning it off
+  restores TTL and age-based deletion; back up first.</li>
+<li><strong>Skill review can name the revision.</strong> <code>skill_approve</code> and
+  <code>skill_reject</code> accept <code>expected_version</code>; a superseded revision is refused.</li>
+<li><strong>The updater refuses a downgrade</strong> unless you pass <code>--allow-downgrade</code>,
+  and <code>--ref main</code> uses the fetched <code>origin/main</code>.</li>
+<li><strong>Rebuild the agent image</strong> for the new <code>document_render</code> helper.</li>
+<li><strong>Migrations 216–218</strong> are additive and applied automatically.</li>
+<li><strong>Hermes companion plugin 0.11.3</strong> (from 0.11.1).</li>
+<li><strong><code>vornikctl agent connect</code> exits 1 with one refusal line.</strong> A script
+  that matched "not connected" must match the new line or the exit code.</li>
+</ul>
+</div>
+<p>A brand, Hermes, approvals, memory and agent-admin release. Draft: not yet
+released.</p>
+<ul>
+<li>
+<p><strong>New brand.</strong> The console, app icons, favicons and the docs site move to the
+  new Vornik mark and colour scheme. The new console colours meet WCAG AA
+  contrast in both themes, and the console and docs site serve their fonts
+  themselves instead of calling Google Fonts. The docs site gains a brand page.</p>
+</li>
+<li>
+<p><strong>Hermes.</strong></p>
+</li>
+<li>Turning approvals on replaces a stale pin on a disconnected namespace.</li>
+<li>Replacing a note with identical text no longer forgets it.</li>
+<li>A note you forgot and add again is recallable again, when the forget came
+    from Hermes's own forget path.</li>
+<li><strong>Agent admin.</strong></li>
+<li><code>list_recipes</code> files the cover request every read owes.</li>
+<li><code>agent connect</code> states its refusal once.</li>
+<li>Verbs accept a project's full id.</li>
+<li>A credential already requested for a namespace serves the next project.</li>
+<li><code>update_project</code> changes a project's description or display name.</li>
+<li>A role granted the <code>document_render</code> helper can convert staged Markdown to
+    a PDF or HTML file.</li>
+<li>Google document links are no longer redacted as high-entropy strings.</li>
+<li><strong>Approvals and devices.</strong></li>
+<li>A lost pairing-poll response no longer unpairs the browser.</li>
+<li>Paired devices get distinct default names, and the devices page shows the
+    id, the last use and "never used".</li>
+<li><code>vornikctl pair-device</code> prints an https address and warns on plain http.</li>
+<li><strong>Standing grants.</strong> A live grant is never hidden behind dead ones, and dead
+  grants no longer starve live grants' digests.</li>
+<li><strong>Fixes.</strong></li>
+<li>The updater prefers the fetched remote branch and refuses a downgrade.</li>
+<li>Project removal is verified by the file's absence.</li>
+<li><code>vornikctl backup</code> explains a PostgreSQL client and server version mismatch.</li>
+<li>The doctor checks agent models against your catalogue.</li>
+<li>Guarded redirects stop after 10 hops.</li>
+<li>Live task pages close dead websocket connections.</li>
+<li>Skill reviews are bound to the revision they were shown.</li>
+<li><strong>Redirect discovery.</strong> A new skill investigates an unexpected public
+  redirect and reports only what independent evidence supports. See
+  <a href="../guides/redirect-discovery/">Discover and validate redirects</a>.</li>
+<li><strong>Runtime.</strong> A Codex response cut off at the output cap reports
+  <code>finish_reason: length</code>.</li>
+</ul>
 <h2 id="2026104">2026.10.4<a class="headerlink" href="#2026104" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Upgrade requirements</p>
@@ -4901,7 +5058,7 @@ detail in the Telemetry and privacy reference.
   chunks rather than the attachment, because extracting the upload at submit time
   suppressed staging the file for the agent. Workflows that declare they need
   input artifacts now always get the raw file. The Claude Code and Codex
-  companion plugins ship as 0.14.0 and 0.12.0 with corrected guidance; installed
+  companion plugins ship as 0.13.0 and 0.11.0 with corrected guidance; installed
   clients pick that up on their next marketplace update.
 - <strong>New: your coding assistant can now configure and troubleshoot Vornik.</strong> Both
   companion plugins bundle an operator lifecycle triad — <code>configure-vornik</code>,
