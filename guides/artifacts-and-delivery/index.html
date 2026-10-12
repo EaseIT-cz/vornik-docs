@@ -2734,7 +2734,7 @@ the host needs podman and the agent image, not pandoc.</p>
 <tr>
 <td><code>content</code></td>
 <td>yes</td>
-<td>The markdown source, rendered verbatim.</td>
+<td>The markdown source (GitHub-flavoured). Raw HTML, images and YAML front matter are dropped; see below.</td>
 </tr>
 <tr>
 <td><code>name</code></td>
@@ -2751,8 +2751,16 @@ the host needs podman and the agent image, not pandoc.</p>
 <ul>
 <li><strong><code>md</code></strong> is always available — it's the source written to a file.</li>
 <li><strong><code>html</code></strong> is produced with <code>pandoc</code> in the agent image.</li>
-<li><strong><code>pdf</code></strong> is produced with <code>pandoc</code> + <code>weasyprint</code> in the agent image.</li>
+<li><strong><code>pdf</code></strong> is produced with <code>pandoc</code> + <code>weasyprint</code> in the agent image;
+  WeasyPrint is not allowed to load any URL or file.</li>
 <li><strong><code>docx</code></strong> (a Word document) is produced with <code>pandoc</code> in the agent image.</li>
+<li>The markdown is read as GitHub-flavoured markdown and sanitized the same way
+  as the agents' <code>document_render</code> tool, so a document cannot make the renderer
+  read a local file, fetch a URL, or carry a script into the output: raw HTML
+  is dropped, every image becomes its alt text, YAML front matter is shown as
+  plain text, and links keep their target only for <code>http(s)</code>, <code>mailto</code> and
+  <code>#</code> anchors. Tables, footnotes, strikethrough and task lists render as usual.
+  Embed no images: there is no way to include one.</li>
 <li>If the agent image isn't present locally (it is never pulled for this), or
   podman isn't available, the tool reports that rendering is not available
   rather than falling back to anything on the host. An <code>md</code> file you asked
