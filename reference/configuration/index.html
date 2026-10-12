@@ -4256,6 +4256,30 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>retention.tool_audit_days</code></td>
+<td>int</td>
+<td>Days to keep tool-call audit rows; clamped up to tool_audit_floor_days.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.tool_audit_floor_days</code></td>
+<td>int</td>
+<td>Minimum days to keep tool-call audit rows (0 = 180, six months).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.tool_audit_floor_override</code></td>
+<td>bool</td>
+<td>Allow tool_audit_floor_days below six months (logs a warning).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.tool_audit_floor_override_basis</code></td>
+<td>string</td>
+<td>Why six months does not apply (a law requiring less, or not a high-risk deployment); required for the override.</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>retention.tasks_days</code></td>
 <td>int</td>
 <td>Days to keep task rows.</td>

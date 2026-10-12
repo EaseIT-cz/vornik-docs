@@ -2447,6 +2447,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-control-plane-journal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl control-plane journal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-control-plane-journal-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl control-plane journal list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-control-plane-journal-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl control-plane journal resolve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-control-plane-proposals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4753,6 +4786,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-control-plane-journal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl control-plane journal
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-control-plane-journal-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl control-plane journal list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-control-plane-journal-resolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl control-plane journal resolve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-control-plane-proposals" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6329,7 +6395,12 @@ and adds one MCP server entry to the assistant's own config. That entry runs
 also checks that Vornik runs as a different OS user than you: otherwise the
 assistant's shell could read Vornik's files, and connect refuses unless you
 pass --accept-shared-user.</p>
-<div class="highlight"><pre><span></span><code>vornikctl agent connect &lt;hermes|claude-desktop|claude-code|codex&gt; [flags]
+<p>For any other assistant, 'connect generic --print' mints the key the same
+way, writes no assistant config, and prints the MCP entry to paste (the
+stdio entry that runs the bridge, and the streamable-HTTP form). --client
+names the assistant's kind (default generic); an assistant Vornik has no
+adapter for is treated as one that can run shell commands.</p>
+<div class="highlight"><pre><span></span><code>vornikctl agent connect &lt;hermes|claude-desktop|claude-code|codex|generic&gt; [flags]
 </code></pre></div>
 <table>
 <thead>
@@ -6346,6 +6417,16 @@ pass --accept-shared-user.</p>
 <td>Connect a shell-capable assistant although Vornik's files may be readable to it (see the printed table)</td>
 </tr>
 <tr>
+<td><code>--api-key-stdin</code></td>
+<td><code>false</code></td>
+<td>Read the operator's admin key from the first line of standard input (pipe it; a terminal is refused), instead of VORNIK_API_KEY or the stored sign-in</td>
+</tr>
+<tr>
+<td><code>--client</code></td>
+<td></td>
+<td>generic only: the assistant's client kind, lowercase letters, digits and dashes (default generic)</td>
+</tr>
+<tr>
 <td><code>--dry-run</code></td>
 <td><code>false</code></td>
 <td>Check and print what would be done, change nothing</td>
@@ -6356,9 +6437,19 @@ pass --accept-shared-user.</p>
 <td>The agent namespace: 2 to 16 lowercase letters and digits (default: the harness name without dashes, e.g. claudecode)</td>
 </tr>
 <tr>
+<td><code>--print</code></td>
+<td><code>false</code></td>
+<td>generic only: write no assistant config; print the MCP entry (JSON on standard output) to paste</td>
+</tr>
+<tr>
 <td><code>--url</code></td>
 <td></td>
 <td>Vornik's URL (default $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+<tr>
+<td><code>--vornikctl</code></td>
+<td></td>
+<td>Absolute path of the vornikctl the assistant runs; symlinks are resolved and the resolved file is recorded (default: this vornikctl). It must be executable by you</td>
 </tr>
 </tbody>
 </table>
@@ -7373,6 +7464,55 @@ proposal is filed.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="vornikctl-control-plane-journal">vornikctl control-plane journal<a class="headerlink" href="#vornikctl-control-plane-journal" title="Permanent link">&para;</a></h2>
+<p>Config-apply journal: list open rows, resolve a row parked in DRIFT (admin key)</p>
+<h2 id="vornikctl-control-plane-journal-list">vornikctl control-plane journal list<a class="headerlink" href="#vornikctl-control-plane-journal-list" title="Permanent link">&para;</a></h2>
+<p>List the open config-apply journal rows (DRIFT rows block their projects)</p>
+<div class="highlight"><pre><span></span><code>vornikctl control-plane journal list
+</code></pre></div>
+<h2 id="vornikctl-control-plane-journal-resolve">vornikctl control-plane journal resolve<a class="headerlink" href="#vornikctl-control-plane-journal-resolve" title="Permanent link">&para;</a></h2>
+<p>Resolve a DRIFT row: --keep the files as they are, or --restore the prior content</p>
+<p>Resolve a config-apply journal row parked in DRIFT, which unblocks its projects.</p>
+<p>--keep accepts the files as they are and writes nothing. When every file holds
+the content the proposal wrote and the proposal is APPROVED, the row and the
+proposal are marked APPLIED. When the proposal is no longer APPROVED (for
+example REJECTED), the row is closed as FAILED with a note that you kept the
+files, and the proposal is left as it is. When a file was edited by hand, the
+row is marked FAILED and an APPROVED proposal is retired.</p>
+<p>--restore writes back the content each file had before the apply (overwriting
+a hand edit), removes a file the apply created when it still holds what the
+apply wrote, and reloads. The row is marked REVERTED and the proposal stays
+APPROVED.</p>
+<p>Requires an admin key. Every resolve is audited. Resolving an already
+resolved row the same way changes nothing.</p>
+<div class="highlight"><pre><span></span><code>vornikctl control-plane journal resolve &lt;journal-id&gt; [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--author</code></td>
+<td></td>
+<td>Who resolves it, recorded on the row and in the audit (defaults to $USER)</td>
+</tr>
+<tr>
+<td><code>--keep</code></td>
+<td><code>false</code></td>
+<td>Accept the files as they are (no file is written)</td>
+</tr>
+<tr>
+<td><code>--restore</code></td>
+<td><code>false</code></td>
+<td>Write the prior content back (overwrites a hand edit)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-control-plane-proposals">vornikctl control-plane proposals<a class="headerlink" href="#vornikctl-control-plane-proposals" title="Permanent link">&para;</a></h2>
 <p>List control-plane proposals</p>
 <div class="highlight"><pre><span></span><code>vornikctl control-plane proposals [flags]
@@ -7564,6 +7704,9 @@ stuck_executions, task_state_audit, orphan_fk_rows, orphan_worktrees,
 secrets_permissions, and dispatcher_role findings. Schema, runtime,
 security posture, pricing, and budget checks are diagnostic only
 because they require operator config changes or external runtime actions.</p>
+<p>With API authentication enabled, daemon-backed doctor requires an admin-class
+API key. A plain project or agent key is not sufficient. Use --offline when
+the daemon is unavailable or admin credentials are not configured locally.</p>
 <div class="highlight"><pre><span></span><code>vornikctl doctor [flags]
 </code></pre></div>
 <table>
@@ -7611,6 +7754,8 @@ current status (ok/ready/blocked/degraded/unknown).</p>
 <p>With an id argument, full prereq detail (including remediation hints for
 unmet prereqs) is shown for that feature.</p>
 <p>Exit code 1 when any feature is blocked or degraded.</p>
+<p>With API authentication enabled, this daemon-wide readiness view requires
+an admin-class API key.</p>
 <div class="highlight"><pre><span></span><code>vornikctl doctor feature [id] [flags]
 </code></pre></div>
 <table>

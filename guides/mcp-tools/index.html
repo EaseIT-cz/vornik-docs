@@ -2879,7 +2879,7 @@ MCP server:</p>
 <span class="w">      </span><span class="nt">transport</span><span class="p">:</span><span class="w"> </span><span class="s">"sse"</span>
 <span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://127.0.0.1:7081/sse"</span>
 </code></pre></div>
-<p>There are two transports:</p>
+<p>There are three transports:</p>
 <ul>
 <li><strong><code>stdio</code></strong> — the daemon launches <code>command</code> (with <code>args</code>) as a child process
   and speaks MCP over its stdin/stdout. Use this for tools you ship alongside
@@ -2896,9 +2896,19 @@ MCP server:</p>
   starting a subprocess each. If the relaunch itself fails — the command is
   gone, or it exits immediately — the tool call returns an error saying the
   server is not running, and the daemon log carries the launch failure.
-- <strong><code>sse</code></strong> — the daemon connects to a long-running server at <code>url</code> over HTTP.
-  Use this for tools that run as their own service.</p>
-<p><code>command</code>/<code>args</code>/<code>env</code> apply only to <code>stdio</code>; <code>url</code> applies only to <code>sse</code>.</p>
+- <strong><code>streamable-http</code></strong> — MCP's current HTTP transport: the daemon POSTs each
+  request to the single endpoint at <code>url</code> and reads a JSON or event-stream
+  reply. Most hosted MCP servers speak this.
+- <strong><code>sse</code></strong> — the older HTTP transport: the daemon POSTs each request to <code>url</code>
+  with a trailing <code>/sse</code> removed and <code>/message</code> appended, and reads the reply.
+  Use this for a running service that serves <code>/sse</code> and <code>/message</code> rather than
+  one MCP endpoint. A server that answers a <code>streamable-http</code> request with 404
+  but serves <code>/sse</code> is an SSE server.</p>
+<p>An assistant that sets up a server for you through Vornik's admin tools picks
+the transport the same way: <code>add_mcp_server</code> takes <code>"transport": "sse"</code> for an
+SSE server, and defaults to <code>streamable-http</code>.</p>
+<p><code>command</code>/<code>args</code>/<code>env</code> apply only to <code>stdio</code>; <code>url</code> applies only to <code>sse</code> and
+<code>streamable-http</code>.</p>
 <h3 id="project_id-is-supplied-by-the-daemon"><code>project_id</code> is supplied by the daemon<a class="headerlink" href="#project_id-is-supplied-by-the-daemon" title="Permanent link">&para;</a></h3>
 <p>If a server declares a <code>project_id</code> argument, the daemon fills it in on every
 call from the calling project and <strong>removes it from the schema the model sees</strong>.
@@ -3044,6 +3054,14 @@ reachable, which is why the row shows the grant separately.</p>
 <div class="highlight"><pre><span></span><code>vornikctl mcp oauth-status atlassian -p my-project   # resource, scopes, expiry
 vornikctl mcp disconnect atlassian -p my-project     # deletes the stored grant
 </code></pre></div>
+<p><strong>Until you connect it, the server is not dialled.</strong> An <code>oauth</code> server with no
+stored grant has nothing to present, so the daemon does not contact it: it logs
+one warning naming the command (<code>vornikctl mcp connect &lt;server&gt;</code>, with
+<code>-p &lt;project&gt;</code> for a project's own server), and the doctor, <code>vornikctl mcp
+servers</code> and <code>vornikctl mcp oauth-status</code> all report it as <code>not connected, no
+grant</code>. A tool call against it says the same. Connecting wires it at once,
+without a reload or a restart. This is an unfinished setup step, not a fault,
+so it raises no alert.</p>
 <p><strong>Servers with no dynamic registration</strong> (Slack, GitHub, Box) need a
 pre-registered client — set <code>client_id</code>, and <code>client_secret_from</code> when the
 vendor issued a secret. <strong>Servers with no discovery at all</strong> (Intercom) need
@@ -3051,9 +3069,10 @@ vendor issued a secret. <strong>Servers with no discovery at all</strong> (Inter
 which case you are in rather than failing generically.</p>
 <p><strong>Refresh and reconnect.</strong> The credential is resolved <strong>per request</strong>, so an
 access token refreshes shortly before it expires no matter how long the daemon
-has been running, and rotated refresh tokens are handled. If the vendor rejects
+has been running, and rotated refresh tokens are handled. On streamable HTTP, if the vendor rejects
 a token Vornik still believes in — a grant revoked in their console, say — the
-call is retried <strong>once</strong> after a forced refresh, and no more than once. If the
+call is retried <strong>once</strong> after a forced refresh, and no more than once. The
+legacy SSE transport reports the rejection without this retry. If the
 vendor revokes the grant outright, the server is flagged <code>needs_reconnect</code>: its
 calls fail rather than retrying forever, <code>mcp oauth-status</code> says so, and
 <code>mcp connect</code> fixes it. Disconnecting in Vornik does <strong>not</strong> revoke the
@@ -3266,7 +3285,7 @@ shows each tool and its description.</p>
 transport, its status, how many tools it advertises, and its endpoint. Remember
 that a server appearing here is <strong>not</strong> automatically available to a project —
 grant access by adding it to that project's <code>mcp.servers</code>.</p>
-<p>The status column has three values, and the third is easy to mistake for a
+<p>The status column has four values, and the last two are easy to mistake for a
 fault:</p>
 <table>
 <thead>
@@ -3288,9 +3307,13 @@ fault:</p>
 <td><code>checking</code></td>
 <td><strong>No probe has run yet.</strong> The first probe after a daemon start or a config reload is asynchronous, so every server reads <code>checking</code> for a moment. Re-run the command rather than troubleshooting the server.</td>
 </tr>
+<tr>
+<td><code>not connected, no grant</code></td>
+<td>An <code>oauth</code> server nobody has connected yet. The daemon does not dial it until <code>vornikctl mcp connect &lt;server&gt;</code>; nothing is wrong with the server. In <code>--json</code> output it carries <code>"not_dialled": true</code>.</td>
+</tr>
 </tbody>
 </table>
-<p>The same three states appear on the Control Plane → MCP tab, where <code>checking</code>
+<p>The same four states appear on the Control Plane → MCP tab, where <code>checking</code>
 renders as a neutral "checking…" badge. In <code>--json</code> output, a server that has
 never been probed simply has no <code>last_checked_at</code> field.</p>
 <p><code>checking</code> covers the <em>first</em> probe only. Once a server has a verdict, a
@@ -3326,7 +3349,8 @@ tool works and check its arguments:</p>
   (snake_case); the rate-limit map is <code>toolRateLimits</code> (camelCase). It's easy
   to get one wrong — the project will fail to load with a clear error if you
   do.</li>
-<li><strong><code>transport</code> is exactly <code>stdio</code> or <code>sse</code>.</strong> Any other value is rejected.</li>
+<li><strong><code>transport</code> is exactly <code>stdio</code>, <code>sse</code> or <code>streamable-http</code>.</strong> Any other
+  value is rejected.</li>
 <li><strong>Rate-limit fields are <code>rps</code> and <code>burst</code>, both integers &gt; 0.</strong> A negative
   value is rejected at load time.</li>
 <li><strong>Changes take effect on config reload</strong> — you don't need to restart the

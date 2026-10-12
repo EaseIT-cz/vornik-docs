@@ -2863,7 +2863,7 @@ has its own age threshold in days.</p>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">            </span><span class="c1"># default: false - opt in</span>
 <span class="w">  </span><span class="nt">interval</span><span class="p">:</span><span class="w"> </span><span class="s">"6h"</span>
 <span class="w">  </span><span class="nt">task_llm_usage_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90</span><span class="w">  </span><span class="c1"># cost history</span>
-<span class="w">  </span><span class="nt">tool_audit_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30</span><span class="w">      </span><span class="c1"># tool/debug records</span>
+<span class="w">  </span><span class="nt">tool_audit_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">180</span><span class="w">     </span><span class="c1"># tool-call audit (never below 180, see below)</span>
 <span class="w">  </span><span class="nt">tasks_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span><span class="w">           </span><span class="c1"># finished tasks</span>
 <span class="w">  </span><span class="nt">executions_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span><span class="w">      </span><span class="c1"># finished executions</span>
 <span class="w">  </span><span class="nt">artifacts_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span><span class="w">       </span><span class="c1"># artifact records and their files</span>
@@ -2872,9 +2872,20 @@ has its own age threshold in days.</p>
 </code></pre></div>
 <p>What the defaults mean:</p>
 <ul>
-<li><code>memory_chunks_days: 0</code> keeps long-term memory forever, which is the right
+<li>
+<p><code>tool_audit_days</code> never resolves below <strong>180 days</strong> (six months), whatever
+  the daemon or a project sets. That is the minimum the EU AI Act (Art 26(6))
+  asks deployers of high-risk AI systems to keep these logs. Raise the floor
+  with <code>tool_audit_floor_days</code>. To keep them for less — because another law
+  requires a shorter period, or because yours is not a high-risk deployment —
+  set <code>tool_audit_floor_override: true</code> and say which in
+  <code>tool_audit_floor_override_basis</code>; an override without a basis is ignored.</p>
+</li>
+<li>
+<p><code>memory_chunks_days: 0</code> keeps long-term memory forever, which is the right
   posture for most deployments. Long-term memory is product data, not
-  throwaway logs — set a finite value only if storage pressure forces it.</li>
+  throwaway logs — set a finite value only if storage pressure forces it.</p>
+</li>
 <li><code>task_messages_days: 0</code> means chat history is pruned only when its parent
   task is pruned. Set it explicitly to trim chat faster than tasks.</li>
 </ul>

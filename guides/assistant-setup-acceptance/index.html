@@ -907,6 +907,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#check-two-accounts-at-one-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check two accounts at one provider
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#record-the-result" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2498,6 +2509,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#check-two-accounts-at-one-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check two accounts at one provider
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#record-the-result" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2566,6 +2588,19 @@ grep -rl "&lt;first six characters of the key&gt;" ~/.claude/projects/ ~/.config
 <li>Disconnect: <code>vornikctl agent disconnect &lt;namespace&gt;</code>. Ask the assistant anything about Vornik.</li>
 <li><strong>Expected:</strong> it can no longer reach Vornik, and its config no longer has the <code>vornik-&lt;namespace&gt;</code> entry.</li>
 </ul>
+<h2 id="check-two-accounts-at-one-provider">Check two accounts at one provider<a class="headerlink" href="#check-two-accounts-at-one-provider" title="Permanent link">&para;</a></h2>
+<p>If your test provider offers work and personal accounts, ask the assistant to
+connect both in the same project. Expect it to ask which account you mean,
+use distinct connection labels and credential names, and ask you to enter
+each credential on your phone. Check the account named before each approval.
+Approve a work reply with a standing approval, then request an equivalent
+personal reply: the personal reply must wait for its own approval.</p>
+<p>After changing either connection or credential, request a fresh read. The
+assistant must omit <code>max_age_seconds</code> on that first call. A credential changed
+under the same label does not automatically invalidate a previously reusable
+answer. Record this account check separately from the automated lane; it does
+not turn a scripted model or Claude protocol stand-in into a vendor-client
+plain-language acceptance result.</p>
 <h2 id="record-the-result">Record the result<a class="headerlink" href="#record-the-result" title="Permanent link">&para;</a></h2>
 <p>Note for each assistant:
 - the release;

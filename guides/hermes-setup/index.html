@@ -2774,41 +2774,17 @@ user, so the file belongs to Hermes.</p>
 broker project (<code>broker: true</code>) refuses memory and skills on every key, so
 nothing Hermes delegates can be recalled later as raw text. Hermes's memory
 goes in an ordinary project whose key cannot delegate.</p>
-<p>As <code>vornik</code>, create the broker project in the daemon's projects directory
-(by default <code>~/.config/vornik/configs/projects/</code>; check
-<code>vornikctl config show</code> if you changed it). This one reads mail and never
-writes:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># ~/.config/vornik/configs/projects/broker-mail.yaml</span>
-<span class="nt">projectId</span><span class="p">:</span><span class="w"> </span><span class="s">"broker-mail"</span>
-<span class="nt">displayName</span><span class="p">:</span><span class="w"> </span><span class="s">"Mail</span><span class="nv"> </span><span class="s">broker"</span>
-<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">"Read-only</span><span class="nv"> </span><span class="s">mail</span><span class="nv"> </span><span class="s">access</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">Hermes.</span><span class="nv"> </span><span class="s">Broker</span><span class="nv"> </span><span class="s">workflows</span><span class="nv"> </span><span class="s">only."</span>
-<span class="nt">swarmId</span><span class="p">:</span><span class="w"> </span><span class="s">"broker-swarm"</span>
-<span class="nt">defaultWorkflowId</span><span class="p">:</span><span class="w"> </span><span class="s">"mail-digest"</span>
-<span class="nt">defaultPriority</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50</span>
-<span class="nt">maxConcurrentTasks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-
-<span class="nt">broker</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-
-<span class="nt">mcp</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">servers</span><span class="p">:</span>
-<span class="w">    </span><span class="c1"># Narrows the daemon-level google-workspace server and declares the</span>
-<span class="w">    </span><span class="c1"># narrowing read-only. Vornik cannot verify that claim: list only tools</span>
-<span class="w">    </span><span class="c1"># that change nothing.</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"google-workspace"</span>
-<span class="w">      </span><span class="nt">broker_read_only</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">allowed_tools</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"time_getCurrentDate"</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"gmail_search"</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"gmail_get"</span>
-
-<span class="nt">permissions</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">allowedTools</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"current_time"</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"file_write"</span><span class="w">      </span><span class="c1"># writes the workflow's own result file, not mail</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"mcp__google-workspace__time_getCurrentDate"</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"mcp__google-workspace__gmail_search"</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"mcp__google-workspace__gmail_get"</span>
+<p>As <code>vornik</code>, scaffold the broker project into the daemon's config tree (by
+default <code>~/.config/vornik/configs</code>; check <code>vornikctl config show</code> if you
+changed it). The <code>broker-mail</code> template reads mail and never writes:</p>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>project<span class="w"> </span>broker-mail<span class="w"> </span>--template<span class="w"> </span>broker-mail<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config-dir<span class="w"> </span>~/.config/vornik/configs
 </code></pre></div>
+<p>It writes <code>projects/broker-mail.yaml</code>: <code>broker: true</code>, the daemon's
+<code>google-workspace</code> server narrowed to <code>gmail_search</code>, <code>gmail_get</code> and
+<code>time_getCurrentDate</code> and declared read-only, and <code>mail-digest</code> as its
+workflow. The full example, with the optional write path, is
+<code>configs/examples/broker-mail.yaml</code> in the Vornik source.</p>
 <p>It narrows a <code>google-workspace</code> MCP server that must already be configured
 at the daemon level with your mail account; see
 <a href="../mcp-tools/">Connect your tools (MCP)</a>. <code>mail-digest</code> and <code>broker-swarm</code>
@@ -2833,7 +2809,10 @@ vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span cla
 vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>hermes-memory<span class="w"> </span>--client<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--memory-all<span class="w"> </span>--no-delegate
 </code></pre></div>
-<p>Each prints its secret once. Grant nothing else to a Hermes key:</p>
+<p>Each prints its secret once, as the <code>.env</code> line Hermes needs:
+<code>VORNIK_BROKER_TOKEN=...</code> for the broker key, <code>VORNIK_MEMORY_TOKEN=...</code> for
+the memory key, each with a <code>VORNIK_URL=...</code> line. Grant nothing else to a
+Hermes key:</p>
 <ul>
 <li>no <code>--skill-all</code> or other skill flags: the knowledge-skill store is for
   coding assistants;</li>
@@ -2858,7 +2837,8 @@ the secrets go into neither Hermes's conversation nor your shell history:</p>
 </code></pre></div>
 <p>(<code>sudo</code> drops your <code>EDITOR</code>; put another editor in place of <code>vi</code> if you
 prefer.)</p>
-<p>and add:</p>
+<p>and paste the lines the two <code>grant</code> commands printed (one <code>VORNIK_URL</code>
+line is enough):</p>
 <div class="highlight"><pre><span></span><code>VORNIK_URL=http://localhost:8080
 VORNIK_BROKER_TOKEN=&lt;the broker-mail secret&gt;
 VORNIK_MEMORY_TOKEN=&lt;the hermes-memory secret&gt;
@@ -2876,8 +2856,21 @@ hermes<span class="w"> </span>config<span class="w"> </span><span class="nb">set
 hermes<span class="w"> </span>vornik<span class="w"> </span>status<span class="w">        </span><span class="c1"># URL, which tokens are set, the daemon's capabilities</span>
 hermes<span class="w"> </span>memory<span class="w"> </span>status<span class="w">        </span><span class="c1"># expect "installed" and "available"</span>
 </code></pre></div>
+<p>For an existing installation, update the plugin separately after upgrading
+the daemon, then restart Hermes or its gateway so the process reloads its
+tools:</p>
+<div class="highlight"><pre><span></span><code>hermes<span class="w"> </span>plugins<span class="w"> </span>update<span class="w"> </span>vornik-companion
+</code></pre></div>
 <p>Restart Hermes (or its gateway) so it reads the new <code>.env</code>. Then ask it to
-list what it can run: it should name <code>mail-digest</code> and nothing else.</p>
+list what it can run: it should name <code>mail-digest</code> and nothing else. To hand
+over a file from a completed task, Hermes also needs the plugin's
+<code>vornik_list_artifacts</code> and <code>vornik_read_artifact</code> tools; those appear only
+when the daemon advertises <code>companion-artifact-read</code> and the broker key is
+valid. To look into a task that seems stuck or failed, the plugin (0.21.0 or
+later) has <code>vornik_task_logs</code> and <code>vornik_task_explain</code>; they show step
+progress and closed error classes only, never the task's own text. From
+0.21.1 they appear only when the daemon advertises <code>companion-progress</code>, so
+an older daemon does not offer calls it cannot answer.</p>
 <h2 id="admin-setup-opt-in">Admin setup (opt-in)<a class="headerlink" href="#admin-setup-opt-in" title="Permanent link">&para;</a></h2>
 <p>Read <a href="../assistant-setup/">Let your assistant set up Vornik</a> first; it
 explains what an administering assistant can and cannot do. With Hermes on
@@ -2891,20 +2884,26 @@ by <code>hermes</code>, and the entry then fails at every start. Install a copy 
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>vornikctl<span class="k">)</span><span class="s2">"</span><span class="w"> </span>/usr/local/bin/vornikctl
 </code></pre></div>
 <p>When you upgrade Vornik, replace the file at the same path; the recorded
-path then stays valid.</p>
+path then stays valid. Install a real file there, not a symlink: connect
+records the file <code>--vornikctl /usr/local/bin/vornikctl</code> (below) resolves
+to, and refuses a path the
+user it runs as cannot execute, instead of writing an entry that fails at
+every start.</p>
 <p><strong>Connect needs the admin key once, from your terminal.</strong> The sign-in from
 <code>vornikctl auth login</code> lives in <code>vornik</code>'s home, so <code>hermes</code>'s <code>vornikctl</code>
 is not signed in. Give the key to that one command only, typed by you, so
 it is in neither a command line nor a shell history, and not in anything
 Hermes can read:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rs<span class="w"> </span>VORNIK_API_KEY<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span>VORNIK_API_KEY<span class="w">     </span><span class="c1"># paste the admin key</span>
-<span class="c1"># sudo drops your environment; --preserve-env carries this one variable</span>
-sudo<span class="w"> </span>--preserve-env<span class="o">=</span>VORNIK_API_KEY<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>/usr/local/bin/vornikctl<span class="w"> </span>agent<span class="w"> </span>connect<span class="w"> </span>hermes<span class="w"> </span>--dry-run
-sudo<span class="w"> </span>--preserve-env<span class="o">=</span>VORNIK_API_KEY<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>/usr/local/bin/vornikctl<span class="w"> </span>agent<span class="w"> </span>connect<span class="w"> </span>hermes
-<span class="nb">unset</span><span class="w"> </span>VORNIK_API_KEY
+<div class="highlight"><pre><span></span><code><span class="nb">read</span><span class="w"> </span>-rs<span class="w"> </span>K<span class="w">                                  </span><span class="c1"># paste the admin key</span>
+<span class="c1"># printf is a shell builtin: the key is in no command line, environment</span>
+<span class="c1"># or history. The dry run reaches Vornik too, so it reads the key as well.</span>
+<span class="nb">printf</span><span class="w"> </span><span class="s1">'%s\n'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$K</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span>/usr/local/bin/vornikctl<span class="w"> </span>agent<span class="w"> </span>connect<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--vornikctl<span class="w"> </span>/usr/local/bin/vornikctl<span class="w"> </span>--api-key-stdin<span class="w"> </span>--dry-run
+<span class="nb">printf</span><span class="w"> </span><span class="s1">'%s\n'</span><span class="w"> </span><span class="s2">"</span><span class="nv">$K</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>-u<span class="w"> </span>hermes<span class="w"> </span>-H<span class="w"> </span>/usr/local/bin/vornikctl<span class="w"> </span>agent<span class="w"> </span>connect<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--vornikctl<span class="w"> </span>/usr/local/bin/vornikctl<span class="w"> </span>--api-key-stdin
+<span class="nb">unset</span><span class="w"> </span>K
 </code></pre></div>
+<p><code>--api-key-stdin</code> refuses a terminal: a key typed there would be shown.</p>
 <p>Do not run <code>hermes vornik connect</code> with the admin key in Hermes's own
 environment: it passes its environment to <code>vornikctl</code>, and that environment
 is Hermes's. Connect stores the assistant's own key in
@@ -2937,6 +2936,11 @@ setup, follow <a href="../assistant-setup/#vornik-on-another-machine">Vornik on 
 <td>Check <code>hermes vornik status</code>; for small local models, <code>hermes config set tools.tool_search.enabled off</code></td>
 </tr>
 <tr>
+<td>Hermes cannot list or read completed-run files</td>
+<td>Its installed plugin may predate artifact tools, the daemon may lack <code>companion-artifact-read</code>, or the workflow may not approve those filenames</td>
+<td>Run <code>hermes plugins update vornik-companion</code> and restart Hermes; check <code>hermes vornik status</code>; ensure the workflow's approved <code>broker.egress.artifacts</code> names the files</td>
+</tr>
+<tr>
 <td><code>vornikctl companion grant</code> refuses <code>--memory-all</code></td>
 <td>Memory on a broker project is refused by design</td>
 <td>Grant memory on the separate memory project</td>
@@ -2948,8 +2952,8 @@ setup, follow <a href="../assistant-setup/#vornik-on-another-machine">Vornik on 
 </tr>
 <tr>
 <td>Admin setup: the Vornik MCP entry fails at every Hermes start</td>
-<td>The <code>vornikctl</code> path connect recorded is not executable by <code>hermes</code></td>
-<td>Install <code>vornikctl</code> in <code>/usr/local/bin</code> and connect again with that copy</td>
+<td>The <code>vornikctl</code> path connect recorded is not executable by <code>hermes</code> (connect now refuses such a path)</td>
+<td>Install <code>vornikctl</code> in <code>/usr/local/bin</code> and connect again with <code>--vornikctl /usr/local/bin/vornikctl</code> (or <code>hermes vornik connect --vornikctl /usr/local/bin/vornikctl</code>)</td>
 </tr>
 <tr>
 <td>Admin setup: connect says it cannot reach Vornik, or is unauthorized</td>

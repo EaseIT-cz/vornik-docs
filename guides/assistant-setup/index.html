@@ -829,6 +829,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#two-accounts-at-one-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two accounts at one provider
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2531,6 +2542,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#two-accounts-at-one-provider" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two accounts at one provider
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2640,6 +2662,7 @@
 <p>Vornik is the safety harness around it:</p>
 <ul>
 <li><strong>The assistant never sees a credential.</strong> When a service needs a password, token or sign-in, the assistant asks Vornik for it. You enter the value, or sign in, <strong>on your own phone</strong>, and Vornik stores it where the assistant cannot read it.</li>
+<li><strong>A stored credential is checked, not assumed.</strong> After you enter one, the assistant can ask Vornik to test that connection. Vornik makes one read-only request with the credential and tells the assistant only whether the service answered and accepted it, never what the service sent back.</li>
 <li><strong>Nothing that widens its reach happens without you.</strong> Each of these is an approval request on your phone, worded plainly:</li>
 <li>connecting a service;</li>
 <li>every credential;</li>
@@ -2658,6 +2681,24 @@
 </li>
 </ul>
 <p>What it does receive is what you asked for. If you ask "summarise my spending", the summary of your spending reaches the assistant: that output was approved, by you, when the workflow was.</p>
+<h2 id="two-accounts-at-one-provider">Two accounts at one provider<a class="headerlink" href="#two-accounts-at-one-provider" title="Permanent link">&para;</a></h2>
+<p>Tell the assistant which account you want to use, for example work or personal.
+Each account needs its own connection name, account label and credential name:
+<code>mail-work</code> with the label <code>work</code> and <code>MAIL_TOKEN_WORK</code>, and <code>mail-personal</code>
+with the label <code>personal</code> and <code>MAIL_TOKEN_PERSONAL</code>. Enter each credential only
+on your phone. An assistant should ask which account you mean whenever that
+is unclear.</p>
+<p>The account is selected when the workflow is set up. Check the account named
+on your phone before approving a connection, workflow or write. A standing
+approval to send from your work account does not approve writes from your
+personal account. Where the provider supplies an identity, the phone shows
+that bounded identity; a label supplied by the assistant is explicitly
+unverified and does not establish who owns a credential.</p>
+<p>After changing a connection or credential, ask for a fresh read. The assistant
+must omit <code>max_age_seconds</code> on that first call. Distinct configured account
+labels keep their recent results separate, but replacing a credential under
+the same label does not automatically invalidate an earlier result accepted
+for reuse.</p>
 <h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>Pair your phone</strong> once, from the machine that runs Vornik:</li>
@@ -2689,6 +2730,7 @@
 <li>It adds one MCP server entry, <code>vornik-&lt;namespace&gt;</code>, to the assistant's own config. The entry runs <code>vornikctl agent mcp-bridge</code> with Vornik's address, which relays the assistant's requests to Vornik using the key file. Connect keeps everything else in that file, comments included.</li>
 <li>It prints what it did and what to do next.</li>
 </ol>
+<p>For an assistant not in that list, use <code>vornikctl agent connect generic --print</code> (optionally <code>--client &lt;name&gt;</code> to record which assistant it is). It mints and stores the key the same way but edits no file: it prints the MCP entry as JSON for you to paste into your assistant's MCP configuration (the <code>vornik-&lt;namespace&gt;</code> entry that runs the bridge, and a streamable-HTTP form for an assistant that cannot run a command). The key is never printed. Vornik treats an assistant it has no adapter for as one that can run shell commands, so the shared-user check below applies.</p>
 <table>
 <thead>
 <tr>
@@ -2741,6 +2783,9 @@ vornikctl agent connect claude-code --url https://vornik.example --dry-run
 vornikctl agent connect claude-code --url https://vornik.example
 unset VORNIK_API_KEY
 </code></pre></div>
+<p>Or keep it out of the environment too: <code>read -rs K</code>, then
+  <code>printf '%s\n' "$K" | vornikctl agent connect claude-code --url https://vornik.example --api-key-stdin</code>
+  (a terminal on standard input is refused, since a typed key would be shown).</p>
 <ul>
 <li><strong>Which name to use for Claude.</strong></li>
 <li><code>claude-code</code> for Claude Code, including routines created in the Claude desktop app's <strong>Code</strong> tab.</li>
