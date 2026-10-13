@@ -2873,9 +2873,9 @@ planning such a deployment.</p>
 <td>In preparation</td>
 </tr>
 <tr>
-<td><strong>No data-subject identifier</strong></td>
-<td>Access / erasure / portability requests cannot be scoped to one person — deletion works at project or record level, not per data subject</td>
-<td>Engineering work scheduled</td>
+<td><strong>Per-subject rights are partial</strong></td>
+<td><code>vornikctl subject</code> handles access, portability, erasure, rectification (Art 16) and restriction (Art 18) for one person, but only over records the deployment has linked to that person. Rectification corrects memory records and knowledge-graph entities. Restriction withholds memory records and knowledge-graph entities (with the relations that involve them): transcripts, profiles and files stay in use, and the graph extractor can still compare a new mention against a restricted name. The limits are listed in §8 of the DPA template</td>
+<td>Shipped 2026-10-12 (rectification, restriction); remaining limits documented</td>
 </tr>
 <tr>
 <td><strong>DPIA (Art 35)</strong></td>
@@ -2895,8 +2895,9 @@ planning such a deployment.</p>
 </tbody>
 </table>
 <p>The third row is the one to weigh if you are evaluating Vornik for personal
-data at scale. Deleting <em>a project</em> or <em>a record</em> works well today; deleting
-<em>everything about one person</em> requires manual work.</p>
+data at scale. The per-person tools act on what the deployment has linked to a
+person. A record that mentions someone but was never identified as being about
+them is not reached, and the stores listed above need manual handling.</p>
 <h3 id="sub-processors">Sub-processors<a class="headerlink" href="#sub-processors" title="Permanent link">&para;</a></h3>
 <p>Where configured, conversation content is transmitted to the model providers
 listed on the <a href="../ai-transparency/">AI transparency</a> page. In a self-hosted

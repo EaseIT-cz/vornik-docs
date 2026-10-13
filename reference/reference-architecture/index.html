@@ -2243,6 +2243,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#trust-zones-and-invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust zones and invariants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trust zones and invariants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invariants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2918,6 +2946,34 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#trust-zones-and-invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trust zones and invariants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Trust zones and invariants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#invariants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Invariants
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3358,6 +3414,181 @@ reports the same errors from the last attempt without triggering one.</p>
 remediations attached, and a validator that re-implements them will drift from the
 product. Prefer routing to it over duplicating it. See
 <a href="../vornikctl/">vornikctl</a> and <a href="../../guides/feature-doctor/">Feature doctor</a>.</p>
+<h2 id="trust-zones-and-invariants">Trust zones and invariants<a class="headerlink" href="#trust-zones-and-invariants" title="Permanent link">&para;</a></h2>
+<p>One page for three questions: where each credential lives, what an agent sandbox can
+reach, and what leaves the host and to whom. The arrows show who calls whom.</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph FRONT["Front-ends and channels: authenticated, untrusted input"]
+        UI["Web UI and REST clients"]
+        CH["Telegram, Slack, mail, webhooks"]
+        CMP["Companion MCP clients, A2A peers"]
+    end
+    subgraph CP["Daemon control plane: trusted"]
+        API["HTTP API: auth, admin gate"]
+        EXE["Executor and scheduler"]
+        PRX["Model proxy /api/v1"]
+        GW["MCP gateway: per-role tool allowlist"]
+        ARTR["Artifact routes and input staging"]
+        SPW["Spawn law: closed program set"]
+    end
+    subgraph INF["Shared infrastructure: daemon access only"]
+        DB[("Database")]
+        SEC[("Secret store and config secrets")]
+        BLOB[("Artifact blobs, workspaces, git")]
+    end
+    subgraph SBX["Agent sandboxes: untrusted"]
+        AG["Agent container: rootless podman, per-task key"]
+        ONE["Sandbox one-shots: extractors, no network"]
+    end
+    subgraph EXT["External providers: third party"]
+        LLM["Model providers"]
+        TOOLS["MCP servers, APIs, brokers"]
+        FORGE["Git forges"]
+        NET["Open internet"]
+    end
+    UI --&gt; API
+    CH --&gt; API
+    CMP --&gt; API
+    API --&gt; EXE
+    API --&gt; DB
+    EXE --&gt; DB
+    EXE --&gt; ARTR
+    ARTR --&gt; BLOB
+    EXE --&gt;|"argv built by the daemon"| SPW
+    SPW --&gt;|"podman run, pinned image"| AG
+    SPW --&gt; ONE
+    EXE --&gt;|"per-execution copies, never the store"| AG
+    AG --&gt;|"unix socket, route allowlist (daemon-only roles)"| PRX
+    AG -.-&gt;|"TCP with the per-task key (egress roles)"| API
+    AG --&gt;|"tool calls, socket or TCP per role"| GW
+    PRX --&gt; SEC
+    GW --&gt; SEC
+    PRX --&gt; LLM
+    GW --&gt; TOOLS
+    EXE --&gt; FORGE
+    AG -.-&gt;|"egress roles only"| NET
+    API --&gt;|"outbound messages, Art 50 disclosure"| CH
+    classDef front fill:#fff4ce,stroke:#8a6d00,color:#3d3000
+    classDef trusted fill:#d8f3dc,stroke:#2d6a4f,color:#081c15
+    classDef infra fill:#dbe9f6,stroke:#1d4e89,color:#0b1f3a
+    classDef untrusted fill:#ffd6d6,stroke:#9d0208,color:#370617
+    classDef external fill:#e9e9e9,stroke:#555555,color:#1a1a1a
+    class UI,CH,CMP front
+    class API,EXE,PRX,GW,ARTR,SPW trusted
+    class DB,SEC,BLOB infra
+    class AG,ONE untrusted
+    class LLM,TOOLS,FORGE,NET external</code></pre>
+<p>Colour key: green is the trusted daemon control plane; blue is shared infrastructure
+only the daemon touches; red is the untrusted agent sandboxes; yellow is front-ends
+and channels (authenticated, but their content is untrusted); grey is third-party
+providers. A dashed line is a path only some roles have.</p>
+<h3 id="invariants">Invariants<a class="headerlink" href="#invariants" title="Permanent link">&para;</a></h3>
+<p>Each invariant below names the test that fails when it breaks. A statement with no
+failing test is a hope, so a row without one is not allowed: the
+<code>TestTrustZoneRegister_EveryInvariantNamesALiveTest</code> law reads this table and fails
+the build if a named test is renamed or deleted, or if the count below drifts.</p>
+<p><strong>13 invariants stated, 13 pinned by at least one test (24 test references)</strong>: 7 hold as stated, 4 hold only for the
+scope given in the row (<strong>SCOPED</strong>), and 2 have a known gap that is being fixed
+(<strong>GAP</strong>). A pinned test proves the part it asserts. It does not prove the whole
+sentence, and the status column says where those differ.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Invariant</th>
+<th>Pinned by</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TZ-1</td>
+<td>Provider and connector credentials stay in the daemon. An agent run holds only its per-task key, plus any named secrets the operator explicitly grants its project.</td>
+<td><code>TestInjectPerTaskKey_OverridesVORNIK_LLM_API_KEY</code></td>
+<td><strong>GAP</strong>: a failure path can still start an agent with the static agent key; being fixed</td>
+</tr>
+<tr>
+<td>TZ-2</td>
+<td>An agent on a daemon-only role reaches only the daemon socket routes on the agent allowlist; every other path is a 404.</td>
+<td><code>TestAgentSocketRoutes_AllowlistIsExact</code>; <code>TestAgentSocketAllowlist_CoversEveryAgentImageCall</code>; <code>TestUnixSocket_AdminAPIRouteRefused</code></td>
+<td><strong>SCOPED</strong>: daemon-only roles. An egress role reaches the TCP API with its project-scoped key, and no route allowlist applies there</td>
+</tr>
+<tr>
+<td>TZ-3</td>
+<td>Agent sandboxes never reach artifact storage directly, only through the daemon's artifact routes. No daemon-owned host path (data dir, artifact store, secrets, config) is mounted into an agent; the runtime mounts exactly the declared per-execution set.</td>
+<td><code>TestTrustZone_AgentMountsAreExactlyTheDeclaredSet</code></td>
+<td><strong>GAP</strong>: the mount half holds and is pinned; the daemon's input-staging path is too wide and has no committed test yet; being fixed</td>
+</tr>
+<tr>
+<td>TZ-4</td>
+<td>Every model call an agent makes goes through the daemon's <code>/api/v1</code> proxy.</td>
+<td><code>TestBuildPreImageArgsDaemonOnlySocket</code>; <code>TestCheckAgentLLMTopology</code></td>
+<td><strong>SCOPED</strong>: enforced for daemon-only and <code>none</code> roles, which have no other route. For egress roles it is unenforced configuration: <code>vornikctl doctor</code> (<code>agent_llm_topology</code>) reports a direct route as an ERROR but blocks nothing, and no test fails on one</td>
+</tr>
+<tr>
+<td>TZ-5</td>
+<td>A zero-egress role has no network device. A daemon-only role without a configured socket stays at <code>--network none</code> (fails closed), and an invalid default network falls back to daemon-only.</td>
+<td><code>TestBuildPreImageArgsDaemonOnlyFailClosed</code>; <code>TestWithDefaultNetworkInvalidFallsClosed</code></td>
+<td><strong>HOLDS</strong> (an unset <code>runtime.default_network</code> means egress; zero egress is opt-in)</td>
+</tr>
+<tr>
+<td>TZ-6</td>
+<td>A per-task key works only for its own project: the model proxy refuses a cross-project task.</td>
+<td><code>TestChatCompletions_RejectsCrossProjectTaskID</code></td>
+<td><strong>HOLDS</strong></td>
+</tr>
+<tr>
+<td>TZ-7</td>
+<td>An agent's tool calls go through the daemon, which enforces the role's tool allowlist.</td>
+<td><code>TestMCPEgress_AllowedToolsEnforcedDaemonSide</code>; <code>TestServer_CallMCPTool_RoleAllowlistBlocksOutOfScopeTool</code></td>
+<td><strong>HOLDS</strong></td>
+</tr>
+<tr>
+<td>TZ-8</td>
+<td>The daemon spawns processes only through its one spawn package, from a closed set of programs, with argv the daemon builds.</td>
+<td><code>TestSpawnLaw_DaemonCodeImportsOSExecOnlyWhereTheDesignPlacesIt</code>; <code>TestSpawnLaw_OnlyNamedPackagesImportSpawn</code></td>
+<td><strong>HOLDS</strong></td>
+</tr>
+<tr>
+<td>TZ-9</td>
+<td>An agent container runs only the pinned agent image, from a closed flag grammar (no <code>--privileged</code>, <code>--cap-add</code>, <code>--device</code>), with every capability dropped and no new privileges.</td>
+<td><code>TestPodmanAgent_RefusesFlagsOutsideTheGrammar</code>; <code>TestPodmanAgent_RefusesAnImageThatIsNotThePinnedAgentImage</code>; <code>TestBuildPreImageArgsSetsHardeningFlags</code></td>
+<td><strong>HOLDS</strong></td>
+</tr>
+<tr>
+<td>TZ-10</td>
+<td>An agent cannot write the project's git state: <code>.git</code> is mounted read-only, and warm containers mount no project directory.</td>
+<td><code>TestS6Law_GitDirMountIsReadOnly</code>; <code>TestS6_WarmContainerMountsNoProjectDirectory</code></td>
+<td><strong>SCOPED</strong>: covers writes; the read-only <code>.git</code> lets an agent read every branch of its own project, by design</td>
+</tr>
+<tr>
+<td>TZ-11</td>
+<td>Every outbound message to a person goes through the AI-disclosure path (EU AI Act Art 50).</td>
+<td><code>TestArt50Law_EveryOutboundSendGoesThroughTheDisclosurePath</code>; <code>TestArt50Law_CatchesAPlantedBypass</code></td>
+<td><strong>SCOPED</strong>: the law checks sends through the named send methods in the packages it lists, by position rather than data flow</td>
+</tr>
+<tr>
+<td>TZ-12</td>
+<td>Admin routes require the admin gate.</td>
+<td><code>TestAdminHandlersRequireAdminGate</code></td>
+<td><strong>HOLDS</strong></td>
+</tr>
+<tr>
+<td>TZ-13</td>
+<td>Credentials entered for agent connections are stored encrypted, under a key file only the daemon's user can read.</td>
+<td><code>TestStore_CiphertextIsNotThePlaintext</code>; <code>TestLoadOrCreateKey_CreatesOnce0600</code></td>
+<td><strong>HOLDS</strong> (scope: the credential store; <code>secrets/*.env</code> files are plaintext under file permissions)</td>
+</tr>
+</tbody>
+</table>
+<p>What this table does <strong>not</strong> cover: host hardening outside vornik (the kernel, podman,
+SELinux policy), the database server's own access control, and model-provider
+behaviour. It is not an exhaustive list of boundaries either: properties observed
+without a test are not registered, for example that the agent step runs without a
+read-only root or a pids limit (the sandbox one-shots have both), and that container
+environment values, which the logs redact, are visible to host users through the
+process table and <code>podman inspect</code>. A container escape reaches the host kernel; optional microVM isolation
+is designed but not built.</p>
 
 
 

@@ -7658,6 +7658,7 @@ resolved row the same way changes nothing.</p>
   database_schema       Verify expected tables and indexes exist (incl. 2026.4.11+ additions)
   orphan_fk_rows        Detect orphan audit / watcher rows referencing missing tasks (cost-ledger rows are kept, reported)
   orphan_worktrees      .worktrees/ subdirs with no matching live task
+  preserved_work        Work a failed merge-back pinned to refs/vornik/preserved/ (recover or let expire)
   config_crlf           Config files with CRLF line endings (UI YAML-writer drift); --fix normalizes to LF
   config_template_drift Deployed configs that lack what this version's templates ship (preserve-existing
                         upgrades never apply a template fix); needs the installer's .templates baseline</p>

@@ -2951,7 +2951,9 @@ requires <code>github.repo</code> (and a working GitHub App installation; see
 <a href="../../features/forge/">Forge</a>) on the project. Setting <code>autonomy.workflow_id</code>
 to a workflow that doesn't exist is loud, not silent: it's flagged at config
 load/reload, and the tick itself skips (recorded, not a silent fallback to
-the default workflow) rather than guessing.</p>
+the default workflow) rather than guessing. The skip is recorded with outcome
+<code>WORKFLOW_INVALID</code> and a reason that names the missing workflow and the fix:
+correct <code>autonomy.workflow_id</code>, or load the workflow.</p>
 <p>Putting it together, a project with backlog autonomy pointed at draft PRs
 looks like:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">github</span><span class="p">:</span>

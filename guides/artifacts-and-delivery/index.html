@@ -2910,6 +2910,10 @@ label them accordingly.</p>
 scheduled task publishes OUTPUT artifacts, Vornik automatically attaches them
 to the original Telegram, Slack, or email destination before posting the
 completion summary. Scratch/intermediate files are never forwarded.</p>
+<p>Every scheduled update, reminder and delivered file says that an AI system
+produced it: on email each message ends with the AI-disclosure notice; on
+Telegram and Slack the chat gets the notice once, before the first update it
+receives, unless it was already told in an earlier conversation.</p>
 <p>Attachments are collected from the scheduled task <strong>and any tasks it delegated
 to</strong>. A scheduled prompt frequently runs a router workflow that hands the real
 work to a child task, and the deliverable is written there — collecting only

@@ -2922,17 +2922,20 @@ if you call a tool by hand through <code>vornikctl mcp call -p &lt;project&gt;</
 <code>name</code> must be unique within the project — it's how tools are namespaced and
 how you target a server from the CLI.</p>
 <h3 id="per-server-request-timeout">Per-server request timeout<a class="headerlink" href="#per-server-request-timeout" title="Permanent link">&para;</a></h3>
-<p><code>sse</code>/<code>streamable-http</code> servers use a <strong>30-second</strong> per-request timeout by
-default. If a server has tools that legitimately run longer — e.g. a scraper
-whose <code>web_fetch</code> hits slow or anti-bot sites — raise it with
+<p>Every request to an MCP server has a time limit. <code>sse</code> and <code>streamable-http</code>
+servers use a <strong>30-second</strong> limit by default; <code>stdio</code> servers use
+<strong>120 seconds</strong>. If a server has tools that legitimately run longer, such as a
+scraper whose <code>web_fetch</code> hits slow or anti-bot sites, raise the limit with
 <code>timeout_seconds</code> so a slow call completes instead of failing with
-<code>context deadline exceeded</code>:</p>
+<code>context deadline exceeded</code>. A call that hits the limit fails with an error
+naming the server. One slow or stuck server does not hold up calls to any
+other server.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">mcp</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">servers</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"scraper"</span>
 <span class="w">      </span><span class="nt">transport</span><span class="p">:</span><span class="w"> </span><span class="s">"sse"</span>
 <span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">"http://127.0.0.1:8787"</span>
-<span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90</span><span class="w">      </span><span class="c1"># 0 or omitted = 30s default</span>
+<span class="w">      </span><span class="nt">timeout_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">90</span><span class="w">      </span><span class="c1"># 0 or omitted = the default (30s; 120s for stdio)</span>
 </code></pre></div>
 <h2 id="authenticating-to-a-server">Authenticating to a server<a class="headerlink" href="#authenticating-to-a-server" title="Permanent link">&para;</a></h2>
 <p>Most hosted MCP servers require credentials. Add an <code>auth:</code> block to the server

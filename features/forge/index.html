@@ -3114,7 +3114,8 @@ label writers when retaining concurrently edited labels matters.</p>
 <p>Closing duplicates requires a separate <code>close_enabled: true</code> and the role tool
 <code>forge_close_issue</code>. Supply the source issue number, a different positive
 <code>duplicate_of</code> number in the same allowed repo, and an explanation. The daemon
-verifies both are issues, posts an explanation marked as automated triage, and
+verifies both are issues, posts an explanation marked as automated triage and
+ending with the AI-disclosure notice (<code>ai_disclosure.publication_text</code>), and
 closes the source as not planned. Retries recognize only markers posted through
 this same GitHub App. Closing refuses when the full comment set cannot be
 checked within the 100-comment cap. Both write opt-ins default to false.</p>
