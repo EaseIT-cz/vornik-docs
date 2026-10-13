@@ -2890,7 +2890,11 @@ MCP server:</p>
   don't rely on an MCP subprocess outliving its connection.</li>
 </ul>
 <p>If a stdio server exits or closes stdout on its own, the daemon <strong>re-launches
-  it automatically</strong> on the next tool call and retries that call once. You do
+  it automatically</strong> on the next tool call and retries that call once. One
+  exception: when the server died while it was handling the call, and the tool
+  can change something (it is not a read), the call is <strong>not</strong> retried, because
+  the server may already have done it. The error says so; check whether the
+  action took effect before running it again. You do
   not need to restart the daemon to recover a crashed stdio server. Concurrent
   calls against a server that has just died share one relaunch rather than
   starting a subprocess each. If the relaunch itself fails — the command is
