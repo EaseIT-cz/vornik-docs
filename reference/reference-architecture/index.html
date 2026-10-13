@@ -3487,7 +3487,7 @@ providers. A dashed line is a path only some roles have.</p>
 failing test is a hope, so a row without one is not allowed: the
 <code>TestTrustZoneRegister_EveryInvariantNamesALiveTest</code> law reads this table and fails
 the build if a named test is renamed or deleted, or if the count below drifts.</p>
-<p><strong>13 invariants stated, 13 pinned by at least one test (30 test references)</strong>: 9 hold as stated, 4 hold only for the
+<p><strong>13 invariants stated, 13 pinned by at least one test (34 test references)</strong>: 9 hold as stated, 4 hold only for the
 scope given in the row (<strong>SCOPED</strong>), and 0 have a known gap that is being fixed
 (<strong>GAP</strong>). A pinned test proves the part it asserts. It does not prove the whole
 sentence, and the status column says where those differ.</p>
@@ -3504,7 +3504,7 @@ sentence, and the status column says where those differ.</p>
 <tr>
 <td>TZ-1</td>
 <td>Provider and connector credentials stay in the daemon. An agent run holds only its per-task key, plus any named secrets the operator explicitly grants its project.</td>
-<td><code>TestInjectPerTaskKey_OverridesVORNIK_LLM_API_KEY</code>; <code>TestInjectPerTaskKey_MintErrorRefusesStart</code>; <code>TestInjectWarmProjectKey_MintFailureRefuses</code></td>
+<td><code>TestInjectPerTaskKey_OverridesVORNIK_LLM_API_KEY</code>; <code>TestInjectPerTaskKey_MintErrorRefusesStart</code>; <code>TestInjectWarmProjectKey_MintFailureRefuses</code>; <code>TestExecuteAgentStep_MintFailureNeverStartsContainer</code>; <code>TestExecuteWarmAgentStep_MintFailureNeverStartsWarm</code></td>
 <td><strong>HOLDS</strong> (scope: with the per-task key minter wired, as in every production build, a failed mint refuses the step instead of falling back to a static key)</td>
 </tr>
 <tr>
@@ -3516,8 +3516,8 @@ sentence, and the status column says where those differ.</p>
 <tr>
 <td>TZ-3</td>
 <td>Agent sandboxes never reach artifact storage directly, only through the daemon's artifact routes. No daemon-owned host path (data dir, artifact store, secrets, config) is mounted into an agent; the runtime mounts exactly the declared per-execution set.</td>
-<td><code>TestTrustZone_AgentMountsAreExactlyTheDeclaredSet</code>; <code>TestW35_StagingRefusesAnotherProjectsArtifact</code>; <code>TestConfineTaskInputArtifacts_CallerPathsAreSelectorsAmongOwnRows</code>; <code>TestStageInputArtifacts_CrossProjectEntryPerProducer</code>; <code>TestCreateTask_InputFiles_RefusesAnotherProjectsArtifactID</code></td>
-<td><strong>HOLDS</strong> (scope: an agent run can be handed its own project's stored artifacts, never another project's or a temp file)</td>
+<td><code>TestTrustZone_AgentMountsAreExactlyTheDeclaredSet</code>; <code>TestW35_StagingRefusesAnotherProjectsArtifact</code>; <code>TestConfineTaskInputArtifacts_CallerPathsAreSelectorsAmongOwnRows</code>; <code>TestStageInputArtifacts_CrossProjectEntryPerProducer</code>; <code>TestCreateTask_InputFiles_RefusesAnotherProjectsArtifactID</code>; <code>TestExecuteWorkflowAttempt_TaskInputPathsAreConfinedToNamedRows</code>; <code>TestPersistArtifacts_SymlinkSwapAfterListingIsNotFollowed</code></td>
+<td><strong>HOLDS</strong> (scope: an agent run can be handed its own project's stored artifacts, never another project's or a temp file; what a run leaves as output is read only from beneath its own workspace, so it cannot be another project's file)</td>
 </tr>
 <tr>
 <td>TZ-4</td>
