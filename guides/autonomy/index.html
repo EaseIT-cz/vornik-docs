@@ -2819,7 +2819,9 @@ that are specific to it. On each tick, <em>before</em> any model cost is incurre
 loop checks — in order — the per-hour task cap, the shared rate limits, and the
 project's <a href="../cost-and-caching/#hard-spend-caps">spend caps</a> (a hard-cap breach
 skips the tick entirely). It also <strong>won't schedule on top of in-flight work</strong>:
-if the project already has a queued or running task, the tick is skipped. And it
+if the project already has a queued or running task, or one awaiting approval,
+the tick is skipped. The recorded reason counts those tasks by status and, for
+an approval, says how to release it. And it
 <strong>deduplicates</strong> — an identical prompt that recently completed (within the
 duplicate window) won't be created again, so a steady loop doesn't pile up
 copies.</p>
