@@ -2846,6 +2846,14 @@ bound fails. The agent image declares its tools in the
 declare (an image older than the release) reports "not available in the agent
 image" without starting anything, and <code>vornikctl doctor</code> runs every tool on a
 fixture to prove it works.</p>
+<p><strong>Which media containers are read.</strong> ffmpeg and ffprobe read only the uploaded
+file itself, and only as one of these containers: MP4/M4A/MOV/3GP, Matroska
+and WebM, Ogg (including Opus voice notes), MP3, WAV, FLAC, ADTS AAC, AVI,
+ASF (WMA/WMV), MPEG-TS, MPEG-PS (VOB), FLV, AIFF, AMR and CAF. A playlist or
+manifest (HLS <code>.m3u8</code>, DASH <code>.mpd</code>, an ffmpeg concat list, SDP) is refused
+rather than followed, and so is any other container (WavPack, APE, MXF,
+RealMedia, raw AC-3/DTS): extraction fails with ffmpeg's "Format not on
+whitelist". Convert such a file to one of the formats above first.</p>
 <p><strong>Audio extraction changed in 2026.9.7.</strong> It used to run OpenAI's Python
 <code>whisper</code> CLI on the host with its <code>turbo</code> model. It now runs whisper.cpp
 (<code>whisper-cli</code>) in the sandbox with a ggml model you configure:
@@ -2937,6 +2945,9 @@ REST create-task path, or a Telegram / email attachment). The task then carries:
 <li>the raw file <strong>staged into the container</strong> at <code>artifacts/in/&lt;name&gt;</code>, which is what an
   agent opens with an ordinary file read.</li>
 </ul>
+<p>Only files Vornik stored as artifacts <strong>of the task's own project</strong> are staged. A path you
+write into <code>context.inputFiles</code> yourself, or one that names another project's artifact, is
+not staged; attach the file instead, and Vornik stores it and fills in both fields.</p>
 <p>There is one wrinkle worth knowing, because it is the thing that bites: a <strong>document</strong>
 (PDF, EPUB, DOCX…) is normally <em>extracted</em> into project memory at upload time, and the
 raw bytes are then deliberately NOT staged — the extraction carries the content, and
