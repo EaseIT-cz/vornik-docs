@@ -3098,8 +3098,43 @@ between a deterministic gate and one that fires on noise.</p>
 <td>n=3</td>
 <td><code>d2ffc5b3e11e</code></td>
 </tr>
+<tr>
+<td><code>2026.10.5-535-g3a228c188</code> (2026.10.6)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>496e1e5efb22</code></td>
+</tr>
 </tbody>
 </table>
+<p><strong>The tenth row is 2026.10.6's release candidate</strong> (<code>main</code> at <code>3a228c188</code>,
+an enterprise build), measured on 2026-10-14 on the memory-benchmark
+deployment, same embedder (<code>openai/qwen3-embedding:0.6b@1024d</code>), reranker
+off, cold corpus. Every metric is identical to 2026.10.5 to four decimal
+places across three deterministic runs, so <strong>no regression</strong>. The key is new
+(<code>496e1e5efb22</code>) and the only key field that moved is <code>daemon_revision</code>
+(checked field by field against 2026.10.5's manifest); dataset revision,
+<code>max_tokens</code>, item selection and embedder are unchanged. The run was
+required: the cycle makes the Article 18 restriction default-deny on every
+chunk read (knowledge-graph reads included), and makes every companion tool
+refuse an argument it does not declare (#305), which recall is. <strong>The first
+attempt failed, and is part of this row's record.</strong> At <code>aa2dc8d5d</code> every
+recall was refused at the harness's leakage probe, before any item was
+scored: the harness had always sent recall an undeclared <code>max_tokens</code>, which
+the daemon had silently dropped (harness design §13.26). The harness no longer
+sends it and the daemon accepts and ignores that one name from older
+harnesses; the daemon never read it, so this row is comparable with the rows
+above. Run 1 cleared 4 chunks rather than 1,897, because the failed attempt
+had cleared the store and written only its probe; runs 2 and 3 cleared 1,897
+as in every row since 2026.9.7. Each run starts from an empty store either
+way. <strong>What it does NOT show:</strong> the benchmark ingests into one unrestricted
+project, so no restricted chunk exists and the restriction filter is
+exercised only on its pass-through side; the refusal side is covered by the
+daemon's own tests on both database drivers. The run carries
+<code>retrieval_path_unverified</code>, as every row since the third does.</p>
 <p><strong>The ninth row is 2026.10.5's release candidate</strong> (<code>main</code> at <code>2213d297b</code>,
 an enterprise build), measured on 2026-10-07 on the memory-benchmark
 deployment, same embedder (<code>openai/qwen3-embedding:0.6b@1024d</code>), reranker
@@ -3489,6 +3524,11 @@ each is stated:</p>
 <td><code>2026.10.5</code></td>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, on the release candidate (<code>2026.10.4-171-g2213d297b</code>, n=3), identical to 2026.10.3. The cycle changes the companion note ingest path (memory reinstate after a forget, the refute route) and makes recall record each returned result's use, so a waiver was not open to it. No agent row, for the reason stated under 2026.10.1: the arm's model endpoint is still unreachable.</td>
+</tr>
+<tr>
+<td><code>2026.10.6</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, on the release candidate (<code>2026.10.5-535-g3a228c188</code>, n=3), identical to 2026.10.5. The cycle makes the Article 18 restriction default-deny on every chunk read and makes recall refuse undeclared arguments, so a waiver was not open to it. This entry records the memory row only; no agent row is published for this release in this table.</td>
 </tr>
 </tbody>
 </table>
