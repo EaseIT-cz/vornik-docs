@@ -3552,19 +3552,28 @@ new behavior; those are called out below.</p>
   Before this release the wipe failed and deleted nothing, so the first
   sweep after the upgrade deletes every such project.</li>
 <li><strong>Project delete-now waits for the outcome:</strong> the API answers
-  <code>deleted</code>, <code>deleted_with_errors</code> (with a warning; artifact files may
-  remain), <code>DELETE_FAILED</code> (500) or <code>deletion_pending</code> (202), and
-  <code>vornikctl project delete-now</code> exits 0, 3 (removed, files may remain)
+  <code>deleted</code>, <code>deleted_with_errors</code> (with a warning and <code>residue_steps</code>
+  naming what remains: artifact files, or a registry reload the next
+  sweep completes), <code>DELETE_FAILED</code> (500) or <code>deletion_pending</code> (202),
+  and <code>vornikctl project delete-now</code> exits 0, 3 (removed with residue)
   or 1 (not deleted).</li>
+<li><strong>Companion tool calls that repeat an argument key are refused</strong>
+  (compared case-insensitively). Two argument names a 2026.10.5
+  <code>vornikctl bench</code> sends are still accepted and counted in
+  <code>vornik_companion_legacy_argument_total</code>; upgrade <code>vornikctl</code>.</li>
 <li><strong>A <code>chat.timeout</code> of <code>0s</code> or less no longer leaves model calls
   unbounded;</strong> the 300 s default applies.</li>
 <li><strong>Metrics and outcomes:</strong> <code>vornik_judge_evaluations_total</code> no longer
   counts a failed judge call as <code>ok</code>, and a timed-out autonomy evaluation
   is the new outcome <code>LLM_TIMEOUT</code> instead of <code>LLM_ERROR</code>.</li>
-<li><strong>Companion bundles:</strong> Claude Code 0.46.1, Codex 0.42.1, Hermes 0.21.5.</li>
+<li><strong>Companion bundles:</strong> Claude Code 0.46.1, Codex 0.42.1, Hermes 0.21.6.</li>
 <li><strong>The Hermes plugin reads its settings through Hermes,</strong> so a Hermes
   gateway serving several profiles gives each profile its own Vornik URL
   and keys.</li>
+<li><strong>The Hermes plugin no longer coaches a model to re-store a
+  duplicate:</strong> a note refused as already stored now says so and that it
+  must not be stored again, so a forgotten fact is not re-stored
+  reworded.</li>
 <li><strong>Hermes's unattended sessions never reach the phone.</strong> Cron jobs,
   <code>hermes chat -q</code> and webhook or <code>api_server</code> sessions with no client
   that can answer follow Hermes's own <code>approvals.*_mode</code> settings, and
@@ -3589,6 +3598,8 @@ new behavior; those are called out below.</p>
 <li>A project re-created under a deleted project's ID inherits none of its
     grants or approvals, and a deleted project's OAuth tokens are deleted.</li>
 <li>Approver-device choice cards can be answered only with a choice.</li>
+<li>A companion tool call that repeats an argument key is refused, so the
+    audit row always shows the arguments that ran.</li>
 <li><strong>Compliance.</strong></li>
 <li>Every outbound send of agent-authored content carries the AI Act Art 50
     notice; on Slack the notice and content go in one post.</li>
@@ -3626,7 +3637,10 @@ new behavior; those are called out below.</p>
 <li><strong>Operator commands.</strong> <code>vornikctl daemon drain</code>, <code>undrain</code> and <code>inflight</code>,
   and <code>vornikctl control-plane journal list</code> and <code>resolve</code>; <code>vornikctl
   retention</code> works on SQLite.</li>
-<li><strong>Console.</strong> Form controls meet WCAG 1.4.11 contrast in both themes.</li>
+<li><strong>Console.</strong> Form controls meet WCAG 1.4.11 contrast in both themes. The
+  cache-savings figures name their cache and window: the spend page's
+  provider prompt-cache savings cover the page window and every role/model
+  pair, and the response cache served by Vornik covers all cached entries.</li>
 <li><strong>Correction.</strong> Four items earlier listed under 2026.10.5 ship in this
   release; that section is marked. Five project keys carried a wrong
   "since" release: <code>broker</code> and <code>companion_push</code> shipped in 2026.10.1, and
