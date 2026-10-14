@@ -3573,7 +3573,8 @@ new behavior; those are called out below.</p>
 <li><strong>The Hermes plugin no longer coaches a model to re-store a
   duplicate:</strong> a note refused as already stored now says so and that it
   must not be stored again, so a forgotten fact is not re-stored
-  reworded.</li>
+  reworded; and a note carrying leaked tool-call syntax (a garbled
+  call meant for another tool) is refused before it reaches Vornik.</li>
 <li><strong>Hermes's unattended sessions never reach the phone.</strong> Cron jobs,
   <code>hermes chat -q</code> and webhook or <code>api_server</code> sessions with no client
   that can answer follow Hermes's own <code>approvals.*_mode</code> settings, and
