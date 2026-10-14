@@ -2844,7 +2844,12 @@ VORNIK_BROKER_TOKEN=&lt;the broker-mail secret&gt;
 VORNIK_MEMORY_TOKEN=&lt;the hermes-memory secret&gt;
 </code></pre></div>
 <p>If Hermes runs with <code>HERMES_HOME</code> set to another directory (a service
-often does), edit <code>.env</code> there instead.</p>
+often does), edit <code>.env</code> there instead. Each Hermes profile has its own
+<code>.env</code>, and a gateway that serves several profiles gives each one only its
+own: put the lines in the <code>.env</code> of every profile that should reach Vornik
+(<code>hermes -p &lt;profile&gt; config set VORNIK_URL …</code> writes one line there). The
+plugin (0.21.5 and later) reads them through Hermes, never from the
+process environment.</p>
 <p><code>http://localhost:8080</code> is right when both users are on the same machine
 and Vornik listens on its default port. Plain <code>http</code> is only acceptable on
 loopback; for any other host use <code>https</code>.</p>

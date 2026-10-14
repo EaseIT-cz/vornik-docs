@@ -1197,6 +1197,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#on-sqlite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On SQLite
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2725,6 +2736,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#on-sqlite" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        On SQLite
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2879,7 +2901,9 @@ has its own age threshold in days.</p>
   with <code>tool_audit_floor_days</code>. To keep them for less — because another law
   requires a shorter period, or because yours is not a high-risk deployment —
   set <code>tool_audit_floor_override: true</code> and say which in
-  <code>tool_audit_floor_override_basis</code>; an override without a basis is ignored.</p>
+  <code>tool_audit_floor_override_basis</code>; an override without a basis is ignored.
+  The record of a connected assistant's refused calls (shown on its page
+  under <strong>Admin → Assistants</strong>) is kept for the same time.</p>
 </li>
 <li>
 <p><code>memory_chunks_days: 0</code> keeps long-term memory forever, which is the right
@@ -2951,6 +2975,25 @@ vornikctl<span class="w"> </span>retention<span class="w"> </span>--json
 (or object, on S3). It cannot be undone from within vornik — recovery
 means restoring from a backup. Run a preview first.</p>
 </div>
+<h3 id="on-sqlite">On SQLite<a class="headerlink" href="#on-sqlite" title="Permanent link">&para;</a></h3>
+<p>Retention and <code>vornikctl retention</code> work on both database drivers. On
+SQLite every table the SQLite schema has is pruned on the same windows as on
+PostgreSQL. Three differences:</p>
+<ul>
+<li>Pruning project memory (<code>memory_chunks_days</code>, per-class TTLs) and the
+  phone-approved idle-memory flow need PostgreSQL. Project memory itself is
+  PostgreSQL-only, so there is normally nothing to prune; if old memory ever
+  exists on SQLite, the sweep reports it as kept rather than deleting it.</li>
+<li>Tables SQLite does not have (the response and embedding caches, the
+  memory-eviction audit) are skipped.</li>
+<li>SQLite runs without foreign-key enforcement, so since 2026.10.6 vornik
+  applies the PostgreSQL cascade itself: deleting or pruning a task,
+  execution or artifact also deletes or clears its child rows. Child rows
+  left behind by deletes before 2026.10.6 are not cleaned up.</li>
+<li>Since 2026.10.6, wiping an archived project (the grace-period wipe or
+  delete-now) works on SQLite too, and a wipe that fails says so instead of
+  reporting success.</li>
+</ul>
 <hr />
 <h2 id="backup-and-restore">Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permanent link">&para;</a></h2>
 <p><code>vornikctl backup</code> captures a complete snapshot you can restore later.</p>

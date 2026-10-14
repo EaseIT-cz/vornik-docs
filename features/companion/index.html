@@ -2744,7 +2744,7 @@ without leaving your coding session:</p>
 <p>The plugin talks to the daemon over MCP-over-HTTP and is gated by its own
 scoped key, so it never needs your admin credentials.</p>
 <h2 id="the-tools">The tools<a class="headerlink" href="#the-tools" title="Permanent link">&para;</a></h2>
-<p>The companion exposes these MCP tools. Each refuses an argument it does not declare, naming it and the arguments it accepts, so a misspelt or unsupported argument is an error rather than silently ignored (daemons that advertise <code>companion-strict-args</code>).</p>
+<p>The companion exposes these MCP tools. Each refuses an argument it does not declare, naming it and the arguments it accepts, so a misspelt or unsupported argument is an error rather than silently ignored (daemons that advertise <code>companion-strict-args</code>). Two exceptions keep older <code>vornikctl bench</code> clients working: <code>recall</code> accepts and ignores <code>max_tokens</code> (a number), and <code>delegate</code> accepts <code>project</code> only when it names the key's own project, where the task runs anyway; any other <code>project</code> is refused. An argument sent twice in one call (<code>{"workflow":"a","workflow":"b"}</code>) is refused too, so the call that runs is always the call that is recorded.</p>
 <table>
 <thead>
 <tr>
@@ -2791,7 +2791,7 @@ scoped key, so it never needs your admin credentials.</p>
 </tr>
 <tr>
 <td><code>status</code></td>
-<td>check a delegated task's status and attempt number; after a failed attempt it also names the step that failed and its error class, so you can see a retry is running. While the task runs it carries <code>progress</code>: the running step, its position (step 2 of 3) and when it started</td>
+<td>check a delegated task's status and attempt number; after a failed attempt it also names the step that failed and its error class, so you can see a retry is running. While the task runs it carries <code>progress</code>: the running step, its position (step 2 of 3) and when it started. A task held because an interrupted config change is waiting for the operator carries <code>paused</code>: the journal id, since when, and who resolves it (the operator, on their approver device or on the host; the assistant cannot)</td>
 </tr>
 <tr>
 <td><code>task_logs</code></td>
@@ -2823,7 +2823,7 @@ scoped key, so it never needs your admin credentials.</p>
 </tr>
 <tr>
 <td><code>cancel</code></td>
-<td>cancel a task that hasn't finished: stops its running execution, so no further step runs and the project's next task can start</td>
+<td>cancel a task that hasn't finished, including one waiting on its child tasks or for input: stops its running execution, so no further step runs and the project's next task can start. A task awaiting approval is not cancelled here; it is approved or rejected</td>
 </tr>
 <tr>
 <td><code>list</code></td>
@@ -3364,13 +3364,32 @@ Compaction is where a long session has lost the most context, so the directives
 are exactly what needs restoring; the digest is a point-in-time list you have
 usually already acted on, and reprinting it would spend the context the
 compaction just freed. Run <code>/peek</code> if you want it back.</p>
+<p>Since plugin 0.44.0, the plugin also <strong>nudges at the moment a code dive
+starts</strong>.</p>
+<ul>
+<li>On the third <code>Read</code>, <code>Grep</code> or <code>Glob</code> into one subsystem with no
+  successful <code>recall</code> in the last 15 minutes, Claude gets one line asking it
+  to recall that subsystem's design first. A subsystem is <code>internal/&lt;name&gt;</code>,
+  <code>src/&lt;name&gt;</code>, <code>cmd/&lt;name&gt;</code>, <code>pkg/&lt;name&gt;</code> or <code>contrib/&lt;name&gt;</code>.</li>
+<li>The nudge fires at most once per subsystem per session.</li>
+<li>It never blocks a tool call and makes no network call.</li>
+<li>It stores only subsystem names and a timestamp in the plugin's data
+  directory.</li>
+<li>Set <code>VORNIK_NUDGE=off</code> to turn it off. <code>VORNIK_NUDGE_THRESHOLD</code> and
+  <code>VORNIK_NUDGE_RECALL_WINDOW_S</code> tune it.</li>
+<li>Codex gets the same nudge since codex-companion 0.41.0. Codex has no
+  file-read tool, so its hook reads the text of each shell command and counts
+  paths given to a read program (<code>cat</code>, <code>head</code>, <code>sed</code>, <code>rg</code>, <code>grep</code>, <code>find</code>,
+  <code>ls</code> and a few others). It parses the text and never runs it. Codex runs
+  the hook only after you trust it at the "Hooks need review" prompt.</li>
+</ul>
 <p>For Codex, install <code>codex-companion</code> from the bundled Codex marketplace at
 <code>&lt;path&gt;/.agents/plugins/marketplace.json</code>, or load the plugin directly from
 <code>&lt;path&gt;/contrib/codex-companion</code>. Do not install the Claude marketplace at
 <code>&lt;path&gt;/.claude-plugin/marketplace.json</code> into Codex; that package carries the
 Claude manifest and will not register the companion MCP server in Codex. The
-Codex plugin exposes the same MCP server and a Codex-native <code>delegate</code> skill,
-but no Claude-only slash commands or SessionStart hook. The bundled Codex MCP
+Codex plugin exposes the same MCP server, a Codex-native <code>delegate</code> skill and
+the recall nudge hook, but no Claude-only slash commands or SessionStart hook. The bundled Codex MCP
 entry targets <code>http://localhost:8080</code>; for a remote daemon, override the MCP
 entry locally:</p>
 <div class="highlight"><pre><span></span><code>codex<span class="w"> </span>mcp<span class="w"> </span>add<span class="w"> </span>vornik<span class="w"> </span><span class="se">\</span>
