@@ -3581,9 +3581,15 @@ new behavior; those are called out below.</p>
   <code>hermes -z</code> runs in YOLO mode, so <code>hermes vornik approvals on</code> does not
   reach them. This is the limit for this release; lifting it needs a
   change in Hermes.</li>
+<li><strong>With a small local model, "forget" can still be stored instead.</strong>
+  A model that sends Hermes's memory removal to Vornik as a new note,
+  with garbled arguments, is refused for the shapes the plugin knows,
+  but not for every shape. After asking Hermes to forget something,
+  check <code>/vornik-memory</code> and forget any stray note there. Newer
+  tool-calling models make this mistake far less often.</li>
 </ul>
 </div>
-<p>A security, compliance and "no silent hang" release. Draft: not yet released.</p>
+<p>A security, compliance and "no silent hang" release.</p>
 <ul>
 <li><strong>Security.</strong></li>
 <li>Task input staging is confined to the task's own project.</li>
