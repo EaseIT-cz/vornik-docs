@@ -2972,7 +2972,10 @@ environment only at start, so unit and env-file edits need a restart.</p>
 changing code in any repository: recall before reading code, design before
 changing it, keep memory current. Every <code>recall</code> answer carries a
 <code>design_record</code>: how many of the hits returned are design-class (spec or
-decision) chunks stored with this repository's scope. The skill trusts only
+decision) chunks stored with this repository's scope and not produced by a
+workflow (a review of a design is not the design). When chunks with no scope
+crowd the results and none of the repository's own designs made the cut,
+Vornik counts again with the strict scope and says what that found. The skill trusts only
 those as the repository's design, so a project with few written designs is
 never told a design exists because another repository's ranked highly. Where
 there is none, it offers to write an as-built record of the part being
