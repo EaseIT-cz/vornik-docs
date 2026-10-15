@@ -2968,6 +2968,19 @@ with no error at all. The skill then pins the apply loop — validate with
 <code>vornikctl config reload-status</code>, where validation errors actually surface —
 and the restart-versus-reload boundary: systemd resolves the daemon's
 environment only at start, so unit and env-file edits need a restart.</p>
+<p><strong><code>develop-with-memory</code></strong> (Claude Code, Codex, and Hermes with a memory key) —
+changing code in any repository: recall before reading code, design before
+changing it, keep memory current. Every <code>recall</code> answer carries a
+<code>design_record</code>: how many of the hits returned are design-class (spec or
+decision) chunks stored with this repository's scope. The skill trusts only
+those as the repository's design, so a project with few written designs is
+never told a design exists because another repository's ranked highly. Where
+there is none, it offers to write an as-built record of the part being
+changed, from its code, configuration and measured behaviour, have it reviewed
+(<code>companion-doc-review</code>), and only then ingest it with the repository's scope,
+one part at a time rather than in a whole-repository crawl. In Claude Code,
+<code>VORNIK_DESIGN_FIRST=off</code> leaves the design-first rules out for a repository
+that keeps its designs elsewhere.</p>
 <p><strong><code>validate-install</code></strong> — checking a deployment against the
 <a href="../../reference/reference-architecture/">reference architecture</a>: the expected
 shape of a healthy install, and where yours diverges. Strictly read-only, which
