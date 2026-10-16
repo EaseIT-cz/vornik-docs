@@ -2637,7 +2637,7 @@ window and only fires after a <strong>sustained</strong> breach (three consecuti
 you can review with <code>vornikctl cp proposals</code>.</p>
 <h3 id="vornikctl-control-plane-alias-cp"><code>vornikctl control-plane</code> (alias <code>cp</code>)<a class="headerlink" href="#vornikctl-control-plane-alias-cp" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="c1"># See what's waiting for you</span>
-vornikctl<span class="w"> </span>cp<span class="w"> </span>proposals<span class="w">                 </span><span class="c1"># add --status DRAFT / --project janka</span>
+vornikctl<span class="w"> </span>cp<span class="w"> </span>proposals<span class="w">                 </span><span class="c1"># add --status DRAFT / --project family</span>
 
 <span class="c1"># Inspect one (full diff + rationale)</span>
 vornikctl<span class="w"> </span>cp<span class="w"> </span>show<span class="w"> </span>&lt;proposal-id&gt;
@@ -2648,7 +2648,7 @@ vornikctl<span class="w"> </span>cp<span class="w"> </span>reject<span class="w"
 
 <span class="c1"># Raise one yourself</span>
 vornikctl<span class="w"> </span>cp<span class="w"> </span>propose<span class="w"> </span>--title<span class="w"> </span><span class="s2">"bump scraper timeout"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--project<span class="w"> </span>janka<span class="w"> </span>--kind<span class="w"> </span>config<span class="w"> </span>--blast-radius<span class="w"> </span>project<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--project<span class="w"> </span>family<span class="w"> </span>--kind<span class="w"> </span>config<span class="w"> </span>--blast-radius<span class="w"> </span>project<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--diff<span class="w"> </span><span class="s1">'-timeout_seconds: 30</span>
 <span class="s1">+timeout_seconds: 90'</span><span class="w"> </span>--rationale<span class="w"> </span><span class="s2">"web_fetch timing out"</span>
 
