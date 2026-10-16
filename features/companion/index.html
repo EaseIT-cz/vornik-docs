@@ -3061,6 +3061,12 @@ still overrides the key default — keep passing it on a key reused across repos
 NULL-scoped notes. <code>strict_scope=true</code> narrows to the current scope plus <code>"*"</code>
 only — handy for spotting NULL-scoped leaks or confirming a scope is actually
 populated.</p>
+<p>The scope holds on every path a recall can take, including the extra rounds
+Vornik runs when a first search finds too little: those rounds look further
+within your scope, never outside it. The same scope applies to <code>memory_correct</code>
+with a <code>wrong_claim</code>: it searches what a default <code>recall</code> from that repository
+shows, so a claim made in one repository never refutes another repository's
+note. The memory hint a <code>delegate</code> returns is drawn from the same scope.</p>
 <div class="highlight"><pre><span></span><code>/recall how does the scheduler lease tasks?
 /remember the broker API rejects fractional shares with error 10243 — keep shares whole
 </code></pre></div>

@@ -1724,6 +1724,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#damaged-text-is-never-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Damaged text is never stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#minimum-length-of-a-note" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2643,6 +2654,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#damaged-text-is-never-stored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Damaged text is never stored
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#minimum-length-of-a-note" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2803,6 +2825,18 @@ vornikctl<span class="w"> </span>memory<span class="w"> </span>firewall<span cla
   rejected outright rather than stored as a husk. The escape hatch
   <code>VORNIK_ALLOW_UNSCANNED_MEMORY</code> exists for deliberate, audited exceptions.</li>
 </ul>
+<h2 id="damaged-text-is-never-stored">Damaged text is never stored<a class="headerlink" href="#damaged-text-is-never-stored" title="Permanent link">&para;</a></h2>
+<p>Text that is not valid UTF-8, or that contains control bytes other than tab,
+newline, carriage return and form feed, is refused from memory on every
+ingest path. This is what a damaged upload looks like, for example base64 that
+was copied by hand or by a model and lost a character. A refused document
+stores nothing: a deposit through the ingest pipeline lands in quarantine, an
+uploaded document is skipped and logged, and a <code>document-ingest</code> run names it
+under <code>refused_damaged</code> in its index step's result. Re-send the file encoded
+by a tool.</p>
+<p><code>vornikctl doctor</code> reports <code>memory_text_damage</code>: how many stored chunks were
+examined and how many of them hold damaged text, with the ids of any that are
+still recallable so you can forget them.</p>
 <h2 id="minimum-length-of-a-note">Minimum length of a note<a class="headerlink" href="#minimum-length-of-a-note" title="Permanent link">&para;</a></h2>
 <p>Memory also refuses content too short to carry a fact. A note you or an
 agent deposit deliberately, through the companion <code>remember</code> tool or by
