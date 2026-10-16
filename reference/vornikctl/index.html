@@ -11329,7 +11329,14 @@ vornik payload consistency rules:
 </table>
 <h2 id="vornikctl-task-cancel">vornikctl task cancel<a class="headerlink" href="#vornikctl-task-cancel" title="Permanent link">&para;</a></h2>
 <p>Cancel a task</p>
-<p>Cancel a task by ID. Only tasks in QUEUED, LEASED, RUNNING, or PENDING status can be cancelled.</p>
+<p>Cancel a task by ID. Tasks in PENDING, QUEUED, LEASED, RUNNING,
+WAITING_FOR_CHILDREN, AWAITING_INPUT, AWAITING_EXTERNAL or PAUSED status can be
+cancelled.</p>
+<p>Cancelling a parent also cancels its descendants (children, their children,
+and so on) that are PENDING, QUEUED, LEASED, RUNNING or WAITING_FOR_CHILDREN,
+and stops their running containers. A descendant that is PAUSED or awaiting
+input, an external event or approval is not cancelled by the cascade; list
+them with 'vornikctl task list --active --all' and cancel them by ID.</p>
 <div class="highlight"><pre><span></span><code>vornikctl task cancel &lt;taskId&gt; [flags]
 </code></pre></div>
 <table>
@@ -11473,7 +11480,17 @@ full machine-readable response.</p>
 </table>
 <h2 id="vornikctl-task-list">vornikctl task list<a class="headerlink" href="#vornikctl-task-list" title="Permanent link">&para;</a></h2>
 <p>List tasks</p>
-<p>List tasks for a project, optionally filtered by status.</p>
+<p>List tasks for a project, newest first, optionally filtered by status.</p>
+<p>Shows 20 tasks unless --limit or --all says otherwise. When more tasks match
+than are shown, the last line says so: "Showing 20 of 72 tasks; pass --all
+(or --limit N) to see the rest." --active lists every unfinished task
+(PENDING, QUEUED, LEASED, RUNNING, WAITING_FOR_CHILDREN, AWAITING_INPUT,
+AWAITING_EXTERNAL, PAUSED, AWAITING_APPROVAL), including parents waiting on
+their children. The PARENT column names the task a child was delegated from.</p>
+<p>Examples:
+  vornikctl task list -p my-project --active --all
+  vornikctl task list -p my-project --status QUEUED,WAITING_FOR_CHILDREN
+  vornikctl task list -p my-project --limit 100 --json</p>
 <div class="highlight"><pre><span></span><code>vornikctl task list [flags]
 </code></pre></div>
 <table>
@@ -11486,9 +11503,29 @@ full machine-readable response.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--active</code></td>
+<td><code>false</code></td>
+<td>Every unfinished status, including parents in WAITING_FOR_CHILDREN (not with --status)</td>
+</tr>
+<tr>
+<td><code>--all</code></td>
+<td><code>false</code></td>
+<td>Show every matching task (pages through the API)</td>
+</tr>
+<tr>
 <td><code>--json</code></td>
 <td><code>false</code></td>
 <td>Output in JSON format</td>
+</tr>
+<tr>
+<td><code>--limit</code></td>
+<td><code>20</code></td>
+<td>Show at most N tasks</td>
+</tr>
+<tr>
+<td><code>--offset</code></td>
+<td><code>0</code></td>
+<td>Skip the first N matching tasks (the nextOffset of a --json run continues it)</td>
 </tr>
 <tr>
 <td><code>-p</code>, <code>--project</code></td>
@@ -11498,7 +11535,7 @@ full machine-readable response.</p>
 <tr>
 <td><code>-s</code>, <code>--status</code></td>
 <td></td>
-<td>Filter by status (PENDING, QUEUED, RUNNING, COMPLETED, FAILED, CANCELLED)</td>
+<td>Filter by status; a comma-separated list matches any (PENDING, QUEUED, LEASED, RUNNING, WAITING_FOR_CHILDREN, AWAITING_APPROVAL, AWAITING_INPUT, AWAITING_EXTERNAL, PAUSED, COMPLETED, FAILED, CANCELLED, CLOSED)</td>
 </tr>
 </tbody>
 </table>

@@ -2925,6 +2925,33 @@ write credentials, because it never has them.</p>
    the review workflow, everything else to the issue workflow. Set
    <code>require_forge_event: true</code> on the source to drop deliveries that aren't
    actionable.</p>
+<p><strong>Repository scope.</strong> A webhook source acts only on events for the
+   project's own repositories: by default, the repositories named by
+   <code>forge.github.repo</code>, <code>github.repo</code>, <code>github_app.repo_allowlist</code> and
+   <code>forge.issues.repos</code> (compared case-insensitively against the
+   delivery's <code>repository.full_name</code>). This matters when one App is
+   installed on a whole organisation: every repository's events reach the
+   App's webhook, and without a scope another repository's labelled issue
+   would become a task in this project. Name the scope on the source to
+   make it explicit or different:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">webhooks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sources</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">acme/service</span><span class="p p-Indicator">]</span><span class="w">   </span><span class="c1"># or ["*"] to accept every repository</span>
+</code></pre></div>
+<p>A delivery for a repository outside the scope is acknowledged, recorded
+   as <code>filtered</code> with the code <code>repo_not_in_scope</code> (see
+   <code>GET /api/v1/projects/{projectId}/webhooks/events</code>), logged as a warning, and counted in
+   <code>vornik_webhook_repo_scope_total{outcome="dropped"}</code>; the same counter's
+   <code>allowed</code>, <code>no_repository</code> and <code>unrestricted</code> outcomes count everything
+   else the check examined. Events with no repository (installation, ping)
+   are not judged by the scope; <code>filter</code> and <code>require_forge_event</code> still
+   apply to them. If a project has a forge integration but names no
+   repository anywhere, the daemon warns at startup that its source accepts
+   every repository.</p>
+<p><em>Upgrading:</em> a source on a project that names a repository but
+   deliberately receives events for other repositories needs <code>repos</code> set
+   (or <code>["*"]</code>) after this change.</p>
 <p>At startup the daemon verifies it can actually push for each Forge-configured
 project and warns you if it can't — so a misconfigured key surfaces immediately,
 not on the first issue.</p>
