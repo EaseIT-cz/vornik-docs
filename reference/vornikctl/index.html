@@ -9753,7 +9753,7 @@ the parent process to handle the polling).</p>
 </tbody>
 </table>
 <h2 id="vornikctl-memory-regraph">vornikctl memory regraph<a class="headerlink" href="#vornikctl-memory-regraph" title="Permanent link">&para;</a></h2>
-<p>Re-flag chunks with zero edges so the KG worker reprocesses them</p>
+<p>Re-flag chunks with zero edges (or quarantined chunks) so the KG worker reprocesses them</p>
 <p>Re-flag every chunk in --project that produced zero published
 edges, so the daemon's KG extraction worker picks them up on its next
 tick and re-runs the four-stage pipeline (extractor → resolver →
@@ -9763,10 +9763,22 @@ from the change. Without this, the fix only helps NEW chunks.</p>
 <p>Idempotent: re-running against the same project re-flags the same
 chunk set minus any that the latest pass DID manage to extract edges
 from. --dry-run reports the candidate count without writing.</p>
+<p>--quarantined selects a different set: only QUARANTINED chunks (the
+worker gave up after its failure bound, graph_extraction_attempts &gt; 0
+with the flag cleared), and re-flags them with the attempt counter
+reset to 0, so each gets a full set of attempts under the current
+code. --error-contains narrows to chunks whose last recorded error
+contains the given text (literal, case-sensitive). --project is
+optional here; without it every project is examined, which needs a
+key that is not project-scoped. The report lists, per project, the
+quarantined chunks examined, the ones matched and the ones
+re-flagged. A chunk that is not quarantined is never touched.</p>
 <p>Examples:
   vornikctl memory regraph --project assistant --dry-run
   vornikctl memory regraph --project assistant
-  vornikctl memory regraph --project assistant --json</p>
+  vornikctl memory regraph --project assistant --json
+  vornikctl memory regraph --quarantined --error-contains "invalid byte sequence" --dry-run
+  vornikctl memory regraph --quarantined --error-contains "invalid byte sequence"</p>
 <div class="highlight"><pre><span></span><code>vornikctl memory regraph [flags]
 </code></pre></div>
 <table>
@@ -9784,14 +9796,24 @@ from. --dry-run reports the candidate count without writing.</p>
 <td>Report candidate count without writing</td>
 </tr>
 <tr>
+<td><code>--error-contains</code></td>
+<td></td>
+<td>With --quarantined: only chunks whose last error contains this text (literal, case-sensitive)</td>
+</tr>
+<tr>
 <td><code>--json</code></td>
 <td><code>false</code></td>
 <td>Emit JSON summary instead of human-readable output</td>
 </tr>
 <tr>
+<td><code>--quarantined</code></td>
+<td><code>false</code></td>
+<td>Re-flag only quarantined chunks, resetting their attempt counter (all projects unless --project)</td>
+</tr>
+<tr>
 <td><code>-p</code>, <code>--project</code></td>
 <td></td>
-<td>Project ID (required)</td>
+<td>Project ID (required, except with --quarantined)</td>
 </tr>
 </tbody>
 </table>
