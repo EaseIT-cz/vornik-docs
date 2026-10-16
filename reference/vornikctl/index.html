@@ -3613,6 +3613,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-retention-upgrade-dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl retention upgrade-dumps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-skill" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5952,6 +5963,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-retention-upgrade-dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl retention upgrade-dumps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-skill" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7677,6 +7699,7 @@ skopeo or systemctl, and no daemon request may run a program):
   api_key_strength      Detect weak / placeholder API keys
   secrets_permissions   Secrets files/dirs with world-readable permissions
   config_secret_hygiene Config.yaml plaintext secrets or loose permissions (recommends ${ENV_VAR})
+  redaction_seams       Secret scanning of chat_audit_log, chat_system_prompts, step_prompts and task_messages before persist; warns when off, with rows written and unscanned since boot
   secret_store_key      Agent credential store: a missing or wrong key while credentials exist is an error
   approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push
   agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
@@ -10771,6 +10794,51 @@ NEVER pruned.</p>
 <td><code>--project</code></td>
 <td></td>
 <td>operate on a single project (default: all)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-retention-upgrade-dumps">vornikctl retention upgrade-dumps<a class="headerlink" href="#vornikctl-retention-upgrade-dumps" title="Permanent link">&para;</a></h2>
+<p>Preview or prune the database dumps left by vornik-update.sh</p>
+<p>Each run of vornik-update.sh writes a full database dump into
+<dir>/vornik-upgrade-backup-<UTC>/. A dump is a complete copy of the
+database, so an erasure made after it is undone in it. This command keeps
+at most retention.upgrade_dump_keep dumps (default 2, newest first) and
+removes a dump retention.upgrade_dump_grace_days (default 14) after the
+upgrade that wrote it succeeded — or, for a run that did not succeed,
+after a newer upgrade ran. The newest dump of a failed upgrade is kept.</p>
+<p>Only the .dump file is removed; the binaries, config.yaml and STATE.txt
+stay, and the removal is recorded in STATE.txt. Preview by default; add
+--apply to delete. The daemon's retention sweeper applies the same rules
+when retention.enabled is on.</p>
+<p>Examples:
+  vornikctl retention upgrade-dumps                 # preview, in your home directory
+  vornikctl retention upgrade-dumps --apply
+  vornikctl retention upgrade-dumps --dir /srv/vornik-backups --json</p>
+<div class="highlight"><pre><span></span><code>vornikctl retention upgrade-dumps [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>actually delete the dumps past the policy (default: preview only)</td>
+</tr>
+<tr>
+<td><code>--dir</code></td>
+<td></td>
+<td>directory holding the vornik-upgrade-backup-* directories (default: retention.upgrade_dump_dir, else your home)</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td><code>false</code></td>
+<td>emit machine-readable JSON</td>
 </tr>
 </tbody>
 </table>

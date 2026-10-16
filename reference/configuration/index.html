@@ -4327,6 +4327,36 @@
 <td>Days to keep cached embeddings before evicting cold entries (0 = keep forever; 30d recommended if the table grows large).</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>retention.blackbox_trace_cache_days</code></td>
+<td>int</td>
+<td>Days to keep assembled black-box traces (0 = 1 day, the cache TTL).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.project_gists_days</code></td>
+<td>int</td>
+<td>Days a project gist or its narrative may go unrefreshed before it is removed (0 = 7).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.upgrade_dump_keep</code></td>
+<td>int</td>
+<td>Upgrade database dumps kept at most, newest first (0 = 2).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.upgrade_dump_grace_days</code></td>
+<td>int</td>
+<td>Days an upgrade database dump is kept after its upgrade succeeded (0 = 14).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>retention.upgrade_dump_dir</code></td>
+<td>string</td>
+<td>Directory holding the vornik-upgrade-backup-* directories (empty = the daemon user's home).</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="workspace_ingest">workspace_ingest<a class="headerlink" href="#workspace_ingest" title="Permanent link">&para;</a></h2>

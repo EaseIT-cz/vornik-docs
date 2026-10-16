@@ -1154,6 +1154,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#copies-of-conversations-diagnostic-caches-and-upgrade-dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copies of conversations: diagnostic caches and upgrade dumps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-project-overrides" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2693,6 +2704,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#copies-of-conversations-diagnostic-caches-and-upgrade-dumps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copies of conversations: diagnostic caches and upgrade dumps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-project-overrides" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2913,6 +2935,45 @@ has its own age threshold in days.</p>
 <li><code>task_messages_days: 0</code> means chat history is pruned only when its parent
   task is pruned. Set it explicitly to trim chat faster than tasks.</li>
 </ul>
+<h3 id="copies-of-conversations-diagnostic-caches-and-upgrade-dumps">Copies of conversations: diagnostic caches and upgrade dumps<a class="headerlink" href="#copies-of-conversations-diagnostic-caches-and-upgrade-dumps" title="Permanent link">&para;</a></h3>
+<p>Some stores hold <em>copies</em> of conversation text rather than the original.
+An erasure request does not reach them directly, so each one has a limit on
+how long it can keep a copy. These limits are always on while the sweeper is
+enabled; setting a key to <code>0</code> means "use the default", not "keep forever".</p>
+<div class="highlight"><pre><span></span><code><span class="nt">retention</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">blackbox_trace_cache_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w">   </span><span class="c1"># assembled task traces (default 1 day)</span>
+<span class="w">  </span><span class="nt">project_gists_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">7</span><span class="w">          </span><span class="c1"># project summaries and their narrative (default 7)</span>
+<span class="w">  </span><span class="nt">upgrade_dump_keep</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span><span class="w">           </span><span class="c1"># database dumps left by vornik-update.sh</span>
+<span class="w">  </span><span class="nt">upgrade_dump_grace_days</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">14</span><span class="w">    </span><span class="c1"># kept this long after their upgrade succeeded</span>
+<span class="w">  </span><span class="nt">upgrade_dump_dir</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">           </span><span class="c1"># where the backups are; empty = your home directory</span>
+</code></pre></div>
+<ul>
+<li><strong>Task traces</strong> (the black box's trace view) are a cache: a trace older than
+  a day is rebuilt from the original records when you open it, so nothing is
+  lost by removing it.</li>
+<li><strong>Project summaries</strong> are rebuilt every few minutes while a project's
+  memory loop runs. A summary that has not been refreshed for a week, and a
+  narrative that has not been rewritten for a week, are removed. A project
+  page then shows its "no summary yet" state until the loop runs again.</li>
+<li><strong>Upgrade dumps.</strong> Each run of <code>vornik-update.sh</code> saves a full copy of the
+  database in <code>&lt;home&gt;/vornik-upgrade-backup-&lt;date&gt;/</code>. The newest two are
+  kept at most, and each is removed 14 days after the upgrade that wrote it
+  succeeded. The newest dump of an upgrade that did <em>not</em> succeed is kept until
+  a later upgrade runs: it is your way back. Only the dump file is removed;
+  the previous binaries and the run's record stay, and the record notes when
+  and why the dump went. <code>vornik-update.sh</code> applies this at the end of every
+  successful upgrade, and the sweeper applies it between upgrades.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>retention<span class="w"> </span>upgrade-dumps<span class="w">            </span><span class="c1"># preview</span>
+vornikctl<span class="w"> </span>retention<span class="w"> </span>upgrade-dumps<span class="w"> </span>--apply<span class="w">    </span><span class="c1"># delete the dumps past the policy</span>
+</code></pre></div>
+<p><code>vornikctl doctor</code> reports dumps past the policy as <code>upgrade_dumps</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">With the sweeper off</p>
+<p>With <code>retention.enabled: false</code> (the default) the task-trace cache and the
+project summaries keep their copies indefinitely. Upgrade dumps are still
+pruned, but only when an upgrade runs.</p>
+</div>
 <h3 id="per-project-overrides">Per-project overrides<a class="headerlink" href="#per-project-overrides" title="Permanent link">&para;</a></h3>
 <p>Any of these thresholds can be set on an individual project's config to
 override the daemon default. A common pattern is keeping cost data longer for
