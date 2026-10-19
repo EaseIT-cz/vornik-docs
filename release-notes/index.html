@@ -2405,6 +2405,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026107" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.10.7
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026106" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2945,6 +2956,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026107" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.10.7
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026106" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3479,6 +3501,20 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
+<h2 id="2026107">2026.10.7<a class="headerlink" href="#2026107" title="Permanent link">&para;</a></h2>
+<p><em>Unreleased draft.</em></p>
+<ul>
+<li><strong>Scheduled work can start from the latest code.</strong> A project that sets
+  <code>workspace.refresh_before_work: true</code> has its workspace reset to
+  <code>origin/&lt;branch&gt;</code> before each task from a task-kind reminder, a broker
+  schedule or autonomy, the same reset a forge task already gets. Commits
+  that exist only in the workspace are kept in a <code>refs/vornik/discarded/*</code>
+  ref. <code>workspace.refresh_branch</code> picks the branch (default: the
+  workspace's current branch). Every attempt is counted in
+  <code>vornik_executor_workspace_refresh_total{project, source, outcome}</code>. Off
+  by default, and refused together with <code>autonomy.mode: backlog</code>, which
+  refreshes on its own. See <a href="../guides/autonomy/#refreshing-the-workspace-before-scheduled-work">Autonomy</a>.</li>
+</ul>
 <h2 id="2026106">2026.10.6<a class="headerlink" href="#2026106" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Upgrade requirements</p>

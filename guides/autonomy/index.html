@@ -845,6 +845,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#refreshing-the-workspace-before-scheduled-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refreshing the workspace before scheduled work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#watching-it" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2654,6 +2665,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#refreshing-the-workspace-before-scheduled-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Refreshing the workspace before scheduled work
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#watching-it" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2991,6 +3013,40 @@ terminates with no PR opened. The next tick's reconcile pass finds the
 terminal-failed item and flips its box from <code>- [x]</code> to <code>- [!]</code> in the backlog
 file, so nothing is silently lost — investigate, then flip it back to
 <code>- [ ]</code> to retry, or delete the line if it's not worth retrying.</p>
+<h2 id="refreshing-the-workspace-before-scheduled-work">Refreshing the workspace before scheduled work<a class="headerlink" href="#refreshing-the-workspace-before-scheduled-work" title="Permanent link">&para;</a></h2>
+<p><em>New in 2026.10.7.</em> A task from <code>cron</code> or <code>llm</code> autonomy, or from a
+task-kind reminder, normally starts from whatever the project workspace
+last held. If the workspace is a clone of a repository that changes
+elsewhere, opt in to a reset before each such task:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">workspace</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">refresh_before_work</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">refresh_branch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span><span class="w">   </span><span class="c1"># optional; default: the workspace's current branch</span>
+</code></pre></div>
+<p>Before the task's worktree is created, vornik fetches <code>origin</code> and resets the
+workspace to <code>origin/&lt;branch&gt;</code>. This is the same reset a forge task gets:</p>
+<ul>
+<li>commits that exist only in the workspace (for example a git-over-HTTPS push
+  that never reached <code>origin</code>) are moved off the branch and kept in a
+  <code>refs/vornik/discarded/&lt;time&gt;-&lt;sha&gt;</code> ref you can recover them from;</li>
+<li>uncommitted changes to tracked files in the workspace itself are discarded;</li>
+<li>untracked files are left alone.</li>
+</ul>
+<p>So opt in only for a project whose workspace should mirror <code>origin</code>, such as
+one that reads a repository, not one whose agents commit work that is never
+pushed.</p>
+<p>What it does not cover: tasks you submit by hand, from chat or from a
+companion, and child tasks, start from the workspace as it is. A
+<code>backlog</code>-mode project already refreshes at every tick and keeps its
+checklist marks across that refresh, so the key is refused with
+<code>autonomy.mode: backlog</code>. A detached HEAD with no <code>refresh_branch</code> is not
+refreshed. The fetch is bounded at 90 seconds; a private repository needs a
+credential the daemon's git can use.</p>
+<p>The refresh never stops a task: when it cannot run, the task starts from the
+workspace as it is. Every attempt is counted in
+<code>vornik_executor_workspace_refresh_total{project, source, outcome}</code> and logged.
+<code>outcome</code> is <code>refreshed</code> or the reason it was not: <code>no_origin</code>,
+<code>fetch_failed</code>, <code>reset_failed</code>, <code>not_git</code>, <code>skipped_no_branch</code>,
+<code>skipped_has_children</code>, <code>skipped_resume</code> or <code>skipped_backlog_mode</code>.</p>
 <h2 id="watching-it">Watching it<a class="headerlink" href="#watching-it" title="Permanent link">&para;</a></h2>
 <p>Every evaluation — whether it created a task or not — is recorded with an
 outcome (created, no-action, rate-limited, budget-blocked, duplicate, and so

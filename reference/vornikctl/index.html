@@ -7704,7 +7704,8 @@ skopeo or systemctl, and no daemon request may run a program):
   approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push
   agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
   agent_model_catalogue Agent role models: agent_admin.models entries not offered to agent roles (no route, a command-line provider, or remote without an exact price)
-  agent_refusal_burst   Agent namespaces with 20 or more refused agent-admin calls in the last hour (a loop or a probe); states how many it examined</p>
+  agent_refusal_burst   Agent namespaces with 20 or more refused agent-admin calls in the last hour (a loop or a probe); states how many it examined
+  agent_change_stays_applied Agent-admin changes refused to the agent whose rollback failed and that are still applied (last 30 days); states how many it examined</p>
 <p>Models:
   model_health          Role-pinned models with high recent failure rate or
                         degenerate output; RECOMMENDS the role's modelFallback
@@ -11422,11 +11423,11 @@ vornik payload consistency rules:
 <p>Cancel a task by ID. Tasks in PENDING, QUEUED, LEASED, RUNNING,
 WAITING_FOR_CHILDREN, AWAITING_INPUT, AWAITING_EXTERNAL or PAUSED status can be
 cancelled.</p>
-<p>Cancelling a parent also cancels its descendants (children, their children,
-and so on) that are PENDING, QUEUED, LEASED, RUNNING or WAITING_FOR_CHILDREN,
-and stops their running containers. A descendant that is PAUSED or awaiting
-input, an external event or approval is not cancelled by the cascade; list
-them with 'vornikctl task list --active --all' and cancel them by ID.</p>
+<p>Cancelling a parent also cancels every unfinished descendant (children, their
+children, and so on): PENDING, QUEUED, LEASED, RUNNING, WAITING_FOR_CHILDREN,
+PAUSED, AWAITING_INPUT, AWAITING_EXTERNAL and AWAITING_APPROVAL ones alike, and
+stops their running containers. Each records that it was cancelled with its
+ancestor. Finished descendants are left as they are.</p>
 <div class="highlight"><pre><span></span><code>vornikctl task cancel &lt;taskId&gt; [flags]
 </code></pre></div>
 <table>
