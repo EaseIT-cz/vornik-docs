@@ -5824,7 +5824,7 @@
 <tr>
 <td><code>integrations.allowed_hosts</code></td>
 <td>list</td>
-<td>Hostnames allowed to bypass the Integrations Hub's private-range SSRF guard for probes/saves. Empty = block all private/loopback/link-local destinations (secure default).</td>
+<td>Hostnames allowed to bypass the daemon's private-range SSRF guard for operator-initiated dials: Integrations Hub probes/saves and the control-plane MCP Test probe. Empty = block all private/loopback/link-local destinations (secure default).</td>
 <td>—</td>
 </tr>
 </tbody>

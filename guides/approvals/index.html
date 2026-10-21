@@ -2618,6 +2618,9 @@ vornikctl<span class="w"> </span>task<span class="w"> </span>answer<span class="
 </code></pre></div>
 <p>You can also steer a running task with <code>vornikctl task directive</code>, pause/resume
 it, or amend its brief — see the <a href="../../reference/vornikctl/">vornikctl reference</a>.</p>
+<p>Every answer, directive, amendment and closure is recorded under the account
+or API key that sent it. The <code>--author</code> flag adds a display label only. It is
+stored as client-supplied and never replaces the recorded author.</p>
 <h2 id="how-youre-notified">How you're notified<a class="headerlink" href="#how-youre-notified" title="Permanent link">&para;</a></h2>
 <p>When a task needs you (approval or input), vornik pushes a steering
 notification so it doesn't stall unseen (gated by

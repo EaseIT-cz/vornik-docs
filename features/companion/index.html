@@ -3067,12 +3067,26 @@ within your scope, never outside it. The same scope applies to <code>memory_corr
 with a <code>wrong_claim</code>: it searches what a default <code>recall</code> from that repository
 shows, so a claim made in one repository never refutes another repository's
 note. The memory hint a <code>delegate</code> returns is drawn from the same scope.</p>
+<p>A <code>wrong_claim</code> never refutes a correction an earlier <code>memory_correct</code>
+stored, even when the claim matches it best. The result lists every match it
+passed over in <code>skipped</code>, with the reason (<code>protected_correction</code>,
+<code>below_floor</code>, <code>over_cap</code>), so the assistant can refute one deliberately with
+<code>chunk_ids</code>. Pass <code>dry_run: true</code> to see what a claim would refute without
+changing anything. A <code>correction</code> is stored the way <code>remember</code> stores a
+note, through the same checks (a credential in it is redacted), and the
+result says whether it was stored (<code>correction_decision</code>).</p>
 <div class="highlight"><pre><span></span><code>/recall how does the scheduler lease tasks?
 /remember the broker API rejects fractional shares with error 10243 — keep shares whole
 </code></pre></div>
 <p>Notes go through vornik's full ingest pipeline (secret scanning, dedup, policy),
 and large content should be sent through the ingest workflow rather than a single
 <code>remember</code> call.</p>
+<p>A note's <code>class</code> is a label. Whatever class you give it (<code>spec</code>, <code>decision</code> or
+another), a <code>remember</code> note lands unverified, at companion confidence (at most
+0.3), and expires: after the class's own lifetime, or 30 days for <code>spec</code> and
+<code>decision</code>, unless you set <code>ttl_days</code>. A note never becomes verified or part of
+the design record on its own. To make a design authoritative, ingest the document
+through the ingest workflow.</p>
 <h3 id="re-ingesting-a-document">Re-ingesting a document<a class="headerlink" href="#re-ingesting-a-document" title="Permanent link">&para;</a></h3>
 <p>When you change a document and ingest it again, recall should serve the new
 version, not both. Claude's <code>/rag-ingest</code> sends each file's path within its git

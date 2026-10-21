@@ -2759,7 +2759,8 @@ trusted interface.</p>
   or in cooldown).</li>
 <li><strong>Scheduled updates (task-kind reminders)</strong> — task-kind fires per project,
   outcome deliveries by success/failure, fires skipped because the prior run
-  was still going, delivery-time channel-send failures, and stuck-<code>firing</code>
+  was still going, delivery-time channel-send failures, outcomes that had
+  nowhere to go (no channel resolver, or the channel not configured), and stuck-<code>firing</code>
   rows the crash-recovery sweep reclaims. See the
   <a href="../../reference/vornikctl/">vornikctl reference</a> (<code>reminders</code> group) for the
   <code>text</code> vs <code>task</code> kinds and pause/resume.</li>

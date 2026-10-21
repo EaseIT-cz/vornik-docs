@@ -7699,7 +7699,7 @@ skopeo or systemctl, and no daemon request may run a program):
   api_key_strength      Detect weak / placeholder API keys
   secrets_permissions   Secrets files/dirs with world-readable permissions
   config_secret_hygiene Config.yaml plaintext secrets or loose permissions (recommends ${ENV_VAR})
-  redaction_seams       Secret scanning of chat_audit_log, chat_system_prompts, step_prompts and task_messages before persist; warns when off, with rows written and unscanned since boot
+  redaction_seams       Secret scanning of chat_audit_log, chat_system_prompts, step_prompts, task_messages and execution_step_outcomes signals before persist; warns when off, with rows written and unscanned since boot
   secret_store_key      Agent credential store: a missing or wrong key while credentials exist is an error
   approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push
   agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
@@ -11359,7 +11359,7 @@ vornik payload consistency rules:
 <tr>
 <td><code>--author</code></td>
 <td></td>
-<td>Author identity (operator handle, defaults to OS user)</td>
+<td>Display label, stored as client-supplied; the author of record is the authenticated key or session</td>
 </tr>
 <tr>
 <td><code>--new-brief</code></td>
@@ -11394,7 +11394,7 @@ vornik payload consistency rules:
 <tr>
 <td><code>--author</code></td>
 <td></td>
-<td>Author identity (operator handle, defaults to OS user)</td>
+<td>Display label, stored as client-supplied; the author of record is the authenticated key or session</td>
 </tr>
 <tr>
 <td><code>--checkpoint</code></td>
@@ -11462,7 +11462,7 @@ ancestor. Finished descendants are left as they are.</p>
 <tr>
 <td><code>--author</code></td>
 <td></td>
-<td>Author identity (operator handle, defaults to OS user)</td>
+<td>Display label, stored as client-supplied; the author of record is the authenticated key or session</td>
 </tr>
 <tr>
 <td><code>--reason</code></td>
@@ -11492,7 +11492,7 @@ ancestor. Finished descendants are left as they are.</p>
 <tr>
 <td><code>--author</code></td>
 <td></td>
-<td>Author identity (operator handle, defaults to OS user)</td>
+<td>Display label, stored as client-supplied; the author of record is the authenticated key or session</td>
 </tr>
 <tr>
 <td><code>--content</code></td>
@@ -11646,7 +11646,7 @@ their children. The PARENT column names the task a child was delegated from.</p>
 <tr>
 <td><code>--author</code></td>
 <td></td>
-<td>Author identity (operator handle, defaults to OS user)</td>
+<td>Display label, stored as client-supplied; the author of record is the authenticated key or session</td>
 </tr>
 <tr>
 <td><code>--content</code></td>
