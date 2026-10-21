@@ -7697,6 +7697,9 @@ skopeo or systemctl, and no daemon request may run a program):
 <p>Security:
   api_security_posture  Flag API auth disabled with non-loopback listen address
   api_key_strength      Detect weak / placeholder API keys
+  db_credential_strength Database password that is a known default, the test lane's pair, or the role/database name; states how many it examined
+  db_listen_exposure    Postgres listening on a non-loopback address of this host (the firewall is not examined); states how many sockets it examined
+  credential_reuse      One secret serving two purposes (database, operator API, LLM provider, ...); states how many it examined, never prints a value
   secrets_permissions   Secrets files/dirs with world-readable permissions
   config_secret_hygiene Config.yaml plaintext secrets or loose permissions (recommends ${ENV_VAR})
   redaction_seams       Secret scanning of chat_audit_log, chat_system_prompts, step_prompts, task_messages and execution_step_outcomes signals before persist; warns when off, with rows written and unscanned since boot

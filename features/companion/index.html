@@ -2791,7 +2791,7 @@ scoped key, so it never needs your admin credentials.</p>
 </tr>
 <tr>
 <td><code>status</code></td>
-<td>check a delegated task's status and attempt number; after a failed attempt it also names the step that failed and its error class, so you can see a retry is running. While the task runs it carries <code>progress</code>: the running step, its position (step 2 of 3) and when it started. A task held because an interrupted config change is waiting for the operator carries <code>paused</code>: the journal id, since when, and who resolves it (the operator, on their approver device or on the host; the assistant cannot)</td>
+<td>check a delegated task's status and attempt number; after a failed attempt it also names the step that failed and its error class, so you can see a retry is running. Outside a broker project a failed task's last error is included, redacted: a line that holds a secret reads <code>[withheld: secret]</code> (<code>result</code> returns it the same way). While the task runs it carries <code>progress</code>: the running step, its position (step 2 of 3) and when it started. A task held because an interrupted config change is waiting for the operator carries <code>paused</code>: the journal id, since when, and who resolves it (the operator, on their approver device or on the host; the assistant cannot)</td>
 </tr>
 <tr>
 <td><code>task_logs</code></td>
