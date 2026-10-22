@@ -2353,6 +2353,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mcp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#auth" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3257,6 +3268,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#mcp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mcp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#auth" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3698,6 +3720,12 @@
 <td><code>server.public_base_url</code></td>
 <td>string</td>
 <td>Public origin (scheme://host[:port]) for git clone/push HTTPS URLs; used only to render the clone URL on the project page.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>server.accepted_hosts</code></td>
+<td>list</td>
+<td>Extra Host names the daemon answers when api.auth_enabled is false (DNS-rebinding guard). IP literals, localhost and the public base URL's host are always accepted. Has no effect when auth is on.</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -5452,6 +5480,25 @@
 <td><code>instinct.lift.window_hours</code></td>
 <td>int</td>
 <td>Measurement window in hours (0 = the confidence model's evidence-freshness horizon, else the decay half-life).</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mcp">mcp<a class="headerlink" href="#mcp" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mcp.agent_read_relist_interval</code></td>
+<td>string</td>
+<td>How often each connected agent-namespace MCP read server is listed again, so a tool its server now marks as changing things is suspended between reloads (Go duration, 1m to 24h). Empty means 15m. Read at daemon start: a change takes a restart.</td>
 <td>—</td>
 </tr>
 </tbody>

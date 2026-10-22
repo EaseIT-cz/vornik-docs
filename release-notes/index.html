@@ -3504,6 +3504,16 @@ new behavior; those are called out below.</p>
 <h2 id="2026107">2026.10.7<a class="headerlink" href="#2026107" title="Permanent link">&para;</a></h2>
 <p><em>Unreleased draft.</em></p>
 <ul>
+<li><strong>With auth off, the daemon answers only its own names.</strong> When
+  <code>api.auth_enabled</code> is false (including <code>api.auth_dry_run</code>), the HTTP
+  listener refuses, with 403, a request whose <code>Host</code> is not an IP address,
+  <code>localhost</code>, <code>host.containers.internal</code>, the host of
+  <code>server.public_base_url</code> or <code>auth.external_base_url</code>, or a name listed in
+  the new <code>server.accepted_hosts</code>. This stops a web page from reading
+  daemon answers through DNS rebinding. <strong>Upgrade note:</strong> if you reach an
+  auth-off daemon by a LAN name, for example the machine's hostname or a
+  router DNS name, add that name to <code>server.accepted_hosts</code>. Installs with
+  auth on are unchanged.</li>
 <li><strong>Scheduled work can start from the latest code.</strong> A project that sets
   <code>workspace.refresh_before_work: true</code> has its workspace reset to
   <code>origin/&lt;branch&gt;</code> before each task from a task-kind reminder, a broker

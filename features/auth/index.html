@@ -2721,6 +2721,10 @@ a crash mid-change. Review it at <code>/ui/admin/audit</code>.</p>
 <td>evaluate + log auth without enforcing</td>
 </tr>
 <tr>
+<td><code>server.accepted_hosts</code></td>
+<td>with auth off (or dry-run): extra <code>Host</code> names the daemon answers; any other name gets 403 (DNS-rebinding guard). IP addresses, <code>localhost</code> and the public base URL's host need no entry</td>
+</tr>
+<tr>
 <td><code>auth.bootstrap_admins</code></td>
 <td>identities seeded into the first admin group (<code>channel:external_id</code>)</td>
 </tr>
