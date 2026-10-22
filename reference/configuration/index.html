@@ -2375,6 +2375,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#voice" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3290,6 +3301,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#admin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        admin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#voice" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3725,7 +3747,7 @@
 <tr>
 <td><code>server.accepted_hosts</code></td>
 <td>list</td>
-<td>Extra Host names the daemon answers when api.auth_enabled is false (DNS-rebinding guard). IP literals, localhost and the public base URL's host are always accepted. Has no effect when auth is on.</td>
+<td>Extra Host names the daemon answers on its unauthenticated surfaces: every route when api.auth_enabled is false, and the metrics endpoints whenever they need no credential (DNS-rebinding guard). IP literals, localhost and the public base URL's host are always accepted.</td>
 <td>—</td>
 </tr>
 </tbody>
@@ -5582,6 +5604,25 @@
 </tr>
 </tbody>
 </table>
+<h2 id="admin">admin<a class="headerlink" href="#admin" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>admin.operator_key_ids</code></td>
+<td>list</td>
+<td>Hash ids (first 16 hex digits of SHA-256) of the admin keys that are the operator's own; tasks they start count as the operator's for memory verification. Leave the broker's and the A2A keys out.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
 <h2 id="voice">voice<a class="headerlink" href="#voice" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -5871,7 +5912,7 @@
 <tr>
 <td><code>integrations.allowed_hosts</code></td>
 <td>list</td>
-<td>Hostnames allowed to bypass the daemon's private-range SSRF guard for operator-initiated dials: Integrations Hub probes/saves and the control-plane MCP Test probe. Empty = block all private/loopback/link-local destinations (secure default).</td>
+<td>Hostnames allowed to bypass the daemon's private-range SSRF guard for operator-initiated dials: Integrations Hub probes/saves, the control-plane MCP Test probe, an operator project's MCP OAuth flow and the GitHub App API base. Empty = block all private/loopback/link-local destinations (secure default).</td>
 <td>—</td>
 </tr>
 </tbody>

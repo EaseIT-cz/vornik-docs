@@ -2740,6 +2740,14 @@ server and point your scraper at it:</p>
 main-port endpoint requires the admin key or a dedicated scrape token; the
 separate <code>metrics.addr</code> listener is the intended scrape target — bind it to a
 trusted interface.</p>
+<p>Every <code>/metrics</code> that answers without a credential (the dedicated listener
+always, and the main-port endpoint unless <code>require_admin</code> is set with auth on)
+serves only requests addressed to an IP address, <code>localhost</code>, the daemon's
+public base URL host, or a name listed in <code>server.accepted_hosts</code>. This stops
+a web page from reading your metrics through DNS rebinding. If your scraper
+reaches vornik by another name (for example a compose service name such as
+<code>vornik:9090</code>), add that name to <code>server.accepted_hosts</code>; otherwise the scrape
+gets <code>403</code>.</p>
 <p>The exported metrics cover, in plain terms:</p>
 <ul>
 <li><strong>Task and execution lifecycle</strong> — active, started, completed, failed,

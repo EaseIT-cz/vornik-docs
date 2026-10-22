@@ -3261,6 +3261,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-memory-reverify-delegated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl memory reverify-delegated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-memory-rollback" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5611,6 +5622,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-memory-reverify-delegated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl memory reverify-delegated
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-memory-rollback" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7707,6 +7729,7 @@ skopeo or systemctl, and no daemon request may run a program):
   approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push
   agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
   agent_model_catalogue Agent role models: agent_admin.models entries not offered to agent roles (no route, a command-line provider, or remote without an exact price)
+  memory_provenance_clone Daemon-only provenance clones (memory.provenance_clone): usable or refused, and the sweep's last fetch of the trusted branch
   agent_refusal_burst   Agent namespaces with 20 or more refused agent-admin calls in the last hour (a loop or a probe); states how many it examined
   agent_change_stays_applied Agent-admin changes refused to the agent whose rollback failed and that are still applied (last 30 days); states how many it examined</p>
 <p>Models:
@@ -9818,6 +9841,82 @@ re-flagged. A chunk that is not quarantined is never touched.</p>
 <td><code>-p</code>, <code>--project</code></td>
 <td></td>
 <td>Project ID (required, except with --quarantined)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-memory-reverify-delegated">vornikctl memory reverify-delegated<a class="headerlink" href="#vornikctl-memory-reverify-delegated" title="Permanent link">&para;</a></h2>
+<p>Re-verify companion-delegated chunks by provenance; de-verify the rest (dry run by default)</p>
+<p>Chunks an agent role wrote in a companion-delegated task were stamped
+verified by role-of-record before design 22 amendment #482. This verb
+re-verifies each such artifact by provenance (its stored bytes are the blob
+at an eligible path on origin's default branch in the project's own clone)
+and de-verifies the rest. The default branch is the project's
+workspace.refresh_branch when set, checked against the clone's origin/HEAD,
+else origin/HEAD.</p>
+<p>A dry run by default: it prints the denominator (every artifact and chunk
+examined), how many are left alone (not companion-delegated), verified and
+de-verified (split by reason), and a content sample with what it measures.</p>
+<p>--apply (with --reason) writes everything as ONE audited event; the prior
+state of every changed chunk is kept, and --restore <event-id> puts it back
+where nothing has changed it since. Before verifying it force-fetches the
+clone's tracking ref of that branch from origin (--no-fetch skips it), so a
+tracking ref pushed before the push guard existed is reset.</p>
+<p>Always runs against the configured database. Run the dry run first.</p>
+<div class="highlight"><pre><span></span><code>vornikctl memory reverify-delegated [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--accept-unverifiable</code></td>
+<td><code>false</code></td>
+<td>Apply although the clone or its fetch failed (every companion-delegated chunk is de-verified)</td>
+</tr>
+<tr>
+<td><code>--actor</code></td>
+<td></td>
+<td>Who runs it (default: the OS user)</td>
+</tr>
+<tr>
+<td><code>--allow-self-certified</code></td>
+<td><code>false</code></td>
+<td>Let --restore reinstate role-of-record stamps (the count is recorded on the restore event)</td>
+</tr>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>Write the plan (or the restore); without it this is a dry run</td>
+</tr>
+<tr>
+<td><code>--no-fetch</code></td>
+<td><code>false</code></td>
+<td>Do not fetch the default branch into the clone first: verify against the tracking ref as it stands</td>
+</tr>
+<tr>
+<td><code>--reason</code></td>
+<td></td>
+<td>Why (required with --apply); recorded on the event</td>
+</tr>
+<tr>
+<td><code>--restore</code></td>
+<td></td>
+<td>Restore the prior state an earlier --apply event changed</td>
+</tr>
+<tr>
+<td><code>--sample</code></td>
+<td><code>20</code></td>
+<td>Chunks per outcome in the content sample</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
 </tr>
 </tbody>
 </table>
