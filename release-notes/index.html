@@ -3503,17 +3503,125 @@ new behavior; those are called out below.</p>
 <hr />
 <h2 id="2026107">2026.10.7<a class="headerlink" href="#2026107" title="Permanent link">&para;</a></h2>
 <p><em>Unreleased draft.</em></p>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
 <ul>
+<li><strong>Existing installs: give the database its own password.</strong> A fresh
+  quickstart generates a per-install database password. An install that
+  kept a volume with no known password now stops and writes nothing,
+  instead of continuing on the shipped default, and the bundled compose
+  files refuse to start without <code>POSTGRES_PASSWORD</code>. Three doctor
+  checks report a weak, reused or network-exposed database credential:
+  <code>db_credential_strength</code>, <code>db_listen_exposure</code> and <code>credential_reuse</code>.</li>
+<li><strong>The operator surface needs an admin-class key</strong> (403
+  <code>OPERATOR_CAPABILITY_REQUIRED</code>). This covers config reads and reload,
+  the memory firewall, operator profiles, the operator audit,
+  control-plane changes, setup and the project wizard. Add any
+  <code>api.api_keys</code> entry that needs them to <code>admin.allowed_keys</code>. Auth-off
+  installs and the quickstart key are already admin-class.</li>
+<li><strong>Logs and error text follow the key's scope.</strong> A project-scoped key
+  reads a scrubbed view of its own project's logs, explain output and
+  error fields. An unscoped key that is not admin-class reads none
+  (403 <code>PROJECT_SCOPE_REQUIRED</code>).</li>
+<li><strong>Agent keys reach only the routes the agent image calls,</strong> and get
+  403 <code>AGENT_KEY_NOT_OPERATOR</code> on every other route.</li>
+<li><strong>Operator-typed URLs dial through the SSRF guard,</strong> redirects refused:
+  the MCP Test probe, MCP OAuth, the GitHub App API base and broker
+  fetches. Add a LAN or loopback server's hostname to
+  <code>integrations.allowed_hosts</code>.</li>
 <li><strong>With auth off, the daemon answers only its own names.</strong> When
   <code>api.auth_enabled</code> is false (including <code>api.auth_dry_run</code>), the HTTP
-  listener refuses, with 403, a request whose <code>Host</code> is not an IP address,
-  <code>localhost</code>, <code>host.containers.internal</code>, the host of
-  <code>server.public_base_url</code> or <code>auth.external_base_url</code>, or a name listed in
-  the new <code>server.accepted_hosts</code>. This stops a web page from reading
-  daemon answers through DNS rebinding. <strong>Upgrade note:</strong> if you reach an
-  auth-off daemon by a LAN name, for example the machine's hostname or a
-  router DNS name, add that name to <code>server.accepted_hosts</code>. Installs with
-  auth on are unchanged.</li>
+  listener refuses, with 403, a request whose <code>Host</code> is not an IP
+  address, <code>localhost</code>, <code>host.containers.internal</code>, the host of
+  <code>server.public_base_url</code> or <code>auth.external_base_url</code>, or a name listed
+  in the new <code>server.accepted_hosts</code>. This stops a web page from reading
+  daemon answers through DNS rebinding. A cross-site POST is refused
+  too, and <code>Sec-Fetch-Site: none</code> no longer counts as same-origin.
+  If you reach an auth-off daemon by a LAN name, for example the
+  machine's hostname or a router DNS name, add that name to
+  <code>server.accepted_hosts</code>. Installs with auth on are unchanged.</li>
+<li><strong>Generic webhook sources accept only the project's own repositories.</strong>
+  Set <code>webhooks.sources[].repos</code> to choose; <code>["*"]</code> accepts every
+  repository. An event from another repository is answered 200,
+  filtered, and recorded as <code>repo_not_in_scope</code>.</li>
+<li><strong>A tool the MCP classifier calls mutating is never approved as a
+  read,</strong> and an approved read tool whose server later marks it as
+  changing things is suspended until you approve it again on the device.
+  Agent read servers are listed again every
+  <code>mcp.agent_read_relist_interval</code> (default 15m).</li>
+<li><strong>Agent containers get no swap</strong> (<code>--memory-swap</code> equals <code>--memory</code>).
+  Raise <code>runtime.agent_memory_limit</code> if a role needs more memory.
+  <strong>Pull or rebuild the <code>vornik-agent</code> image:</strong> its local MCP fallback is
+  removed, and MCP tools are discovered only through the daemon.</li>
+<li><strong>Companion notes no longer verify themselves.</strong> A companion's
+  <code>remember</code> of a decision or spec is stored unverified, with a finite
+  lifetime. A companion-delegated ingest is verified when its bytes match
+  the committed file at the same path on the repository's trusted branch
+  (its default branch unless the project names another). List the
+  hash ids of your own admin keys in <code>admin.operator_key_ids</code> so the
+  tasks they start count as yours.</li>
+<li><strong>Derived copies of transcripts expire:</strong> black-box traces after 1 day,
+  project gists after 7 days, and of <code>vornik-update.sh</code> database dumps
+  the newest 2 are kept (keys under <code>retention.*</code>). Copy any dump you
+  want to keep before upgrading.</li>
+<li><strong>The console no longer loads a third-party CDN,</strong> and it sends a
+  Content-Security-Policy that allows no source outside its own origin.</li>
+<li><strong><code>vornikctl task list</code> shows 20 tasks by default and says so;</strong> use
+  <code>--limit</code>, <code>--all</code>, <code>--offset</code> or <code>--active</code>. <code>/ui/tasks</code> pages past
+  100 rows.</li>
+<li><strong>Building from source needs Go 1.26.10.</strong></li>
+</ul>
+</div>
+<p>A security release, and memory you can trust across repositories.</p>
+<ul>
+<li><strong>Security.</strong></li>
+<li>Agent keys are confined to the agent routes, and an agent can no longer
+    post as the operator or cancel and retry other tasks.</li>
+<li>Logs, error text, step output and chat status tools serve a scrubbed view
+    to non-admin callers. The scrubber sees through layered encodings.</li>
+<li>The post-mortem explainer sends only the scrubbed log to its model
+    provider.</li>
+<li>Only a running task's own agent may summarize its thread, and a summary
+    never hides an operator message. A conversation's author is the signed-in
+    caller, never a client-supplied id.</li>
+<li>The untrusted-content wrapper escapes in a form the model sees, and agent
+    memory search wraps every writer-controlled field.</li>
+<li>A memory correction from a companion can no longer refute the operator's
+    own correction.</li>
+<li>Control-plane crash recovery no longer mistakes an apply's own writes for
+    drift, and every rollback holds the config-writer lock.</li>
+<li>Every transcript write is scanned for secrets before it is stored, and
+    <code>vornikctl secrets scan-history</code> covers task messages and step signals.</li>
+<li><strong>Memory.</strong></li>
+<li>Provenance verification works with no configuration for every
+    repository a project ingests from on github.com, gitlab.com,
+    bitbucket.org or codeberg.org. The daemon keeps its own blob-less clone
+    of each one, and a repository it cannot clone keeps its earlier trust,
+    labelled unavailable. A file ingested before it is pushed is checked again
+    over the following hour.</li>
+<li>Each companion recall hit carries a <code>provenance</code> label: verified,
+    unavailable, or why it is unverified.</li>
+<li><code>repo_scope</code> holds on every recall path.</li>
+<li>Damaged text never becomes a memory chunk, and the doctor's
+    <code>memory_text_damage</code> check finds any already stored.</li>
+<li>Knowledge-graph extraction no longer quarantines a chunk for a split
+    character, an unknown resolver id or a transient provider error.
+    <code>vornikctl memory regraph --quarantined</code> re-queues the quarantined ones.</li>
+<li><strong>Compliance.</strong></li>
+<li>The GDPR Art 15 transcript export covers every text column, withholds
+    third parties' fields and redacts secrets.</li>
+<li>An Art 17 erasure also evicts the black-box trace cache.</li>
+<li>The doctor watches the Art 12(3) response deadline.</li>
+<li><strong>Reliability.</strong></li>
+<li>A retry after <code>MODEL_UNHEALTHY</code> waits until the model's circuit can
+    admit a call.</li>
+<li>Cancelling a parent ends every unfinished descendant, paused and
+    awaiting ones included, and a resume that races a cancel does nothing.</li>
+<li>A model provider that never answers no longer hangs its caller, and a
+    CLI provider's timeout kills its whole process group.</li>
+<li>Silent-failure sites in fifteen subsystems now log and count what they
+    drop.</li>
+<li>Deleting a project now removes its rows from every project table.</li>
 <li><strong>Scheduled work can start from the latest code.</strong> A project that sets
   <code>workspace.refresh_before_work: true</code> has its workspace reset to
   <code>origin/&lt;branch&gt;</code> before each task from a task-kind reminder, a broker
@@ -3524,6 +3632,14 @@ new behavior; those are called out below.</p>
   <code>vornik_executor_workspace_refresh_total{project, source, outcome}</code>. Off
   by default, and refused together with <code>autonomy.mode: backlog</code>, which
   refreshes on its own. See <a href="../guides/autonomy/#refreshing-the-workspace-before-scheduled-work">Autonomy</a>.</li>
+<li><strong>Companions.</strong> Claude Code 0.47.4, Codex 0.43.2 and Hermes 0.22.1. The
+  plugins ship develop-with-memory guidance that adapts to projects with
+  few written designs. Outside a git repository they send no repository
+  scope.</li>
+<li><strong>Operator commands and console.</strong> <code>vornikctl task list</code> pages, with a
+  PARENT column. <code>/ui/tasks</code> pages past 100 rows. The task page shows
+  Pause on desktop and Cancel on mobile. The footer links to these release
+  notes. <code>vornik-update.sh</code> runs the doctor, as it said it did.</li>
 </ul>
 <h2 id="2026106">2026.10.6<a class="headerlink" href="#2026106" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">

@@ -3108,8 +3108,37 @@ between a deterministic gate and one that fires on noise.</p>
 <td>n=3</td>
 <td><code>496e1e5efb22</code></td>
 </tr>
+<tr>
+<td><code>2026.10.6-439-g67cafb8e9</code> (2026.10.7)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>9d32bf3c9a33</code></td>
+</tr>
 </tbody>
 </table>
+<p><strong>The eleventh row is 2026.10.7's release candidate</strong> (<code>main</code> at
+<code>67cafb8e9</code>, an enterprise build), measured on 2026-10-23 on the
+memory-benchmark deployment, same embedder
+(<code>openai/qwen3-embedding:0.6b@1024d</code>), reranker off, cold corpus: each run
+cleared the store (1,897 chunks, as in every row since 2026.9.7). Every metric
+is identical to 2026.10.6 to four decimal places across three deterministic
+runs, so <strong>no regression</strong>. The key is new (<code>9d32bf3c9a33</code>) and the only
+fields that moved are <code>daemon_revision</code> and <code>harness_revision</code> (checked field
+by field against 2026.10.6's manifest); dataset revision, <code>max_tokens</code>, item
+selection and embedder are unchanged. The run was required: the cycle makes
+every recall path honour the repository scope and adds a provenance label to
+each recall hit, read from the store. <strong>What it does NOT show:</strong> the harness
+deposits with class <code>research</code> through <code>remember</code>, so this cycle's changes to
+how <code>decision</code> and <code>spec</code> deposits and companion-delegated ingests are
+trusted are not on its path; they are covered by the daemon's own tests on
+both database drivers. The scope change is on its path: each item is
+deposited and recalled under its own repository scope with <code>strict_scope</code>,
+so every recall excludes the other items' chunks. The run carries
+<code>retrieval_path_unverified</code>, as every row since the third does.</p>
 <p><strong>The tenth row is 2026.10.6's release candidate</strong> (<code>main</code> at <code>3a228c188</code>,
 an enterprise build), measured on 2026-10-14 on the memory-benchmark
 deployment, same embedder (<code>openai/qwen3-embedding:0.6b@1024d</code>), reranker
@@ -3529,6 +3558,11 @@ each is stated:</p>
 <td><code>2026.10.6</code></td>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, on the release candidate (<code>2026.10.5-535-g3a228c188</code>, n=3), identical to 2026.10.5. The cycle makes the Article 18 restriction default-deny on every chunk read and makes recall refuse undeclared arguments, so a waiver was not open to it. This entry records the memory row only; no agent row is published for this release in this table.</td>
+</tr>
+<tr>
+<td><code>2026.10.7</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, on the release candidate (<code>2026.10.6-439-g67cafb8e9</code>, n=3), identical to 2026.10.6. The cycle changes the recall paths (repository scope on every path, a provenance label on every hit), so a waiver was not open to it. This entry records the memory row only; no agent row is published for this release in this table.</td>
 </tr>
 </tbody>
 </table>
