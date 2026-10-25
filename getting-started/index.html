@@ -2151,6 +2151,8 @@
       
         
       
+        
+      
     
     
     
@@ -2195,6 +2197,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2546,16 +2576,17 @@ containers, runs them through the workflow, and persists the results. Work
 runs continuously in the background — you submit and walk away, then come
 back for the output.</p>
 <p>You can drive it from the CLI, the HTTP API, the Web UI, or a connected
-conversation channel (a Telegram bot or email). Around the core,
+conversation channel (Telegram, Slack, e-mail or web chat), or from another AI
+assistant connected as a companion. Around the core,
 recent releases add operability and resilience features you will meet later
 in the docs — a one-command redacted support bundle, expanded <code>vornikctl
 doctor</code> checks, centralised log forwarding, structured recovery for failed
-steps, and a bounded graceful shutdown — plus security hardening for running
-the daemon behind a reverse proxy. None of that is needed to get started; the
+steps, and a bounded graceful shutdown — plus approvals on a paired phone and
+the controls described in the <a href="../security-model/">security model</a>. None of that is needed to get started; the
 defaults are safe and local-first.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Go 1.25+</strong> — to build the daemon and CLI from source.</li>
+<li><strong>Go 1.26+</strong> — to build the daemon and CLI from source.</li>
 <li><strong>Podman</strong> (rootless recommended) — vornik runs every agent in its own
   Podman container for isolation. Docker is not used.</li>
 <li><strong>PostgreSQL with the <a href="https://github.com/pgvector/pgvector">pgvector</a>

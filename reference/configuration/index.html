@@ -2715,6 +2715,8 @@
       
         
       
+        
+      
     
     
     
@@ -2759,6 +2761,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -5369,6 +5399,18 @@
 <td><code>memory.deny_patterns</code></td>
 <td>list</td>
 <td>Substring deny-list (NOT regex) that quarantines matching content at memory ingest.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>memory.provenance.replace_default_hosts</code></td>
+<td>bool</td>
+<td>Drop the public default forges (github.com, gitlab.com, bitbucket.org, codeberg.org); only memory.provenance.forges are cloned.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>memory.provenance.forges</code></td>
+<td>list</td>
+<td>Self-hosted forges for provenance clones: name, kind (github, gitlab, gitea, forgejo, git), scope_prefix, base_url, token or token_file, allowed_projects, max_repo_depth.</td>
 <td>—</td>
 </tr>
 </tbody>

@@ -1814,6 +1814,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#where-an-ingested-document-is-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where an ingested document is verified
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#digging-harder-when-the-fast-answer-misses" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2331,6 +2342,8 @@
       
         
       
+        
+      
     
     
     
@@ -2375,6 +2388,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2625,6 +2666,17 @@
     <span class="md-ellipsis">
       
         Re-ingesting a document
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-an-ingested-document-is-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where an ingested document is verified
       
     </span>
   </a>
@@ -3104,6 +3156,44 @@ files by hand, sends the same <code>path</code> field on each input artifact, wi
 repository's <code>repo_scope</code>. A path is an identity only within a scope, so
 Vornik refuses a delegation that sends a <code>path</code> without a repo scope (unless
 the key or the project has a default scope).</p>
+<h3 id="where-an-ingested-document-is-verified">Where an ingested document is verified<a class="headerlink" href="#where-an-ingested-document-is-verified" title="Permanent link">&para;</a></h3>
+<p>A document a companion ingests is verified against its repository: Vornik
+keeps its own read-only clone of each repository (commits and trees, no
+files) and checks that the uploaded bytes are the file on the default branch.
+A recall hit says <code>verified</code>, <code>unavailable: …</code> (the repository could not be
+reached, so the document is trusted as an upload) or <code>unverified: …</code> (for
+example a draft not yet pushed; it is re-checked automatically).</p>
+<p>Repositories on github.com, gitlab.com, bitbucket.org and codeberg.org are
+cloned with no configuration. For a self-hosted forge, list it in
+<code>config.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">memory</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">provenance</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">forges</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">corp-gitlab</span>
+<span class="w">        </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab</span><span class="w">              </span><span class="c1"># github, gitlab, gitea, forgejo or git</span>
+<span class="w">        </span><span class="nt">scope_prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gitlab.example.com/8443</span><span class="w">   </span><span class="c1"># how the repo scope starts</span>
+<span class="w">        </span><span class="nt">base_url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://gitlab.example.com:8443</span>
+<span class="w">        </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="s">"${CORP_GITLAB_READ_TOKEN}"</span><span class="w">       </span><span class="c1"># or token_file: /path</span>
+<span class="w">        </span><span class="nt">allowed_projects</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">team-a</span><span class="p p-Indicator">]</span><span class="w">               </span><span class="c1"># empty = every project</span>
+<span class="w">        </span><span class="nt">max_repo_depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">                        </span><span class="c1"># GitLab subgroups</span>
+</code></pre></div>
+<ul>
+<li><code>scope_prefix</code> is written the way the repo scope is: a port in the remote
+  URL becomes a path segment (<code>gitlab.example.com/8443/group/repo</code>).</li>
+<li>Use a read-only token (GitLab <code>read_repository</code> and <code>read_api</code>; Gitea and
+  Forgejo <code>read:repository</code>). It is used only by the daemon, never handed to
+  an agent, and only for the projects in <code>allowed_projects</code>.</li>
+<li>A GitHub repository is also cloned with a project's own GitHub App
+  installation when that project's <code>github:</code> block names the repository's
+  owner.</li>
+<li>When a repository cannot be cloned (too large, or the clone fails), a
+  <code>github</code>, <code>gitlab</code>, <code>gitea</code> or <code>forgejo</code> forge is asked through its API
+  instead; a document verified that way reads <code>verified (forge API)</code>.</li>
+<li><code>replace_default_hosts: true</code> stops cloning from the four public hosts.</li>
+<li>These settings are read when the daemon starts; restart it after a change.</li>
+</ul>
+<p><code>vornikctl doctor</code> (check <code>memory_provenance_clone</code>) lists the configured
+forges and every repository refused in the last day, with the fix.</p>
 <p>Documents ingested before paths existed carry only a file name. Re-ingest them
 with a current plugin, then retire the old versions with
 <code>vornikctl memory supersede-legacy-documents -p &lt;project&gt; --scope &lt;scope&gt; --root &lt;checkout&gt;</code>.

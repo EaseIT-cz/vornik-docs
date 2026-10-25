@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://docs.vornik.io/compliance/">
       
       
-        <link rel="prev" href="../benchmarks/results/">
+        <link rel="prev" href="../security-model/">
       
       
         <link rel="next" href="../ai-transparency/">
@@ -2151,6 +2151,8 @@
       
         
       
+        
+      
     
     
     
@@ -2195,6 +2197,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2748,7 +2778,7 @@
 
 
 <h1 id="compliance-status">Compliance status<a class="headerlink" href="#compliance-status" title="Permanent link">&para;</a></h1>
-<p><strong>Last updated:</strong> 28 July 2026</p>
+<p><strong>Last updated:</strong> 25 October 2026</p>
 <p>This page states where Vornik actually stands on EU AI Act and GDPR
 conformity — including what is <strong>not</strong> done. We publish the gaps because a
 vendor's compliance page is the first thing a buyer's legal team tests, and an
@@ -2766,12 +2796,12 @@ real and we would rather tell you than have you discover it in procurement.</p>
 </thead>
 <tbody>
 <tr>
-<td><strong>EU AI Act Art 50</strong> (AI-interaction transparency)</td>
-<td>🟡 Implemented, shipping for the 2 Aug 2026 deadline</td>
+<td><strong>EU AI Act Art 50(1)</strong> (AI-interaction transparency)</td>
+<td>🟢 Implemented on every conversational and publishing surface</td>
 </tr>
 <tr>
 <td><strong>EU AI Act Art 50(2)</strong> (machine-readable marking)</td>
-<td>🔴 Not started — due 2 Dec 2026 under transitional relief</td>
+<td>🟡 Designed, approach decided; being built — due 2 Dec 2026 under transitional relief</td>
 </tr>
 <tr>
 <td><strong>EU AI Act high-risk (Annex III)</strong></td>
@@ -2779,24 +2809,26 @@ real and we would rather tell you than have you discover it in procurement.</p>
 </tr>
 <tr>
 <td><strong>GDPR — technical measures</strong></td>
-<td>🟡 Substantially in place, one significant gap</td>
+<td>🟡 Substantially in place; erasure inside multi-person conversation transcripts is partial (see the gap table)</td>
 </tr>
 <tr>
 <td><strong>GDPR — documentation</strong></td>
-<td>🔴 In preparation</td>
+<td>🟡 Records-of-processing and DPA templates exist; the DPIA template is in preparation</td>
 </tr>
 </tbody>
 </table>
-<p><strong>We do not currently claim to be "GDPR compliant."</strong> Two mandatory documents
-are still being written. See below.</p>
+<p><strong>We do not claim to be "GDPR compliant."</strong> In a self-hosted deployment
+compliance is the controller's, and one template (the DPIA) is still being
+written. See below.</p>
 <hr />
 <h2 id="the-self-hosting-position-which-matters-more-than-any-badge">The self-hosting position, which matters more than any badge<a class="headerlink" href="#the-self-hosting-position-which-matters-more-than-any-badge" title="Permanent link">&para;</a></h2>
 <p>Vornik is self-hosted. In a self-hosted deployment:</p>
 <ul>
 <li><strong>You are the data controller.</strong> Your data lives in your Postgres, on your
   infrastructure.</li>
-<li>The only data leaving your network is what you send to the model providers
-  <strong>you</strong> configure — and if you run local models, nothing leaves at all.</li>
+<li>The only data leaving your network is what you send to the services
+  <strong>you</strong> configure: model providers, chat platforms, forges and MCP servers.
+  With local models and no external services, nothing leaves at all.</li>
 <li>There is no Vornik-operated cloud holding your data, so there is no
   vendor-side breach surface to trust us about.</li>
 </ul>
@@ -2805,7 +2837,7 @@ on a page, because it is structural rather than contractual.</p>
 <hr />
 <h2 id="eu-ai-act">EU AI Act<a class="headerlink" href="#eu-ai-act" title="Permanent link">&para;</a></h2>
 <h3 id="article-501-you-must-be-told-you-are-talking-to-an-ai">Article 50(1) — you must be told you are talking to an AI<a class="headerlink" href="#article-501-you-must-be-told-you-are-talking-to-an-ai" title="Permanent link">&para;</a></h3>
-<p><strong>Status: implemented, shipping for 2 August 2026.</strong></p>
+<p><strong>Status: implemented.</strong></p>
 <p>Every conversational surface — Telegram, Slack, email, GitHub comments, web
 chat — discloses that replies are AI-generated. Continuous chat surfaces
 disclose once at the start of a conversation; email replies and GitHub comments
@@ -2815,10 +2847,16 @@ from their original thread.</p>
 served, so conformity can be demonstrated rather than asserted.</p>
 <p>Details: <a href="../ai-transparency/">AI transparency</a>.</p>
 <h3 id="article-502-machine-readable-marking-of-ai-generated-content">Article 50(2) — machine-readable marking of AI-generated content<a class="headerlink" href="#article-502-machine-readable-marking-of-ai-generated-content" title="Permanent link">&para;</a></h3>
-<p><strong>Status: not started. Due 2 December 2026.</strong></p>
+<p><strong>Status: designed and decided; being built. Due 2 December 2026.</strong></p>
 <p>Vornik generates synthetic text — pull request bodies, commit messages, issue
-comments, emails. Article 50(2) requires that content be marked in a
-machine-readable way.</p>
+comments, emails — and synthetic speech (voice replies). Article 50(2) requires
+that content be marked in a machine-readable way.</p>
+<p>The approach: signed, machine-readable metadata on every carrier (commit
+trailers, message headers, file manifests) plus a server-side ledger of every
+mark, with the limits of marking plain text stated publicly. Synthetic voice
+replies will be <strong>off by default</strong> until they can carry an embedded audio
+watermark; an operator who turns them on records that they accept the
+single-layer state.</p>
 <p>Vornik was placed on the market before 2 August 2026 and therefore qualifies
 for the transitional relief that moves this obligation to <strong>2 December 2026</strong>.
 We are relying on that relief deliberately and disclosing that we are.</p>
@@ -2839,17 +2877,24 @@ planning such a deployment.</p>
 <h3 id="what-is-in-place">What is in place<a class="headerlink" href="#what-is-in-place" title="Permanent link">&para;</a></h3>
 <p>These are properties of the shipped code, not intentions:</p>
 <ul>
-<li><strong>Erasure.</strong> Project-scoped hard deletion across the full table set, plus
-  chunk-level eviction of memory with a tombstone audit trail, so a deletion
+<li><strong>Erasure.</strong> Project-scoped hard deletion across the full table set;
+  per-person erasure with a preview, where records only about that person are
+  deleted and shared records (memory) are redacted and re-embedded rather than
+  destroyed; chunk-level eviction with a tombstone audit trail, so a deletion
   can itself be evidenced.</li>
 <li><strong>Retention.</strong> A configurable sweeper with per-table and per-project
-  windows. <strong>Off by default</strong> so an upgrade never silently deletes your data —
-  which means you must turn it on and choose your windows. See below.</li>
+  windows and evidence floors. <strong>Off by default</strong> so an upgrade never silently
+  deletes your data — which means you must turn it on and choose your windows;
+  <code>vornikctl doctor</code> warns while personal data is kept indefinitely.</li>
+<li><strong>Breach handling.</strong> A breach ledger (<code>vornikctl incident</code>) with the 72-hour
+  clock running from awareness, and the authority and data-subject thresholds
+  asked separately.</li>
 <li><strong>Purpose limitation.</strong> Memory chunks carry sensitivity and purpose policy,
   evaluated on every retrieval, with the block decisions retained for a year.</li>
 <li><strong>Accountability.</strong> Full tool-call, chat, retrieval and ingest audit trails.</li>
-<li><strong>Access control.</strong> OIDC with group-based permissions, per-project scoping,
-  and API-key authentication.</li>
+<li><strong>Access control.</strong> User accounts, per-project scoping and API-key
+  authentication; OIDC single sign-on with group-based permissions in the
+  Enterprise Edition.</li>
 </ul>
 <h3 id="what-is-not-in-place">What is not in place<a class="headerlink" href="#what-is-not-in-place" title="Permanent link">&para;</a></h3>
 <p>We would rather you read this from us than find it in a questionnaire.</p>
@@ -2864,13 +2909,13 @@ planning such a deployment.</p>
 <tbody>
 <tr>
 <td><strong>Records of processing (Art 30)</strong></td>
-<td>Mandatory document; does not yet exist</td>
-<td>In preparation</td>
+<td>In a self-hosted deployment you are the controller and keep your own record</td>
+<td>A template with a worked example exists; ask for it</td>
 </tr>
 <tr>
 <td><strong>Data processing agreement (Art 28)</strong></td>
-<td>No standard processor terms to sign</td>
-<td>In preparation</td>
+<td>Needed only where we process personal data on your behalf (for example support access)</td>
+<td>A template satisfying Art 28(3) exists; ask for it</td>
 </tr>
 <tr>
 <td><strong>Per-subject rights are partial</strong></td>
@@ -2879,18 +2924,18 @@ planning such a deployment.</p>
 </tr>
 <tr>
 <td><strong>DPIA (Art 35)</strong></td>
-<td>Not yet performed</td>
-<td>In preparation</td>
+<td>Yours to perform as controller where the trigger conditions apply</td>
+<td>A template and a statement of the measures Vornik itself provides are in preparation</td>
 </tr>
 <tr>
 <td><strong>Retention off by default</strong></td>
 <td>Personal data is kept indefinitely unless you enable the sweeper</td>
-<td>Recommended profile + a startup warning being added</td>
+<td>Recommended profile shipped; <code>vornikctl doctor</code> warns</td>
 </tr>
 <tr>
-<td><strong>Breach notification (Art 33)</strong></td>
-<td>No formalised controller-notification pipeline</td>
-<td>Planned</td>
+<td><strong>Erasure inside conversation transcripts</strong></td>
+<td>Removing one person's turns from a multi-person chat transcript is partly built; such a request is reported as not fully actioned rather than marked done</td>
+<td>In progress</td>
 </tr>
 </tbody>
 </table>
@@ -2907,6 +2952,7 @@ externally.</p>
 <h2 id="reporting-a-problem">Reporting a problem<a class="headerlink" href="#reporting-a-problem" title="Permanent link">&para;</a></h2>
 <p>Security issues: see <a href="../security/">security</a>.
 Compliance and data-protection questions: <strong>enterprise@vornik.io</strong>.</p>
+<!-- summary-reviewed-through: 2026.10.8 -->
 
 
 
