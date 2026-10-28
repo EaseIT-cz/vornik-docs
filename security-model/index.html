@@ -3309,8 +3309,12 @@ connected assistants, and upstream services.</p>
 <li>Every outbound client has a timeout and a read cap.</li>
 <li>A dial guard refuses loopback, link-local, private, special-use and
   reserved ranges, including IPv6 transition forms that embed a blocked IPv4
-  address (NAT64, 6to4, IPv4-compatible). A hostname is judged by the address
-  it resolves to, and guarded clients ignore proxy environment settings.
+  address (NAT64, 6to4, IPv4-compatible), and the cloud instance-metadata
+  addresses (IPv4 and the IPv6 ones in private ranges) even where private
+  ranges are allowed. A hostname is judged by the address it resolves to, and
+  guarded clients ignore proxy environment settings. One list decides for
+  every guard. An operator-listed allowed host is an explicit vouch and
+  bypasses the list, metadata addresses included.
   Operator-listed private ranges are allowed only where a feature needs them.</li>
 <li>Redirects that would carry secrets are refused; gateway redirects stay on
   the same origin.</li>
