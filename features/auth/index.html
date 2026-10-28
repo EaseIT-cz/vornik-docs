@@ -2706,7 +2706,11 @@ caller.</p>
 <h2 id="roles-groups-and-project-scope">Roles, groups, and project scope<a class="headerlink" href="#roles-groups-and-project-scope" title="Permanent link">&para;</a></h2>
 <p>Identities resolve to a <strong>principal</strong> with a role and a set of projects:</p>
 <ul>
-<li><strong>Roles.</strong> There are two — <code>admin</code> (instance-wide) and <code>user</code> (project-scoped).</li>
+<li><strong>Roles.</strong> There are two — <code>admin</code> (instance-wide) and <code>user</code> (project-scoped).
+  A managed (hosted) instance adds a third for its owner: an administrator's
+  browser session on the public address is a <code>tenant_admin</code>, who may use the
+  project wizard and gallery, connect MCP servers through OAuth and read the
+  operator audit, and nothing else of the operator surface.</li>
 <li><strong>Groups.</strong> Users belong to groups; a group carries a role and a set of
   projects. Membership in any admin-role group makes a user an admin with access
   to everything. Otherwise a user's accessible projects are the union of their

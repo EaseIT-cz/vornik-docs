@@ -3169,9 +3169,11 @@ connected assistants, and upstream services.</p>
   default) splits the daemon into a public listener and an operations
   listener. The public listener refuses every admin-class key, in any header
   it can be presented in, before routing, serves no metrics, and treats an
-  administrator's browser session there as an ordinary user; administrator
-  access exists only on the operations listener, which must bind a loopback
-  or private address. Managed mode refuses to start with authentication off.</li>
+  administrator's browser session there as the instance owner, who may use a
+  short, closed list of operator surfaces (the project wizard, the template
+  gallery, MCP OAuth connections, the operator audit) and no other;
+  administrator access exists only on the operations listener, which must
+  bind a loopback or private address. Managed mode refuses to start with authentication off.</li>
 </ul>
 <h3 id="configuration-integrity">Configuration integrity<a class="headerlink" href="#configuration-integrity" title="Permanent link">&para;</a></h3>
 <ul>
