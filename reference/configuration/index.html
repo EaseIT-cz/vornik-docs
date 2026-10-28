@@ -6003,6 +6003,24 @@
 <td>Managed hosting only: bare host names of vouched model endpoints (the model gateway) that may resolve to a private address.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>hosting.image_servers</code></td>
+<td>list</td>
+<td>Managed hosting only: the image's loopback MCP servers as exact 127.0.0.1:<port> or [::1]:<port> pairs; only daemon-level mcp.servers URLs may reach them.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hosting.instance_id</code></td>
+<td>string</td>
+<td>Managed hosting only: the instance's id (lowercase letters, digits, inner hyphens), named in a routed OAuth state.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hosting.oauth_redirect_uri</code></td>
+<td>string</td>
+<td>Managed hosting only: the OAuth router's https redirect URI, under the parent domain of server.public_base_url; requires hosting.instance_id.</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="integrations">integrations<a class="headerlink" href="#integrations" title="Permanent link">&para;</a></h2>
