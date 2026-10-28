@@ -3159,8 +3159,16 @@ connected assistants, and upstream services.</p>
   string field of the configuration and requires each credential-shaped one
   to come back redacted.</li>
 <li>Same-origin checks on every state-changing console request, through one
-  shared gate; a content-security policy on console responses; <code>Secure</code>
-  cookies on HTTPS.</li>
+  shared gate; <code>Secure</code> cookies on HTTPS.</li>
+<li><strong>A content-security policy on every console response.</strong> It admits only
+  this origin for scripts, and an inline script only by the SHA-256 of its
+  exact text, computed at start from the embedded templates (a console whose
+  hashes cannot be computed does not start). There is no <code>'unsafe-inline'</code>
+  or <code>'unsafe-eval'</code> for scripts, no inline event handler, and htmx neither
+  evaluates attributes nor runs scripts from swapped HTML. What it does not
+  cover: a hash admits that exact text anywhere on the console, so an
+  injection could replay one of the console's own scripts in another place;
+  inline styles remain allowed.</li>
 <li><strong>Real client IP behind a proxy</strong> is taken from the configured header only
   when the immediate peer is in the configured trusted-proxy list; otherwise
   the peer address is used. A trusted-proxy entry wider than one address logs
