@@ -3393,10 +3393,12 @@ connected assistants, and upstream services.</p>
 <li><strong>Operator configuration is trusted.</strong> Whoever can write the configuration
    directory can point Vornik at any model, MCP server or channel. Protect it
    like <code>/etc</code>.</li>
-<li><strong>Model endpoints are not validated against SSRF.</strong> Setup probes dial
-   through the guard, but a configured model endpoint is used as given, so a
-   local or LAN model server works. Use network-level egress filtering if
-   configuration is partly delegated.</li>
+<li><strong>Model endpoints may be private.</strong> Configured chat and embedding
+   endpoints dial through the guard with private ranges allowed, so a local or
+   LAN model server works: link-local addresses (the cloud metadata service)
+   and redirects to another host are refused, but a configured endpoint can
+   reach any loopback or private address. Use network-level egress filtering
+   if configuration is partly delegated.</li>
 <li><strong>Rate limiting is per feature, not global.</strong> The general API has no
    per-IP request limit; it relies on a small set of authenticated keys. The
    IP-based defences are only as good as the trusted-proxy list.</li>
