@@ -3173,7 +3173,12 @@ connected assistants, and upstream services.</p>
   short, closed list of operator surfaces (the project wizard, the template
   gallery, MCP OAuth connections, the operator audit) and no other;
   administrator access exists only on the operations listener, which must
-  bind a loopback or private address. Managed mode refuses to start with authentication off.</li>
+  bind a loopback or private address. Managed mode refuses to start with authentication off.
+  It also requires the per-IP request limit and a narrow trusted-proxy list,
+  starts no stdio MCP server, limits model endpoints to public addresses
+  (except the listed model gateway names, which may resolve to private
+  addresses but never to loopback or metadata addresses), and limits every MCP
+  server it dials to public addresses and same-host redirects.</li>
 </ul>
 <h3 id="configuration-integrity">Configuration integrity<a class="headerlink" href="#configuration-integrity" title="Permanent link">&para;</a></h3>
 <ul>
