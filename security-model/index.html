@@ -3350,6 +3350,10 @@ connected assistants, and upstream services.</p>
   sibling path. Token requests do not follow redirects. Write scopes for
   daemon-wide servers must be named in configuration, and the CLI says what
   it withheld.</li>
+<li>Every stored OAuth token is sealed at rest with the secret store key file,
+  bound to its project, server and field, so a value copied to another row
+  does not open. A token found unsealed in the database is never served, and
+  the doctor reports it.</li>
 <li>A server can be required to declare its tools; it is then refused when it
   advertises a mutating tool that is not in its allowlist.</li>
 <li>A configuration reload that removes a server cannot be undone by a
