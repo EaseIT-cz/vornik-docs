@@ -4035,6 +4035,18 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>runtime.agent_read_only_root</code></td>
+<td>bool</td>
+<td>Run agent containers with a read-only root filesystem (writable /tmp, /var/tmp and home on disk-backed volumes). Default off; always on in managed hosting.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>runtime.agent_pids_limit</code></td>
+<td>int</td>
+<td>Agent container PID limit. 0 (default) leaves podman's own default; managed hosting uses 2048.</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>runtime.agent_llm.endpoint</code></td>
 <td>string</td>
 <td>OpenAI-compatible base URL for the LLM agents call. Falls back to the chat section when empty.</td>

@@ -3229,7 +3229,16 @@ connected assistants, and upstream services.</p>
 <ul>
 <li>Every container runs with all Linux capabilities dropped,
   <code>no-new-privileges</code>, a non-root user, and labels for discovery and reaping.
-  Only the pinned agent image may be started.</li>
+  Only the pinned agent image may be started. The scripts that drive the
+  container are owned by root, so an agent cannot rewrite them.</li>
+<li><strong>Read-only root and a PID limit</strong> (<code>runtime.agent_read_only_root</code>,
+  <code>runtime.agent_pids_limit</code>; off by default, always on in managed hosting).
+  With the read-only root, an agent writes only its mounts, <code>/tmp</code>, <code>/var/tmp</code>
+  and its home (disk-backed volumes removed with the container) and two small
+  bounded tmpfs (<code>/run</code>, <code>/dev/shm</code>); the PID limit bounds a fork bomb. A
+  periodic sweep removes containers, and their volumes, that a crash left
+  behind, only once their task has finished. Without the settings, the PID
+  limit is the host podman's own default.</li>
 <li><strong>Network policy per role.</strong> The default is <code>daemon-only</code>: no network
   device at all, with the daemon reachable over a unix socket for tools and
   model calls. Roles that need the internet opt in to an isolated <code>egress</code>

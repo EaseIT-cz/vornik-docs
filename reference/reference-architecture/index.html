@@ -3614,8 +3614,10 @@ sentence, and the status column says where those differ.</p>
 <p>What this table does <strong>not</strong> cover: host hardening outside vornik (the kernel, podman,
 SELinux policy), the database server's own access control, and model-provider
 behaviour. It is not an exhaustive list of boundaries either: properties observed
-without a test are not registered, for example that the agent step runs without a
-read-only root or a pids limit (the sandbox one-shots have both), and that container
+without a test are not registered, for example that by default the agent step runs
+without a read-only root or a pids limit (the sandbox one-shots have both; set
+<code>runtime.agent_read_only_root</code> and <code>runtime.agent_pids_limit</code> to add them, and
+managed hosting always does), and that container
 environment values, which the logs redact, are visible to host users through the
 process table and <code>podman inspect</code>. A container escape reaches the host kernel; optional microVM isolation
 is designed but not built.</p>
