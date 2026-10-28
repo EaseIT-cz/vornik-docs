@@ -2441,6 +2441,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#hosting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hosting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#integrations" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3390,6 +3401,17 @@
     <span class="md-ellipsis">
       
         node
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hosting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        hosting
       
     </span>
   </a>
@@ -5936,6 +5958,31 @@
 <td><code>node.relay_ingress.client_ca</code></td>
 <td>string</td>
 <td>PEM CA bundle; only client certs it signed are accepted.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="hosting">hosting<a class="headerlink" href="#hosting" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hosting.mode</code></td>
+<td>string</td>
+<td>self (default) or managed. Managed hosting adds an operations listener and refuses admin-class credentials on the public listener.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hosting.operations_address</code></td>
+<td>string</td>
+<td>Managed hosting only: host:port of the operations listener, a loopback or private IP literal reachable by the control plane.</td>
 <td>—</td>
 </tr>
 </tbody>

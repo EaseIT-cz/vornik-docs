@@ -3165,6 +3165,13 @@ connected assistants, and upstream services.</p>
   when the immediate peer is in the configured trusted-proxy list; otherwise
   the peer address is used. A trusted-proxy entry wider than one address logs
   a warning at startup. Rate limits and login lockouts key on this value.</li>
+<li><strong>Managed hosting</strong> (<code>hosting.mode: managed</code>, for hosted instances; off by
+  default) splits the daemon into a public listener and an operations
+  listener. The public listener refuses every admin-class key, in any header
+  it can be presented in, before routing, serves no metrics, and treats an
+  administrator's browser session there as an ordinary user; administrator
+  access exists only on the operations listener, which must bind a loopback
+  or private address. Managed mode refuses to start with authentication off.</li>
 </ul>
 <h3 id="configuration-integrity">Configuration integrity<a class="headerlink" href="#configuration-integrity" title="Permanent link">&para;</a></h3>
 <ul>
