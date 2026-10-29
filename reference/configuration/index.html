@@ -4527,6 +4527,12 @@
 <td>Require the admin key on the main port metrics endpoint.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>metrics.previous_scrape_token</code></td>
+<td>string</td>
+<td>During a scrape token rotation, the previous token, accepted by /metrics beside scrape_token. Written and cleared by the rotation operation; empty otherwise.</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="tracing">tracing<a class="headerlink" href="#tracing" title="Permanent link">&para;</a></h2>
@@ -5678,6 +5684,24 @@
 <td>Projects an auto-granted org member (user role) receives; '*' = all projects.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>auth.providers.oidc.issuer</code></td>
+<td>string</td>
+<td>The OpenID issuer's https URL, exactly as its ID tokens state it in iss; discovery is read from <issuer>/.well-known/openid-configuration.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>auth.providers.oidc.client_id</code></td>
+<td>string</td>
+<td>This instance's client id at the issuer; ID tokens must name it in aud.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>auth.providers.oidc.name</code></td>
+<td>string</td>
+<td>The provider's name: the login path (/auth/<name>/start) and the channel of every identity it binds, so auth.bootstrap_admins entries read <name>:<subject>. Lowercase letters, digits and hyphens; default vornikcloud. Do not change it once an owner is bound.</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="admin">admin<a class="headerlink" href="#admin" title="Permanent link">&para;</a></h2>
@@ -6013,6 +6037,12 @@
 <td><code>hosting.instance_id</code></td>
 <td>string</td>
 <td>Managed hosting only: the instance's id (lowercase letters, digits, inner hyphens), named in a routed OAuth state.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hosting.previous_admin_api_key</code></td>
+<td>string</td>
+<td>Managed hosting only: during an instance_admin key rotation, the previous key (still listed in api.api_keys and admin.allowed_keys, still accepted, never for a credential operation). Written and cleared by the rotation operation; empty otherwise.</td>
 <td>—</td>
 </tr>
 <tr>

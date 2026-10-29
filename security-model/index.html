@@ -3191,7 +3191,8 @@ connected assistants, and upstream services.</p>
   its owner and models from one setup operation on the operations listener,
   never from the public one.</li>
 <li><strong>Idempotent, with a fixed owner.</strong> A repeat writes nothing; another
-    owner is refused.</li>
+    owner is refused, and so is another issuer or client id once an owner
+    is bound. Only the current <code>instance_admin</code> key may call it.</li>
 <li><strong>Checked before it writes.</strong> It probes the issuer's discovery and
     requires every listed model to be served by a gateway named in
     <code>hosting.model_hosts</code>.</li>
@@ -3211,8 +3212,10 @@ connected assistants, and upstream services.</p>
     the new are both accepted until the old is retired.<ul>
 <li>The new value is returned only sealed to the caller's post-quantum
   hybrid (X-Wing) key.</li>
-<li>Only the current <code>instance_admin</code> key may rotate or retire, so a
-  stolen previous key cannot lock out the current one.</li>
+<li>Only the current <code>instance_admin</code> key may rotate or retire: the one
+  the config file lists, not the previous one, and not a key retired
+  but still accepted until the restart. So a stolen old key cannot lock
+  out the current one or mint a new one.</li>
 <li>A change takes effect at the restart the control plane performs.</li>
 </ul>
 </li>
