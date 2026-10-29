@@ -3187,6 +3187,45 @@ connected assistants, and upstream services.</p>
   (except the listed model gateway names, which may resolve to private
   addresses but never to loopback or metadata addresses), and limits every MCP
   server it dials to public addresses and same-host redirects.</li>
+<li><strong>Binding a managed instance to its customer.</strong> A managed instance gets
+  its owner and models from one setup operation on the operations listener,
+  never from the public one.</li>
+<li><strong>Idempotent, with a fixed owner.</strong> A repeat writes nothing; another
+    owner is refused.</li>
+<li><strong>Checked before it writes.</strong> It probes the issuer's discovery and
+    requires every listed model to be served by a gateway named in
+    <code>hosting.model_hosts</code>.</li>
+<li><strong>The owner's login is OpenID Connect against the hosting service's
+    issuer:</strong><ul>
+<li>PKCE (S256) and a nonce on every sign-in, held in a cookie bound to
+  that sign-in's state;</li>
+<li>an ID token checked for its signature against the issuer's published
+  keys, issuer, audience (and <code>azp</code> when the audience names others),
+  expiry, issue time and nonce;</li>
+<li>the issuer reached only through the outbound guard, with every
+  response capped at 1 MiB.</li>
+</ul>
+</li>
+<li><strong>Replacing the operations credentials.</strong> The <code>instance_admin</code> key and
+    the metrics scrape token are replaced through an overlap: the old and
+    the new are both accepted until the old is retired.<ul>
+<li>The new value is returned only sealed to the caller's post-quantum
+  hybrid (X-Wing) key.</li>
+<li>Only the current <code>instance_admin</code> key may rotate or retire, so a
+  stolen previous key cannot lock out the current one.</li>
+<li>A change takes effect at the restart the control plane performs.</li>
+</ul>
+</li>
+<li><strong>What it does not cover:</strong><ul>
+<li>a stolen <strong>current</strong> <code>instance_admin</code> key can rotate it away (it is
+  the instance's administrator credential by design);</li>
+<li>authorization-code single-use is the issuer's job;</li>
+<li>models from the hosting service's gateway are classed "provided" and
+  need no per-destination approval, on the strength of the owner's
+  sign-up consent and the service's terms, which the instance cannot
+  check itself.</li>
+</ul>
+</li>
 </ul>
 <h3 id="configuration-integrity">Configuration integrity<a class="headerlink" href="#configuration-integrity" title="Permanent link">&para;</a></h3>
 <ul>
