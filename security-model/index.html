@@ -3229,6 +3229,39 @@ connected assistants, and upstream services.</p>
   check itself.</li>
 </ul>
 </li>
+<li><strong>Operating a managed instance.</strong> These run on the machine as root, or on
+  the operations listener; none is reachable from the public listener.</li>
+<li><strong>Upgrades:</strong><ul>
+<li><strong>Refusals before anything changes.</strong> An upgrade refuses an unsigned
+  package (the signature is checked on a private copy of the file and
+  enforced again by the package manager at install), a downgrade, and an
+  unaccepted licence version.</li>
+<li><strong>Order.</strong> It waits for idle, stops, snapshots, installs and starts.</li>
+<li><strong>Rollback.</strong> A failed start rolls back by itself. Once the new
+  version has started, the upgrade is final, because it may already
+  have accepted writes.</li>
+<li><strong>A newer database is refused.</strong> A daemon refuses to start on a
+  database a newer release migrated, so an older binary never runs
+  against a schema it does not know.</li>
+</ul>
+</li>
+<li><strong>Backups.</strong> Every backup archive is readable by its owner only. A
+    <em>restorable</em> backup also carries the secret store's key; it is as
+    sensitive as the secrets. A restore writes secrets only into the
+    directory provisioning created and never through a link inside it.</li>
+<li><strong>The owner export:</strong><ul>
+<li><strong>Contents.</strong> It leaves out the secrets, redacts the configuration,
+  and drops the rows of every table holding keys, tokens or sessions.
+  A test classifies every table, so a new one cannot reach an export
+  unexamined.</li>
+<li><strong>Who downloads it, and from where.</strong> Only the instance owner, signed
+  in, on the public listener: not the hosting service's administrator
+  key, not another role. The link carries no credential.</li>
+<li><strong>What is served.</strong> An object the daemon names from its own instance
+  id, for 7 days from its registration. An unknown or expired id gets
+  the same answer, and at most two downloads run at once.</li>
+</ul>
+</li>
 </ul>
 <h3 id="configuration-integrity">Configuration integrity<a class="headerlink" href="#configuration-integrity" title="Permanent link">&para;</a></h3>
 <ul>

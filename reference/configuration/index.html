@@ -6051,6 +6051,18 @@
 <td>Managed hosting only: the OAuth router's https redirect URI, under the parent domain of server.public_base_url; requires hosting.instance_id.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>hosting.backup_bucket</code></td>
+<td>string</td>
+<td>Managed hosting only: the backup bucket the owner export is read from, at instances/<hosting.instance_id>/exports/, with the instance's own role. Empty: exports are not configured.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hosting.backup_region</code></td>
+<td>string</td>
+<td>Managed hosting only: the backup bucket's region; empty means storage.s3.region.</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="integrations">integrations<a class="headerlink" href="#integrations" title="Permanent link">&para;</a></h2>

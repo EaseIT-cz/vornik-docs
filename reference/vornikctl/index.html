@@ -6643,6 +6643,11 @@ The pg_dump major version must be at least the PostgreSQL server major version.<
 </thead>
 <tbody>
 <tr>
+<td><code>--export</code></td>
+<td><code>false</code></td>
+<td>the owner export: no secrets/, the config redacted, and the rows of every secret-material table (keys, tokens, sessions) left out of the dump; restores to an instance whose secrets are set up again</td>
+</tr>
+<tr>
 <td><code>--out</code></td>
 <td></td>
 <td>output archive path (default auto-generated)</td>
