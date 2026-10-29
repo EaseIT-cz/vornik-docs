@@ -3441,7 +3441,20 @@ connected assistants, and upstream services.</p>
   advertises a mutating tool that is not in its allowlist.</li>
 <li>A configuration reload that removes a server cannot be undone by a
   connection that was still dialling.</li>
+<li><strong>On a managed instance, sign-ins go through the hosting service's OAuth
+  router</strong>, which forwards an authorization code only to the browser of a
+  signed-in member who started that flow:</li>
+<li>every flow starts at the router;</li>
+<li>the authorization response's issuer is checked (RFC 9207) before any
+    token is requested;</li>
+<li>a provider whose metadata names another issuer than its own address
+    is refused;</li>
+<li>a grant wider than requested is refused, and the token revoked where
+    the provider allows it.</li>
 </ul>
+<p>A self-hosted daemon checks the issuer where the provider supports it,
+  and logs instead of refusing the last two cases, so working connectors
+  to non-conforming providers keep working.</p>
 <h3 id="assistants-the-companion-the-broker-and-agent-administration">Assistants: the companion, the broker and agent administration<a class="headerlink" href="#assistants-the-companion-the-broker-and-agent-administration" title="Permanent link">&para;</a></h3>
 <ul>
 <li>A companion key is bound to one project, optionally to a list of
