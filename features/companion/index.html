@@ -3479,7 +3479,13 @@ attribution, over a wider set of rows.</p>
 </code></pre></div>
 <p>For Claude Code, add the plugin from your vornik checkout's companion plugin
 directory (<code>claude --plugin-dir &lt;path&gt;/contrib/claude-code-companion</code>), or
-install it from the bundled plugin marketplace for a persistent setup. Once
+install it from the bundled plugin marketplace for a persistent setup.
+From plugin version 0.48.0 the environment variables are optional for Claude
+Code. When <code>VORNIK_URL</code> and <code>VORNIK_COMPANION_TOKEN</code> are unset, Claude Code
+asks for both when it enables the plugin, and keeps the key in your system's
+credential store. When set, the environment variables win. A hosted instance's
+<strong>Connect your companion</strong> page (<code>/ui/companion</code>) creates the key and shows
+these steps. Once
 loaded, the tools and slash commands are available in the session, and a
 start-up digest brings recently-completed delegations and fresh memory back into
 context.</p>
