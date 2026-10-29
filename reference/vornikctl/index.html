@@ -6647,6 +6647,11 @@ The pg_dump major version must be at least the PostgreSQL server major version.<
 <td></td>
 <td>output archive path (default auto-generated)</td>
 </tr>
+<tr>
+<td><code>--restorable</code></td>
+<td><code>false</code></td>
+<td>also include the secrets/ directory beside the config file (the secret store's key, the env files), so the archive restores on another host; the archive is then as sensitive as those secrets</td>
+</tr>
 </tbody>
 </table>
 <h2 id="vornikctl-bench">vornikctl bench<a class="headerlink" href="#vornikctl-bench" title="Permanent link">&para;</a></h2>
