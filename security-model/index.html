@@ -3492,8 +3492,13 @@ connected assistants, and upstream services.</p>
   person wrote are replaced by a dated removal note under a pseudonym, and
   their known identifiers are masked in everyone else's messages and in the
   instructions of tasks those messages started; nobody's words are rewritten
-  by a model. A record a running task still uses, and a live channel session,
-  is deferred, and the request is reported as not fully actioned rather than
+  by a model. A chat channel's stored conversation is deleted or masked the
+  same way, and every daemon node checks a version on the stored row before
+  serving its cached copy and saves only over the version it read, so an
+  erased conversation is neither served from memory nor written back. A record
+  a running task still uses, a conversation that keeps changing during the
+  erasure, and a session held only in memory (single-process installs) are
+  deferred, and the request is reported as not fully actioned rather than
   marked done.</li>
 <li><strong>AI Act Art 5</strong>: the vision agent refuses identification, emotion
   inference and inference of sensitive characteristics.</li>
