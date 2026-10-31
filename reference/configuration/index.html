@@ -5782,6 +5782,24 @@
 <td>Ignored since 2026.9.7 (ffmpeg runs in the agent image); startup warns when set.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>voice.synthetic_replies</code></td>
+<td>bool</td>
+<td>Answer voice messages with synthesised speech (Art 50(2)). Off by default; needs synthetic_replies_ack and synthetic_replies_ack_basis.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>voice.synthetic_replies_ack</code></td>
+<td>bool</td>
+<td>Accept that synthetic voice replies carry metadata and the ledger only (no audio watermark yet).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>voice.synthetic_replies_ack_basis</code></td>
+<td>string</td>
+<td>Who accepted single-layer marking for synthetic voice replies, and why (recorded in the admin audit).</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="media">media<a class="headerlink" href="#media" title="Permanent link">&para;</a></h2>

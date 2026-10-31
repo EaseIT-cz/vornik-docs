@@ -800,6 +800,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#voice-replies-are-off-by-default-ai-act-art-502" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Voice replies are off by default (AI Act Art 50(2))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#good-to-know_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2890,6 +2901,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#voice-replies-are-off-by-default-ai-act-art-502" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Voice replies are off by default (AI Act Art 50(2))
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#good-to-know_3" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3234,6 +3256,22 @@ mounts each model's directory read-only into the container.</p>
 <p>You can configure <code>stt</code> alone (vornik transcribes incoming audio and replies
 with text) or <code>tts</code> alone (vornik reads its replies aloud) — you do not need
 both.</p>
+<h3 id="voice-replies-are-off-by-default-ai-act-art-502">Voice replies are off by default (AI Act Art 50(2))<a class="headerlink" href="#voice-replies-are-off-by-default-ai-act-art-502" title="Permanent link">&para;</a></h3>
+<p>Since 2026.11.1 vornik answers a voice message <strong>in text</strong> unless you opt in,
+even when <code>tts</code> is configured. The EU AI Act asks that synthetic audio be
+marked as AI-generated in a machine-readable way. Today vornik's voice replies
+carry metadata and a server-side record only, without an audio watermark. So
+sending them is a choice you make knowingly:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">voice</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">synthetic_replies</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">          </span><span class="c1"># answer voice messages with speech</span>
+<span class="w">  </span><span class="nt">synthetic_replies_ack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">      </span><span class="c1"># I accept: metadata and ledger only, no audio watermark yet</span>
+<span class="w">  </span><span class="nt">synthetic_replies_ack_basis</span><span class="p">:</span><span class="w"> </span><span class="s">"Who</span><span class="nv"> </span><span class="s">accepted</span><span class="nv"> </span><span class="s">this</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">why,</span><span class="nv"> </span><span class="s">e.g.</span><span class="nv"> </span><span class="s">internal</span><span class="nv"> </span><span class="s">team</span><span class="nv"> </span><span class="s">use</span><span class="nv"> </span><span class="s">only"</span>
+</code></pre></div>
+<p>All three are needed. If <code>synthetic_replies</code> is set without the other two, it
+is ignored (replies stay text) and the daemon logs what is missing. When it is
+on, the acceptance is recorded in the admin audit at startup, and
+<code>vornikctl doctor</code> shows it on every run (<code>synthetic_voice_replies</code>).
+Transcription of incoming voice messages is not affected.</p>
 <h3 id="good-to-know_3">Good to know<a class="headerlink" href="#good-to-know_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>max_text_runes</code> caps how much text gets spoken (1500 is about 90 seconds).
