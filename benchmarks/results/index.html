@@ -2672,7 +2672,7 @@ a result, because two systems whose intervals overlap have not been separated.</
 <tbody>
 <tr>
 <td>Memory retrieval, LongMemEval, 120 items, cold corpus</td>
-<td>2026.10.7</td>
+<td>2026.11.1</td>
 <td>recall 0.9851, precision 0.9854, MRR 0.9958, sd 0.0000 (unchanged since 2026.9.4)</td>
 <td><a href="#longmemeval-retrieval-all-six-abilities-tier-2-cold-corpus">cold axis</a></td>
 </tr>
@@ -3009,13 +3009,24 @@ the dataset's gold documents). The store is cleared before every run.</p>
 <td>n=3</td>
 <td><code>9d32bf3c9a33</code></td>
 </tr>
+<tr>
+<td><code>2026.10.7-130-ge8dc9aab6</code> (2026.11.1)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>be04eee379bd</code></td>
+</tr>
 </tbody>
 </table>
 <p>Figures from <code>bench memory aggregate</code> over three run directories; standard
 deviations are sample (n−1).</p>
 <p><strong>What each row adds.</strong> Every row from the fifth on is identical to the one
 before to four decimal places across three deterministic runs. Its key is new
-only because <code>daemon_revision</code> moved (plus <code>harness_revision</code> for 2026.10.7).
+only because <code>daemon_revision</code> moved (plus <code>harness_revision</code> for 2026.10.7
+and 2026.11.1).
 The dataset revision, <code>max_tokens</code>, item selection and embedder
 (<code>openai/qwen3-embedding:0.6b@1024d</code>) are unchanged, and each run cleared a
 store of 1,897 chunks.</p>
@@ -3083,9 +3094,14 @@ store of 1,897 chunks.</p>
 <td>Every recall path honours the repository scope; each hit carries a provenance label. Each item is deposited and recalled under its own scope with <code>strict_scope</code></td>
 <td>Deposits use class <code>research</code>, so the trust changes for <code>decision</code> and <code>spec</code> deposits and delegated ingests are covered by the daemon's tests only</td>
 </tr>
+<tr>
+<td>12. 2026.11.1</td>
+<td>The recall path changed (the architect answers only from the checked design record) and the embedding client now dials through the SSRF guard. Measured 2026-11-01 on <code>e8dc9aab6</code>; the commits after it are documentation only</td>
+<td>The design-record filter applies to architect answers, which this benchmark does not ask for; covered by the daemon's tests</td>
+</tr>
 </tbody>
 </table>
-<p>Rows 2 to 11 carry <code>retrieval_path_unverified</code>: the harness trusts the
+<p>Rows 2 to 12 carry <code>retrieval_path_unverified</code>: the harness trusts the
 daemon's reported recall method rather than observing it.</p>
 <p><strong>Per ability</strong> (row 2's three runs):</p>
 <table>
@@ -3536,6 +3552,11 @@ each is stated:</p>
 <td><code>2026.10.7</code></td>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, on the release candidate (<code>2026.10.6-439-g67cafb8e9</code>, n=3), identical to 2026.10.6. The cycle changes the recall paths (repository scope on every path, a provenance label on every hit), so a waiver was not open to it. This entry records the memory row only; no agent row is published for this release in this table.</td>
+</tr>
+<tr>
+<td><code>2026.11.1</code></td>
+<td><strong>yes, both</strong></td>
+<td>The memory open axis above, measured on <code>2026.10.7-130-ge8dc9aab6</code> (n=3), identical to 2026.10.7; the cycle changed the recall path, so a waiver was not open to it. The agent axis: the open-weight arms in <a href="#agent-quality-a-4b-active-open-weight-model-on-one-gpu-2026-10-31">Agent quality</a>, measured on <code>2026.10.7-94-g3246baad0</code>, part of this release; they start a new table (different model and hardware from 2026.9.0).</td>
 </tr>
 </tbody>
 </table>
