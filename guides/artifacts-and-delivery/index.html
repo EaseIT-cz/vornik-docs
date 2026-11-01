@@ -2751,6 +2751,11 @@ formats and sends each file back to the chat. It runs deterministically, with no
 extra model call. The conversion happens inside the bundled agent image, in a
 short-lived container with no network access, never on the daemon host itself:
 the host needs podman and the agent image, not pandoc.</p>
+<p>Each rendered document says it is AI-generated in its metadata (the HTML
+description and keywords, the PDF Subject and Keywords, the Word document's
+properties), with the EU AI Act Art 50(2) machine-readable mark signed over the
+markdown it was rendered from. Files agents produce, and opt-in voice replies,
+are recorded by hash so they can be checked later.</p>
 <p>Parameters:</p>
 <table>
 <thead>
