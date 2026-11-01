@@ -3176,6 +3176,9 @@ ending with the AI-disclosure notice (<code>ai_disclosure.publication_text</code
 closes the source as not planned. Retries recognize only markers posted through
 this same GitHub App. Closing refuses when the full comment set cannot be
 checked within the 100-comment cap. Both write opt-ins default to false.</p>
+<p>Every pull request body, review and comment Vornik posts also ends with a
+hidden line, <code>&lt;!-- vornik-ai-mark: … --&gt;</code>: the EU AI Act Art 50(2)
+machine-readable mark, signed over the text above it.</p>
 <h3 id="issue-writes-are-unattended">Issue writes are unattended<a class="headerlink" href="#issue-writes-are-unattended" title="Permanent link">&para;</a></h3>
 <p>Anyone who can open an issue or comment on it writes the text the agent
 reads. Vornik marks that text as untrusted, but the model still reads it, and
