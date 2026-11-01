@@ -2426,21 +2426,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-we-lead-with-and-why" class="md-nav__link">
+  <a href="#two-tiers-for-memory-never-blended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What we lead with, and why
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#current-results" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Current results
+        Two tiers for memory, never blended
       
     </span>
   </a>
@@ -2504,45 +2493,49 @@
 
 
 <h1 id="benchmarks">Benchmarks<a class="headerlink" href="#benchmarks" title="Permanent link">&para;</a></h1>
-<p>Vornik is measured, not asserted. This section states what we measure, how to
-reproduce it, and where Vornik loses.</p>
-<p>Two benchmarks, answering different questions:</p>
+<p>Vornik is measured, not asserted: what we measure, how to reproduce it, and
+where Vornik loses. Results: <a href="results/">Results by release</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Benchmark</th>
+<th>Question it answers</th>
+<th>Reproducible by you</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Memory retrieval</strong> (LongMemEval)</td>
+<td>Does memory find what matters?</td>
+<td>Yes: public dataset, shipped harness</td>
+</tr>
+<tr>
+<td><strong>Agent quality</strong></td>
+<td>Does the control logic carry tasks to a correct finish: what the lead granted, whether roles followed their schemas, whether agents called tools correctly?</td>
+<td>No: the task set and answer key are not published</td>
+</tr>
+</tbody>
+</table>
+<p>Every number comes from <code>vornikctl bench memory</code> or <code>vornikctl bench agent</code>,
+which ship with the product; nothing is transcribed by hand. Every result
+carries a <strong>comparability key</strong>, a digest of the dataset revision, models,
+retrieval budget and prompts, so two results that are not comparable refuse
+to be compared.</p>
+<p><strong>Agent results name their model.</strong> They are measured on self-hosted
+open-weight models on one machine (a 27B dense model in 2026.9.0; a 26B
+mixture-of-experts model with 4B active on one RTX 3090 in 2026.11.1), which
+is what a self-hosting user runs, and harder than a large hosted model.</p>
+<h2 id="two-tiers-for-memory-never-blended">Two tiers for memory, never blended<a class="headerlink" href="#two-tiers-for-memory-never-blended" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Memory / retrieval</strong> — how well the memory subsystem finds what matters,
-  against a public dataset. Most of this page. Independently reproducible.</li>
-<li><strong>Agent quality</strong> — the decisions the control logic makes: what the lead
-  granted, whether roles followed their output schemas, whether agents called
-  tools correctly. Reported in
-  <a href="results/#agent-quality-202690-first-scored-arm">Results by release</a>.
-  <strong>Not independently reproducible</strong> — its task set and answer key are not
-  published — so it is reported with that limitation stated rather than implied.</li>
+<li><strong>Tier 2, judge-free (the primary result).</strong> Context recall, context
+  precision and MRR, comparing retrieved document ids with the dataset's gold
+  labels. No model is involved, so the numbers stay reproducible after any
+  model is retired.</li>
+<li><strong>Tier 1, judged accuracy (supporting).</strong> One LLM answers from the retrieved
+  context and a second grades it. The judge's own noise is about 4.5% standard
+  deviation at n=30, enough to manufacture or erase a "win". Any judged figure
+  names an open-weight, version-pinned judge, so it can be re-run.</li>
 </ul>
-<p>Every number here is produced by <code>vornikctl bench memory</code> or <code>vornikctl bench
-agent</code>, which ship with the product. Nothing is hand-transcribed from a spreadsheet, and every result carries a
-<strong>comparability key</strong> — a digest of the dataset revision, the models involved, the
-retrieval budget and the prompts — so two numbers that are not comparable refuse to
-be compared.</p>
-<h2 id="what-we-lead-with-and-why">What we lead with, and why<a class="headerlink" href="#what-we-lead-with-and-why" title="Permanent link">&para;</a></h2>
-<p>Retrieval quality is reported in two tiers, never blended.</p>
-<p><strong>Tier 2 — judge-free.</strong> Context recall, context precision and MRR, computed by
-comparing retrieved document ids against the dataset's gold labels. No model is in
-the loop, so these are reproducible indefinitely and independent of any model's
-lifecycle. <strong>This is the primary result.</strong></p>
-<p><strong>Tier 1 — judged accuracy.</strong> An LLM answers from the retrieved context and a second
-LLM grades the answer. Useful, and supporting only: measured judge variance is
-~4.5% standard deviation at n=30, which is enough to manufacture or erase a "win".</p>
-<p>We lead with tier 2 because a benchmark whose headline number depends on a hosted
-proprietary judge stops being reproducible the day that judge is retired. Any judged
-figure we publish names an <strong>open-weight, version-pinned</strong> judge so an external
-auditor can re-run it.</p>
-<h2 id="current-results">Current results<a class="headerlink" href="#current-results" title="Permanent link">&para;</a></h2>
-<p>See <a href="results/">Results by release</a> for the tracked history — the LongMemEval
-retrieval rows, and the agent-quality arm.</p>
-<p><strong>The agent figures name their model on purpose.</strong> They are measured on a
-self-hosted 27B open-weight model on a single machine, which is what a
-self-hosting user actually runs, rather than on a large hosted model that would
-report a smoother number. The gap between the two is stated alongside the
-result.</p>
 <h2 id="reproducing-a-result">Reproducing a result<a class="headerlink" href="#reproducing-a-result" title="Permanent link">&para;</a></h2>
 <p>The harness needs a running Vornik daemon, a companion key with memory access, and a
 database that is <strong>not</strong> your production one.</p>
@@ -2563,52 +2556,48 @@ vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span cla
 scripts/bench-reproduce.sh<span class="w"> </span>--dataset-path<span class="w"> </span>./longmemeval_oracle.json<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--database<span class="w"> </span>my_bench_db<span class="w"> </span>--category<span class="w"> </span>temporal-reasoning<span class="w"> </span>--items<span class="w"> </span><span class="m">6</span><span class="w"> </span>--runs<span class="w"> </span><span class="m">3</span>
 </code></pre></div>
-<p><strong>Run it against a bench deployment, not production.</strong> The harness bulk-writes a
-corpus. A bench daemon wants its own database, its own listener, and a config tree
-containing only autonomy-off projects — a daemon that loads a production project tree
-against a throwaway database will happily start doing that project's real work.</p>
-<p><strong>Item selection is deterministic:</strong> the first N items of the named category, in
-dataset file order — or, for a run spanning every ability, the first N of <em>each</em>
-category. The six-item rows list the question ids they scored, so a reproduction can
-confirm it measured the same questions rather than inferring it from a count. The
-120-item row does not list 120 ids; its selection rule is exact instead
-(<code>--max-items-per-category 20</code>, no <code>--category</code> filter), and the ids it actually
-scored are in that run's journal.</p>
-<p><strong>Warm and cold are different experiments.</strong> Until 2026-08-21 the harness did not
-perform the store clear its own flag promised, so repeated runs accumulated a corpus.
-It now clears before every run, unconditionally. Rows taken before that date are warm
-and are marked closed; the tracked axis is cold. <code>bench memory aggregate</code> and the
-comparability key both refuse to mix the two.</p>
-<p><code>scripts/bench-reproduce.sh</code> pins every axis that changes a result and prints the
-comparability key it produced. If your key differs from a published one, the runs are
-measuring different things and the script says so rather than letting you compare
-them.</p>
+<ul>
+<li><strong>Use a bench deployment, not production.</strong> The harness bulk-writes a
+  corpus. Give the bench daemon its own database, listener and a config tree
+  with only autonomy-off projects: a daemon that loads a production project
+  tree starts doing that project's real work.</li>
+<li><strong>Item selection is deterministic:</strong> the first N items of the category in
+  file order, or the first N of each category for an all-ability run. The
+  six-item rows list their question ids; the 120-item rows use
+  <code>--max-items-per-category 20</code> with no category filter, and the scored ids
+  are in each run's journal.</li>
+<li><strong>Warm and cold do not mix.</strong> Before 2026-08-21 the harness did not clear
+  the store between runs, so those rows are warm and closed; the tracked axis
+  is cold. <code>bench memory aggregate</code> and the comparability key refuse to mix
+  them.</li>
+<li><strong>Compare keys.</strong> <code>scripts/bench-reproduce.sh</code> pins every axis that changes
+  a result and prints the key. A key that differs from a published one means
+  the runs measured different things.</li>
+</ul>
 <h3 id="two-guards-you-will-meet">Two guards you will meet<a class="headerlink" href="#two-guards-you-will-meet" title="Permanent link">&para;</a></h3>
-<p>Both exist because they caught real incidents, and neither can be skipped silently.</p>
-<p><strong>It refuses to write the wrong database.</strong> The harness bulk-writes a corpus, so it
-asks the daemon which database it <em>actually</em> writes to and compares that with the one
-you named. It fails closed when it cannot get an answer:</p>
+<p>Both caught real incidents; neither can be skipped silently.</p>
+<p><strong>It refuses to write the wrong database.</strong> It asks the daemon which database
+it writes and compares that with the one you named, and fails closed when it
+cannot get an answer:</p>
 <div class="highlight"><pre><span></span><code>error: refusing to run: you named "vornik_bench" but the "vornik" system actually
 writes "production_db"
 </code></pre></div>
-<p><strong>It waits for ingest to finish.</strong> Embedding is asynchronous. A run that recalls
-while the queue is still draining measures keyword-only retrieval and reports it as
-though it were semantic — which is exactly how an early internal comparison produced
-a recall figure 8 points too low. The harness now waits for the ingest queue to
-empty, and refuses if it never does.</p>
+<p><strong>It waits for ingest to finish.</strong> Embedding is asynchronous; recalling while
+the queue drains measures keyword-only retrieval, which once produced a
+recall figure 8 points too low. The harness waits for the queue to empty and
+refuses if it never does.</p>
 <h2 id="what-these-numbers-do-not-tell-you">What these numbers do not tell you<a class="headerlink" href="#what-these-numbers-do-not-tell-you" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Not a marketing claim.</strong> Absolute scores are on <em>our</em> scale, under <em>our</em> judge
-  and <em>our</em> retrieval budget. Do not compare them against a figure published
-  elsewhere under different conditions.</li>
-<li><strong>Tier 2 cannot measure abstention.</strong> For questions whose answer is deliberately
-  absent from the corpus there is no gold document to retrieve, so those items are
-  excluded from the mean rather than scored zero. Abstention is judged-only.</li>
-<li><strong>Small n is small.</strong> Every result states its item count. A six-item screen is a
-  smoke test, not a benchmark.</li>
-<li><strong>Chunking asymmetry is real.</strong> Long sessions are split on turn boundaries at the
-  per-deposit size cap. Where a comparison system does not split, the two systems saw
-  differently-shaped inputs; the harness records this as a method note.</li>
+<li><strong>They are on our scale.</strong> Scores use our judge and our retrieval budget; do
+  not compare them with figures published elsewhere under other conditions.</li>
+<li><strong>Tier 2 cannot measure abstention.</strong> Questions whose answer is deliberately
+  absent have no gold document, so they are excluded from the mean, not scored
+  zero. Abstention is judged only.</li>
+<li><strong>Small n is small.</strong> Every result states its item count; a six-item screen
+  is a smoke test.</li>
+<li><strong>Chunking differs between systems.</strong> Vornik splits long sessions on turn
+  boundaries at the per-deposit size cap. Where a compared system does not,
+  the two saw differently shaped inputs; the harness records this.</li>
 </ul>
 
 
