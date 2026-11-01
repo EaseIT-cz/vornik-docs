@@ -2969,6 +2969,9 @@ is returned as text even when it is called <code>notes.png</code> or <code>dump.
 files such as PDF return a signed download URL valid for five minutes, with a
 32 MiB download limit. Relay that URL to the user or channel; do not fetch the
 binary into model context. If it expires, call <code>read_artifact</code> again.</p>
+<p>A download of a file an agent produced carries the EU AI Act Art 50(2)
+machine-readable mark in its <code>AI-Disclosure</code> and <code>X-Vornik-AI-Mark</code> response
+headers. Uploaded and fetched files are not marked.</p>
 <p>For broker workflows, additional files are opt-in. The operator declares their
 original bare names in the workflow's YAML:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">broker</span><span class="p">:</span>
