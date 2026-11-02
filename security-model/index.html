@@ -3162,6 +3162,12 @@ connected assistants, and upstream services.</p>
   so existence does not leak.</li>
 <li><strong>Agent keys reach only the agent route set</strong>, on every listener (TCP and
   the unix socket), and cannot post as the operator.</li>
+<li><strong>A database key's flags bind it on every route.</strong> A key minted with
+  <code>vornikctl key create</code> reaches its project's memory only with
+  <code>memory_read</code> (reads) or <code>memory_write</code> (writes, including document
+  extraction into memory). With a workflow list it reaches only the A2A
+  routes of those workflows. It cannot create, list or change keys: key
+  management is for static keys, admin keys and the console.</li>
 <li>Request bodies are size-capped and strictly decoded. The configuration dump
   redacts every credential-shaped field; a test plants a marker in every
   string field of the configuration and requires each credential-shaped one

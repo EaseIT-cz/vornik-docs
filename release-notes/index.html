@@ -2435,6 +2435,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026111" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2997,6 +3008,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026112" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026111" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3552,6 +3574,26 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="2026112">2026.11.2<a class="headerlink" href="#2026112" title="Permanent link">&para;</a></h2>
+<p>Draft: not yet released.</p>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>A database API key is bound by its flags on every route.</strong> A key
+  minted with <code>vornikctl key create</code> reads project memory only with
+  <code>memory_read</code> and writes it only with <code>memory_write</code>; with a workflow
+  list it reaches only the A2A routes of those workflows; and it can no
+  longer create, list or change keys. Use a static key, an admin key or
+  the console for key management. Agent keys, companion keys, static keys
+  and console sessions are unchanged.</li>
+</ul>
+</div>
+<ul>
+<li><strong>A project key given to an A2A caller can no longer read the project's
+  memory or keys</strong> (security). Before, a key narrowed to one workflow was
+  still a full key on the REST API of its project.</li>
+</ul>
 <hr />
 <h2 id="2026111">2026.11.1<a class="headerlink" href="#2026111" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
