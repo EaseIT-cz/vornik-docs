@@ -3492,6 +3492,12 @@ these steps. Once
 loaded, the tools and slash commands are available in the session, and a
 start-up digest brings recently-completed delegations and fresh memory back into
 context.</p>
+<p>If a proxy or web application firewall (such as Cloudflare) sits in front of
+the daemon, allow the companion plugins by name. They send
+<code>User-Agent: vornik-companion/&lt;version&gt; (claude-code)</code> (Claude Code plugin
+0.48.1 and later) or <code>(hermes)</code> (Hermes plugin 0.22.2 and later) on every
+call. Older versions sent Python's default signature, which Cloudflare
+refuses with <code>error code: 1010</code>.</p>
 <p>The hook also fires <strong>after a compaction</strong>, and does something different there:
 it re-plants the standing directives — repo scope, recall-before-reading-code,
 skill capture — and deliberately does not reprint the delegation digest.

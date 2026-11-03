@@ -3587,6 +3587,12 @@ new behavior; those are called out below.</p>
   longer create, list or change keys. Use a static key, an admin key or
   the console for key management. Agent keys, companion keys, static keys
   and console sessions are unchanged.</li>
+<li><strong>Read these boxes yourself for this upgrade.</strong> From 2026.11.2 on,
+  <code>vornik-update.sh</code> prints the upgrade requirements of every release you
+  are upgrading across and will not run unattended until you pass
+  <code>--ack-upgrade-requirements=&lt;target&gt;</code> (with <code>--yes</code>, an acknowledgement
+  alone is not enough). The upgrade TO 2026.11.2 still runs the older
+  updater, which neither shows them nor knows the flag.</li>
 </ul>
 </div>
 <ul>
@@ -3598,6 +3604,25 @@ new behavior; those are called out below.</p>
   <strong>Admin → Keys &amp; access → Credentials</strong> (<code>/ui/credentials</code>) or type in the control plane's MCP form. Values are
   stored encrypted, never shown again, and every change is audited; saving
   registers a server that was waiting for its token, with no restart.</li>
+<li><strong>The updater shows what to do before an upgrade</strong> (fix). <code>vornik-update.sh</code>
+  prints the "Upgrade requirements" of every release between the installed one
+  and the target, read from the target's notes, before it changes anything.
+  It continues only after you type the target's name, or, with <code>--yes</code>, after
+  <code>--ack-upgrade-requirements=&lt;target&gt;</code>. <code>--check</code> prints them too.</li>
+<li><strong>Companion plugins work behind Cloudflare</strong> (fix). The Claude Code plugin
+  (0.48.1) and the Hermes plugin (0.22.2) name themselves on every call, as
+  <code>vornik-companion/&lt;version&gt;</code>. Python's default signature was refused by
+  Cloudflare with <code>error code: 1010</code>, so <code>/upload</code> failed for a daemon behind
+  it. A proxy or firewall in front of the daemon should allow that name.</li>
+<li><strong>A later agent step can read a system step's output</strong> (fix). A step prompt
+  can now reference a system step's result with <code>${outputs.&lt;step&gt;.&lt;field&gt;}</code>,
+  for example <code>${outputs.fetch_diff.diff}</code> in a review workflow's second agent
+  step. Before, such a reference passed validation and failed every run with
+  <code>prompt reference unresolved</code>, so only the agent step directly after the
+  system step saw the diff. A value longer than 256 KiB is cut, and the prompt
+  says so. The value is otherwise inserted as-is: wrap it in your own
+  delimiters and tell the model it is data, because a pull request's author
+  controls a diff's text.</li>
 </ul>
 <hr />
 <h2 id="2026111">2026.11.1<a class="headerlink" href="#2026111" title="Permanent link">&para;</a></h2>
