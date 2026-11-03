@@ -3593,6 +3593,11 @@ new behavior; those are called out below.</p>
 <li><strong>A project key given to an A2A caller can no longer read the project's
   memory or keys</strong> (security). Before, a key narrowed to one workflow was
   still a full key on the REST API of its project.</li>
+<li><strong>Add MCP tokens without a shell.</strong> A <code>secret://NAME</code> reference now
+  resolves from the daemon's environment, then from credentials you enter on
+  <strong>Admin → Keys &amp; access → Credentials</strong> (<code>/ui/credentials</code>) or type in the control plane's MCP form. Values are
+  stored encrypted, never shown again, and every change is audited; saving
+  registers a server that was waiting for its token, with no restart.</li>
 </ul>
 <hr />
 <h2 id="2026111">2026.11.1<a class="headerlink" href="#2026111" title="Permanent link">&para;</a></h2>

@@ -2976,10 +2976,31 @@ other server.</p>
 entry. Omitting it (the default) means "no authentication", which is how every
 server behaved before this block existed.</p>
 <p>Credentials are <strong>never written in the config</strong>. Every credential field takes a
-<code>secret://&lt;name&gt;</code> reference; the value lives in the secret store, and the name
-must appear in the project's <code>permissions.secrets</code>. That is what lets a server
-definition travel through the control plane as a reviewable diff without
-leaking anything.</p>
+<code>secret://&lt;NAME&gt;</code> reference, so a server definition can travel through the
+control plane as a reviewable diff without leaking anything. A project-level
+server's name must also appear in the project's <code>permissions.secrets</code>.</p>
+<p><strong>Where a <code>secret://NAME</code> value comes from.</strong> Vornik reads the daemon's
+environment first (the files under <code>~/.config/vornik/secrets/</code>, loaded at
+start), then the <strong>operator credentials</strong>: values stored encrypted in the
+daemon's credential store. A server whose credential exists in neither is not
+registered, and the MCP section of the control plane lists it under
+<strong>Waiting for credentials</strong>.</p>
+<p><strong>Adding a value without a shell</strong> (any install, and the only way on a hosted
+instance):</p>
+<ul>
+<li><strong>Admin → Keys &amp; access → Credentials</strong> (<code>/ui/credentials</code>): enter the name and the
+  value. The value is write-only: it is stored encrypted, never shown again,
+  and every change is audited. Saving re-registers the servers waiting for it,
+  with no restart. Remove or replace a value on the same page.</li>
+<li><strong>Control plane → MCP → Add</strong>: in static mode, type the token in
+  <strong>Credential value</strong>. It is stored under the <strong>Value from</strong> name when you
+  submit; the proposal carries only the reference.</li>
+</ul>
+<p>Names stored this way are <code>UPPER_SNAKE_CASE</code> (<code>CONTEXT7_API_KEY</code>), without a
+namespace. Store the token alone and set <strong>Value prefix</strong> to <code>Bearer</code> when the
+server expects <code>Authorization: Bearer &lt;token&gt;</code>. A value set in the environment
+wins over a stored one of the same name; the Credentials page says when that
+happens.</p>
 <p>Project IDs containing <code>--</code> are reserved for agent namespaces: an ID of the form
 <code>&lt;namespace&gt;--&lt;name&gt;</code> belongs to an agent's own setup. Such a project resolves only
 <code>secret://&lt;namespace&gt;/&lt;NAME&gt;</code>, from Vornik's encrypted credential store, and an
