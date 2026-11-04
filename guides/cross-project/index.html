@@ -2705,8 +2705,10 @@ a workflow degrades gracefully rather than erroring out. <code>a2a_call</code> i
 separately (see <a href="#a2a-federation-calling-remote-agents">A2A federation</a> below).</p>
 <h2 id="call_project-invoke-another-projects-workflow"><code>call_project</code>: invoke another project's workflow<a class="headerlink" href="#call_project-invoke-another-projects-workflow" title="Permanent link">&para;</a></h2>
 <p><code>call_project</code> is a workflow <strong>step type</strong>. The caller blocks until the callee
-workflow reaches a terminal state, then continues with the callee's result
-available to later steps.</p>
+workflow reaches a terminal state, then continues at <code>on_success</code>. The callee's
+result is checked against <code>expect.schema</code> and recorded on the call. Later steps
+cannot yet read it through <code>${outputs.…}</code>: a reference to a <code>call_project</code> step
+is refused when the workflow loads.</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enrich</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">call_project</span>
 <span class="w">  </span><span class="nt">target_project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">research-desk</span>
@@ -2720,8 +2722,13 @@ available to later steps.</p>
 <span class="w">  </span><span class="nt">on_success</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">publish</span>
 <span class="w">  </span><span class="nt">on_fail</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">handle-error</span>
 </code></pre></div>
-<p><code>payload</code> values support <code>${outputs.&lt;step-id&gt;.&lt;field&gt;}</code> interpolation from
-earlier steps in the calling workflow.</p>
+<p><code>payload</code> values support <code>${outputs.&lt;step-id&gt;.&lt;field&gt;}</code> from earlier <code>agent</code>,
+<code>system</code>, <code>plan</code>, <code>spawn_project</code> and <code>a2a_call</code> steps. A reference that can
+never resolve is refused when the workflow loads: one to a step that does not
+exist, to the step itself, or to a <code>gate</code>, <code>approval</code>, <code>parallel</code> or
+<code>call_project</code> step, none of which records a readable result. A reference to a
+step that did not run on this path becomes an empty string. A text value
+longer than 256 KiB is cut, and the text says so.</p>
 <h3 id="who-may-call-whom-allowlists">Who may call whom (allowlists)<a class="headerlink" href="#who-may-call-whom-allowlists" title="Permanent link">&para;</a></h3>
 <p>Cross-project calls are governed by <strong>two</strong> allowlists in project YAML — one on
 each side:</p>
@@ -2807,7 +2814,10 @@ enabled.</p>
 </code></pre></div>
 <p>The step POSTs the prompt to the agent's <code>tasks</code> endpoint, then streams the
 agent's progress over SSE until it reaches a terminal state. A stream that goes
-idle for 90s is treated as a failure.</p>
+idle for 90s is treated as a failure. The prompt is sent as written: only an <code>agent</code>
+step's prompt resolves <code>${outputs.…}</code>, so a reference here is refused when the
+workflow loads. A later step can read the partner's answer as
+<code>${outputs.&lt;this step&gt;.text}</code>.</p>
 <h3 id="exposing-your-own-agents-inbound-a2a">Exposing your own agents (inbound A2A)<a class="headerlink" href="#exposing-your-own-agents-inbound-a2a" title="Permanent link">&para;</a></h3>
 <p>When the A2A handler is enabled, each project+workflow is published as an
 addressable agent:</p>

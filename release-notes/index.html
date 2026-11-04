@@ -3587,6 +3587,14 @@ new behavior; those are called out below.</p>
   longer create, list or change keys. Use a static key, an admin key or
   the console for key management. Agent keys, companion keys, static keys
   and console sessions are unchanged.</li>
+<li><strong>A workflow output reference that can never work is refused when the
+  workflow loads.</strong> <code>${outputs.&lt;step&gt;.&lt;field&gt;}</code> naming a <code>gate</code>,
+  <code>approval</code>, <code>parallel</code> or <code>call_project</code> step, the step itself, or (in a
+  payload) a step that does not exist used to load and then fail, or turn
+  into an empty string, on every run; so did one in a non-agent step's
+  prompt. A daemon holding such a workflow would not start, so the
+  updater's preflight now refuses the upgrade and names the file. Check
+  with <code>vornikctl workflow validate &lt;dir&gt;</code>.</li>
 <li><strong>Read these boxes yourself for this upgrade.</strong> From 2026.11.2 on,
   <code>vornik-update.sh</code> prints the upgrade requirements of every release you
   are upgrading across and will not run unattended until you pass
@@ -3614,6 +3622,10 @@ new behavior; those are called out below.</p>
   <code>vornik-companion/&lt;version&gt;</code>. Python's default signature was refused by
   Cloudflare with <code>error code: 1010</code>, so <code>/upload</code> failed for a daemon behind
   it. A proxy or firewall in front of the daemon should allow that name.</li>
+<li><strong>Every step that produces a result is readable by later steps</strong> (fix).
+  <code>${outputs.&lt;step&gt;.&lt;field&gt;}</code> now resolves for <code>plan</code>, <code>spawn_project</code> and
+  <code>a2a_call</code> steps, not only <code>agent</code> and <code>system</code>. A step that runs again and
+  fails no longer leaves its previous result readable.</li>
 <li><strong>A later agent step can read a system step's output</strong> (fix). A step prompt
   can now reference a system step's result with <code>${outputs.&lt;step&gt;.&lt;field&gt;}</code>,
   for example <code>${outputs.fetch_diff.diff}</code> in a review workflow's second agent
