@@ -3239,7 +3239,10 @@ like a companion ingest of the same file. The new version replaces the old
 one. A file deleted or changed on the branch has its old version withdrawn
 by the same hourly check.</p>
 <ul>
-<li>A file whose front matter says <code>disclosure: never</code> is skipped.</li>
+<li>A file whose front matter says <code>disclosure: never</code> is skipped. So is a
+  file whose front matter does not parse, and a file that lists
+  <code>disclosureExclude</code> sections, because mirroring it whole would include
+  them.</li>
 <li>A file over 512 KiB is skipped, and at most 200 files are ingested per
   project per hour; the rest follow in the next pass.</li>
 <li>Text the ingest gates refuse is quarantined as usual, and is tried again
