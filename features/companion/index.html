@@ -1825,6 +1825,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#keeping-repository-docs-current-in-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keeping repository docs current in memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#digging-harder-when-the-fast-answer-misses" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2684,6 +2695,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#keeping-repository-docs-current-in-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keeping repository docs current in memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#digging-harder-when-the-fast-answer-misses" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3202,6 +3224,33 @@ with a current plugin, then retire the old versions with
 <code>vornikctl memory supersede-legacy-documents -p &lt;project&gt; --scope &lt;scope&gt; --root &lt;checkout&gt;</code>.
 It is a dry run until you add <code>--apply</code>, and it leaves alone any name that more
 than one file in the checkout shares.</p>
+<h3 id="keeping-repository-docs-current-in-memory">Keeping repository docs current in memory<a class="headerlink" href="#keeping-repository-docs-current-in-memory" title="Permanent link">&para;</a></h3>
+<p>A project can mirror parts of its repository into its memory, so that docs
+stay current without anyone re-ingesting them. List path prefixes in the
+project's configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">repo_scope</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.com/acme/widgets</span>
+<span class="nt">memory</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mirror_paths</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">docs/public/</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">docs/guides/</span><span class="p p-Indicator">]</span>
+</code></pre></div>
+<p>Once an hour, after Vornik fetches the default branch into its clone, it
+ingests every Markdown file under those prefixes whose current version it
+has not ingested yet. Each file is read from the clone, so it is <code>verified</code>
+like a companion ingest of the same file. The new version replaces the old
+one. A file deleted or changed on the branch has its old version withdrawn
+by the same hourly check.</p>
+<ul>
+<li>A file whose front matter says <code>disclosure: never</code> is skipped.</li>
+<li>A file over 512 KiB is skipped, and at most 200 files are ingested per
+  project per hour; the rest follow in the next pass.</li>
+<li>Text the ingest gates refuse is quarantined as usual, and is tried again
+  only when the file changes.</li>
+<li><code>vornikctl doctor</code> (check <code>memory_provenance_clone</code>) shows each mirroring
+  project's last pass, file counts by outcome, and warns when a file failed
+  or the clone could not be read. The metric is
+  <code>vornik_memory_mirror_files_total{project_id,outcome}</code>.</li>
+<li><code>mirror_paths</code> needs <code>repo_scope</code>, and each entry ends in <code>/</code>. It is read
+  on every pass, so a config reload applies a change.</li>
+</ul>
 <h3 id="digging-harder-when-the-fast-answer-misses">Digging harder when the fast answer misses<a class="headerlink" href="#digging-harder-when-the-fast-answer-misses" title="Permanent link">&para;</a></h3>
 <p><code>recall</code> is tuned for interactive use: one search pass, ranked by fusing semantic
 and keyword matches, back in well under a second. When that misses something you
