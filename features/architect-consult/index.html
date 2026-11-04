@@ -1898,6 +1898,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-the-architect-knows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the architect knows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-sent" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2517,6 +2528,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-the-architect-knows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the architect knows
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-sent" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2580,43 +2602,56 @@
 <h1 id="architect-consultation-over-a2a">Architect consultation over A2A<a class="headerlink" href="#architect-consultation-over-a2a" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Community Edition — use requires a subscription</p>
-<p>The consultation mechanism ships in the <strong>Community Edition</strong> and is
-<strong>off by default</strong>. Using it requires a vornik subscription: the gate is
-your service contract, not a licence check in the software. Enabling it
-creates an auditable record, and so does every consultation.</p>
+<p>The consultation ships in the <strong>Community Edition</strong>, <strong>off by default</strong>.
+Using it requires a vornik subscription. The gate is your service
+contract, not a licence check in the software. Turning it on is
+recorded in an audit log, and so is every consultation.</p>
 </div>
 <p>The <a href="../config-assistant/">configuration assistant</a> can ask the <strong>vornik
-architect</strong> — a remote expert agent reachable over the A2A protocol — one
-question per request when it needs domain knowledge it does not hold: what a
-configuration key means in practice, how a workflow topology is usually shaped
-for a purpose, why a measurement looks the way it does.</p>
+architect</strong>, a remote expert agent reached over the A2A protocol, one
+question per request. It does so when it needs knowledge it does not hold:
+what a configuration key means in practice, how a workflow is usually
+shaped for a purpose, why a measurement looks the way it does.</p>
+<h2 id="what-the-architect-knows">What the architect knows<a class="headerlink" href="#what-the-architect-knows" title="Permanent link">&para;</a></h2>
+<p>It answers from two sources only:</p>
+<ul>
+<li>implementation briefs, which describe how each feature works end to end
+  and are approved for disclosure before they are added;</li>
+<li>this documentation.</li>
+</ul>
+<p>It does not read Vornik's internal design record, legal material, source
+code or anyone's instance configuration. When a question would need them,
+the answer is "Not found in the design record."</p>
+<p>An answer is at most 8 KiB of prose with citations, and holds no code
+blocks. Every citation names a brief or a page of these docs. A run that
+breaks a rule returns no answer, and the consultation counts as not having
+happened.</p>
 <h2 id="what-is-sent">What is sent<a class="headerlink" href="#what-is-sent" title="Permanent link">&para;</a></h2>
-<p>Only a <strong>minimized, sanitized question</strong> — never the configuration tree, never
-a diff, never a secret. The question passes the same secret screen as the
-assistant's own model call and the judge call; a question that trips it is
-not sent and the request continues without the consultation.</p>
-<p>The peer's answer is <strong>advice</strong>, never an approval: it is folded into the
-assistant's reasoning as untrusted text, cannot grant tools, and cannot make
-a proposal auto-apply.</p>
+<p>Only a minimized, sanitized question: never your configuration tree, a diff
+or a secret. The question passes the same secret screen as the assistant's own
+model call and its judge call. A question that trips the screen is not sent,
+and the request carries on without the consultation.</p>
+<p>The answer is advice, never an approval. It enters the assistant's reasoning
+as untrusted text. It cannot grant tools or make a proposal apply itself.</p>
 <h2 id="bounds">Bounds<a class="headerlink" href="#bounds" title="Permanent link">&para;</a></h2>
 <ul>
-<li>at most one consultation per assistant request;</li>
-<li>a per-consult deadline (<code>config_assistant.consult.timeout</code>, default two
-  minutes) and answer-size cap;</li>
-<li>the destination is the operator-configured <code>a2a.peers</code> entry only — the
-  model cannot choose a host, and the destination and your consent are
-  re-checked immediately before each send;</li>
-<li>an unreachable or timed-out peer degrades the answer (the proposal says the
-  consultation did not happen); it never fails the request and is never
-  retried automatically.</li>
+<li>At most one consultation per assistant request.</li>
+<li>A deadline per consultation (<code>config_assistant.consult.timeout</code>, default
+  two minutes) and a cap on the answer's size.</li>
+<li>The only destination is the <code>a2a.peers</code> entry you configure. The model
+  cannot choose a host, and the destination and your consent are checked
+  again just before each send.</li>
+<li>An unreachable or timed-out peer degrades the answer: the proposal says the
+  consultation did not happen. It never fails the request and is never
+  retried on its own.</li>
 </ul>
 <h2 id="audit">Audit<a class="headerlink" href="#audit" title="Permanent link">&para;</a></h2>
-<p>Before any network call, the attempt is committed to the admin audit log.
-If the audit log is not wired, or the write fails, <strong>no call is made</strong>. The
-log carries enable / disable / destination-change events, per-request
-attempt and outcome, and the first-attempted and first-successful use per
-project — which is the evidence a contractual gate rests on. Counters
-supplement the log; they do not replace it.</p>
+<p>Each attempt is written to the admin audit log before any network call. If
+the log is not wired, or the write fails, no call is made. The log holds:
+turning the feature on and off, changes of destination, each request's
+attempt and outcome, and each project's first attempted and first
+successful use. That record is the evidence the contract rests on. Counters
+add to the log; they do not replace it.</p>
 <h2 id="turning-it-on">Turning it on<a class="headerlink" href="#turning-it-on" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nt">a2a</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">peers</span><span class="p">:</span>
@@ -2630,8 +2665,8 @@ supplement the log; they do not replace it.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>architect-consult
 </code></pre></div>
-<p>The doctor refuses unless the configuration assistant is enabled, the peer
-entry exists and the admin audit log is wired.</p>
+<p>The doctor refuses unless the configuration assistant is on, the peer entry
+exists and the admin audit log is wired.</p>
 
 
 

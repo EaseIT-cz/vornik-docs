@@ -3168,6 +3168,18 @@ connected assistants, and upstream services.</p>
   extraction into memory). With a workflow list it reaches only the A2A
   routes of those workflows. It cannot create, list or change keys: key
   management is for static keys, admin keys and the console.</li>
+<li><strong>A published A2A expert can be limited to what it may say.</strong> A workflow's
+  <code>a2a.answer</code> block sends the caller only the listed keys of one named JSON
+  output, only from a run that completed, read under 64 KiB before it is
+  parsed and capped at <code>maxBytes</code>. Fenced code is refused or stripped, and
+  each citation must be a clean path under the answering role's
+  <code>memorySearch.sourcePrefixes</code>. Any failed check sends nothing, and the
+  caller sees the run as failed. That role's search returns only sources
+  under those prefixes, whatever the request asks.
+  What it does not cover: a model can paraphrase anything it retrieved, so
+  the boundary is what the role's memory holds. Put only what may be
+  disclosed in an expert's project, and keep private material in another
+  one.</li>
 <li>Request bodies are size-capped and strictly decoded. The configuration dump
   redacts every credential-shaped field; a test plants a marker in every
   string field of the configuration and requires each credential-shaped one
