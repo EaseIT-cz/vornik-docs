@@ -3604,6 +3604,64 @@ new behavior; those are called out below.</p>
 </ul>
 </div>
 <ul>
+<li><strong>One access decision for every operator route</strong> (security). The config
+  journal, in-flight, MCP OAuth and agent-grant routes now use the same
+  operator check as the rest: a project-scoped key gets 404 instead of 403,
+  and a caller with no key gets 403 <code>OPERATOR_CAPABILITY_REQUIRED</code>. The two
+  memory-firewall policy routes, which answered 400 to everyone, now work.</li>
+<li><strong>A project-scoped key no longer reads global instincts</strong> (security). A
+  scoped caller sees only its project's instincts; a global one is 404.</li>
+<li><strong>The A2A consult hop limit is enforced</strong> (security).
+  <code>a2a.consult.max_hops</code> was read but not applied; a consult chain now stops
+  at it.</li>
+<li><strong>Cancelling a reminder from the chat needs your confirmation</strong>
+  (security), as cancelling a task already did.</li>
+<li><strong>Chat: a running turn can be stopped and steered.</strong> In Telegram, <code>/stop</code>
+  ends what the assistant is doing in that chat and lists the tasks it had
+  started; <code>/stop tasks</code> cancels those too. A message you send while your
+  own turn runs now joins it at its next step ("Got it, I'll take that into
+  account."), instead of waiting until the turn ends; in a group, another
+  member's message still waits and runs as their own turn.</li>
+<li><strong>Chat: one status line instead of a line per tool call.</strong> A turn shows
+  one line, edited in place above the reply, with the current activity,
+  the time so far and a count per activity, and removes it when the answer
+  lands. Slack's placeholder shows the same line.</li>
+<li><strong>Chat: long work is scheduled as a task.</strong> The assistant now treats
+  research across several sources, multi-step work or a written document as
+  a task in a project that can run it, and answers in the chat only what one
+  or two lookups settle. It makes at most 4 web or consult lookups in one
+  turn, and no longer polls task status in a loop. The project list it sees
+  names what each project can run, so it picks a project by capability, not
+  by a name that matches the topic.</li>
+<li><strong>Chat: smaller prompts on long conversations.</strong> Large tool results the
+  model has already used (from earlier turns, or older than the turn's two
+  newest tool steps) are sent shortened to their first 1,600 characters. A
+  typical five-call turn sends about 40% less to the model; saved
+  conversations keep the full results.</li>
+<li><strong>Chat fails over when the model is out of quota</strong> (fix). <code>chat.model</code>
+  now routes by its model prefix like every other model call, so setting a
+  Bedrock model as <code>chat.model</code> reaches Bedrock even when
+  <code>chat.router.default</code> names another provider. A reply answered by the
+  backup model says so in one line. The new doctor check
+  <code>chat_model_fallback</code> warns when <code>chat.model</code> has no backup in
+  <code>chat.router.model_fallbacks</code>, or one on the same provider.</li>
+<li><strong>A routed task that fits no workflow says so</strong> (fix). The adaptive router
+  may now answer that none of the project's workflows fits; the task fails
+  at once with <code>ROUTE_NO_FIT</code>, naming the project's workflows and what the
+  task needs, instead of being forced into the closest misfit. Take the
+  <code>route</code> prompt change into a deployed <code>configs/workflows/adaptive.md</code>
+  (<code>config_template_drift</code> lists it); the router works without it.</li>
+<li><strong>A task whose subtasks were all cancelled ends CANCELLED</strong> (fix), and its
+  completion notice reports that, instead of reporting success.</li>
+<li><strong>Companion hints</strong> (new). <code>GET /api/v1/companion/hints</code> serves the
+  project's hint catalogue to companion keys, and two project settings turn
+  hints off or mute single ones (<code>companion.hints</code>, <code>companion.mute</code>). The
+  Claude Code (0.49.0) and Codex (0.44.0) plugins carry the catalogue; the
+  hooks that show the hints come in a later release.</li>
+<li><strong>Repository paths can be mirrored into project memory</strong> (new). A project
+  can list repository paths whose documents are ingested into its memory
+  and kept current; a document is mirrored only if its disclosure mark
+  allows it, and an unreadable or partial mark fails closed.</li>
 <li><strong>A project key given to an A2A caller can no longer read the project's
   memory or keys</strong> (security). Before, a key narrowed to one workflow was
   still a full key on the REST API of its project.</li>
