@@ -7782,7 +7782,9 @@ skopeo or systemctl, and no daemon request may run a program):
                         workers (classifier/titler/reranker/graph) that
                         model_health does not enumerate
   model_route_coverage  Role-pinned models that don't resolve to a chat
-                        model_route prefix or are missing from pricing.yaml</p>
+                        model_route prefix or are missing from pricing.yaml
+  chat_model_fallback   chat.model with no twin in chat.router.model_fallbacks,
+                        or a twin on the same provider (one quota for both)</p>
 <p>Cost &amp; budget:
   pricing_coverage      Models in swarm configs missing from pricing.yaml
   pricing_drift         Prices disagreeing with the pinned upstream snapshot

@@ -4769,7 +4769,7 @@
 <tr>
 <td><code>chat.router.model_fallbacks</code></td>
 <td>map</td>
-<td>Non-swarm per-model fallback map (primary model -&gt; fallback model), used when the primary's circuit is open. Empty disables non-swarm fallback.</td>
+<td>Non-swarm per-model fallback map (primary model -&gt; fallback model), used when the primary's circuit is open or it returns a 429, 5xx or timeout. Give chat.model an entry on another provider. Empty disables non-swarm fallback.</td>
 <td>—</td>
 </tr>
 <tr>
