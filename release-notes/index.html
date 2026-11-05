@@ -3651,6 +3651,11 @@ new behavior; those are called out below.</p>
   task needs, instead of being forced into the closest misfit. Take the
   <code>route</code> prompt change into a deployed <code>configs/workflows/adaptive.md</code>
   (<code>config_template_drift</code> lists it); the router works without it.</li>
+<li><strong>The doctor no longer reads the routing model as always failing</strong> (fix).
+  A route step that handed its task to a workflow was never recorded as a
+  success, so <code>vornikctl doctor</code> reported the adaptive router's model at a
+  100% failure rate and advised switching it. A step that delegates is now
+  recorded <code>ok</code>; the warning clears within a day of upgrading.</li>
 <li><strong>A task whose subtasks were all cancelled ends CANCELLED</strong> (fix), and its
   completion notice reports that, instead of reporting success.</li>
 <li><strong>Companion hints</strong> (new). <code>GET /api/v1/companion/hints</code> serves the
