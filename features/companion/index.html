@@ -3580,7 +3580,10 @@ starts</strong>.</p>
 project's hint catalogue.</p>
 <ul>
 <li>After a <code>git commit</code>, Claude is asked to send the diff for review. After
-  an edit to a design document, it is asked to ingest the document. After a
+  an edit to a design document, it is asked to ingest the document; that
+  includes a design written by a shell command (a heredoc, a redirection,
+  <code>tee</code>, <code>sed -i</code>, <code>cp</code> or <code>mv</code>), which the hook reads from the command
+  text and never runs. After a
   test run that failed, it is asked to recall the symptom first.</li>
 <li>Each hint fires at most once per session, never blocks a tool call, and
   makes no network call on a tool event. The hooks store hint ids and
