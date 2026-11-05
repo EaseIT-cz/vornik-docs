@@ -3659,10 +3659,10 @@ new behavior; those are called out below.</p>
   daemon also records, per project, whether each hint was followed, and
   turns off for 14 days a hint followed in fewer than 2 of its last 10
   firings. <code>vornikctl companion hints -p &lt;project&gt;</code> lists each hint's state
-  and follow rate. The Claude Code plugin (0.50.1) shows the hints: after a
-  commit, after a design edit, and after a failed test run, each at most
-  once per session. The Codex plugin (0.44.0) carries the catalogue; its
-  hooks come in a later release.</li>
+  and follow rate. The Claude Code (0.50.2) and Codex (0.45.0) plugins show
+  the hints: after a commit, after a design edit, and after a failed test
+  run, each at most once per session. Codex recognises a failed test run
+  from its output, since it gives hooks no exit status.</li>
 <li><strong>Repository paths can be mirrored into project memory</strong> (new). A project
   can list repository paths whose documents are ingested into its memory
   and kept current; a document is mirrored only if its disclosure mark

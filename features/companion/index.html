@@ -3593,7 +3593,10 @@ project's hint catalogue.</p>
   <code>companion.hints: off</code>; mute one with <code>companion.mute: [&lt;id&gt;]</code>.
   <code>vornikctl companion hints -p &lt;project&gt;</code> lists each hint's state and
   follow rate.</li>
-<li>Codex carries the catalogue; its hint hooks come in a later release.</li>
+<li>Codex gets the same hints since codex-companion 0.45.0, from the same
+  script. Codex gives a hook no exit status, so a failed test run is
+  recognised from its output, and a failed commit still shows the review
+  hint. Codex runs the new hooks once you trust them.</li>
 </ul>
 <p>For Codex, install <code>codex-companion</code> from the bundled Codex marketplace at
 <code>&lt;path&gt;/.agents/plugins/marketplace.json</code>, or load the plugin directly from
