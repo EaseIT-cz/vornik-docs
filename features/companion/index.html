@@ -3576,6 +3576,25 @@ starts</strong>.</p>
   <code>ls</code> and a few others). It parses the text and never runs it. Codex runs
   the hook only after you trust it at the "Hooks need review" prompt.</li>
 </ul>
+<p>Since plugin 0.50.0, Claude Code also gets <strong>just-in-time hints</strong> from the
+project's hint catalogue.</p>
+<ul>
+<li>After a <code>git commit</code>, Claude is asked to send the diff for review. After
+  an edit to a design document, it is asked to ingest the document. After a
+  test run that failed, it is asked to recall the symptom first.</li>
+<li>Each hint fires at most once per session, never blocks a tool call, and
+  makes no network call on a tool event. The hooks store hint ids and
+  counters only, never a command, a path or output.</li>
+<li>At the next session start the plugin fetches the catalogue and reports,
+  for each earlier hint, whether Claude called the hint's tool within 10
+  calls. A hint followed in fewer than 2 of its last 10 firings turns off
+  for 14 days in that project.</li>
+<li>Turn hints off with <code>VORNIK_HINTS=off</code>, or per project with
+  <code>companion.hints: off</code>; mute one with <code>companion.mute: [&lt;id&gt;]</code>.
+  <code>vornikctl companion hints -p &lt;project&gt;</code> lists each hint's state and
+  follow rate.</li>
+<li>Codex carries the catalogue; its hint hooks come in a later release.</li>
+</ul>
 <p>For Codex, install <code>codex-companion</code> from the bundled Codex marketplace at
 <code>&lt;path&gt;/.agents/plugins/marketplace.json</code>, or load the plugin directly from
 <code>&lt;path&gt;/contrib/codex-companion</code>. Do not install the Claude marketplace at

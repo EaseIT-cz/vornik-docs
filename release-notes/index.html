@@ -3656,8 +3656,13 @@ new behavior; those are called out below.</p>
 <li><strong>Companion hints</strong> (new). <code>GET /api/v1/companion/hints</code> serves the
   project's hint catalogue to companion keys, and two project settings turn
   hints off or mute single ones (<code>companion.hints</code>, <code>companion.mute</code>). The
-  Claude Code (0.49.0) and Codex (0.44.0) plugins carry the catalogue; the
-  hooks that show the hints come in a later release.</li>
+  daemon also records, per project, whether each hint was followed, and
+  turns off for 14 days a hint followed in fewer than 2 of its last 10
+  firings. <code>vornikctl companion hints -p &lt;project&gt;</code> lists each hint's state
+  and follow rate. The Claude Code plugin (0.50.0) shows the hints: after a
+  commit, after a design edit, and after a failed test run, each at most
+  once per session. The Codex plugin (0.44.0) carries the catalogue; its
+  hooks come in a later release.</li>
 <li><strong>Repository paths can be mirrored into project memory</strong> (new). A project
   can list repository paths whose documents are ingested into its memory
   and kept current; a document is mirrored only if its disclosure mark

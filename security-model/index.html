@@ -3484,13 +3484,17 @@ connected assistants, and upstream services.</p>
 <h3 id="assistants-the-companion-the-broker-and-agent-administration">Assistants: the companion, the broker and agent administration<a class="headerlink" href="#assistants-the-companion-the-broker-and-agent-administration" title="Permanent link">&para;</a></h3>
 <ul>
 <li>A companion key is bound to one project, optionally to a list of
-  workflows and a budget. It may use four routes, each matched by its exact
+  workflows and a budget. It may use five routes, each matched by its exact
   path, never a prefix:</li>
 <li>the companion endpoint;</li>
 <li>the capability list;</li>
 <li>a task's live view, for a task in its own project;</li>
-<li>the plugin hooks' hint catalogue, for its own project.</li>
+<li>the plugin hooks' hint catalogue, for its own project;</li>
+<li>the hooks' hint outcome upload, for its own project. The upload holds
+    hint ids and a followed flag only, and refuses any other field.</li>
 </ul>
+<p>The hint report, which shows each hint's follow rate, is an operator route
+  and refuses companion keys.</p>
 <p>A memory key can be minted without any task tools.
 - <strong>Broker projects</strong> let an assistant ask for privileged work (read my mail,
   check my calendar) without ever holding the credentials or seeing raw
