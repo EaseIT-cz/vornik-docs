@@ -3484,27 +3484,32 @@ connected assistants, and upstream services.</p>
 <h3 id="assistants-the-companion-the-broker-and-agent-administration">Assistants: the companion, the broker and agent administration<a class="headerlink" href="#assistants-the-companion-the-broker-and-agent-administration" title="Permanent link">&para;</a></h3>
 <ul>
 <li>A companion key is bound to one project, optionally to a list of
-  workflows and a budget, and may use only the companion endpoint. A memory
-  key can be minted without any task tools.</li>
-<li><strong>Broker projects</strong> let an assistant ask for privileged work (read my mail,
+  workflows and a budget. It may use four routes, each matched by its exact
+  path, never a prefix:</li>
+<li>the companion endpoint;</li>
+<li>the capability list;</li>
+<li>a task's live view, for a task in its own project;</li>
+<li>the plugin hooks' hint catalogue, for its own project.</li>
+</ul>
+<p>A memory key can be minted without any task tools.
+- <strong>Broker projects</strong> let an assistant ask for privileged work (read my mail,
   check my calendar) without ever holding the credentials or seeing raw
   data. A broker workflow takes typed, bounded inputs and returns one
-  schema-checked, scanned document; error text is reduced to a closed class.</li>
-<li><strong>Writes are proposals.</strong> A broker workflow may only propose a write; a
+  schema-checked, scanned document; error text is reduced to a closed class.
+- <strong>Writes are proposals.</strong> A broker workflow may only propose a write; a
   person approves the exact arguments; a single worker performs it once and
   never retries, recording "unknown" when the outcome is uncertain. Writes are
   off until the operator enables them. Standing grants for repeated writes
-  are bounded in days, uses and number.</li>
-<li><strong>Agent administration</strong> lets an assistant build projects and workflows in
+  are bounded in days, uses and number.
+- <strong>Agent administration</strong> lets an assistant build projects and workflows in
   its own namespace. Its key lives in a file only the user can read, read by
   a bridge command, so no assistant configuration holds it. For an assistant
   that can run shell commands, connecting checks that Vornik runs as a
   different OS user. Every credential and every widening of reach is approved
   on the phone; the assistant never sees a credential. Refused calls are
-  recorded and shown.</li>
-<li>Completion pushes to an assistant carry only ids and closed states, and
-  refuse loopback, link-local and unlisted private addresses.</li>
-</ul>
+  recorded and shown.
+- Completion pushes to an assistant carry only ids and closed states, and
+  refuse loopback, link-local and unlisted private addresses.</p>
 <h3 id="data-protection">Data protection<a class="headerlink" href="#data-protection" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Retention</strong> windows per data class, with floors for audit evidence
