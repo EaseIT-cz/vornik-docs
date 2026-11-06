@@ -2704,11 +2704,33 @@ provide). Turn them on with:</p>
 a workflow degrades gracefully rather than erroring out. <code>a2a_call</code> is governed
 separately (see <a href="#a2a-federation-calling-remote-agents">A2A federation</a> below).</p>
 <h2 id="call_project-invoke-another-projects-workflow"><code>call_project</code>: invoke another project's workflow<a class="headerlink" href="#call_project-invoke-another-projects-workflow" title="Permanent link">&para;</a></h2>
-<p><code>call_project</code> is a workflow <strong>step type</strong>. The caller blocks until the callee
-workflow reaches a terminal state, then continues at <code>on_success</code>. The callee's
-result is checked against <code>expect.schema</code> and recorded on the call. Later steps
-cannot yet read it through <code>${outputs.…}</code>: a reference to a <code>call_project</code> step
-is refused when the workflow loads.</p>
+<p><code>call_project</code> is a workflow <strong>step type</strong>. The caller blocks until the call
+ends, then goes where the call's outcome sends it:</p>
+<table>
+<thead>
+<tr>
+<th>the call</th>
+<th>the caller</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>completed: the callee finished and its result passed <code>expect.schema</code></td>
+<td>continues at <code>on_success</code>; later steps read the result's <code>data</code> as <code>${outputs.&lt;step-id&gt;.&lt;field&gt;}</code></td>
+</tr>
+<tr>
+<td>rejected (an empty, unreadable or schema-invalid result), failed, or timed out</td>
+<td>goes to <code>on_fail</code>, whose step sees a result naming the call and its status</td>
+</tr>
+<tr>
+<td>any of those, with no <code>on_fail</code></td>
+<td>fails with the class <code>CROSS_PROJECT_CALL_FAILED</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>vornikctl cpc list</code> shows each call's status and error. A caller that was
+already waiting when you upgraded finishes under the old rule, which resumed
+at <code>on_success</code> whatever the call returned.</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">enrich</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">call_project</span>
 <span class="w">  </span><span class="nt">target_project</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">research-desk</span>
@@ -2723,10 +2745,10 @@ is refused when the workflow loads.</p>
 <span class="w">  </span><span class="nt">on_fail</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">handle-error</span>
 </code></pre></div>
 <p><code>payload</code> values support <code>${outputs.&lt;step-id&gt;.&lt;field&gt;}</code> from earlier <code>agent</code>,
-<code>system</code>, <code>plan</code>, <code>spawn_project</code> and <code>a2a_call</code> steps. A reference that can
-never resolve is refused when the workflow loads: one to a step that does not
-exist, to the step itself, or to a <code>gate</code>, <code>approval</code>, <code>parallel</code> or
-<code>call_project</code> step, none of which records a readable result. A reference to a
+<code>system</code>, <code>plan</code>, <code>spawn_project</code>, <code>a2a_call</code> and <code>call_project</code> steps. A
+reference that can never resolve is refused when the workflow loads: one to a
+step that does not exist, to the step itself, or to a <code>gate</code>, <code>approval</code> or
+<code>parallel</code> step, none of which records a readable result. A reference to a
 step that did not run on this path becomes an empty string. A text value
 longer than 256 KiB is cut, and the text says so.</p>
 <h3 id="who-may-call-whom-allowlists">Who may call whom (allowlists)<a class="headerlink" href="#who-may-call-whom-allowlists" title="Permanent link">&para;</a></h3>
