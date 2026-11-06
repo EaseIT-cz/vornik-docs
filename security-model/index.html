@@ -3187,7 +3187,11 @@ connected assistants, and upstream services.</p>
   with a workflow list and no rate limit of its own gets 1 request per
   second, burst 10. A spend or count that cannot be read refuses the submit.
   What it does not cover: concurrent submits can pass the quota by up to
-  10, and spend from before 2026.11.2 is not attributed.</li>
+  10, and spend from before 2026.11.2 is not attributed.
+  <code>vornikctl doctor</code> (<code>a2a_corpus_walk</code>) names a caller key whose A2A tasks
+  retrieved more than 500 distinct memory chunks in the last 24 hours: a
+  sign the caller is walking the expert's corpus. It reports after the fact
+  and blocks nothing; the quota and the rate bound how fast a walk can go.</li>
 <li>Request bodies are size-capped and strictly decoded. The configuration dump
   redacts every credential-shaped field; a test plants a marker in every
   string field of the configuration and requires each credential-shaped one

@@ -3621,7 +3621,10 @@ new behavior; those are called out below.</p>
 <li><strong>An A2A caller key is bounded</strong> (security, #617). Its tasks are now
   attributed to it, so its budget cap and the daily quota see them; spend
   before this release was not attributed and does not count. A submit whose
-  spend or count cannot be read is refused (503).</li>
+  spend or count cannot be read is refused (503). The doctor check
+  <code>a2a_corpus_walk</code> names a caller key whose A2A tasks retrieved more than
+  500 distinct memory chunks in the last 24 hours. It reports the key and the
+  count, never the chunks, and blocks nothing.</li>
 <li><strong>The A2A consult hop limit is enforced</strong> (security).
   <code>a2a.consult.max_hops</code> was read but not applied; a consult chain now stops
   at it.</li>
