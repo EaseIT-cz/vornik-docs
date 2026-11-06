@@ -3576,7 +3576,6 @@ new behavior; those are called out below.</p>
 </div>
 <hr />
 <h2 id="2026112">2026.11.2<a class="headerlink" href="#2026112" title="Permanent link">&para;</a></h2>
-<p>Draft: not yet released.</p>
 <div class="admonition warning">
 <p class="admonition-title">Upgrade requirements</p>
 <ul>
@@ -3679,6 +3678,23 @@ new behavior; those are called out below.</p>
   recorded <code>ok</code>; the warning clears within a day of upgrading.</li>
 <li><strong>A task whose subtasks were all cancelled ends CANCELLED</strong> (fix), and its
   completion notice reports that, instead of reporting success.</li>
+<li><strong>Output a person can review</strong> (new). Every agent is told how to write
+  for a person: answer first, short sentences, exact references, no
+  unstated hedges. A swarm or a single role can switch this off with
+  <code>suppressedGuidanceBlocks</code> (<code>writing-style</code>). The doc, architectural and
+  GitHub review workflows report readability findings, each with the quoted
+  passage, a problem class and a rewrite that keeps every fact. A review
+  can withhold approval when its subject cannot be reviewed in reasonable
+  time. A new system step, <code>text.readability</code>, measures words, sentence
+  length, hedges and vague references. Its word lists are English only.
+  On one deployment, 20 architecture reviews before and 20 after: mean
+  sentence length fell from 17.1 to 10.0 words.</li>
+<li><strong>Approval notifications on the phone</strong> (new). A paired approver device
+  can turn on browser notifications at <code>/ui/approve/push</code>, so an install
+  with no chat or e-mail alerts still hears of a waiting request. A
+  notification says only that a request is waiting, never what it asks,
+  and is encrypted to the device. It needs an https public origin. On iPhone
+  and iPad it works only from a Home Screen web app (iOS 16.4 or later).</li>
 <li><strong>Companion hints</strong> (new). <code>GET /api/v1/companion/hints</code> serves the
   project's hint catalogue to companion keys, and two project settings turn
   hints off or mute single ones (<code>companion.hints</code>, <code>companion.mute</code>). The

@@ -2672,7 +2672,7 @@ a result, because two systems whose intervals overlap have not been separated.</
 <tbody>
 <tr>
 <td>Memory retrieval, LongMemEval, 120 items, cold corpus</td>
-<td>2026.11.1</td>
+<td>2026.11.2</td>
 <td>recall 0.9851, precision 0.9854, MRR 0.9958, sd 0.0000 (unchanged since 2026.9.4)</td>
 <td><a href="#longmemeval-retrieval-all-six-abilities-tier-2-cold-corpus">cold axis</a></td>
 </tr>
@@ -3019,6 +3019,16 @@ the dataset's gold documents). The store is cleared before every run.</p>
 <td>n=3</td>
 <td><code>be04eee379bd</code></td>
 </tr>
+<tr>
+<td><code>2026.11.1-76-g8e62945d8</code> (2026.11.2)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>4888e3c70ece</code></td>
+</tr>
 </tbody>
 </table>
 <p>Figures from <code>bench memory aggregate</code> over three run directories; standard
@@ -3099,9 +3109,14 @@ store of 1,897 chunks.</p>
 <td>The recall path changed (the architect answers only from the checked design record) and the embedding client now dials through the SSRF guard. Measured 2026-11-01 on <code>e8dc9aab6</code>; the commits after it are documentation only</td>
 <td>The design-record filter applies to architect answers, which this benchmark does not ask for; covered by the daemon's tests</td>
 </tr>
+<tr>
+<td>13. 2026.11.2</td>
+<td>The search SQL gained a sensitivity cap, and an agent's search now records its task in the retrieval audit. Measured 2026-11-06 on <code>8e62945d8</code>; the commits after it are documentation and a test only</td>
+<td>No role in this benchmark sets a cap, so the cap's filtering is covered by the daemon's tests (every search statement, on PostgreSQL) only</td>
+</tr>
 </tbody>
 </table>
-<p>Rows 2 to 12 carry <code>retrieval_path_unverified</code>: the harness trusts the
+<p>Rows 2 to 13 carry <code>retrieval_path_unverified</code>: the harness trusts the
 daemon's reported recall method rather than observing it.</p>
 <p><strong>Per ability</strong> (row 2's three runs):</p>
 <table>
@@ -3557,6 +3572,11 @@ each is stated:</p>
 <td><code>2026.11.1</code></td>
 <td><strong>yes, both</strong></td>
 <td>The memory open axis above, measured on <code>2026.10.7-130-ge8dc9aab6</code> (n=3), identical to 2026.10.7; the cycle changed the recall path, so a waiver was not open to it. The agent axis: the open-weight arms in <a href="#agent-quality-a-4b-active-open-weight-model-on-one-gpu-2026-10-31">Agent quality</a>, measured on <code>2026.10.7-94-g3246baad0</code>, part of this release; they start a new table (different model and hardware from 2026.9.0).</td>
+</tr>
+<tr>
+<td><code>2026.11.2</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, measured on <code>2026.11.1-76-g8e62945d8</code> (n=3), identical to 2026.11.1; the cycle changed the search SQL (the sensitivity cap) and the retrieval audit, so a waiver was not open to it. <strong>No agent row, and this is a gap, not a waiver.</strong> The cycle adds the <code>writing-style</code> guidance block to every agent prompt, which the agent axis would measure; the arm was not re-run for this release. The agent axis therefore stands at 2026.11.1's row, which does not include the block.</td>
 </tr>
 </tbody>
 </table>
