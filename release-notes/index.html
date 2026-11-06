@@ -3625,6 +3625,13 @@ new behavior; those are called out below.</p>
   <code>a2a_corpus_walk</code> names a caller key whose A2A tasks retrieved more than
   500 distinct memory chunks in the last 24 hours. It reports the key and the
   count, never the chunks, and blocks nothing.</li>
+<li><strong>A role can be capped at a sensitivity tier</strong> (security, #618).
+  <code>memorySearch.maxSensitivity: public</code> keeps the role's search to two kinds
+  of chunk: chunks an operator set public, and files under
+  <code>memory.public_source_prefixes</code> (default <code>docs/public/</code>) that the daemon
+  checked against the trusted branch. A chunk with no tier counts as
+  confidential. The doctor check <code>memory_sensitivity_cap</code> states what each
+  capped role can retrieve.</li>
 <li><strong>The A2A consult hop limit is enforced</strong> (security).
   <code>a2a.consult.max_hops</code> was read but not applied; a consult chain now stops
   at it.</li>

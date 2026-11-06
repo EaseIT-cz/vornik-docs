@@ -3176,6 +3176,15 @@ connected assistants, and upstream services.</p>
   <code>memorySearch.sourcePrefixes</code>. Any failed check sends nothing, and the
   caller sees the run as failed. That role's search returns only sources
   under those prefixes, whatever the request asks.
+  A role can also be capped at a sensitivity tier
+  (<code>memorySearch.maxSensitivity: public</code>). It then gets only two kinds of
+  chunk: chunks an operator set public, and files under
+  <code>memory.public_source_prefixes</code> (default <code>docs/public/</code>) whose bytes the
+  daemon checked against the trusted branch. A source path a writer names
+  counts for nothing. A chunk with no tier counts as confidential, and a
+  chunk the operator sets confidential is kept out. <code>vornikctl doctor</code>
+  (<code>memory_sensitivity_cap</code>) states how many chunks each capped role can
+  retrieve.
   What it does not cover: a model can paraphrase anything it retrieved, so
   the boundary is what the role's memory holds. Put only what may be
   disclosed in an expert's project, and keep private material in another

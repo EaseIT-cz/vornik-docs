@@ -5202,6 +5202,12 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>memory.public_source_prefixes</code></td>
+<td>list</td>
+<td>Source-path prefixes whose provenance-verified chunks count as public for a role capped by memorySearch.maxSensitivity. Each is path segments ending in /. Unset means [docs/public/]; [] derives nothing, so only operator-set public chunks reach a public cap.</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>memory.sufficiency.enabled</code></td>
 <td>bool</td>
 <td>Widen-and-retry recall when too few high-relevance hits (requires the reranker).</td>
