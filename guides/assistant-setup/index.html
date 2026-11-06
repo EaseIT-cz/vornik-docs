@@ -2744,8 +2744,17 @@ for reuse.</p>
 <li><strong>Another browser used its sign-in.</strong> A code alone does not restore it: a device you already use must approve it again. If you did not expect this, revoke the device first (<code>vornikctl devices revoke</code>).</li>
 </ul>
 <p>Vornik renews the phone's sign-in on every approval, so a copied sign-in stops working at your next approval. Every restore, and a browser that keeps using the phone's sign-in, raises an alert on your notification channel.</p>
+<p><strong>To hear of requests on the phone itself,</strong> open <strong>Notifications</strong> (<code>/ui/approve/push</code>) on it and choose <strong>Turn on</strong>. Every alert that goes to your notification channel then also reaches the phone as a browser notification. It says what happened, not what is asked. It needs Vornik served over HTTPS. On iPhone and iPad, notifications work only from the Home Screen (iOS 16.4 or later):</p>
 <ol>
-<li>Make sure your <code>vornikctl</code> can reach Vornik with the operator's admin key, as for any other admin command (<code>VORNIK_API_KEY</code>, or <code>vornikctl auth login</code>).</li>
+<li>Add the approvals page to the Home Screen.</li>
+<li>Open it from there.</li>
+<li>Pair it as a new device: run <code>vornikctl pair-device</code>, then approve it from the phone you already paired.</li>
+<li>
+<p>Turn notifications on inside that app.</p>
+</li>
+<li>
+<p>Make sure your <code>vornikctl</code> can reach Vornik with the operator's admin key, as for any other admin command (<code>VORNIK_API_KEY</code>, or <code>vornikctl auth login</code>).</p>
+</li>
 </ol>
 <p>Agent administration is on by default (<code>agent_admin.enabled</code>). On its own that opens nothing: an assistant can use it only with an agent key, which only you can mint, and only once a phone is paired.</p>
 <p>It also needs the agent templates that <code>make install-config-assets</code> installs. If connect says Vornik does not offer agent administration, check <code>agent_admin.enabled</code> and run <code>make install-config-assets</code>; Vornik picks the templates up without a restart.</p>
