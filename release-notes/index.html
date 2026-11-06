@@ -3589,12 +3589,19 @@ new behavior; those are called out below.</p>
   and console sessions are unchanged.</li>
 <li><strong>A workflow output reference that can never work is refused when the
   workflow loads.</strong> <code>${outputs.&lt;step&gt;.&lt;field&gt;}</code> naming a <code>gate</code>,
-  <code>approval</code>, <code>parallel</code> or <code>call_project</code> step, the step itself, or (in a
+  <code>approval</code> or <code>parallel</code> step, the step itself, or (in a
   payload) a step that does not exist used to load and then fail, or turn
   into an empty string, on every run; so did one in a non-agent step's
   prompt. A daemon holding such a workflow would not start, so the
   updater's preflight now refuses the upgrade and names the file. Check
   with <code>vornikctl workflow validate &lt;dir&gt;</code>.</li>
+<li><strong>An A2A caller key is limited by default.</strong> A key with a workflow list
+  and no rate limit of its own now gets 1 request per second, burst 10, on
+  its A2A routes (429 over it). A key's own <code>rate_limit_rps</code> and
+  <code>rate_limit_burst</code> replace the default. Each task such a key submits
+  also counts against its <code>budget_cap_usd</code> (402 once reached) and the
+  workflow's <code>a2a.dailyQuotaPerKey</code>, 50 per key per UTC day unless set
+  (429 once reached).</li>
 <li><strong>Read these boxes yourself for this upgrade.</strong> From 2026.11.2 on,
   <code>vornik-update.sh</code> prints the upgrade requirements of every release you
   are upgrading across and will not run unattended until you pass
@@ -3611,6 +3618,10 @@ new behavior; those are called out below.</p>
   memory-firewall policy routes, which answered 400 to everyone, now work.</li>
 <li><strong>A project-scoped key no longer reads global instincts</strong> (security). A
   scoped caller sees only its project's instincts; a global one is 404.</li>
+<li><strong>An A2A caller key is bounded</strong> (security, #617). Its tasks are now
+  attributed to it, so its budget cap and the daily quota see them; spend
+  before this release was not attributed and does not count. A submit whose
+  spend or count cannot be read is refused (503).</li>
 <li><strong>The A2A consult hop limit is enforced</strong> (security).
   <code>a2a.consult.max_hops</code> was read but not applied; a consult chain now stops
   at it.</li>
