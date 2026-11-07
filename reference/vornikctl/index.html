@@ -482,6 +482,8 @@
       
         
       
+        
+      
     
     
     
@@ -803,6 +805,34 @@
     
   
     Set up Hermes with Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/claude-desktop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from Claude Desktop and Cowork
   
 
     
@@ -2341,6 +2371,94 @@
     <span class="md-ellipsis">
       
         vornikctl bench memory verify-determinism
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion connect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-disconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion disconnect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion doctor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-grant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion grant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion keys
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-mcp-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion mcp-bridge
       
     </span>
   </a>
@@ -4732,6 +4850,94 @@
     <span class="md-ellipsis">
       
         vornikctl bench memory verify-determinism
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-connect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion connect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-disconnect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion disconnect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion doctor
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-grant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion grant
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-hints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion keys
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-mcp-bridge" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion mcp-bridge
       
     </span>
   </a>
@@ -7348,6 +7554,294 @@ exists to catch.</p>
 <p>Intended use: run the fixture twice with --tier2-only, then verify.</p>
 <div class="highlight"><pre><span></span><code>vornikctl bench memory verify-determinism &lt;run-dir-a&gt; &lt;run-dir-b&gt;
 </code></pre></div>
+<h2 id="vornikctl-companion">vornikctl companion<a class="headerlink" href="#vornikctl-companion" title="Permanent link">&para;</a></h2>
+<p>Manage vornik-companion plugin sessions (LLD 21)</p>
+<p>Mint and list per-session bearer keys for host-LLM clients
+(Claude Code today; Codex / Gemini CLI / opencode tomorrow).</p>
+<p>A companion key is bound to ONE project, optionally narrowed to a
+workflow allowlist and a USD budget cap. The host plugin presents the
+key as a normal sk-vornik-* bearer; the daemon's auth layer reads the
+scope columns on every call.</p>
+<p>Revocation: use 'vornikctl key revoke <id> --project=X'. There is no
+separate companion-revoke — the underlying api_keys row revokes the
+same way regardless of how it was minted.</p>
+<h2 id="vornikctl-companion-connect">vornikctl companion connect<a class="headerlink" href="#vornikctl-companion-connect" title="Permanent link">&para;</a></h2>
+<p>Connect Claude Desktop (and Cowork) to Vornik with a companion key</p>
+<p>Store a companion key in a file only you can read, add one MCP server entry
+to Claude Desktop's config that runs 'vornikctl companion mcp-bridge', and
+check the key against Vornik. The Claude config never holds the key.</p>
+<p>The key comes from --key-stdin, else VORNIK_COMPANION_TOKEN. connect does not
+mint keys: an operator mints one with 'vornikctl companion grant'. An
+agent-admin key is refused (use 'vornikctl agent connect').</p>
+<p>Claude Code and Codex use their companion plugins instead.</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion connect claude-desktop [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--key-stdin</code></td>
+<td><code>false</code></td>
+<td>Read the companion key from standard input (piped)</td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><code>default</code></td>
+<td>The companion key's name (2 to 16 lowercase letters and digits)</td>
+</tr>
+<tr>
+<td><code>--url</code></td>
+<td></td>
+<td>Vornik's URL (default $VORNIK_URL, then $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>printf '%s\n' "$VORNIK_COMPANION_TOKEN" | vornikctl companion connect claude-desktop --key-stdin --url https://vornik.example
+</code></pre></div>
+<h2 id="vornikctl-companion-disconnect">vornikctl companion disconnect<a class="headerlink" href="#vornikctl-companion-disconnect" title="Permanent link">&para;</a></h2>
+<p>Remove the companion entry from Claude Desktop and delete its key file</p>
+<p>Remove what 'vornikctl companion connect' wrote. It revokes nothing on the daemon: the key belongs to the operator who minted it ('vornikctl companion keys').</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion disconnect claude-desktop [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--name</code></td>
+<td><code>default</code></td>
+<td>The companion key's name (2 to 16 lowercase letters and digits)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-doctor">vornikctl companion doctor<a class="headerlink" href="#vornikctl-companion-doctor" title="Permanent link">&para;</a></h2>
+<p>Check a companion connection in Claude Desktop and print the fix for each failure</p>
+<p>Check the Claude Desktop entry, the key file, the daemon and the key itself,
+one line per check, each failure with its fix. It changes nothing. Exit status
+0 when every check passes, 1 otherwise.</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion doctor [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--client</code></td>
+<td><code>claude-desktop</code></td>
+<td>The client to check</td>
+</tr>
+<tr>
+<td><code>--name</code></td>
+<td><code>default</code></td>
+<td>The companion key's name (2 to 16 lowercase letters and digits)</td>
+</tr>
+<tr>
+<td><code>--url</code></td>
+<td></td>
+<td>Vornik's URL (default $VORNIK_URL, then $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-grant">vornikctl companion grant<a class="headerlink" href="#vornikctl-companion-grant" title="Permanent link">&para;</a></h2>
+<p>Mint a new companion key (raw secret shown ONCE)</p>
+<p>Mint a per-session bearer key for a companion project. The raw
+secret is printed exactly once — capture it and feed it to your host
+LLM client's plugin store. The daemon stores only the sha256 hash.</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion grant [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--budget-usd</code></td>
+<td></td>
+<td>Lifetime USD budget cap for this key (omit for uncapped)</td>
+</tr>
+<tr>
+<td><code>--client</code></td>
+<td></td>
+<td>Host LLM client: claude-code | codex | hermes | openclaw | claude-desktop | gemini-cli | opencode, or any other lowercase name (letters, digits, dashes; 2 to 32) for an assistant with no adapter (required)</td>
+</tr>
+<tr>
+<td><code>--expires</code></td>
+<td></td>
+<td>Expiration (RFC3339 or duration like 30d, 6m). Empty = never expires.</td>
+</tr>
+<tr>
+<td><code>--json</code></td>
+<td><code>false</code></td>
+<td>Emit JSON instead of human text</td>
+</tr>
+<tr>
+<td><code>--label</code></td>
+<td></td>
+<td>Operator-friendly session label (e.g. 'vadim/laptop')</td>
+</tr>
+<tr>
+<td><code>--memory-all</code></td>
+<td><code>false</code></td>
+<td>Shorthand for --memory-read --memory-write.</td>
+</tr>
+<tr>
+<td><code>--memory-read</code></td>
+<td><code>false</code></td>
+<td>Allow this key to call recall() against the project's RAG store.</td>
+</tr>
+<tr>
+<td><code>--memory-write</code></td>
+<td><code>false</code></td>
+<td>Allow this key to call remember() to deposit notes into the project's RAG store. Implies --memory-read.</td>
+</tr>
+<tr>
+<td><code>--no-delegate</code></td>
+<td><code>false</code></td>
+<td>Refuse every task tool (delegate/status/result/cancel/list/catalog) for this key — the shape of a front agent's memory key</td>
+</tr>
+<tr>
+<td><code>--repo-scope</code></td>
+<td></td>
+<td>Default repo_scope stamped on memory calls that omit it (e.g. github.com/ORG/REPO). Recommended for clients without a SessionStart scope injector (Codex) so deposits can't land NULL-scoped. An explicit per-call repo_scope still overrides it.</td>
+</tr>
+<tr>
+<td><code>--skill-admin</code></td>
+<td><code>false</code></td>
+<td>Allow this key to approve/reject skills (the human gate that promotes a draft to active).</td>
+</tr>
+<tr>
+<td><code>--skill-all</code></td>
+<td><code>false</code></td>
+<td>Shorthand for --skill-read --skill-write --skill-admin.</td>
+</tr>
+<tr>
+<td><code>--skill-read</code></td>
+<td><code>false</code></td>
+<td>Allow this key to call skill_search/get/list on the knowledge-skill store.</td>
+</tr>
+<tr>
+<td><code>--skill-write</code></td>
+<td><code>false</code></td>
+<td>Allow this key to call skill_propose (draft a skill). Implies --skill-read.</td>
+</tr>
+<tr>
+<td><code>--workflows</code></td>
+<td></td>
+<td>Comma-separated workflow allowlist (omit for 'all project workflows')</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required) — typically companion-<user></td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-hints">vornikctl companion hints<a class="headerlink" href="#vornikctl-companion-hints" title="Permanent link">&para;</a></h2>
+<p>List the companion hints for a project: state, follow rate, last client contact</p>
+<p>List each companion hint for a project: whether it is active, muted,
+inactive (shipped muted), backed off or off, its last 10 firings and follow
+rate, and when each companion key last fetched the catalogue and uploaded
+outcomes. Mute a hint or turn hints off in the project's companion block.</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion hints [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--json</code></td>
+<td><code>false</code></td>
+<td>Emit the report as JSON</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-keys">vornikctl companion keys<a class="headerlink" href="#vornikctl-companion-keys" title="Permanent link">&para;</a></h2>
+<p>List companion keys for a project (no secrets shown)</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion keys [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--json</code></td>
+<td><code>false</code></td>
+<td>Emit JSON instead of a table</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-mcp-bridge">vornikctl companion mcp-bridge<a class="headerlink" href="#vornikctl-companion-mcp-bridge" title="Permanent link">&para;</a></h2>
+<p>Relay MCP over stdio to Vornik with a companion key (run by the assistant, not by you)</p>
+<p>Relay newline-delimited MCP JSON-RPC between stdin/stdout and Vornik's
+companion endpoint, authenticated with the companion key file
+(<config dir>/vornik/companion/<name>.key, written by vornikctl companion connect).
+VORNIK_COMPANION_TOKEN, when set, is used instead of the file (a manual run).</p>
+<p>Claude Desktop runs this command from its MCP server entry. stdout carries the
+protocol only; diagnostics go to stderr and never include the key.</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion mcp-bridge [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--name</code></td>
+<td><code>default</code></td>
+<td>The companion key's name (2 to 16 lowercase letters and digits)</td>
+</tr>
+<tr>
+<td><code>--url</code></td>
+<td></td>
+<td>Vornik's URL (default $VORNIK_URL, then $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-config">vornikctl config<a class="headerlink" href="#vornikctl-config" title="Permanent link">&para;</a></h2>
 <p>Inspect and control daemon configuration</p>
 <h2 id="vornikctl-config-keys">vornikctl config keys<a class="headerlink" href="#vornikctl-config-keys" title="Permanent link">&para;</a></h2>

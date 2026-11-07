@@ -480,6 +480,8 @@
       
         
       
+        
+      
     
     
     
@@ -801,6 +803,34 @@
     
   
     Set up Hermes with Vornik
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/claude-desktop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from Claude Desktop and Cowork
   
 
     
@@ -3704,6 +3734,11 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Claude Desktop and Cowork connect with one command</strong> (GitHub #589).
+  <code>vornikctl companion connect claude-desktop</code> stores the key in a private
+  file and adds the built-in bridge to Claude Desktop's config: no Node, no
+  token in that file. <code>vornikctl companion doctor --client claude-desktop</code>
+  names each failure and its fix.</li>
 <li><strong>The overview says what needs you first</strong> (GitHub #603). Needs you (the
   inbox's first rows with their actions, approver-device requests, the last
   doctor report's errors), then health problems only, or one "All clear"
