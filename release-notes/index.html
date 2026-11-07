@@ -3667,6 +3667,11 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Doctor's fallback advice no longer depends on read order</strong> (GitHub
+  #668). <code>model_health</code> lists every fallback the roles pinning a model name,
+  with the number of roles for each. It also counts roles with no fallback,
+  and roles whose fallback is the model itself. Before, it kept the first
+  role it read, so two runs could disagree.</li>
 <li><strong>Doctor names a provider's usage limit instead of blaming the model</strong>
   (GitHub #665). A failed call no longer counts as "degenerate output" in
   <code>model_health</code>: the token median reads only calls that reached the model.
