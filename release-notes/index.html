@@ -3668,13 +3668,38 @@ new behavior; those are called out below.</p>
   path</strong> (GitHub #651). It uses the plugin's data directory, else your own
   runtime directory, else it stays silent, and refuses a symlinked or foreign
   state directory. Claude Code plugin 0.50.4, Codex plugin 0.45.2.</li>
+<li><strong>Mirrored files re-marked <code>never</code> leave the corpus</strong> (GitHub #657). A
+  file mirrored into a project's memory and later marked <code>disclosure: never</code>
+  (or given excluded sections, or broken front matter) now has its chunks
+  retired in the next pass.</li>
+<li><strong>Agent read tools cannot be raced out of the workspace</strong> (GitHub #455).
+  <code>file_read</code> and <code>read_many_files</code> open through the workspace root, as the
+  write tools do. Ships in the agent image.</li>
+<li><strong>The config assistant refuses tokenised calendar URLs</strong> (GitHub #219).
+  A Google Calendar secret address, an Outlook published calendar or an
+  iCloud public calendar URL anywhere in a project's files, prose included,
+  is now a secret-hygiene finding. Move such URLs into a secret.</li>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>An approved change that cannot apply no longer deadlocks its project</strong>
+  (GitHub #579). A verified revert frees the namespace; an approval whose
+  effect keeps failing is recorded failed after 60 attempts (about an hour).</li>
+<li><strong>A closed approval says which task above it was cancelled</strong> (GitHub
+  #490). The inbox shows it for 24 hours, and a stale Telegram button
+  answers with the reason instead of "already handled".</li>
 <li><strong>Agent benchmark tasks no longer see earlier tasks' work in git</strong>
   (GitHub #655). Each repeat now starts on a one-commit history, and the
   earlier history moves to an archive no agent can read. Harness version 11;
   journals from earlier harness versions do not compare.</li>
+<li><strong>A hand-configured rootless install runs its first agent task</strong> (GitHub
+  #663). With <code>userns_mode</code> empty, rootless Podman now starts agents with
+  keep-id; <code>server.address: ":8080"</code> gives agents a reachable callback URL;
+  and the new doctor check <code>agent_daemon_reach</code> flags a loopback listen
+  address that agents cannot reach.</li>
+<li><strong>An empty git repository is bootstrapped</strong> (GitHub #659). A project
+  directory made with <code>git init</code> and no commit gets a seed commit, instead of
+  failing every task at merge.</li>
 <li><strong>The agent benchmark runs unattended past a failed task</strong> (GitHub #600,
   #660). A failed task's leftover files are archived instead of stopping the
   next task, and the reset commit no longer needs a git identity on the host.</li>
