@@ -2447,6 +2447,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3048,6 +3059,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#fixes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3633,6 +3655,16 @@ new behavior; those are called out below.</p>
 <hr />
 <h2 id="2026113">2026.11.3<a class="headerlink" href="#2026113" title="Permanent link">&para;</a></h2>
 <p>Draft: not yet released.</p>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>The Ollama-compatible API no longer forwards a provider's error text</strong>
+  (GitHub #667). <code>/api/chat</code> and <code>/api/generate</code> used to answer a provider
+  error with the provider's own text, which could hold the upstream account
+  name and links. They now answer as the OpenAI-compatible proxy does: a
+  class code and a fixed or daemon-built message. The provider's text goes
+  to the daemon log. A buffered error now carries its class status (400,
+  429 or 503) where it was always 502.</li>
+</ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Doctor names a provider's usage limit instead of blaming the model</strong>
