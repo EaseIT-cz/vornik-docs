@@ -7753,6 +7753,8 @@ skopeo or systemctl, and no daemon request may run a program):
   agent_image_uid       Compare the agent image's baked uid with the keep-id mapping
   image_freshness       Deployment images vs the daemon's build (release record)</p>
 <p>Runtime:
+  agent_daemon_reach    Agent containers can reach the daemon: a loopback server.address
+                        refuses every role that is not daemon-only
   env_file_freshness    Flag EnvironmentFile= entries modified after daemon
                         start (systemd reads them only at ExecStart, so
                         post-edit secrets are invisible until restart)</p>
