@@ -3354,6 +3354,10 @@ connected assistants, and upstream services.</p>
 <li>An approval binds to the hash of the exact arguments shown, computed over
   a canonical form that refuses duplicate keys, so the approver cannot be
   shown one thing and approve another. Choice cards accept only a choice.</li>
+<li>An approved change that fails to apply for a reason that may pass (a busy
+  project, for example) is retried at most 60 times, about an hour. It is then
+  recorded as failed, and the requester is told, so a request never waits
+  unseen for ever.</li>
 <li>Approval notices pushed to a channel carry no content, only a link.</li>
 <li>A paired device can also receive browser notifications (Web Push). A
   notification names the event, never what is asked. It is encrypted to that
