@@ -3667,6 +3667,10 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Agent benchmark tasks no longer see earlier tasks' work in git</strong>
+  (GitHub #655). Each repeat now starts on a one-commit history, and the
+  earlier history moves to an archive no agent can read. Harness version 11;
+  journals from earlier harness versions do not compare.</li>
 <li><strong>Doctor's fallback advice no longer depends on read order</strong> (GitHub
   #668). <code>model_health</code> lists every fallback the roles pinning a model name,
   with the number of roles for each. It also counts roles with no fallback,
