@@ -3664,6 +3664,10 @@ new behavior; those are called out below.</p>
   class code and a fixed or daemon-built message. The provider's text goes
   to the daemon log. A buffered error now carries its class status (400,
   429 or 503) where it was always 502.</li>
+<li><strong>The companion's recall nudge no longer keeps state in a shared temp
+  path</strong> (GitHub #651). It uses the plugin's data directory, else your own
+  runtime directory, else it stays silent, and refuses a symlinked or foreign
+  state directory. Claude Code plugin 0.50.4, Codex plugin 0.45.2.</li>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
