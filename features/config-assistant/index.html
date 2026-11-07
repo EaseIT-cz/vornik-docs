@@ -2678,7 +2678,10 @@ proposal</strong> in the control-plane ledger. It never writes the live tree its
 <li><strong>It refuses to run at all</strong> for a project whose config tree currently
   contains a raw secret (the <code>config_secret_hygiene</code> doctor finding), because
   the assistant's model and its judge are hosted models and a raw secret in
-  the tree would leave the box the moment you asked a question.</li>
+  the tree would leave the box the moment you asked a question. The same
+  screen covers a calendar feed URL that carries its access token (Google
+  secret address, Outlook or iCloud published calendar), on any line of the
+  project's files, <code>PROJECT_CONTEXT.md</code> included.</li>
 </ul>
 <h2 id="blast-radius-classes">Blast-radius classes<a class="headerlink" href="#blast-radius-classes" title="Permanent link">&para;</a></h2>
 <p>Every proposal is classified by the most restrictive thing it touches:</p>
