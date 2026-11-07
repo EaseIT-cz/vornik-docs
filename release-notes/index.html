@@ -3675,6 +3675,9 @@ new behavior; those are called out below.</p>
   (GitHub #655). Each repeat now starts on a one-commit history, and the
   earlier history moves to an archive no agent can read. Harness version 11;
   journals from earlier harness versions do not compare.</li>
+<li><strong>The agent benchmark runs unattended past a failed task</strong> (GitHub #600,
+  #660). A failed task's leftover files are archived instead of stopping the
+  next task, and the reset commit no longer needs a git identity on the host.</li>
 <li><strong>Doctor's fallback advice no longer depends on read order</strong> (GitHub
   #668). <code>model_health</code> lists every fallback the roles pinning a model name,
   with the number of roles for each. It also counts roles with no fallback,
