@@ -2673,10 +2673,16 @@ doing: a set of operator dashboards in the Web UI, and a Prometheus metrics
 endpoint for your own monitoring stack.</p>
 <h2 id="the-dashboards">The dashboards<a class="headerlink" href="#the-dashboards" title="Permanent link">&para;</a></h2>
 <h3 id="home">Home<a class="headerlink" href="#home" title="Permanent link">&para;</a></h3>
-<p>The Web UI landing page (<code>/ui/</code>) is an operator front page of live tiles:
-active tasks (queued, leased, running), active chats, a countdown to the next
-<a href="../autonomy/">autonomy</a> evaluation per project, the response cache's savings (calls Vornik answered itself, across all cached entries), a memory
-pipeline snapshot, and an <strong>Inbox</strong> tile for anything that needs you.</p>
+<p>The Web UI landing page (<code>/ui/</code>) answers two questions, in order. <strong>Needs
+you</strong> lists what waits for you, with its action: the first rows of the
+inbox (approvals, questions, failed work), requests waiting on your approver
+device, and the error checks of the last doctor report anyone ran, with its
+age. Its count is the inbox's count. <strong>Health</strong> lists problems only: a spend
+spike and readiness checks that are not ok. When nothing waits and nothing is
+unhealthy, the page shows one line, "All clear". Links lead to the detail
+pages. The four spend windows are on <strong>Spend</strong>, the per-project countdown to
+the next <a href="../autonomy/">autonomy</a> evaluation and the active chats are on
+<strong>Projects</strong>, and the memory pipeline is on <strong>Memory</strong>.</p>
 <h3 id="insight">Insight<a class="headerlink" href="#insight" title="Permanent link">&para;</a></h3>
 <p>The <strong>Insight</strong> area collects the analytical views:</p>
 <ul>
