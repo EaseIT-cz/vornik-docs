@@ -2435,6 +2435,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.11.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026112" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3008,6 +3036,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026113" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.3
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.11.3">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026112" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3574,6 +3630,20 @@ so upgrades generally require no config changes. Always take a backup
 before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
+<hr />
+<h2 id="2026113">2026.11.3<a class="headerlink" href="#2026113" title="Permanent link">&para;</a></h2>
+<p>Draft: not yet released.</p>
+<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Doctor names a provider's usage limit instead of blaming the model</strong>
+  (GitHub #665). A failed call no longer counts as "degenerate output" in
+  <code>model_health</code>: the token median reads only calls that reached the model.
+  An upstream usage or rate limit now reaches the agent as
+  <code>429 UPSTREAM_RATE_LIMITED</code> instead of a generic <code>502 PROVIDER_ERROR</code>.
+  The message is fixed; the provider's text is never forwarded. Doctor counts
+  these failures and names the account's limit as the cause. External
+  OpenAI-compatible callers see a 429 where they saw a 502.</li>
+</ul>
 <hr />
 <h2 id="2026112">2026.11.2<a class="headerlink" href="#2026112" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
