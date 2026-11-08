@@ -3875,6 +3875,10 @@ new behavior; those are called out below.</p>
 <li><strong>The agent benchmark runs unattended past a failed task</strong> (GitHub #600,
   #660). A failed task's leftover files are archived instead of stopping the
   next task, and the reset commit no longer needs a git identity on the host.</li>
+<li><strong>A pipeline failure is no longer graded as a compile failure</strong> (GitHub
+  #661). A benchmark task that failed before its code reached the workspace
+  is graded <code>pipeline_failed</code>, not <code>does_not_compile</code>. Pass rates do not
+  change.</li>
 <li><strong>Doctor's fallback advice no longer depends on read order</strong> (GitHub
   #668). <code>model_health</code> lists every fallback the roles pinning a model name,
   with the number of roles for each. It also counts roles with no fallback,
