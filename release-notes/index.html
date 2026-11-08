@@ -3879,6 +3879,9 @@ new behavior; those are called out below.</p>
   #661). A benchmark task that failed before its code reached the workspace
   is graded <code>pipeline_failed</code>, not <code>does_not_compile</code>. Pass rates do not
   change.</li>
+<li><strong>A memory version pushed and then replaced is labelled out of date</strong>
+  (GitHub #550). It was labelled as a draft awaiting its push for good. A
+  document redacted on upload now says so, instead of the same false label.</li>
 <li><strong>Doctor's fallback advice no longer depends on read order</strong> (GitHub
   #668). <code>model_health</code> lists every fallback the roles pinning a model name,
   with the number of roles for each. It also counts roles with no fallback,
