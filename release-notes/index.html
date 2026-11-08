@@ -3835,6 +3835,8 @@ new behavior; those are called out below.</p>
   it meets 4.5:1 contrast in both themes.</li>
 <li><strong>The benchmark grader and the scraper login browser have a memory
   limit</strong> (GitHub #460): half the host's memory, no swap.</li>
+<li><strong>Memory recall queries are scanned for secrets before they are stored</strong>
+  (GitHub #680), like chat transcripts and task messages.</li>
 <li><strong>A restart no longer refills the knowledge graph's retry budget</strong>
   (GitHub #493): the count of a chunk's uncounted provider-error retries is
   stored with the chunk.</li>
