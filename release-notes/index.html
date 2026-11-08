@@ -3818,6 +3818,9 @@ new behavior; those are called out below.</p>
   local-only commits and uncommitted changes are saved to
   <code>refs/vornik/discarded/*</code> refs before the reset, as a task-start reset
   does.</li>
+<li><strong>A restart no longer refills the knowledge graph's retry budget</strong>
+  (GitHub #493): the count of a chunk's uncounted provider-error retries is
+  stored with the chunk.</li>
 <li><strong>The canary guard runs where it can roll back</strong> (GitHub #485): on the
   daemon that holds the config-writer lease.</li>
 <li><strong>The lead reads a long thread's newest messages</strong> (GitHub #464). On a
