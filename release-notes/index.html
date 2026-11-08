@@ -3753,17 +3753,19 @@ new behavior; those are called out below.</p>
 <li><strong>Mirrored files re-marked <code>never</code> leave the corpus</strong> (GitHub #657). A
   file mirrored into a project's memory and later marked <code>disclosure: never</code>
   (or given excluded sections, or broken front matter) now has its chunks
-  retired in the next pass.</li>
+  retired in the next pass. A corpus rollback does not restore them.</li>
 <li><strong>Agent read tools cannot be raced out of the workspace</strong> (GitHub #455).
-  <code>file_read</code> and <code>read_many_files</code> open through the workspace root, as the
-  write tools do. Ships in the agent image.</li>
+  <code>file_read</code> and <code>read_many_files</code> open through the workspace root and check
+  the opened file, as the write tools do. A symlink that stays inside the
+  workspace still works. Ships in the agent image.</li>
 <li><strong>The config assistant refuses tokenised calendar URLs</strong> (GitHub #219).
   A Google Calendar secret address, an Outlook published calendar or an
   iCloud public calendar URL anywhere in a project's files, prose included,
-  is now a secret-hygiene finding. Move such URLs into a secret.</li>
+  is now a secret-hygiene finding. Other providers' feeds are not
+  recognised. Move such URLs into a secret.</li>
 <li><strong>Memory catches a short unlabeled credential</strong> (GitHub #438). A random
   24 to 39 character token with mixed case and digits and no label is now
-  redacted on its way into memory.</li>
+  redacted on its way into memory; a Google Places ID is left alone.</li>
 </ul>
 <h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3771,9 +3773,9 @@ new behavior; those are called out below.</p>
   caller keys, the answer policy, the retrieval policy, and why the
   expert's memory is the boundary.</li>
 <li><strong>Claude Desktop and Cowork connect with one command</strong> (GitHub #589).
-  <code>vornikctl companion connect claude-desktop</code> stores the key in a private
-  file and adds the built-in bridge to Claude Desktop's config: no Node, no
-  token in that file. <code>vornikctl companion doctor --client claude-desktop</code>
+  <code>vornikctl companion connect claude-desktop</code> stores the key in a file only
+  you can read and adds the built-in bridge to Claude Desktop's config: no
+  Node, no token in that file. <code>vornikctl companion doctor --client claude-desktop</code>
   names each failure and its fix.</li>
 <li><strong>The overview says what needs you first</strong> (GitHub #603). Needs you (the
   inbox's first rows with their actions, approver-device requests, the last
@@ -3786,7 +3788,8 @@ new behavior; those are called out below.</p>
   daemon joining a multi-daemon install no longer repeats the leader's sweep.</li>
 <li><strong>A chunk the embed DLQ could not take is retried, not lost</strong> (GitHub
   #437, #677). It keeps its queue row instead of being released, whether
-  the embed call or storing its result failed.</li>
+  the embed call failed or its vector could not be stored or came back
+  empty or the wrong size.</li>
 <li><strong>A cancelled migration run no longer leaves its lock held</strong> (GitHub
   #457), so the next daemon to start does not wait on it.</li>
 <li><strong>A task message and its counters are written together on SQLite</strong>
@@ -3800,7 +3803,8 @@ new behavior; those are called out below.</p>
   only</strong> (GitHub #462). A refusal writes nothing and answers 409
   (<code>APPLY_IN_PROGRESS</code> or <code>WRITER_FENCED</code>).</li>
 <li><strong>The memory recall audit has a retention horizon</strong> (GitHub #549): the
-  tool-call audit's window, 180 days at least, when retention is enabled.</li>
+  tool-call audit's window, at least 180 days unless that floor is
+  overridden, once retention is enabled (it is off by default).</li>
 <li><strong>A retry the model circuit rejected keeps its attempt</strong> (GitHub #492),
   so tasks released together after an outage no longer run out of attempts
   on rejects.</li>
@@ -3810,6 +3814,10 @@ new behavior; those are called out below.</p>
   of reporting an SSRF-guard refusal.</li>
 <li><strong>Admin UI edits wait for other configuration changes</strong> (GitHub #676),
   so a UI save and a control-plane apply cannot overwrite each other.</li>
+<li><strong>The backlog refresh keeps the clone's local work</strong> (GitHub #675):
+  local-only commits and uncommitted changes are saved to
+  <code>refs/vornik/discarded/*</code> refs before the reset, as a task-start reset
+  does.</li>
 <li><strong>The canary guard runs where it can roll back</strong> (GitHub #485): on the
   daemon that holds the config-writer lease.</li>
 <li><strong>The lead reads a long thread's newest messages</strong> (GitHub #464). On a
@@ -3824,7 +3832,7 @@ new behavior; those are called out below.</p>
 <li><strong>Agent benchmark tasks no longer see earlier tasks' work in git</strong>
   (GitHub #655). Each repeat now starts on a one-commit history, and the
   earlier history moves to an archive no agent can read. Harness version 11;
-  journals from earlier harness versions do not compare.</li>
+  journals from harness 10 and 11 do not compare.</li>
 <li><strong>A hand-configured rootless install runs its first agent task</strong> (GitHub
   #663). With <code>userns_mode</code> empty, rootless Podman now starts agents with
   keep-id; <code>server.address: ":8080"</code> gives agents a reachable callback URL;
