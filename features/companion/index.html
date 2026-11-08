@@ -3663,6 +3663,14 @@ project's hint catalogue.</p>
   script. Codex gives a hook no exit status, so a failed test run is
   recognised from its output, and a failed commit still shows the review
   hint. Codex runs the new hooks once you trust them.</li>
+<li>Hermes gets them since its plugin 0.23.0, with the memory key set, from
+  a Python port of the same rules held to the same test cases. A hint is
+  added to the result of the call that fired it, marked as Vornik's, and
+  only hints Hermes can act on are shown. Hermes also gets Vornik's
+  standing rules in each new session's system prompt, and, when it edited
+  files and is about to finish with a hint not followed, one request to
+  follow it or say why not. See
+  <a href="../../guides/hermes-setup/#5-what-vornik-teaches-hermes-plugin-0230-and-later">Hermes setup → What Vornik teaches Hermes</a>.</li>
 </ul>
 <p>For Codex, install <code>codex-companion</code> from the bundled Codex marketplace at
 <code>&lt;path&gt;/.agents/plugins/marketplace.json</code>, or load the plugin directly from

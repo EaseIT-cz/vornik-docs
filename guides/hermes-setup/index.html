@@ -938,6 +938,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#5-what-vornik-teaches-hermes-plugin-0230-and-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What Vornik teaches Hermes (plugin 0.23.0 and later)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2726,6 +2737,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#5-what-vornik-teaches-hermes-plugin-0230-and-later" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What Vornik teaches Hermes (plugin 0.23.0 and later)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2881,9 +2903,12 @@ at the daemon level with your mail account; see
 ship with Vornik (<code>make install-config-assets</code> installs them). To let Hermes also draft replies that
 you approve before they are sent, see
 <a href="../../features/companion/#proposed-writes-a-person-approves-every-one">Proposed writes</a>.</p>
-<p>Scaffold the memory project rather than writing it by hand:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>project<span class="w"> </span>hermes-memory<span class="w"> </span>--config-dir<span class="w"> </span>~/.config/vornik/configs<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--display-name<span class="w"> </span><span class="s2">"Hermes memory"</span>
+<p>Scaffold the memory project from the companion template rather than
+writing it by hand. The template brings the agents that run a code review
+and a memory ingest, which Hermes may start when Vornik's hints ask it to
+(step 2):</p>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>project<span class="w"> </span>hermes-memory<span class="w"> </span>--template<span class="w"> </span>companion<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--config-dir<span class="w"> </span>~/.config/vornik/configs<span class="w"> </span>--display-name<span class="w"> </span><span class="s2">"Hermes memory"</span>
 </code></pre></div>
 <p>Load both, and check that the daemon accepted them:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>config<span class="w"> </span>reload
@@ -2895,9 +2920,10 @@ vornikctl<span class="w"> </span>project<span class="w"> </span>list<span class=
 <div class="highlight"><pre><span></span><code><span class="c1"># delegation only, to the workflows you name, within a budget</span>
 vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>broker-mail<span class="w"> </span>--client<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--workflows<span class="w"> </span>mail-digest<span class="w"> </span>--budget-usd<span class="w"> </span><span class="m">5</span>
-<span class="c1"># memory only: this key can never delegate</span>
-vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>hermes-memory<span class="w"> </span>--client<span class="w"> </span>hermes<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--memory-all<span class="w"> </span>--no-delegate
+<span class="c1"># memory, plus a code review and a memory ingest, within a budget</span>
+vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>hermes-memory<span class="w"> </span>--client<span class="w"> </span>hermes<span class="w"> </span>--memory-all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--workflows<span class="w"> </span>companion-architectural-review,companion-rag-ingest<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--budget-usd<span class="w"> </span><span class="m">5</span>
 </code></pre></div>
 <p>Each prints its secret once, as the <code>.env</code> line Hermes needs:
 <code>VORNIK_BROKER_TOKEN=...</code> for the broker key, <code>VORNIK_MEMORY_TOKEN=...</code> for
@@ -2906,8 +2932,13 @@ Hermes key:</p>
 <ul>
 <li>no <code>--skill-all</code> or other skill flags: the knowledge-skill store is for
   coding assistants;</li>
-<li>no <code>companion-*</code> workflows: those are developer workflows
-  (reviews, ingest) for the coding-assistant companion, not for Hermes;</li>
+<li>no <code>companion-*</code> workflow beyond the two above. Vornik's hints ask Hermes
+  for a review after a commit and an ingest after a design is written; both
+  run in the memory project, read only the files Hermes names, and stop at
+  the key's budget. Neither reaches mail, the broker project or a
+  credential. For a Hermes that does no code work, grant the memory key
+  <code>--memory-all --no-delegate</code> instead; the review and ingest hints are
+  then off, and <code>hermes vornik status</code> says so;</li>
 <li>no memory flags on the broker key: grant refuses them on a broker project,
   and that refusal is the design.</li>
 </ul>
@@ -2948,7 +2979,7 @@ loopback; for any other host use <code>https</code>.</p>
 <div class="highlight"><pre><span></span><code>hermes<span class="w"> </span>plugins<span class="w"> </span>install<span class="w"> </span>vornik-companion
 hermes<span class="w"> </span>plugins<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>vornik-companion
 hermes<span class="w"> </span>config<span class="w"> </span><span class="nb">set</span><span class="w"> </span>memory.provider<span class="w"> </span>vornik-companion<span class="w">   </span><span class="c1"># Vornik as long-term memory</span>
-hermes<span class="w"> </span>vornik<span class="w"> </span>status<span class="w">        </span><span class="c1"># URL, which tokens are set, the daemon's capabilities</span>
+hermes<span class="w"> </span>vornik<span class="w"> </span>status<span class="w">        </span><span class="c1"># URL, tokens, the daemon's capabilities, review and ingest hints</span>
 hermes<span class="w"> </span>memory<span class="w"> </span>status<span class="w">        </span><span class="c1"># expect "installed" and "available"</span>
 </code></pre></div>
 <p>For an existing installation, update the plugin separately after upgrading
@@ -2966,6 +2997,31 @@ later) has <code>vornik_task_logs</code> and <code>vornik_task_explain</code>; t
 progress and closed error classes only, never the task's own text. From
 0.21.1 they appear only when the daemon advertises <code>companion-progress</code>, so
 an older daemon does not offer calls it cannot answer.</p>
+<h3 id="5-what-vornik-teaches-hermes-plugin-0230-and-later">5. What Vornik teaches Hermes (plugin 0.23.0 and later)<a class="headerlink" href="#5-what-vornik-teaches-hermes-plugin-0230-and-later" title="Permanent link">&para;</a></h3>
+<p>With the memory key set, Vornik guides how Hermes works, the same way it
+guides Claude Code and Codex:</p>
+<ul>
+<li><strong>Standing rules.</strong> Each new Hermes session's system prompt carries
+  Vornik's working rules: delegate what can run without you, verify what
+  comes back, write ideas down, park side tasks. The text comes from the
+  daemon, so all three clients read the same rules.</li>
+<li><strong>Hints at the moment of need.</strong> After a successful <code>git commit</code>, Hermes
+  is told to have the change reviewed; after it writes a design document,
+  to ingest it into memory; after a test run fails, to search memory for
+  the failure first. The hint is added to the result of the command that
+  caused it, marked as coming from Vornik. Hermes is shown only hints it
+  can act on.</li>
+<li><strong>A check before finishing.</strong> When Hermes edited files and is about to
+  finish with a hint not followed, it is asked once to follow it or to tell
+  you why not. It is never forced.</li>
+<li><strong>You see whether it worked.</strong> <code>vornikctl companion hints -p hermes-memory</code> reports, per
+  hint, how often it fired and was followed, across Claude Code, Codex and
+  Hermes. Mute a hint for a project with <code>companion.mute</code> in its project
+  file; a hint that is rarely followed backs off by itself.</li>
+</ul>
+<p>To review a commit, Hermes calls <code>vornik_companion_delegate</code> with the files
+to review; the plugin reads them and sends them to Vornik, so their content
+never passes through the model.</p>
 <h2 id="admin-setup-opt-in">Admin setup (opt-in)<a class="headerlink" href="#admin-setup-opt-in" title="Permanent link">&para;</a></h2>
 <p>Read <a href="../assistant-setup/">Let your assistant set up Vornik</a> first; it
 explains what an administering assistant can and cannot do. With Hermes on
