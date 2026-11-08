@@ -3503,7 +3503,11 @@ connected assistants, and upstream services.</p>
   untrusted content. In <code>enforce</code> mode, a write by a tainted task parks for
   operator review with its sources attached. The default mode is <code>advisory</code>.</li>
 <li><strong>Memory ingest gates</strong> run on every deposit: secret scan (a mostly
-  redacted "secret dump" is rejected outright), per-project deny patterns
+  redacted "secret dump" is rejected outright; besides the typed patterns,
+  the labelled <code>key: value</code> shape and long high-entropy runs, memory alone
+  also catches a random 24 to 39 character token with mixed case and digits
+  and no label, except a Google Places ID; a token of one case, without
+  digits, or shorter is not caught), per-project deny patterns
   (substring, not regex), optional injection detection, dedup and size
   checks. A memory firewall attaches sensitivity, role, purpose and expiry
   policy to chunks and audits every retrieval decision. A connected

@@ -3761,6 +3761,9 @@ new behavior; those are called out below.</p>
   A Google Calendar secret address, an Outlook published calendar or an
   iCloud public calendar URL anywhere in a project's files, prose included,
   is now a secret-hygiene finding. Move such URLs into a secret.</li>
+<li><strong>Memory catches a short unlabeled credential</strong> (GitHub #438). A random
+  24 to 39 character token with mixed case and digits and no label is now
+  redacted on its way into memory.</li>
 </ul>
 <h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h3>
 <ul>
