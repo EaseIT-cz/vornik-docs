@@ -3785,7 +3785,8 @@ new behavior; those are called out below.</p>
 <li><strong>Only the leader runs the watchdog's startup scan</strong> (GitHub #442), so a
   daemon joining a multi-daemon install no longer repeats the leader's sweep.</li>
 <li><strong>A chunk the embed DLQ could not take is retried, not lost</strong> (GitHub
-  #437). It keeps its queue row instead of being released.</li>
+  #437, #677). It keeps its queue row instead of being released, whether
+  the embed call or storing its result failed.</li>
 <li><strong>A cancelled migration run no longer leaves its lock held</strong> (GitHub
   #457), so the next daemon to start does not wait on it.</li>
 <li><strong>A task message and its counters are written together on SQLite</strong>
