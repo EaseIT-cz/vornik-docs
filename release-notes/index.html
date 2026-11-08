@@ -3788,6 +3788,8 @@ new behavior; those are called out below.</p>
   #437). It keeps its queue row instead of being released.</li>
 <li><strong>A cancelled migration run no longer leaves its lock held</strong> (GitHub
   #457), so the next daemon to start does not wait on it.</li>
+<li><strong>A task message and its counters are written together on SQLite</strong>
+  (GitHub #451), as on PostgreSQL.</li>
 <li><strong>The lead reads a long thread's newest messages</strong> (GitHub #464). On a
   thread over 50 messages the lead now sees the latest ones, the operator's
   newest directive included.</li>
