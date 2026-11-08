@@ -3118,7 +3118,9 @@ workspace to <code>origin/&lt;branch&gt;</code>. This is the same reset a forge 
 <li>commits that exist only in the workspace (for example a git-over-HTTPS push
   that never reached <code>origin</code>) are moved off the branch and kept in a
   <code>refs/vornik/discarded/&lt;time&gt;-&lt;sha&gt;</code> ref you can recover them from;</li>
-<li>uncommitted changes to tracked files in the workspace itself are discarded;</li>
+<li>uncommitted changes to tracked files in the workspace itself, staged or
+  not, are saved to a <code>refs/vornik/discarded/&lt;time&gt;-dirty-&lt;id&gt;</code> ref and then
+  discarded from the working tree; recover them with <code>git stash apply &lt;ref&gt;</code>;</li>
 <li>untracked files are left alone.</li>
 </ul>
 <p>So opt in only for a project whose workspace should mirror <code>origin</code>, such as

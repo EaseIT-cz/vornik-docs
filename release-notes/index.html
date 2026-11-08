@@ -3790,6 +3790,25 @@ new behavior; those are called out below.</p>
   #457), so the next daemon to start does not wait on it.</li>
 <li><strong>A task message and its counters are written together on SQLite</strong>
   (GitHub #451), as on PostgreSQL.</li>
+<li><strong>Two knowledge-graph updates of one edge keep both sources on SQLite</strong>
+  (GitHub #452).</li>
+<li><strong>A reset to origin keeps the clone's uncommitted changes</strong> (GitHub
+  #484). They are saved to a <code>refs/vornik/discarded/*-dirty-*</code> ref first;
+  recover them with <code>git stash apply &lt;ref&gt;</code>.</li>
+<li><strong>Workflow proposals are applied and rolled back by the config writer
+  only</strong> (GitHub #462). A refusal writes nothing and answers 409
+  (<code>APPLY_IN_PROGRESS</code> or <code>WRITER_FENCED</code>).</li>
+<li><strong>The memory recall audit has a retention horizon</strong> (GitHub #549): the
+  tool-call audit's window, 180 days at least, when retention is enabled.</li>
+<li><strong>A retry the model circuit rejected keeps its attempt</strong> (GitHub #492),
+  so tasks released together after an outage no longer run out of attempts
+  on rejects.</li>
+<li><strong>Tool grants and API audits name the right role in every workflow</strong>
+  (GitHub #551), not the default workflow's.</li>
+<li><strong>The web scraper says when its network is down</strong> (GitHub #601), instead
+  of reporting an SSRF-guard refusal.</li>
+<li><strong>Admin UI edits wait for other configuration changes</strong> (GitHub #676),
+  so a UI save and a control-plane apply cannot overwrite each other.</li>
 <li><strong>The lead reads a long thread's newest messages</strong> (GitHub #464). On a
   thread over 50 messages the lead now sees the latest ones, the operator's
   newest directive included.</li>
