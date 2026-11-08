@@ -3837,6 +3837,15 @@ new behavior; those are called out below.</p>
   limit</strong> (GitHub #460): half the host's memory, no swap.</li>
 <li><strong>Memory recall queries are scanned for secrets before they are stored</strong>
   (GitHub #680), like chat transcripts and task messages.</li>
+<li><strong>The design-edit hint sees DESIGN.md</strong> (GitHub #682), whatever the case of
+  the name (companion plugins 0.50.5 and 0.45.3).</li>
+<li><strong>Config changes are refused on a daemon that is not the config writer</strong>
+  (GitHub #681): on a multi-daemon install they answer 409 and write
+  nothing; a single daemon is not affected.</li>
+<li><strong>A config reload no longer drops a project whose file it cannot read</strong>
+  (GitHub #683, #669): the project keeps its previous configuration, the
+  other changes apply, and <code>vornikctl config reload</code> exits non-zero with the
+  warning.</li>
 <li><strong>A restart no longer refills the knowledge graph's retry budget</strong>
   (GitHub #493): the count of a chunk's uncounted provider-error retries is
   stored with the chunk.</li>
