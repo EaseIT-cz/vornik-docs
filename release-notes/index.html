@@ -3818,6 +3818,19 @@ new behavior; those are called out below.</p>
   local-only commits and uncommitted changes are saved to
   <code>refs/vornik/discarded/*</code> refs before the reset, as a task-start reset
   does.</li>
+<li><strong>Deleting a project on some S3-compatible stores deletes every object</strong>
+  (GitHub #443), not only the first 1,000; a delete that cannot finish is
+  reported as incomplete.</li>
+<li><strong>Secret checks no longer reveal a secret's length</strong> (GitHub #445): the
+  <code>/metrics</code> scrape token and the broker's internal key are compared as
+  fixed-length digests.</li>
+<li><strong>A parent waiting on its children no longer counts as needing you</strong>
+  (GitHub #671): the row stays in the inbox, uncounted, and the overview
+  can say "All clear".</li>
+<li><strong>Doctor counts calls made with a model override</strong> (GitHub #458), so its
+  per-model failure counts include them.</li>
+<li><strong>Failed embeddings back off longer each time</strong> (GitHub #674), up to 24
+  hours, instead of every 10 minutes.</li>
 <li><strong>A restart no longer refills the knowledge graph's retry budget</strong>
   (GitHub #493): the count of a chunk's uncounted provider-error retries is
   stored with the chunk.</li>
