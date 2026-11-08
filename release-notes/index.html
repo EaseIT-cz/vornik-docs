@@ -3782,6 +3782,8 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Only the leader runs the watchdog's startup scan</strong> (GitHub #442), so a
+  daemon joining a multi-daemon install no longer repeats the leader's sweep.</li>
 <li><strong>A chunk the embed DLQ could not take is retried, not lost</strong> (GitHub
   #437). It keeps its queue row instead of being released.</li>
 <li><strong>The lead reads a long thread's newest messages</strong> (GitHub #464). On a
