@@ -2732,7 +2732,7 @@ a result, because two systems whose intervals overlap have not been separated.</
 <tbody>
 <tr>
 <td>Memory retrieval, LongMemEval, 120 items, cold corpus</td>
-<td>2026.11.2</td>
+<td>2026.11.3</td>
 <td>recall 0.9851, precision 0.9854, MRR 0.9958, sd 0.0000 (unchanged since 2026.9.4)</td>
 <td><a href="#longmemeval-retrieval-all-six-abilities-tier-2-cold-corpus">cold axis</a></td>
 </tr>
@@ -3089,6 +3089,16 @@ the dataset's gold documents). The store is cleared before every run.</p>
 <td>n=3</td>
 <td><code>4888e3c70ece</code></td>
 </tr>
+<tr>
+<td><code>2026.11.2-60-ge0920131c</code> (2026.11.3)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>83861e2a27ad</code></td>
+</tr>
 </tbody>
 </table>
 <p>Figures from <code>bench memory aggregate</code> over three run directories; standard
@@ -3173,6 +3183,11 @@ store of 1,897 chunks.</p>
 <td>13. 2026.11.2</td>
 <td>The search SQL gained a sensitivity cap, and an agent's search now records its task in the retrieval audit. Measured 2026-11-06 on <code>8e62945d8</code>; the commits after it are documentation and a test only</td>
 <td>No role in this benchmark sets a cap, so the cap's filtering is covered by the daemon's tests (every search statement, on PostgreSQL) only</td>
+</tr>
+<tr>
+<td>14. 2026.11.3</td>
+<td>Recall queries are scanned for secrets before the retrieval audit stores them; the memory secret checkpoint catches short unlabelled tokens; failed embeddings back off longer and a dead-lettered chunk is retried; provenance labels say when a version was pushed and replaced, or redacted. Measured 2026-11-09 on <code>e0920131c</code>; the commits after it are a Hermes plugin fix and documentation</td>
+<td>The benchmark's items carry no secret-shaped text and no embedding fails, so the scan, the backoff and the dead-letter retry are covered by the daemon's tests only</td>
 </tr>
 </tbody>
 </table>
@@ -3637,6 +3652,11 @@ each is stated:</p>
 <td><code>2026.11.2</code></td>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, measured on <code>2026.11.1-76-g8e62945d8</code> (n=3), identical to 2026.11.1; the cycle changed the search SQL (the sensitivity cap) and the retrieval audit, so a waiver was not open to it. <strong>No agent row, and this is a gap, not a waiver.</strong> The cycle adds the <code>writing-style</code> guidance block to every agent prompt, which the agent axis would measure; the arm was not re-run for this release. The agent axis therefore stands at 2026.11.1's row, which does not include the block.</td>
+</tr>
+<tr>
+<td><code>2026.11.3</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, measured on <code>2026.11.2-60-ge0920131c</code> (n=3), identical to 2026.11.2; the cycle changed the memory checkpoint, the recall audit, the embed retry and the provenance labels, so a waiver was not open to it. <strong>No agent row.</strong> An agent arm did run on this release's code (<code>gemma-4-26b-a4b</code>, 30 tasks × 3, harness 11 at <code>35fb8e0b0</code>), but it was pre-registered as the end-to-end check of GitHub #655, not as a scored arm, so its numbers are not published as a row. Harness 11 counts a run that stops at a checkpoint as not finished, which the harness behind the 2026-10-31 rows counted as finished; the next scored arm starts a new table for that reason. On that check: 70 of 90 runs finished, 19 stopped at a checkpoint, 1 failed, and no task read an earlier task's work from git.</td>
 </tr>
 </tbody>
 </table>

@@ -3080,7 +3080,7 @@
 
 
 <h1 id="security-model">Security model<a class="headerlink" href="#security-model" title="Permanent link">&para;</a></h1>
-<p><strong>Last reviewed:</strong> 6 November 2026, against <code>main</code> before release 2026.11.2.</p>
+<p><strong>Last reviewed:</strong> 9 November 2026, against <code>main</code> before release 2026.11.3.</p>
 <p>What Vornik defends against, its trust boundaries, and the controls in place
 today, with what each does <strong>not</strong> cover. It applies to both editions;
 Enterprise-only controls are marked <strong>(Enterprise)</strong>. Everything here is
@@ -3203,7 +3203,13 @@ connected assistants, and upstream services.</p>
   the EU AI Act Art 50(2) detection routes. The quickstart configuration
   requires an API key. Credentials are checked by one ordered chain
   (session, signed webhook, database keys, static keys) that stops at the
-  first refusal. Key comparison is constant-time.</li>
+  first refusal. Key comparison is constant-time, and so are the other
+  secret checks (the metrics scrape token, the broker's internal key, admin
+  key rotation): they compare fixed-length digests, so timing reveals
+  neither a secret's content nor its length.</li>
+<li><strong>The Ollama-compatible API never forwards a provider's error text.</strong> A
+  failed upstream call answers with a closed error class; the provider's own
+  message, which can quote the request, stays in the daemon's log.</li>
 <li><strong>The detection routes are read-only and say little.</strong> Only three exact
   shapes are public: <code>/provenance/&lt;64 lowercase hex&gt;</code>, <code>/provenance/verify</code>
   and <code>/.well-known/vornik-ai-mark-keys</code>. They answer whether exact content
@@ -3384,7 +3390,18 @@ connected assistants, and upstream services.</p>
 <li>The configuration assistant sees a redacted snapshot: secret-named values
   and lists are withheld, and a file it cannot screen fully (a secret reached
   through a YAML alias, more than one YAML document) is refused rather than
-  shown.</li>
+  shown. A tokenised calendar URL (a Google Calendar secret address, an
+  Outlook published calendar, an iCloud public calendar) anywhere in a
+  project's files is refused until it moves into a secret; other providers'
+  feed URLs are not recognised.</li>
+<li><strong>One daemon writes configuration.</strong> Interactive writers (setup, key
+  rotation, the console's edit pages, workflow proposals) change files only
+  on the daemon that holds the config-writer lease; another daemon answers
+  409 and changes nothing.</li>
+<li><strong>A reload never drops a running project it cannot read.</strong> When a running
+  project's file stops decoding, the reload keeps that project's last good
+  definition, applies every other change, and reports the refused file;
+  <code>vornikctl config reload</code> exits non-zero.</li>
 </ul>
 <h3 id="identity-chat-channels-and-who-sees-what">Identity, chat channels and who sees what<a class="headerlink" href="#identity-chat-channels-and-who-sees-what" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3457,7 +3474,10 @@ connected assistants, and upstream services.</p>
   a worktree fails before any container starts.</li>
 <li>Inputs are staged only from the task's own project; outputs are harvested
   through one pinned directory handle, so a running agent cannot swap files
-  under the daemon. Symlinks that leave the workspace are refused.</li>
+  under the daemon. Symlinks that leave the workspace are refused. The read
+  tools (<code>file_read</code>, <code>read_many_files</code>) open through the workspace root and
+  check the opened file, as the write tools do, so a file swapped for a
+  symlink cannot be read outside the workspace.</li>
 <li><strong>Credentials stay out of containers.</strong> Third-party API credentials live in
   the gateway, MCP credentials in the daemon, and an agent's tool arguments
   carry none.</li>
@@ -3530,6 +3550,8 @@ connected assistants, and upstream services.</p>
 <li><strong>Outbound tool arguments are scanned too.</strong> For an assistant-administered
   project a credential-shaped value in a tool argument blocks the call; a
   refusal names the field, never the value.</li>
+<li><strong>Memory recall queries are scanned before they are stored.</strong> The recall
+  audit keeps the query text in its redacted form.</li>
 <li><code>vornikctl secrets scan-history</code> rescans stored history (tool audit, step
   prompts, transcripts, task messages) and redacts what it finds.</li>
 <li>Credentials an assistant provides are sealed at rest with a key file the
@@ -3595,6 +3617,16 @@ connected assistants, and upstream services.</p>
 <p>The hint report, which shows each hint's follow rate, is an operator route
   and refuses companion keys.</p>
 <p>A memory key can be minted without any task tools.
+- <strong>The plugins keep hint state only in the plugin's own data directory</strong>
+  (or the user's runtime directory when the user owns it), never in a shared
+  temp path, and refuse a state directory that is a symlink or that another
+  user owns. A hint's text comes only from the catalogue; nothing from a
+  tool's input or output is put into it. The Hermes plugin (0.23.0) reads,
+  for a review or an ingest, only the files the model names: regular files
+  under Hermes's task workspace, never through a symlink, checked again on
+  the opened file, at most 20 files and 2 MB. Its memory key may start the
+  review and ingest workflows in its own project within the key's budget;
+  neither reaches a credential, mail or the broker project.
 - <strong>Broker projects</strong> let an assistant ask for privileged work (read my mail,
   check my calendar) without ever holding the credentials or seeing raw
   data. A broker workflow takes typed, bounded inputs and returns one
@@ -3615,6 +3647,10 @@ connected assistants, and upstream services.</p>
   refuse loopback, link-local and unlisted private addresses.</p>
 <h3 id="data-protection">Data protection<a class="headerlink" href="#data-protection" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Mirrored repository files follow their disclosure marking.</strong> A project
+  may mirror Markdown files from its repository into memory; a file marked
+  <code>disclosure: never</code> is not mirrored, and a mirrored file re-marked <code>never</code>
+  leaves the corpus at the next sweep.</li>
 <li><strong>Retention</strong> windows per data class, with floors for audit evidence
   (tool audit is kept at least six months, as the AI Act requires deployers
   to keep logs) and an AI-disclosure log that is never pruned.</li>
@@ -3695,7 +3731,7 @@ connected assistants, and upstream services.</p>
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>See <a href="../security/">Security policy</a> for how to report a vulnerability and
 which versions are supported.</p>
-<!-- summary-reviewed-through: 2026.11.2 -->
+<!-- summary-reviewed-through: 2026.11.3 -->
 
 
 
