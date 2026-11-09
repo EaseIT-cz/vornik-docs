@@ -2585,6 +2585,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2980,17 +3101,30 @@ you need one.</p>
 <span class="w">    </span><span class="nt">per_ip</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">rps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
 <span class="w">      </span><span class="nt">burst</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40</span>
-<span class="w">      </span><span class="nt">trusted_proxies</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"10.0.0.0/8"</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"127.0.0.1/32"</span>
+
+<span class="nt">server</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">real_ip</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">trusted_proxies</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"10.0.0.0/8"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"127.0.0.1/32"</span>
 </code></pre></div>
 <p>Notes:</p>
 <ul>
 <li>Setting either <code>rps</code> or <code>burst</code> to <code>0</code> disables the per-IP layer entirely —
   both must be non-zero for it to enforce anything.</li>
-<li>If vornik sits behind a reverse proxy or load balancer, list the proxy's
-  address ranges in <code>trusted_proxies</code>. Otherwise every request appears to come
-  from the proxy and the per-IP limiter cannot tell clients apart.</li>
+<li>The limiter keys on the client IP vetted by the real-IP middleware, which is
+  configured under <code>server.real_ip</code>, not under the limiter. If vornik sits
+  behind a reverse proxy, tunnel, or load balancer, set
+  <code>server.real_ip.enabled: true</code> and list the proxy's address ranges in
+  <code>server.real_ip.trusted_proxies</code>. With the block off (the default) every
+  request is keyed on the direct connection. Behind a proxy that means all
+  requests share the proxy's address, so the per-IP limiter cannot tell
+  clients apart.</li>
+<li>The old <code>api.rate_limit.per_ip.trusted_proxies</code> key still works as a
+  fallback when <code>server.real_ip.trusted_proxies</code> is empty; the daemon then
+  logs a one-time startup warning naming it deprecated. Use
+  <code>server.real_ip</code> for new configuration.</li>
 </ul>
 <p>The per-project task-creation limiter warns as you approach the cap (logged
 and surfaced in the UI) and only blocks once you exceed it, so you get a heads

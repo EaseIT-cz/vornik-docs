@@ -2513,6 +2513,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2682,10 +2803,12 @@ shaped for a purpose, why a measurement looks the way it does.</p>
 <p>It does not read Vornik's internal design record, legal material, source
 code or anyone's instance configuration. When a question would need them,
 the answer is "Not found in the design record."</p>
-<p>An answer is at most 8 KiB of prose with citations, and holds no code
-blocks. Every citation names a brief or a page of these docs. A run that
-breaks a rule returns no answer, and the consultation counts as not having
-happened.</p>
+<p>By default an answer is at most 32 KiB of prose
+(<code>config_assistant.consult.max_answer_bytes</code>); it carries citations and no
+code blocks. The 8 KiB figure is the <em>question</em> cap
+(<code>config_assistant.consult.max_question_bytes</code>), not the answer. Every
+citation names a brief or a page of these docs. A run that breaks a rule
+returns no answer, and the consultation counts as not having happened.</p>
 <h2 id="what-is-sent">What is sent<a class="headerlink" href="#what-is-sent" title="Permanent link">&para;</a></h2>
 <p>Only a minimized, sanitized question: never your configuration tree, a diff
 or a secret. The question passes the same secret screen as the assistant's own

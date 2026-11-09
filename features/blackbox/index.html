@@ -2536,6 +2536,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2783,7 +2904,7 @@ new run and shown in the compare view. Further variables (budget, tool-result
 injection, excluding a specific memory chunk) are on the roadmap.</p>
 <p>The replay creates a <strong>new task</strong> that runs to completion under normal
 scheduling. Poll it like any task, then compare:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>status<span class="w"> </span>&lt;new_task_id&gt;
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>get<span class="w"> </span>&lt;new_task_id&gt;
 vornikctl<span class="w"> </span>blackbox<span class="w"> </span>scorecard<span class="w"> </span>&lt;original_task_id&gt;<span class="w"> </span>&lt;new_task_id&gt;
 </code></pre></div>
 <h3 id="replay-is-side-effect-safe-by-default">Replay is side-effect safe by default<a class="headerlink" href="#replay-is-side-effect-safe-by-default" title="Permanent link">&para;</a></h3>

@@ -2513,6 +2513,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2714,6 +2835,10 @@ shown to you as ready to commit, the server:</p>
 <li><strong>Never omits a spend budget.</strong> Every composed project carries a
   budget with conservative default caps if you don't set your own; the
   plan preview always states the caps.</li>
+<li><strong>Never turns on autonomous scheduling unless you asked for it.</strong> A
+  composed project ships with autonomous scheduling off; it is enabled
+  only when your description asks for a schedule (and then still behind
+  the confirmation gate below).</li>
 <li><strong>Never auto-sends without an approval step, unless you explicitly
   ask for it and it's shown to you.</strong> Any step with an outward
   side-effect — sending an email, publishing, opening a request —
@@ -2756,9 +2881,7 @@ validated role archetype in the library:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>composer
 </code></pre></div>
 <p>See <a href="../feature-doctor/">the feature doctor guide</a> for how enabling and
-prerequisite checks work in general, and
-<a href="../../features/composer/">the automation composer feature page</a> for the
-full prerequisite and safety-guarantee list.</p>
+prerequisite checks work in general.</p>
 
 
 

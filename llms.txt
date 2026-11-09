@@ -84,6 +84,10 @@ Docs: https://docs.vornik.io
 - [Licensing: what you can do with Vornik](https://docs.vornik.io/licensing/): Plain answers to the questions companies and fork maintainers actually ask. This page explains; the licence texts govern. Vornik Community Edition is AGPL-3.0. The companion plugins under contrib/ are Apache-2.0. The...
 - [The Vornik logo](https://docs.vornik.io/brand/): This page is where the Vornik logo's proportions and colours are published. The trademark policy lets you use the logo to point at the project at these proportions and colours.
 
+## Project
+- [Editions: Community vs Enterprise](https://docs.vornik.io/editions/): Vornik comes in two editions built from the same core:
+- [Security policy](https://docs.vornik.io/security/): Report security issues privately; do not open a public issue for a suspected vulnerability.
+
 ## Troubleshooting
 - [Troubleshooting](https://docs.vornik.io/troubleshooting/): This page walks through the problems you are most likely to hit while running vornik, and how to resolve them yourself. Work top-to-bottom: the quick checks below resolve the majority of issues, and the sections after...
 

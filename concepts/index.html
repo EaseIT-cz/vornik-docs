@@ -2411,6 +2411,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../troubleshooting/" class="md-nav__link">
         
@@ -2796,8 +2917,10 @@ enable it.</p>
 <h2 id="channels">Channels<a class="headerlink" href="#channels" title="Permanent link">&para;</a></h2>
 <p>A <strong>channel</strong> is a way for people to reach a project — to submit work and
 receive results — without using the CLI, API, or Web UI directly. Channels
-are <strong>pluggable</strong>: vornik ships a Telegram bot and an email channel, and the
-set is meant to grow. They share one contract for sending replies and one
+are <strong>pluggable</strong>: vornik ships per-project <strong>GitHub</strong>, <strong>Slack</strong>, and <strong>email</strong>
+channels (plus experimental voice-message handling over them), and one
+daemon-scope <strong>Telegram</strong> bot you connect once for the whole installation.
+The set is meant to grow. They share one contract for sending replies and one
 <strong>channel-agnostic</strong> way of delivering files, so a task's artifacts go out
 the same way regardless of where the request came from — as documents in a
 Telegram chat, uploads in a Slack thread, or attachments on a threaded email

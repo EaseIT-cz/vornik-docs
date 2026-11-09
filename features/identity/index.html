@@ -2513,6 +2513,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2709,7 +2830,7 @@ ends the sender's access through that channel.</p>
 <em>profile</em> across channels for personalisation and grants nothing. A profile
 link never becomes an account binding.</p>
 <h2 id="owning-an-api-key">Owning an API key<a class="headerlink" href="#owning-an-api-key" title="Permanent link">&para;</a></h2>
-<p>An operator can assign an API key to an account (<code>vornikctl key owner set</code>,
+<p>An operator can assign an API key to an account (<code>vornikctl account grant-key</code>,
 or the key's row in the console). Ownership <strong>narrows</strong>, never widens: a key's
 effective permission is the intersection of what the key was minted with and
 what its owner currently holds. Disabling or deleting the owner denies the
@@ -2724,11 +2845,10 @@ only</strong>, so a deployment can link people one at a time. In that mode:</p>
 <li>a linked-but-denied, disabled or unresolvable sender is never re-admitted
   through the allowlist;</li>
 <li>the compat path never opens the configuration assistant;</li>
-<li>every admission is counted (<code>vornik_auth_legacy_allowlist_grants_total</code>)
-  and <code>vornikctl account migration-report</code> lists who is still relying on it.</li>
+<li>every admission is counted (<code>vornik_auth_legacy_allowlist_grants_total</code>).</li>
 </ul>
-<p>New installs default to <code>strict</code>. Switch an existing one when the report is
-empty and the counter has been zero for a while.</p>
+<p>New installs default to <code>strict</code>. Switch an existing one once
+<code>vornik_auth_legacy_allowlist_grants_total</code> has been zero for a while.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

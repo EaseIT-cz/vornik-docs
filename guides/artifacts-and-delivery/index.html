@@ -2580,6 +2580,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -3060,9 +3181,14 @@ upload happened.</p>
 <p><strong>Size bound.</strong> The declaration cannot make a large file small. Raw staging for such a
 workflow is capped at <strong>8 MiB per file</strong>; above that the extraction stands alone, because
 staging a 32 MB document next to its extraction is what blew an agent's context the first
-time. That is comfortably above what these workflows normally consume — a companion upload
-caps a single file at 512 KiB — but if you need a genuinely large file <em>as a file</em>, split
-it, or rely on the extraction and memory search instead of <code>require_input_artifacts</code>.</p>
+time. Companion delegations carry a second, dynamic guard. At delegate time
+the total staged-artifact bytes are estimated at roughly 3 bytes per prompt
+token. The delegation is refused (<code>ARTIFACTS_EXCEED_CONTEXT</code>) when that
+estimate exceeds <strong>50% of the reviewer's usable context window</strong> (its
+<code>context_size</code> minus <code>max_tokens</code>). An unknown
+context size never triggers the refusal. If the guard fires, split the upload — one
+delegation per subsystem or per file — or rely on the extraction and memory search
+instead of attaching the full documents.</p>
 </blockquote>
 <h3 id="2-a-summary-of-a-delegated-childs-output">2. A summary of a delegated child's output<a class="headerlink" href="#2-a-summary-of-a-delegated-childs-output" title="Permanent link">&para;</a></h3>
 <p><code>inputArtifactsSummary</code> is a different thing entirely. It is the <strong>hand-off summary from

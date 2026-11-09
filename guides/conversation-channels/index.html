@@ -2691,6 +2691,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -3019,8 +3140,10 @@
 <p>Conversation channels let people reach vornik from the tools they already use.
 Connect a channel and inbound messages turn into tasks or chat turns, while
 vornik's replies flow back out the same way they came in. vornik ships four
-channels: <strong>GitHub</strong>, <strong>Slack</strong>, <strong>email</strong>, and <strong>voice messages</strong>
-(experimental).</p>
+per-project channels: <strong>GitHub</strong>, <strong>Slack</strong>, <strong>email</strong>, and <strong>voice messages</strong>
+(experimental). There is also a daemon-scope <strong>Telegram</strong> bot you connect once
+for the whole installation from the Integrations Hub — see
+<a href="../../integrations/telegram/">Telegram</a>; it is not configured per project.</p>
 <p>You configure each channel per project, in that project's YAML file. After you
 change a channel's settings, reload the project configuration — you do not need
 to take the whole service down to pick up new channels.</p>

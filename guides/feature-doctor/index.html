@@ -2491,6 +2491,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2634,17 +2755,24 @@ before you lock the door behind you. The doctor tells you what's missing and how
 to fix it rather than failing cryptically at runtime.</p>
 <h2 id="enabling">Enabling<a class="headerlink" href="#enabling" title="Permanent link">&para;</a></h2>
 <p>To apply a feature's gates and bring it up:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>&lt;feature-id&gt;
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>doctor<span class="w"> </span>feature<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>&lt;feature-id&gt;<span class="w"> </span>--apply
 </code></pre></div>
-<p>This sets the feature's config gates for you. Two behaviours make this safe:</p>
+<p>Without <code>--apply</code> the command is a <strong>dry run</strong>: it prints the proposed gate
+changes and how they would be applied, and mutates no config. With <code>--apply</code>
+it backs up <code>config.yaml</code>, writes the gates, then either reloads the daemon
+and verifies, or (for restart-gated features) validates the written file and
+tells you to restart. If any step fails, it rolls back to the backup.
+Two behaviours make this safe:</p>
 <ul>
 <li><strong>Prerequisite-gated.</strong> Enable refuses to proceed if a prerequisite isn't met
   (for example, the embedding endpoint is unreachable), so you don't half-enable
   a feature into a broken state.</li>
-<li><strong>Restart-aware.</strong> Many features take effect only on a daemon restart. For
-  those, the doctor is <strong>restart-gated</strong>: it will not restart while tasks are
-  running, and waits for an idle window before applying — so enabling a feature
-  never interrupts work in flight.</li>
+<li><strong>Restart-aware.</strong> Some features take effect only on a daemon restart. For
+  those, enable <strong>refuses</strong> while tasks are active rather than waiting — it
+  tells you to wait for an idle window and try again. On an idle daemon it
+  writes the config and reports <code>RestartRequired</code>: the doctor never restarts
+  the daemon itself, so you restart vornik when it suits you. Enabling a
+  feature therefore never interrupts work in flight.</li>
 </ul>
 <h2 id="why-use-it-instead-of-editing-config">Why use it instead of editing config<a class="headerlink" href="#why-use-it-instead-of-editing-config" title="Permanent link">&para;</a></h2>
 <p>The config keys are documented, and you <em>can</em> set them by hand. The doctor adds

@@ -21,7 +21,7 @@
     
     
       
-        <title>NL Automation Composer - Vornik documentation</title>
+        <title>Automation composer (moved) - Vornik documentation</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nl-automation-composer" class="md-skip">
+        <a href="#automation-composer-moved" class="md-skip">
           Skip to content
         </a>
       
@@ -105,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              NL Automation Composer
+              Automation composer (moved)
             
           </span>
         </div>
@@ -2405,6 +2405,127 @@
   
   
   
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../editions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Editions: Community vs Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="../../troubleshooting/" class="md-nav__link">
         
@@ -2473,25 +2594,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-makes-it-safe" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What makes it safe
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -2507,48 +2609,9 @@
 
 
 
-<h1 id="nl-automation-composer">NL Automation Composer<a class="headerlink" href="#nl-automation-composer" title="Permanent link">&para;</a></h1>
-<div class="admonition abstract">
-<p class="admonition-title">Enterprise Edition</p>
-<p>This capability is part of the <strong>Enterprise Edition</strong> — a proprietary overlay on the open-source core. See <a href="../../editions/">Editions</a> for the full Community vs Enterprise matrix.</p>
-</div>
-<p>The conversational project wizard normally anchors a new project on a
-vetted gallery template, filling in the pieces of a project a template
-doesn't cover with small, typed customizations (a schedule, an MCP
-server, an extra tool). The composer extends that same conversation
-with a third path for requests that genuinely don't fit any template:
-describe the automation you want in plain language, and the wizard can
-synthesize a complete project — swarm, workflow, and plan — from a
-curated library of role archetypes.</p>
-<h2 id="what-makes-it-safe">What makes it safe<a class="headerlink" href="#what-makes-it-safe" title="Permanent link">&para;</a></h2>
-<p>A synthesized automation is never taken on faith. Before it can ever be
-shown as ready to commit, the server:</p>
-<ul>
-<li><strong>Re-validates the whole bundle</strong> against the same rules a
-  hand-authored project goes through — every reference resolves, every
-  workflow step is reachable, nothing is left dangling.</li>
-<li><strong>Enforces deterministic guardrails</strong> that are stricter than what an
-  operator could hand-write: a role's tools never exceed its archetype's
-  declared allowlist, autonomous scheduling is off unless you asked for
-  a schedule, spend caps are always present, and any outward-facing
-  step (sending an email, publishing, opening a request) gets an
-  approval step in front of it by default.</li>
-<li><strong>Never silently rewrites what you approved.</strong> A generated build that
-  would violate one of those guardrails is never quietly corrected —
-  the wizard either fixes an obviously-safe omission (like a missing
-  spend cap) and tells you so, or it stops and asks you about anything
-  that would change what the automation actually does.</li>
-<li><strong>Requires an explicit schedule confirmation</strong> before any
-  automation with a recurring schedule can go live — a cadence you
-  never confirmed can never be committed.</li>
-</ul>
-<p>The composer is off by default until it completes its rollout soak. An
-operator enables it explicitly once the prerequisites — a configured
-chat provider and at least one validated role archetype — are met.</p>
-<p>See <a href="../../guides/automation-composer/">the automation composer guide</a>
-for the operator-facing walkthrough: the tier model, what gets
-created, the schedule-confirmation gate, the cost estimate, and the
-enable command.</p>
+<h1 id="automation-composer-moved">Automation composer (moved)<a class="headerlink" href="#automation-composer-moved" title="Permanent link">&para;</a></h1>
+<p><meta http-equiv="refresh" content="0; url=../../guides/automation-composer/"></p>
+<p>This page moved to <a href="../../guides/automation-composer/">Automation composer</a>.</p>
 
 
 
