@@ -3922,6 +3922,20 @@ new behavior; those are called out below.</p>
   of 200 measured rounds. A claim is now a file opened with <code>O_EXCL</code> (bash
   noclobber), atomic whatever <code>mkdir</code> the host has. Plugins 0.50.7 (Claude
   Code) and 0.45.5+codex.20261109.</li>
+<li><strong>Hermes companion 0.23.1: delegations never upload credential files</strong>
+  (Hermes catalogue review). <code>vornik_companion_delegate</code> read any regular
+  file in the task's workspace, so a model naming <code>.env</code>, or <code>auth.json</code>
+  in the Hermes home, sent it to Vornik, where an ingest could store it.
+  It now refuses <code>.env</code> and its variants, <code>.envrc</code>, and anything under the
+  Hermes home, as Hermes's own <code>read_file</code> does. Where Hermes does not say
+  where the task's workspace is, it refuses instead of reading the process
+  directory.</li>
+<li><strong>Companion hint hooks: no slow match on long commands.</strong> The rule that
+  spots a <code>git commit</code> after variable assignments could take minutes on a
+  crafted ~400-character command in the Hermes plugin; it now matches in
+  linear time. The Claude Code and Codex hooks get the same rule (they were
+  never slow). Plugins 0.23.1 (Hermes), 0.50.8 (Claude Code) and
+  0.45.6+codex.20261111.</li>
 </ul>
 <h2 id="2026113">2026.11.3<a class="headerlink" href="#2026113" title="Permanent link">&para;</a></h2>
 <h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
