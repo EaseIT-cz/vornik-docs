@@ -2616,6 +2616,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.11.4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026113" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2650,7 +2678,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3239,6 +3267,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026114" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.4
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.11.4">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026113" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3273,7 +3329,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3856,6 +3912,17 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
+<h2 id="2026114">2026.11.4<a class="headerlink" href="#2026114" title="Permanent link">&para;</a></h2>
+<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Companion hint hooks hold their claims on every host</strong> (GitHub #687).
+  The Claude Code and Codex hint hooks and the recall nudges claimed a slot
+  with <code>mkdir</code> and relied on one concurrent caller winning. On Ubuntu 26.04,
+  whose <code>mkdir</code> is uutils coreutils 0.10.0, more than one caller won in 13
+  of 200 measured rounds. A claim is now a file opened with <code>O_EXCL</code> (bash
+  noclobber), atomic whatever <code>mkdir</code> the host has. Plugins 0.50.7 (Claude
+  Code) and 0.45.5+codex.20261109.</li>
+</ul>
 <h2 id="2026113">2026.11.3<a class="headerlink" href="#2026113" title="Permanent link">&para;</a></h2>
 <h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3908,7 +3975,7 @@ new behavior; those are called out below.</p>
   doctor report's errors), then health problems only, or one "All clear"
   line. The statistics stay below, as At a glance.</li>
 </ul>
-<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Only the leader runs the watchdog's startup scan</strong> (GitHub #442), so a
   daemon joining a multi-daemon install no longer repeats the leader's sweep.</li>
