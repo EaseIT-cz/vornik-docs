@@ -3201,7 +3201,7 @@
 
 
 <h1 id="security-model">Security model<a class="headerlink" href="#security-model" title="Permanent link">&para;</a></h1>
-<p><strong>Last reviewed:</strong> 9 November 2026, against <code>main</code> before release 2026.11.3.</p>
+<p><strong>Last reviewed:</strong> 11 November 2026, against <code>main</code> before release 2026.11.4.</p>
 <p>What Vornik defends against, its trust boundaries, and the controls in place
 today, with what each does <strong>not</strong> cover. It applies to both editions;
 Enterprise-only controls are marked <strong>(Enterprise)</strong>. Everything here is
@@ -3431,6 +3431,12 @@ connected assistants, and upstream services.</p>
 <li><strong>Checked before it writes.</strong> It probes the issuer's discovery and
     requires every listed model to be served by a gateway named in
     <code>hosting.model_hosts</code>.</li>
+<li><strong>The daemon owns its configuration file, not its directory's other
+    files.</strong> Provisioning writes the configuration as the daemon's user
+    and makes <code>/etc/vornik</code> writable by the daemon's group with the sticky
+    bit, so setup can replace the configuration while the files root owns
+    there (the provisioning marker, the shipped example) cannot be removed
+    or replaced by the daemon.</li>
 <li><strong>The owner's login is OpenID Connect against the hosting service's
     issuer:</strong><ul>
 <li>PKCE (S256) and a nonce on every sign-in, held in a cookie bound to
@@ -3742,10 +3748,13 @@ connected assistants, and upstream services.</p>
   (or the user's runtime directory when the user owns it), never in a shared
   temp path, and refuse a state directory that is a symlink or that another
   user owns. A hint's text comes only from the catalogue; nothing from a
-  tool's input or output is put into it. The Hermes plugin (0.23.0) reads,
+  tool's input or output is put into it. The Hermes plugin (0.23.1) reads,
   for a review or an ingest, only the files the model names: regular files
-  under Hermes's task workspace, never through a symlink, checked again on
-  the opened file, at most 20 files and 2 MB. Its memory key may start the
+  under Hermes's task workspace, never through a symlink or a hard link,
+  checked again on the opened file, at most 20 files and 2 MB. It refuses
+  credential files (<code>.env</code> and its variants, <code>.envrc</code>, in any case) and
+  anything under the Hermes home, and refuses when Hermes does not say where
+  the workspace or its home is. Its memory key may start the
   review and ingest workflows in its own project within the key's budget;
   neither reaches a credential, mail or the broker project.
 - <strong>Broker projects</strong> let an assistant ask for privileged work (read my mail,
@@ -3852,7 +3861,7 @@ connected assistants, and upstream services.</p>
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>See <a href="../security/">Security policy</a> for how to report a vulnerability and
 which versions are supported.</p>
-<!-- summary-reviewed-through: 2026.11.3 -->
+<!-- summary-reviewed-through: 2026.11.4 -->
 
 
 
