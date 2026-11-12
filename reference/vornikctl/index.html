@@ -2694,6 +2694,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-credential-import-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential import-env
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-credential-list" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4383,6 +4394,8 @@
       
         
       
+        
+      
     
     
     
@@ -4471,6 +4484,34 @@
     
   
     Compliance status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../high-risk-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building a high-risk system on Vornik
   
 
     
@@ -5342,6 +5383,17 @@
     <span class="md-ellipsis">
       
         vornikctl credential
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-import-env" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential import-env
       
     </span>
   </a>
@@ -8461,6 +8513,39 @@ resolved row the same way changes nothing.</p>
 store and referenced from config as secret://NAME. These verbs call the admin
 API with an admin-class key (VORNIK_API_KEY); every write is audited and never
 records the value. On a managed instance, use the operations address.</p>
+<h2 id="vornikctl-credential-import-env">vornikctl credential import-env<a class="headerlink" href="#vornikctl-credential-import-env" title="Permanent link">&para;</a></h2>
+<p>Move the secrets your configuration uses from env files into the credential store</p>
+<p>Reads the daemon's env files (vornik.env, secrets/env, secrets/*.env) and lists
+each name: "move" when config.yaml references it outside database:, a project
+*_env field names it, or it is in project-secrets.env; "left" otherwise, with
+the reason. Names referenced under database: stay on disk: they open the
+store. Nothing is written without --apply. Values are never printed.</p>
+<p>With --apply, each moved name is stored through the admin API (admin-class
+VORNIK_API_KEY, audited). Its line is removed only when the file is unchanged
+since it was read and the line's value is the stored one.</p>
+<div class="highlight"><pre><span></span><code>vornikctl credential import-env [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>Store the credentials and remove the moved lines (default: print the plan only)</td>
+</tr>
+<tr>
+<td><code>--config</code></td>
+<td></td>
+<td>Path to config.yaml (default: the daemon's search order)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-credential-list">vornikctl credential list<a class="headerlink" href="#vornikctl-credential-list" title="Permanent link">&para;</a></h2>
 <p>List operator credentials and the names the config needs (never a value)</p>
 <div class="highlight"><pre><span></span><code>vornikctl credential list
@@ -8546,6 +8631,7 @@ skopeo or systemctl, and no daemon request may run a program):
   redaction_seams       Secret scanning of chat_audit_log, chat_system_prompts, step_prompts, task_messages, execution_step_outcomes signals and memory_retrieval_audit queries before persist; warns when off, with rows written and unscanned since boot
   synthetic_voice_replies Voice replies with synthesised speech (AI Act Art 50(2)): off by default; warns when on (accepted single-layer marking, with its basis) or when asked for without the acknowledgement
   secret_store_key      Agent credential store: a missing or wrong key while credentials exist is an error
+  credentials_in_env_files Secrets the config uses still in a plaintext env file (move them with vornikctl credential import-env), in both a file and the store, or shadowed; states how many it examined, never a value
   approver_devices      Agent approvals: a warning when an agent namespace exists with no paired device or no push
   agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
   agent_model_catalogue Agent role models: agent_admin.models entries not offered to agent roles (no route, a command-line provider, or remote without an exact price)
