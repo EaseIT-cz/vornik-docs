@@ -3173,6 +3173,10 @@ instance):</p>
   value. The value is write-only: it is stored encrypted, never shown again,
   and every change is audited. Saving re-registers the servers waiting for it,
   with no restart. Remove or replace a value on the same page.</li>
+<li><strong>From a shell</strong>: <code>printf '%s' "$TOKEN" | vornikctl credential set NAME</code>
+  with an admin-class key (<code>VORNIK_API_KEY</code>); <code>vornikctl credential list</code> and
+  <code>remove NAME</code> do the rest. The value is read from standard input only, and
+  every change is audited as on the page.</li>
 <li><strong>Control plane → MCP → Add</strong>: in static mode, type the token in
   <strong>Credential value</strong>. It is stored under the <strong>Value from</strong> name when you
   submit; the proposal carries only the reference.</li>

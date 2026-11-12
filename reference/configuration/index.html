@@ -6535,6 +6535,12 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>agent_admin.private_api_hosts</code></td>
+<td>list</td>
+<td>Host names an agent project's approved API may reach on a private (RFC 1918 or ULA) address, for an intranet service. Bare names only, compared without case or a trailing dot; the API's base URL must be https. A listed host still never reaches loopback, link-local or a metadata address, and each API still needs its approval on an approver device. Empty (the default): agent APIs reach public addresses only. Refused under hosting.mode managed.</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>agent_admin.models</code></td>
 <td>list</td>
 <td>Models an agent's roles may choose (empty, the default: none; every agent role runs on the global agent model). Whether each is local or remote is computed from where the chat router sends it: local only for an HTTP endpoint on a loopback or private address. A role on a remote model needs approval on an approver device, once per destination (sub-provider and endpoint host). Entries served by a command-line provider, with no route, or remote without an exact pricing.yaml entry are not offered; vornikctl doctor names them (agent_model_catalogue).</td>

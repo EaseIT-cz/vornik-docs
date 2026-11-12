@@ -2683,6 +2683,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-credential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential remove
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-devices" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3490,6 +3534,17 @@
     <span class="md-ellipsis">
       
         vornikctl memory supersede-legacy-documents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-memory-supersede-missing-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl memory supersede-missing-documents
       
     </span>
   </a>
@@ -5283,6 +5338,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-credential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential remove
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-credential-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl credential set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-devices" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6090,6 +6189,17 @@
     <span class="md-ellipsis">
       
         vornikctl memory supersede-legacy-documents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-memory-supersede-missing-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl memory supersede-missing-documents
       
     </span>
   </a>
@@ -8344,6 +8454,28 @@ resolved row the same way changes nothing.</p>
 <h2 id="vornikctl-control-plane-show">vornikctl control-plane show<a class="headerlink" href="#vornikctl-control-plane-show" title="Permanent link">&para;</a></h2>
 <p>Show a single proposal (full diff + rationale)</p>
 <div class="highlight"><pre><span></span><code>vornikctl control-plane show &lt;proposal-id&gt;
+</code></pre></div>
+<h2 id="vornikctl-credential">vornikctl credential<a class="headerlink" href="#vornikctl-credential" title="Permanent link">&para;</a></h2>
+<p>List, set and remove operator credentials (the console's Credentials page, from a shell)</p>
+<p>Operator credentials are values stored encrypted in the daemon's credential
+store and referenced from config as secret://NAME. These verbs call the admin
+API with an admin-class key (VORNIK_API_KEY); every write is audited and never
+records the value. On a managed instance, use the operations address.</p>
+<h2 id="vornikctl-credential-list">vornikctl credential list<a class="headerlink" href="#vornikctl-credential-list" title="Permanent link">&para;</a></h2>
+<p>List operator credentials and the names the config needs (never a value)</p>
+<div class="highlight"><pre><span></span><code>vornikctl credential list
+</code></pre></div>
+<h2 id="vornikctl-credential-remove">vornikctl credential remove<a class="headerlink" href="#vornikctl-credential-remove" title="Permanent link">&para;</a></h2>
+<p>Remove an operator credential from the store</p>
+<div class="highlight"><pre><span></span><code>vornikctl credential remove NAME
+</code></pre></div>
+<h2 id="vornikctl-credential-set">vornikctl credential set<a class="headerlink" href="#vornikctl-credential-set" title="Permanent link">&para;</a></h2>
+<p>Store or replace an operator credential, the value read from standard input</p>
+<p>Reads the value from standard input (one trailing newline is stripped):</p>
+<p>printf '%s' "$TOKEN" | vornikctl credential set CONTEXT7_API_KEY</p>
+<p>It refuses a terminal on standard input, so the value is never typed where it
+is echoed, and it never appears in an argument.</p>
+<div class="highlight"><pre><span></span><code>vornikctl credential set NAME
 </code></pre></div>
 <h2 id="vornikctl-devices">vornikctl devices<a class="headerlink" href="#vornikctl-devices" title="Permanent link">&para;</a></h2>
 <p>List or revoke approver devices</p>
@@ -10856,6 +10988,66 @@ retirement records no epoch, so a corpus rollback does not restore it.</p>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>--allow-scope-mismatch</code></td>
+<td><code>false</code></td>
+<td>Run although --scope is not the scope the checkout at --root resolves to (a pinned or retagged scope)</td>
+</tr>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>Write the plan; without it this is a dry run</td>
+</tr>
+<tr>
+<td><code>--root</code></td>
+<td></td>
+<td>A path inside the checkout the documents come from (required)</td>
+</tr>
+<tr>
+<td><code>--scope</code></td>
+<td></td>
+<td>Repo scope the documents were ingested under (required)</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-memory-supersede-missing-documents">vornikctl memory supersede-missing-documents<a class="headerlink" href="#vornikctl-memory-supersede-missing-documents" title="Permanent link">&para;</a></h2>
+<p>Retire path-identity document chunks whose file is no longer in the checkout</p>
+<p>Re-ingesting a document under the same path supersedes its earlier versions,
+but nothing retires a document whose file was deleted or moved. For each
+path document in the scope, this verb looks the path up in the checkout at
+--root (tracked files plus untracked files git does not ignore):</p>
+<p>the path is in the checkout   -&gt; left alone
+  the path is not in it         -&gt; retired</p>
+<p>A missing row also lists, for information, tracked files with the same base
+name that have a live version ("moved to?"); no decision uses it. Re-ingest
+moved documents under their new path first, or recall loses them until you do.</p>
+<p>The checkout must be on the remote's default branch (--allow-branch to
+override), and its scope must be --scope. A dry run by default: nothing is
+written without --apply. Under --apply a path re-ingested since the plan is
+skipped. The retirement records no epoch, so a corpus rollback does not
+restore it.</p>
+<p>Always runs against the live daemon's chunk store.</p>
+<div class="highlight"><pre><span></span><code>vornikctl memory supersede-missing-documents [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--allow-branch</code></td>
+<td><code>false</code></td>
+<td>Run although the checkout is not on the remote's default branch</td>
+</tr>
 <tr>
 <td><code>--allow-scope-mismatch</code></td>
 <td><code>false</code></td>
