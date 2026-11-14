@@ -2883,7 +2883,7 @@ a result, because two systems whose intervals overlap have not been separated.</
 <tbody>
 <tr>
 <td>Memory retrieval, LongMemEval, 120 items, cold corpus</td>
-<td>2026.11.3</td>
+<td>2026.11.5</td>
 <td>recall 0.9851, precision 0.9854, MRR 0.9958, sd 0.0000 (unchanged since 2026.9.4)</td>
 <td><a href="#longmemeval-retrieval-all-six-abilities-tier-2-cold-corpus">cold axis</a></td>
 </tr>
@@ -3250,6 +3250,16 @@ the dataset's gold documents). The store is cleared before every run.</p>
 <td>n=3</td>
 <td><code>83861e2a27ad</code></td>
 </tr>
+<tr>
+<td><code>2026.11.4-93-g39bb57729</code> (2026.11.5)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>cc29288955b4</code></td>
+</tr>
 </tbody>
 </table>
 <p>Figures from <code>bench memory aggregate</code> over three run directories; standard
@@ -3339,6 +3349,11 @@ store of 1,897 chunks.</p>
 <td>14. 2026.11.3</td>
 <td>Recall queries are scanned for secrets before the retrieval audit stores them; the memory secret checkpoint catches short unlabelled tokens; failed embeddings back off longer and a dead-lettered chunk is retried; provenance labels say when a version was pushed and replaced, or redacted. Measured 2026-11-09 on <code>e0920131c</code>; the commits after it are a Hermes plugin fix and documentation</td>
 <td>The benchmark's items carry no secret-shaped text and no embedding fails, so the scan, the backoff and the dead-letter retry are covered by the daemon's tests only</td>
+</tr>
+<tr>
+<td>15. 2026.11.5</td>
+<td>No retrieval, ingest, embedding or scoring path changed. The one memory change is an operator verb that retires a document whose file is gone (<code>vornikctl memory supersede-missing-documents</code>, GitHub #701), which the benchmark never calls. Measured 2026-11-14 on <code>39bb57729</code>; the commits after it are a settings-form check, the dispatcher's report-back wording and release documents</td>
+<td>The verb's retirement is covered by the daemon's tests only</td>
 </tr>
 </tbody>
 </table>
@@ -3808,6 +3823,16 @@ each is stated:</p>
 <td><code>2026.11.3</code></td>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, measured on <code>2026.11.2-60-ge0920131c</code> (n=3), identical to 2026.11.2; the cycle changed the memory checkpoint, the recall audit, the embed retry and the provenance labels, so a waiver was not open to it. <strong>No agent row.</strong> An agent arm did run on this release's code (<code>gemma-4-26b-a4b</code>, 30 tasks × 3, harness 11 at <code>35fb8e0b0</code>), but it was pre-registered as the end-to-end check of GitHub #655, not as a scored arm, so its numbers are not published as a row. Harness 11 counts a run that stops at a checkpoint as not finished, which the harness behind the 2026-10-31 rows counted as finished; the next scored arm starts a new table for that reason. On that check: 70 of 90 runs finished, 19 stopped at a checkpoint, 1 failed, and no task read an earlier task's work from git.</td>
+</tr>
+<tr>
+<td><code>2026.11.4</code></td>
+<td>none</td>
+<td>No run was taken. Its release notes say so: no retrieval, memory or agent-prompt code changed since 2026.11.3 (the memory, chat and benchmark code differed in comments only). Stated late, with 2026.11.5's, rather than left as a silent gap.</td>
+</tr>
+<tr>
+<td><code>2026.11.5</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, measured on <code>2026.11.4-93-g39bb57729</code> (n=3), identical to 2026.11.3. The cycle's memory change (a verb that retires documents whose file is gone) is off the benchmark's path, so the row is the no-regression check. <strong>No agent row.</strong> The cycle adds no agent-prompt guidance the agent axis measures; the dispatcher prompt changed (no follow-up promise on a channel that cannot deliver one), and the dispatcher is not on the agent axis.</td>
 </tr>
 </tbody>
 </table>

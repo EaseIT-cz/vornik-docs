@@ -3579,6 +3579,12 @@ connected assistants, and upstream services.</p>
   status tools.</li>
 <li>Every AI-generated chat reply carries the EU AI Act Art 50(1) disclosure
   for its channel; a turn whose disclosure cannot be delivered is refused.</li>
+<li><strong>The web chat shows exchanges, never tool results.</strong> A reply runs in the
+  background, bound to the browser session that asked (its chat cookie and
+  whether it is an operator view) and to the project: another browser, view
+  or project asking for that reply gets "not found". The page renders model
+  text only through the server's escaping and a markdown renderer that
+  drops raw HTML; the deploy gate waits for a running reply.</li>
 </ul>
 <h3 id="approvals-and-approver-devices">Approvals and approver devices<a class="headerlink" href="#approvals-and-approver-devices" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3907,7 +3913,7 @@ connected assistants, and upstream services.</p>
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>See <a href="../security/">Security policy</a> for how to report a vulnerability and
 which versions are supported.</p>
-<!-- summary-reviewed-through: 2026.11.4 -->
+<!-- summary-reviewed-through: 2026.11.5 -->
 
 
 
