@@ -2868,7 +2868,7 @@ RAG memory — memory holds <em>facts</em>, skills hold <em>procedures</em>.</p>
   operator can approve. This is the Community-Edition path.</li>
 <li><strong>Companion command.</strong> <code>/skill-list maturity=draft</code> to see pending drafts,
   then <code>/skill-approve &lt;id&gt;</code> (needs a key with the <code>skill_admin</code> capability).</li>
-<li><strong>Web UI (Enterprise).</strong> The <strong>Admin → Skills</strong> page (<code>/ui/admin/skills</code>)
+<li><strong>Web UI (Enterprise).</strong> The <strong>Manage → Skills</strong> page (<code>/ui/admin/skills</code>)
   is a full skills browser across all projects, with maturity tabs
   (Pending review / Active / Trusted / Retired / All) and per-skill usage
   counters. Pending drafts carry Approve / Reject; any skill carries a
@@ -2939,7 +2939,7 @@ project's roles instead, so a procedure captured once (say, from your
 <li><strong>CLI:</strong> <code>vornikctl knowledge set-global &lt;id&gt;</code> /
   <code>vornikctl knowledge set-project &lt;id&gt;</code>.</li>
 <li><strong>Web UI (Enterprise):</strong> the <strong>Make global / Make project-only</strong>
-  buttons on the <strong>Admin → Skills</strong> inbox.</li>
+  buttons on the <strong>Manage → Skills</strong> inbox.</li>
 </ul>
 </li>
 </ul>
@@ -2957,7 +2957,7 @@ either way:</p>
 <li><strong>CLI:</strong> <code>vornikctl companion grant --project &lt;p&gt; --client claude-code
   --skill-all</code> (or <code>--skill-read</code> / <code>--skill-write</code> / <code>--skill-admin</code>
   individually; <code>--skill-write</code> implies <code>--skill-read</code>).</li>
-<li><strong>Web UI (Enterprise):</strong> <strong>Admin → Keys &amp; access</strong> (<code>/ui/admin/keys</code>) has a
+<li><strong>Web UI (Enterprise):</strong> <strong>Manage → Keys &amp; access</strong> (<code>/ui/admin/keys</code>) has a
   per-key capability toggle for memory + skill flags — grant or revoke a
   role in the browser, no re-mint required.</li>
 </ul>
