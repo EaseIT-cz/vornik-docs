@@ -5002,6 +5002,12 @@
 <td>—</td>
 </tr>
 <tr>
+<td><code>chat.router.codex_subscription.auth_path</code></td>
+<td>string</td>
+<td>The daemon's own copy of the Codex login; empty = ~/.codex/auth.json. With a separate copy, codex login does not reach the daemon: after logging in, copy ~/.codex/auth.json to this path (mode 0600); the daemon picks it up within a minute.</td>
+<td>—</td>
+</tr>
+<tr>
 <td><code>chat.router.codex_subscription.effort_level</code></td>
 <td>string</td>
 <td>Codex reasoning effort: low|medium|high (empty = omit).</td>
