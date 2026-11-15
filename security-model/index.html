@@ -3445,10 +3445,12 @@ connected assistants, and upstream services.</p>
   administrator's browser session there as the instance owner, who may use a
   short, closed list of operator surfaces (the project wizard, the template
   gallery, MCP OAuth connections, the operator audit, the Credentials page,
-  and creating, rotating and revoking keys on a project's Keys page) and no
-  other. Each key action is audited and the key list shows who made each key;
-  a key the owner makes is a full key for its project, which cannot manage
-  keys, until revoked;
+  creating, rotating and revoking keys on a project's Keys page, and choosing
+  which roles of a project may call an MCP server's tools on its MCP tools
+  page) and no other. Each key action is audited and the key list shows who
+  made each key; a key the owner makes is a full key for its project, which
+  cannot manage keys, until revoked. A tool grant is recorded as an applied
+  proposal naming the owner, which the operator can roll back;
   administrator access exists only on the operations listener, which must
   bind a loopback or private address. Managed mode refuses to start with authentication off.
   It also requires the per-IP request limit and a narrow trusted-proxy list,
