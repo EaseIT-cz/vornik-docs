@@ -6573,7 +6573,7 @@
 <tr>
 <td><code>agent_admin.private_api_hosts</code></td>
 <td>list</td>
-<td>Host names an agent project's approved API may reach on a private (RFC 1918 or ULA) address, for an intranet service. Bare names only, compared without case or a trailing dot; the API's base URL must be https. A listed host still never reaches loopback, link-local or a metadata address, and each API still needs its approval on an approver device. Empty (the default): agent APIs reach public addresses only. Refused under hosting.mode managed.</td>
+<td>Host names an agent project's approved API or MCP server may reach on a private (RFC 1918 or ULA) address, for an intranet service. Bare names only, compared without case or a trailing dot; the URL must be https. A listed host still never reaches loopback, link-local or a metadata address, and each API or server still needs its approval on an approver device. Empty (the default): agent APIs and MCP servers reach public addresses only. Refused under hosting.mode managed.</td>
 <td>—</td>
 </tr>
 <tr>
