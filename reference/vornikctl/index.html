@@ -2760,6 +2760,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-devices-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl devices remove
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-devices-revoke" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3028,6 +3039,17 @@
     <span class="md-ellipsis">
       
         vornikctl key list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-key-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl key remove
       
     </span>
   </a>
@@ -5456,6 +5478,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-devices-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl devices remove
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-devices-revoke" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5724,6 +5757,17 @@
     <span class="md-ellipsis">
       
         vornikctl key list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-key-remove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl key remove
       
     </span>
   </a>
@@ -8563,9 +8607,9 @@ is echoed, and it never appears in an argument.</p>
 <div class="highlight"><pre><span></span><code>vornikctl credential set NAME
 </code></pre></div>
 <h2 id="vornikctl-devices">vornikctl devices<a class="headerlink" href="#vornikctl-devices" title="Permanent link">&para;</a></h2>
-<p>List or revoke approver devices</p>
+<p>List, revoke or remove approver devices</p>
 <h2 id="vornikctl-devices-list">vornikctl devices list<a class="headerlink" href="#vornikctl-devices-list" title="Permanent link">&para;</a></h2>
-<p>List approver devices, revoked ones included</p>
+<p>List approver devices (revoked ones with --all)</p>
 <div class="highlight"><pre><span></span><code>vornikctl devices list [flags]
 </code></pre></div>
 <table>
@@ -8578,12 +8622,22 @@ is echoed, and it never appears in an argument.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--all</code></td>
+<td><code>false</code></td>
+<td>Also list revoked devices</td>
+</tr>
+<tr>
 <td><code>--json</code></td>
 <td><code>false</code></td>
-<td>Print JSON</td>
+<td>Print JSON (every device, revoked ones included)</td>
 </tr>
 </tbody>
 </table>
+<h2 id="vornikctl-devices-remove">vornikctl devices remove<a class="headerlink" href="#vornikctl-devices-remove" title="Permanent link">&para;</a></h2>
+<p>Delete a revoked approver device from the list; a live one is refused</p>
+<p>Delete a revoked approver device. Its label stays in the admin audit (device.remove), because approval records name a device by id. A live device is refused: revoke it first.</p>
+<div class="highlight"><pre><span></span><code>vornikctl devices remove &lt;device_id&gt;
+</code></pre></div>
 <h2 id="vornikctl-devices-revoke">vornikctl devices revoke<a class="headerlink" href="#vornikctl-devices-revoke" title="Permanent link">&para;</a></h2>
 <p>Revoke an approver device</p>
 <div class="highlight"><pre><span></span><code>vornikctl devices revoke &lt;device_id&gt;
@@ -9341,10 +9395,38 @@ the raw key later.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--all</code></td>
+<td><code>false</code></td>
+<td>Also list retired (revoked or expired) keys</td>
+</tr>
+<tr>
 <td><code>--json</code></td>
 <td><code>false</code></td>
-<td>Emit JSON instead of a table</td>
+<td>Emit JSON instead of a table (every row the API returns)</td>
 </tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-key-remove">vornikctl key remove<a class="headerlink" href="#vornikctl-key-remove" title="Permanent link">&para;</a></h2>
+<p>Delete a retired (revoked or expired) key now; a live key is refused</p>
+<p>Delete a revoked or expired key from the project's list at once. The
+retention sweep would delete it 7 days after it retired. A live key is
+refused: revoke it first. The removal is audited (key.remove).</p>
+<div class="highlight"><pre><span></span><code>vornikctl key remove &lt;keyID&gt; [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr>
 <td><code>-p</code>, <code>--project</code></td>
 <td></td>

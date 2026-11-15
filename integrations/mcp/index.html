@@ -1393,10 +1393,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#managing-the-daemon-catalog" class="md-nav__link">
+  <a href="#managing-the-catalog" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Managing the daemon catalog
+        Managing the catalog
       
     </span>
   </a>
@@ -2706,10 +2706,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#managing-the-daemon-catalog" class="md-nav__link">
+  <a href="#managing-the-catalog" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Managing the daemon catalog
+        Managing the catalog
       
     </span>
   </a>
@@ -2747,54 +2747,65 @@
 <h1 id="mcp-tool-servers">MCP tool servers<a class="headerlink" href="#mcp-tool-servers" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Not managed in the Integrations Hub</p>
-<p>MCP tool servers are <strong>not</strong> one of the Integrations Hub's guided
-integrations. The daemon's MCP catalog has its own management surface —
-read on for where, per edition.</p>
+<p>MCP tool servers are not one of the Integrations Hub's guided
+integrations. The daemon's MCP catalog has its own management surface,
+described below for each edition.</p>
 </div>
-<p>vornik reaches external tools over MCP (Model Context Protocol) servers.
-Two settings are involved, and they live in different places:</p>
+<p>vornik reaches external tools through MCP (Model Context Protocol) servers.
+An agent can call a server's tool only when three settings allow it:</p>
 <ol>
-<li><strong>The daemon-level catalog</strong> (<code>mcp.servers</code> in <code>config.yaml</code>) — the
-   shared inventory of servers your installation knows about. Adding a
-   server here is a <strong>discovery step, not an access grant</strong>: it makes the
-   server visible so projects can reuse it, but connects nothing by itself.</li>
-<li><strong>A project's subscription</strong> (<code>mcp.servers</code> in the project's YAML) — a
-   project only sees the tools of a server it explicitly lists by name.
-   See <a href="../../guides/mcp-tools/">Connect Your Tools (MCP)</a> for how a
-   project declares and restricts the servers it actually uses.</li>
+<li><strong>The daemon catalog</strong> (<code>mcp.servers</code> in <code>config.yaml</code>): the servers your
+   installation knows about. Adding a server here is a discovery step, not
+   an access grant. It makes the server visible so projects can use it, and
+   connects nothing by itself.</li>
+<li><strong>The project's subscription</strong> (<code>mcp.servers</code> in the project's YAML): a
+   project sees only the tools of a server it lists by name, optionally
+   narrowed to some of them. See <a href="../../guides/mcp-tools/">Connect Your Tools (MCP)</a>
+   for how a project declares and restricts its servers.</li>
+<li><strong>The role's tool list</strong> (<code>permissions.allowedTools</code> of a role in the
+   project's swarm): an agent step calls a server's tool only when its
+   role's list names it (<code>mcp__&lt;server&gt;__&lt;tool&gt;</code>) or a pattern that covers
+   it. A role with no list at all is not narrowed.</li>
 </ol>
-<h2 id="managing-the-daemon-catalog">Managing the daemon catalog<a class="headerlink" href="#managing-the-daemon-catalog" title="Permanent link">&para;</a></h2>
+<h2 id="managing-the-catalog">Managing the catalog<a class="headerlink" href="#managing-the-catalog" title="Permanent link">&para;</a></h2>
+<p><strong>Enterprise Edition.</strong> Use the <strong>MCP servers</strong> tab of the control-plane hub
+(<code>/ui/admin/control-plane</code>, admin-only).</p>
 <ul>
-<li><strong>Enterprise Edition</strong> — use the control-plane hub's <strong>MCP servers</strong>
-  tab (<code>/ui/admin/control-plane</code>, admin-only). It lists the catalog with
-  live reachability badges and tool counts, lets you <strong>test</strong> a candidate
-  endpoint before committing (the daemon connects and enumerates the
-  server's tools), and files every add/remove as a
-  <a href="../../features/control-plane/">control-plane proposal</a> you review as a
-  diff and apply — never a silent config write. The tab handles HTTP servers
-  (<code>sse</code>, <code>streamable-http</code>) only: a <strong>stdio</strong> server is a program the daemon
-  runs, so it is registered by editing <code>config.yaml</code> on the host, never through
-  the daemon. The UI refuses to probe, add or change one, and so does any
-  control-plane proposal or project-config edit made through the daemon.</li>
-<li><strong>Community Edition</strong> — edit <code>mcp.servers</code> in <code>config.yaml</code> directly:</li>
+<li>It lists the catalog with each server's reachability and tool count.</li>
+<li><strong>Test</strong> connects to a candidate endpoint and lists its tools before you
+  commit anything.</li>
+<li>Every add and remove is filed as a
+  <a href="../../features/control-plane/">control-plane proposal</a>: you review the
+  diff and apply it. Nothing is written silently.</li>
+<li><strong>Use in a project</strong>, on a server's row, puts the server to work: pick a
+  project and tick which tools of the server each role of its swarm may
+  call. It files one proposal that subscribes the project and updates those
+  roles' tool lists, which you review and apply like any other. When the
+  swarm serves other projects too, the page says so.</li>
+<li>The tab handles HTTP servers (<code>sse</code>, <code>streamable-http</code>) only. A <strong>stdio</strong>
+  server is a program the daemon runs, so it is registered by editing
+  <code>config.yaml</code> on the host, never through the daemon. The UI refuses to
+  probe, add or change one, and so does any control-plane proposal or
+  project-config edit made through the daemon.</li>
 </ul>
+<p><strong>Community Edition.</strong> Edit <code>mcp.servers</code> in <code>config.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">mcp</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">servers</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">home-assistant</span>
 <span class="w">      </span><span class="nt">transport</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">streamable-http</span><span class="w">   </span><span class="c1"># or "sse", or "stdio" with command:</span>
 <span class="w">      </span><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://mcp.example.com/mcp</span>
 </code></pre></div>
-<p>See the <a href="../../reference/configuration/">configuration reference</a> for
-  the full field list.</p>
+<p>The <a href="../../reference/configuration/">configuration reference</a> lists every
+field.</p>
 <h2 id="good-to-know">Good to know<a class="headerlink" href="#good-to-know" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Daemon-catalog changes are picked up on daemon restart</strong>, not by the
-  hot config reload. A project's own <code>mcp.servers</code> subscription list, by
-  contrast, does apply on reload. Either way a running task's tool set is
-  fixed when its container starts — changes only affect new runs.</li>
-<li>The daemon catalog is admin territory in every edition: it is shared,
+<li><strong>A catalog change takes effect at the next daemon restart</strong>, not on a hot
+  config reload. A project's own subscription list does apply on reload.
+  Either way a running task keeps the tools it started with: changes reach
+  new runs only.</li>
+<li>The catalog is admin territory in every edition. It is shared,
   installation-wide state, which is why it never appears in the
-  Integrations Hub next to per-project channels like email or Slack.</li>
+  Integrations Hub beside per-project channels such as email or Slack.</li>
 </ul>
 
 
