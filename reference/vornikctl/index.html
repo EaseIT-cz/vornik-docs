@@ -2240,6 +2240,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-bare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent bare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-bench-agent-calibrate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4999,6 +5010,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-bare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent bare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-bench-agent-calibrate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7315,6 +7337,86 @@ The pg_dump major version must be at least the PostgreSQL server major version.<
   tool-use         did the agent call real tools with valid arguments</p>
 <p>schema-following and tool-use need no gold set — their ground truth is
 configuration, not a recording — so they can gate before any gold pass.</p>
+<h2 id="vornikctl-bench-agent-bare">vornikctl bench agent bare<a class="headerlink" href="#vornikctl-bench-agent-bare" title="Permanent link">&para;</a></h2>
+<p>Run the bare-model baseline on a task set's seeded items</p>
+<p>Runs the arm's model alone on every task that has a seed (a borrowed
+exercise's stubs) and grades each reply with the task's hidden acceptance
+suite, inside the agent image without network, exactly as a swarm arm is
+graded.</p>
+<p>--mode bare-pass1    one call, no test feedback (the comparison with the
+                       swarm, which never sees the tests either)
+  --mode bare-pass2    a second call shown the grader's output after a model
+                       failure (Aider's protocol)
+  --mode bare-matched  independent calls until --matched-tokens (the swarm
+                       arm's median tokens per item) is spent; solved if any
+                       passes</p>
+<p>The journal records scaffold=<mode>, so bench agent compare refuses to set it
+against a swarm journal. The endpoint and model default to
+VORNIK_BENCH_MODEL_ENDPOINT and VORNIK_BENCH_MODEL; the key is read from
+VORNIK_BENCH_MODEL_API_KEY.</p>
+<div class="highlight"><pre><span></span><code>vornikctl bench agent bare [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--acceptance-image</code></td>
+<td></td>
+<td>agent image the hidden suites run in</td>
+</tr>
+<tr>
+<td><code>--arm</code></td>
+<td></td>
+<td>arm name (required)</td>
+</tr>
+<tr>
+<td><code>--endpoint</code></td>
+<td></td>
+<td>OpenAI-compatible endpoint (…/v1)</td>
+</tr>
+<tr>
+<td><code>--journal</code></td>
+<td><code>bare-journal.json</code></td>
+<td>where to write the journal</td>
+</tr>
+<tr>
+<td><code>--matched-tokens</code></td>
+<td><code>0</code></td>
+<td>bare-matched: the swarm arm's median tokens per item</td>
+</tr>
+<tr>
+<td><code>--mode</code></td>
+<td><code>bare-pass1</code></td>
+<td>bare-pass1, bare-pass2 or bare-matched</td>
+</tr>
+<tr>
+<td><code>--model</code></td>
+<td></td>
+<td>model ID to send</td>
+</tr>
+<tr>
+<td><code>--repeats</code></td>
+<td><code>3</code></td>
+<td>runs per task</td>
+</tr>
+<tr>
+<td><code>--run-id</code></td>
+<td></td>
+<td>identifier for this run</td>
+</tr>
+<tr>
+<td><code>--tasks</code></td>
+<td></td>
+<td>task set (only tasks with a seed and a suite run)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-bench-agent-calibrate">vornikctl bench agent calibrate<a class="headerlink" href="#vornikctl-bench-agent-calibrate" title="Permanent link">&para;</a></h2>
 <p>Build a task calibration artifact from a repeated journal</p>
 <p>Several journals are merged before the artifact is derived, which is the form a long pass takes: one journal per repeat chunk and task batch, so a 10-repeat 10-task calibration leaves 50 files. The merge refuses inputs that are not one run — a differing arm, pre-registration, or tier policy — and refuses a repeat index that collided across chunks. The pass must have been pre-registered with "kind": "calibration" (one arm, no sigma), and its pre-registration must be unedited since the run.</p>
