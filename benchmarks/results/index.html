@@ -14,7 +14,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../security-model/">
+        <link rel="next" href="../methodology/">
       
       
         
@@ -436,6 +436,8 @@
       
         
           
+        
+      
         
       
         
@@ -1143,6 +1145,34 @@
     
   
     Evals: repeatable swarm tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/run-a-model-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run a model comparison
   
 
     
@@ -2105,6 +2135,8 @@
       
         
       
+        
+      
     
     
     
@@ -2312,6 +2344,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How the agent benchmark works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -2989,8 +3049,8 @@ agent root filesystem and a 2,048-process limit (ON).</p>
 <p><strong>Setup.</strong> Model: <code>gemma-4-26b-a4b</code> (26B parameters, about 4B active per
 token), GGUF Q4_K_M, served by llama.cpp with native tool calls, 131,072-token
 context, about 141 tokens/s decode. Vornik's daemon, harness and agent image
-were built from one commit. The task set is 20 <code>dev-pipeline</code> and 10
-simple-workflow tasks, each run 3 times.</p>
+were built from one commit. The task set is <code>dev-swarm-tasks-v1</code>: 20
+<code>dev-pipeline</code> and 10 simple-workflow tasks, each run 3 times.</p>
 <p><strong>Energy.</strong> Metered at the model host's wall socket over each run window. The
 meter covers the model host only, not the machine running Vornik. Priced at
 8.83 CZK/kWh (36.26 euro cents): Eurostat's Czech household electricity price
@@ -3021,8 +3081,9 @@ National Bank rate of 30 October 2026. Hardware cost is not included.</p>
   previous task's failure left files in the workspace (a known harness
   gap), so it never reached a container. It was re-run on the same commit and configuration, outside the
   metered window, and passed.</li>
-<li><strong>Not independently reproducible.</strong> As for the 2026.9.0 row, the task set
-  and its answer key are not published.</li>
+<li><strong>Reproducible since 2026-11-15.</strong> The task set and its answer key were
+  not published when this row was; they are now, with the pre-registrations
+  and the reproduce script (<a href="../../guides/run-a-model-comparison/">how to reproduce this row</a>).</li>
 <li><strong>The electricity price is a national household average.</strong> A different
   tariff changes the cost in proportion.</li>
 </ul>
@@ -3084,8 +3145,9 @@ unaffected.</p>
 <li><strong>No trend.</strong> It is the first scored arm.</li>
 <li><strong>No noise floor for this task set.</strong> The σ comes from an earlier 3-task
   measurement of a different set.</li>
-<li><strong>Not independently reproducible.</strong> The task set and answer key are not
-  published.</li>
+<li><strong>Partly reproducible.</strong> The task sets and answer keys
+  were published on 2026-11-15. This row's record does not name its set's
+  version, so a re-run uses the closest published set, not this exact one.</li>
 </ul>
 <p><strong>Provenance.</strong> The daemon binary and agent image are recorded by content
 digest in the arm key, and batches that disagree on any axis are not merged.

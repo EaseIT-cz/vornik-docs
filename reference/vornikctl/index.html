@@ -486,6 +486,8 @@
       
         
       
+        
+      
     
     
     
@@ -1143,6 +1145,34 @@
     
   
     Evals: repeatable swarm tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/run-a-model-comparison/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Run a model comparison
   
 
     
@@ -3266,6 +3296,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-memory-demote-self-certified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl memory demote-self-certified
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-memory-dlq" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4308,6 +4349,8 @@
       
         
       
+        
+      
     
     
     
@@ -4377,6 +4420,34 @@
     
   
     Results by release
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../benchmarks/methodology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How the agent benchmark works
   
 
     
@@ -5977,6 +6048,17 @@
     <span class="md-ellipsis">
       
         vornikctl memory cache-stats
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-memory-demote-self-certified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl memory demote-self-certified
       
     </span>
   </a>
@@ -9953,6 +10035,65 @@ or both may render as "disabled" on a fresh deployment.</p>
 <td><code>--json</code></td>
 <td><code>false</code></td>
 <td>JSON output instead of the short-form table</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-memory-demote-self-certified">vornikctl memory demote-self-certified<a class="headerlink" href="#vornikctl-memory-demote-self-certified" title="Permanent link">&para;</a></h2>
+<p>Demote chunks verified on their own producer's stamp (dry run by default)</p>
+<p>Two classes of chunk are served verified on a stamp their own producer
+wrote, which no rule now grants:</p>
+<p>companion       a companion deposit (producer companion:) its companion
+                  stamped verified; demoted with confidence capped at 0.3
+  unknown_origin  a role-of-record stamp (validator = producer, an agent
+                  role) on a chunk with no artifact and no task, so its
+                  origin cannot be read; demoted with confidence unchanged</p>
+<p>A dry run by default: it prints the denominator (verified chunks in the
+project), each class's count with up to five chunk ids, and what it does not
+read (superseded and refuted chunks).</p>
+<p>--apply (with --reason) demotes both classes as ONE audited event; the prior
+status, validator and confidence of every changed chunk are kept, and
+--restore <event-id> puts them back where nothing has changed them since.</p>
+<p>Always runs against the configured database. Run the dry run first.</p>
+<div class="highlight"><pre><span></span><code>vornikctl memory demote-self-certified [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--actor</code></td>
+<td></td>
+<td>Who runs it (default: the OS user)</td>
+</tr>
+<tr>
+<td><code>--allow-self-certified</code></td>
+<td><code>false</code></td>
+<td>With --restore: reinstate the self-certified stamps the event removed</td>
+</tr>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>Write the demotion (or the restore); without it this is a dry run</td>
+</tr>
+<tr>
+<td><code>--reason</code></td>
+<td></td>
+<td>Why (required with --apply); recorded on the event</td>
+</tr>
+<tr>
+<td><code>--restore</code></td>
+<td></td>
+<td>Restore the prior state an earlier --apply event changed</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
 </tr>
 </tbody>
 </table>
