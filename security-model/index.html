@@ -3602,7 +3602,14 @@ operator decided it needs, and a model sees only what reaches its container.</p>
     - choosing which roles of a project may call an MCP server's tools, on
       its MCP tools page;
     - reading the operator console's observation pages, never changing
-      anything through it.</p>
+      anything through it;
+    - connecting the instance's model provider (<code>/ui/model-provider</code>). The
+      provider is checked before saving under managed mode's own dial rule
+      (public addresses, plus the vouched model gateway names), so the page
+      cannot reach the instance's private network. The key is sealed in the
+      credential store and never shown again. Each change is audited with
+      the provider's host, never the key, and takes effect at the restart
+      the hosting service performs.</p>
 <div class="highlight"><pre><span></span><code>The console pages that show the daemon's configuration, its MCP server
 catalog, admin keys or accounts stay closed to the owner, even for
 reading.
