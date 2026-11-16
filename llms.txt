@@ -80,7 +80,7 @@ Docs: https://docs.vornik.io
 - [How the agent benchmark works](https://docs.vornik.io/benchmarks/methodology/): The agent benchmark measures whether Vornik's control logic carries work to a correct finish with a given model. It records what the lead role granted, whether roles produced output in their schemas, whether agents...
 
 ## Compliance
-- [Security model](https://docs.vornik.io/security-model/): Last reviewed: 11 November 2026, against main before release 2026.11.4.
+- [Security model](https://docs.vornik.io/security-model/): Last reviewed: 16 November 2026, against main before release 2026.11.6.
 - [Compliance status](https://docs.vornik.io/compliance/): Last updated: 12 November 2026
 - [Building a high-risk system on Vornik](https://docs.vornik.io/high-risk-systems/): Last updated: 15 November 2026
 - [AI transparency](https://docs.vornik.io/ai-transparency/): Last updated: 1 November 2026

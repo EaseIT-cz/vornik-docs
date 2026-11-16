@@ -2833,6 +2833,12 @@ back for the output.</p>
 egress</strong> by default — the daemon makes the outbound calls — so Vornik suits
 data-sensitive and air-gapped environments, including with self-hosted,
 open-weight models.</p>
+<p><img alt="Models propose, the daemon decides. The models, in a non-deterministic layer, plan, write and choose among their allowed tools. The deterministic layer around them decides tool grants, budgets, output schemas, approvals, network, credentials, redaction and audit." src="assets/vornik-control-plane.svg" /></p>
+<p>A model's output is a proposal. The daemon is ordinary deterministic code,
+and it decides whether the proposal takes effect. May the role call that
+tool? May the task spend more? Does the output match its schema? Must a
+person approve it first? How each check works:
+<a href="security-model/">Security model</a>.</p>
 <h2 id="start-here">Start here<a class="headerlink" href="#start-here" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong><a href="getting-started/">Getting Started</a></strong> — install the daemon, create

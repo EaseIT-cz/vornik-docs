@@ -2975,13 +2975,38 @@ vornikctl<span class="w"> </span>key<span class="w"> </span>revoke<span class="w
 project is fixed at creation, which is what makes it safe to hand to an external
 caller.</p>
 <h2 id="roles-groups-and-project-scope">Roles, groups, and project scope<a class="headerlink" href="#roles-groups-and-project-scope" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>flowchart LR
+    subgraph creds["A credential"]
+        sso["Browser sign-in (SSO)&lt;br/&gt;session cookie"]
+        key["API key&lt;br/&gt;static or per-project"]
+        glass["Break-glass admin key"]
+        companionKey["Companion key&lt;br/&gt;scoped to one project"]
+        device["Approver device&lt;br/&gt;device-bound session"]
+        chat["Chat identity&lt;br/&gt;linked to an account"]
+        hook["Webhook signature"]
+    end
+    creds --&gt; chain["Identity resolver&lt;br/&gt;HTTP: ordered backend chain,&lt;br/&gt;first match wins, fails closed"]
+    chain --&gt; principal["Principal&lt;br/&gt;a role and a set of projects"]
+    groups["Groups&lt;br/&gt;each a role and projects"] --&gt; principal
+    owner["A key's owner&lt;br/&gt;narrows, never widens"] --&gt; principal
+    principal --&gt; guard{"Project scope guard"}
+    guard --&gt;|"allowed project"| ok["Request served"]
+    guard --&gt;|"anything else"| no["403, or 404 for a hidden admin surface"]</code></pre>
+<p>Every route is reached the same way: one credential, one resolver, one guard.
+A role is never inferred from a channel, and no request header can widen a
+key's project.</p>
 <p>Identities resolve to a <strong>principal</strong> with a role and a set of projects:</p>
 <ul>
 <li><strong>Roles.</strong> There are two — <code>admin</code> (instance-wide) and <code>user</code> (project-scoped).
-  A managed (hosted) instance adds a third for its owner: an administrator's
-  browser session on the public address is a <code>tenant_admin</code>, who may use the
-  project wizard and gallery, connect MCP servers through OAuth and read the
-  operator audit, and nothing else of the operator surface.</li>
+  A managed (hosted) instance adds a third for its owner. On the public
+  address, an administrator's browser session is a <code>tenant_admin</code>. A
+  <code>tenant_admin</code> may use a closed list of operator surfaces: the project
+  wizard and gallery, MCP OAuth connections, the operator audit, the
+  Credentials page, a project's Keys and MCP tools pages, and reading (never
+  changing) the operator console's observation pages. The pages that show the
+  daemon's configuration, its MCP server catalog, admin keys or accounts stay
+  closed to it, even for reading. The full list:
+  <a href="../../security-model/#http-api-and-console">Security model</a>.</li>
 <li><strong>Groups.</strong> Users belong to groups; a group carries a role and a set of
   projects. Membership in any admin-role group makes a user an admin with access
   to everything. Otherwise a user's accessible projects are the union of their
