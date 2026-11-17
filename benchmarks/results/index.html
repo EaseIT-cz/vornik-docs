@@ -3322,6 +3322,16 @@ the dataset's gold documents). The store is cleared before every run.</p>
 <td>n=3</td>
 <td><code>cc29288955b4</code></td>
 </tr>
+<tr>
+<td><code>2026.11.5-43-g9ddc2346b</code> (2026.11.6)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>b2f357f24226</code></td>
+</tr>
 </tbody>
 </table>
 <p>Figures from <code>bench memory aggregate</code> over three run directories; standard
@@ -3416,6 +3426,11 @@ store of 1,897 chunks.</p>
 <td>15. 2026.11.5</td>
 <td>No retrieval, ingest, embedding or scoring path changed. The one memory change is an operator verb that retires a document whose file is gone (<code>vornikctl memory supersede-missing-documents</code>, GitHub #701), which the benchmark never calls. Measured 2026-11-14 on <code>39bb57729</code>; the commits after it are a settings-form check, the dispatcher's report-back wording and release documents</td>
 <td>The verb's retirement is covered by the daemon's tests only</td>
+</tr>
+<tr>
+<td>16. 2026.11.6</td>
+<td>The verification path changed: a chunk verified only on its own producer's stamp is demoted (GitHub #550). Measured 2026-11-16 on <code>9ddc2346b</code>; the commits after it are release documents</td>
+<td>The benchmark deposits as one client and never re-verifies a chunk, so the demotion itself is covered by the daemon's tests only</td>
 </tr>
 </tbody>
 </table>
