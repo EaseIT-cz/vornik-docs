@@ -1479,10 +1479,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#guided-form-fields" class="md-nav__link">
+  <a href="#create-the-app-from-the-console" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Guided-form fields
+        Create the App from the console
       
     </span>
   </a>
@@ -1490,21 +1490,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-test-connection-checks" class="md-nav__link">
+  <a href="#connect-an-app-you-created-yourself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What "Test connection" checks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#good-to-know" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Good to know
+        Connect an App you created yourself
       
     </span>
   </a>
@@ -2777,10 +2766,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#guided-form-fields" class="md-nav__link">
+  <a href="#create-the-app-from-the-console" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Guided-form fields
+        Create the App from the console
       
     </span>
   </a>
@@ -2788,21 +2777,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-test-connection-checks" class="md-nav__link">
+  <a href="#connect-an-app-you-created-yourself" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What "Test connection" checks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#good-to-know" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Good to know
+        Connect an App you created yourself
       
     </span>
   </a>
@@ -2829,17 +2807,52 @@
 <h1 id="github-app">GitHub App<a class="headerlink" href="#github-app" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Community Edition</p>
-<p>The Integrations Hub is part of the free, open-source <strong>Community Edition</strong> (and therefore also every Enterprise install). See <a href="../../editions/">Editions</a> for the full Community vs Enterprise matrix.</p>
+<p>The GitHub App integration is part of the free, open-source <strong>Community Edition</strong>, and so of every Enterprise install. See <a href="../../editions/">Editions</a> for the full Community vs Enterprise matrix.</p>
 </div>
-<p>Connects a GitHub App so vornik can react to issues and pull requests in
-the repositories you choose. This integration is <strong>project-scope</strong> — it's
-connected to one specific project, and if your account is scoped to a
-single project the hub picks that project for you automatically.</p>
-<p>You'll need a GitHub App already created in your organization's settings
-before you start the guided form — see
-<a href="../../guides/conversation-channels/#github">Conversation Channels → GitHub</a>
-for the App-creation and webhook-subscription steps.</p>
-<h2 id="guided-form-fields">Guided-form fields<a class="headerlink" href="#guided-form-fields" title="Permanent link">&para;</a></h2>
+<p>A GitHub App lets Vornik react to issues and pull requests in the
+repositories you choose. There are two ways to set one up: create it from
+the console in one step, or connect an App you made yourself.</p>
+<h2 id="create-the-app-from-the-console">Create the App from the console<a class="headerlink" href="#create-the-app-from-the-console" title="Permanent link">&para;</a></h2>
+<p>Open <strong>Integrations → Review pull requests with GitHub</strong> (<code>/ui/github</code>).</p>
+<ol>
+<li>Choose who owns the App: your GitHub account, or an organisation by
+   name. For GitHub Enterprise Server, enter its address (for example
+   <code>https://github.example.com</code>); leave it empty for github.com.</li>
+<li>Press <strong>Create GitHub App</strong>. GitHub opens with the App filled in: its
+   name (<code>Vornik (&lt;your host&gt;)</code>, which you may change), permissions and
+   events. Press <strong>Create</strong> there.</li>
+<li>GitHub sends you back to the console, which now shows the App. Press
+   <strong>Install on repositories</strong> and pick the repositories.</li>
+</ol>
+<p>What the App asks for: Contents, Issues, Pull requests and Checks (read
+and write), Metadata (read). It receives issue, issue-comment,
+pull-request and pull-request review-comment events. Actions (read), for
+CI outcomes, stays a separate grant you add later.</p>
+<p>What you need first: the instance's public <code>https</code> address set as
+<code>server.public_base_url</code> (or <code>auth.external_base_url</code>). GitHub delivers the
+App's events to <code>&lt;that address&gt;/api/v1/github-app/webhook</code>, so it must be
+reachable from GitHub. The page refuses to start without an <code>https</code> address;
+it cannot check that GitHub can actually reach it.</p>
+<p>What Vornik keeps: the private key as a protected file
+(<code>&lt;config dir&gt;/secrets/github-app.pem</code>, readable only by Vornik's user), the
+webhook secret in the encrypted credential store
+(<code>VORNIK_GITHUB_APP_WEBHOOK_SECRET</code>), and the App's id, name and owner in
+<code>config.yaml</code> (<code>github_app_registration</code>). You never see or paste a key.
+One App per instance: to replace it, press <strong>Forget this App</strong>, which
+removes the three, then delete the App on GitHub yourself.</p>
+<p>Installing sets up review: each repository you install the App on gets a
+review project of its own (<code>gh-&lt;owner&gt;-&lt;name&gt;</code>) within seconds, with no
+YAML. The GitHub page lists the repositories, with <strong>Pause</strong> and
+<strong>Resume</strong>. A repository you remove from the installation keeps its project
+and history, and it stops being reviewed. One event sets up at most 50
+repositories; the rest wait on the page with <strong>Provision</strong>. These projects
+review pull requests and record CI outcomes; they do not answer
+<code>@mentions</code>.</p>
+<h2 id="connect-an-app-you-created-yourself">Connect an App you created yourself<a class="headerlink" href="#connect-an-app-you-created-yourself" title="Permanent link">&para;</a></h2>
+<p>This integration is <strong>project-scope</strong>: it connects one project. If your
+account is scoped to a single project, the hub picks it for you. Create the
+App in your organisation's settings first; the creation and webhook steps
+are in <a href="../../guides/conversation-channels/#github">Conversation Channels → GitHub</a>.</p>
 <table>
 <thead>
 <tr>
@@ -2860,19 +2873,19 @@ for the App-creation and webhook-subscription steps.</p>
 <td>Installation ID</td>
 <td style="text-align: center;">Yes</td>
 <td style="text-align: center;">No</td>
-<td>Shown in the URL after installing the App on your org/repo.</td>
+<td>Shown in the URL after installing the App on your org or repo.</td>
 </tr>
 <tr>
 <td>Private key</td>
 <td style="text-align: center;">Yes</td>
 <td style="text-align: center;">Yes</td>
-<td>Generate a private key on your GitHub App's settings page and paste the whole <code>.pem</code> file.</td>
+<td>Generate a private key on the App's settings page and paste the whole <code>.pem</code> file. The hub stores it in a protected file for you.</td>
 </tr>
 <tr>
 <td>Webhook secret</td>
 <td style="text-align: center;">Yes</td>
 <td style="text-align: center;">Yes</td>
-<td>The secret you set on your GitHub App's webhook configuration page.</td>
+<td>The secret you set on the App's webhook settings.</td>
 </tr>
 <tr>
 <td>Allowed repositories</td>
@@ -2884,29 +2897,20 @@ for the App-creation and webhook-subscription steps.</p>
 <td>API base URL</td>
 <td style="text-align: center;">No</td>
 <td style="text-align: center;">No</td>
-<td>Only needed for GitHub Enterprise Server; leave blank for github.com.</td>
+<td>For GitHub Enterprise Server only; leave blank for github.com.</td>
 </tr>
 </tbody>
 </table>
-<p>The private key field is a paste-in of your App's whole <code>.pem</code> file — the
-hub stores its content in a protected file for you rather than asking you
-to manage a filesystem path yourself.</p>
-<h2 id="what-test-connection-checks">What "Test connection" checks<a class="headerlink" href="#what-test-connection-checks" title="Permanent link">&para;</a></h2>
-<p>The test mints a short-lived GitHub App installation token using the App
-ID, installation ID, and private key you entered. On success, it reports
-the installation's account login, confirming the App is correctly
-configured and installed where you expect. The webhook secret and
-repository allowlist aren't dialed out to GitHub during the test — they
-govern which inbound webhook events vornik accepts once connected.</p>
-<h2 id="good-to-know">Good to know<a class="headerlink" href="#good-to-know" title="Permanent link">&para;</a></h2>
-<ul>
-<li>All of App ID, installation ID, private key, webhook secret, and at
-  least one allowed repository are required together — a GitHub App
-  integration with only some of these set won't activate.</li>
-<li>Label matching on issues/pull requests, sender allowlisting, and other
-  behavior once connected are covered in the <strong>GitHub</strong> section of
-  <a href="../../guides/conversation-channels/#github">Conversation Channels</a>.</li>
-</ul>
+<p>All five required fields go together: an integration with only some of
+them set does not activate.</p>
+<p><strong>Test connection</strong> mints a short-lived installation token from the App ID,
+installation ID and private key, and reports the installation's account
+login. That confirms the App is configured and installed where you expect.
+The webhook secret and the repository list are not sent to GitHub by the
+test: they decide which inbound events Vornik accepts.</p>
+<p>Label matching on issues and pull requests, the sender allowlist and the
+rest of the behaviour once connected are in the <strong>GitHub</strong> section of
+<a href="../../guides/conversation-channels/#github">Conversation Channels</a>.</p>
 
 
 

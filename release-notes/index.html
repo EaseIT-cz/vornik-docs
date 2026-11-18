@@ -2706,6 +2706,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.12.1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.12.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026116" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3468,6 +3496,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026121" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.12.1
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.12.1">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026116" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4224,6 +4280,24 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
+<h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Create the GitHub App from the console</strong> (GitHub #802). Integrations →
+  <em>Review pull requests with GitHub</em> creates the instance's GitHub App
+  through GitHub's App-manifest flow: GitHub fills in the permissions and
+  events, and Vornik keeps the key and webhook secret. You never paste a
+  key. It needs the instance's public <code>https</code> address
+  (<code>server.public_base_url</code> or <code>auth.external_base_url</code>).</li>
+<li><strong>Installing the App sets up review</strong> (GitHub #800). Each repository you
+  install the App on gets a review project of its own, with no YAML. The
+  GitHub page lists the repositories and can pause one.</li>
+<li><strong>The admin tools set concurrency and role limits</strong> (GitHub #798, #805).
+  <code>update_project</code> sets how many of a project's tasks run at once, and
+  <code>define_swarm</code> sets a role's output tokens and tool steps. Each value is
+  capped by a new <code>agent_admin</code> key, and a raise needs approval on your
+  phone.</li>
+</ul>
 <h2 id="2026116">2026.11.6<a class="headerlink" href="#2026116" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Upgrade requirements</p>

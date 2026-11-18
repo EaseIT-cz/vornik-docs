@@ -2630,6 +2630,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#github_app_registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        github_app_registration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#gateway" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3771,6 +3782,17 @@
     <span class="md-ellipsis">
       
         agent_admin
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#github_app_registration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        github_app_registration
       
     </span>
   </a>
@@ -5637,7 +5659,7 @@
 <tr>
 <td><code>memory.embedding_endpoint</code></td>
 <td>string</td>
-<td>Override endpoint for embedding requests.</td>
+<td>Override endpoint for embedding requests: the provider's OpenAI-compatible base ending in /v1, the form chat.endpoint takes (Vornik appends /embeddings). A base without /v1 still works (Vornik appends /v1/embeddings).</td>
 <td>—</td>
 </tr>
 <tr>
@@ -6640,6 +6662,73 @@
 <td><code>agent_admin.models</code></td>
 <td>list</td>
 <td>Models an agent's roles may choose (empty, the default: none; every agent role runs on the global agent model). Whether each is local or remote is computed from where the chat router sends it: local only for an HTTP endpoint on a loopback or private address. A role on a remote model needs approval on an approver device, once per destination (sub-provider and endpoint host). Entries served by a command-line provider, with no route, or remote without an exact pricing.yaml entry are not offered; vornikctl doctor names them (agent_model_catalogue).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.max_concurrent_tasks</code></td>
+<td>int</td>
+<td>Highest maxConcurrentTasks update_project may set on an agent project (default 2, below the scheduler's default cap of 4, so one project cannot take every slot). scheduler.max_concurrent_tasks still caps all projects together. Raising a project's value needs approval on an approver device.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.max_role_tokens</code></td>
+<td>int</td>
+<td>Highest max_tokens define_swarm may set on an agent role (default 32768). A value above the role's current one needs approval on an approver device.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>agent_admin.max_role_tool_iterations</code></td>
+<td>int</td>
+<td>Highest max_tool_iterations define_swarm may set on an agent role (default 120). It caps the role's base budget; with tool_budget.enabled the executor may scale that base by up to tool_budget.max_factor. A value above the role's current one (30 when unset) needs approval on an approver device.</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2 id="github_app_registration">github_app_registration<a class="headerlink" href="#github_app_registration" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Type</th>
+<th>Description</th>
+<th>Environment override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>github_app_registration.app_id</code></td>
+<td>int</td>
+<td>The App's numeric id, written by the console's Create GitHub App.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>github_app_registration.slug</code></td>
+<td>string</td>
+<td>The App's slug on GitHub (github.com/apps/<slug>).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>github_app_registration.owner</code></td>
+<td>string</td>
+<td>The account or organisation that owns the App.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>github_app_registration.html_url</code></td>
+<td>string</td>
+<td>The App's page on GitHub; installing starts at <html_url>/installations/new.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>github_app_registration.api_base_url</code></td>
+<td>string</td>
+<td>GitHub's REST base for the App (empty: api.github.com; GitHub Enterprise: https://<host>/api/v3).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>github_app_registration.private_key_path</code></td>
+<td>string</td>
+<td>The App's private key file, written 0600 by the console.</td>
 <td>—</td>
 </tr>
 </tbody>
