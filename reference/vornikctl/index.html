@@ -8016,6 +8016,11 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <td>project to run in</td>
 </tr>
 <tr>
+<td><code>--published-task-set</code></td>
+<td><code>false</code></td>
+<td>run a release gate on a published task set (outside tasksets/unreleased/); the journal records it (#790)</td>
+</tr>
+<tr>
 <td><code>--repeat-offset</code></td>
 <td><code>0</code></td>
 <td>shift the repeat index this invocation stamps, so a run split across several invocations produces globally unique (task, repeat) pairs. Pass chunk_index * repeat_batch. Without it every chunk numbers its repeats from 1, and calibration refuses the collision rather than counting one repeat many times</td>
