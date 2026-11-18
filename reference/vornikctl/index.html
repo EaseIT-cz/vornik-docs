@@ -2240,6 +2240,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-autopilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent autopilot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-bench-agent-bare" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2273,6 +2284,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-freeze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent freeze
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-bench-agent-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2299,6 +2321,17 @@
     <span class="md-ellipsis">
       
         vornikctl bench agent gold-merge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-learned-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent learned-state
       
     </span>
   </a>
@@ -5010,6 +5043,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-autopilot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent autopilot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-bench-agent-bare" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5043,6 +5087,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-freeze" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent freeze
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-bench-agent-gate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5069,6 +5124,17 @@
     <span class="md-ellipsis">
       
         vornikctl bench agent gold-merge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-bench-agent-learned-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl bench agent learned-state
       
     </span>
   </a>
@@ -7337,6 +7403,70 @@ The pg_dump major version must be at least the PostgreSQL server major version.<
   tool-use         did the agent call real tools with valid arguments</p>
 <p>schema-following and tool-use need no gold set — their ground truth is
 configuration, not a recording — so they can gate before any gold pass.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--include-warmup</code></td>
+<td><code>false</code></td>
+<td>read a learning study's warm-up journal (refused by default: a warm-up pass is not scored; GitHub #809)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-bench-agent-autopilot">vornikctl bench agent autopilot<a class="headerlink" href="#vornikctl-bench-agent-autopilot" title="Permanent link">&para;</a></h2>
+<p>Run the blackbox arm's auto mode once: trigger, generate, replay-trial, promote (GitHub #809)</p>
+<p>Reads the warm-up journals in --run-dir, finds each workflow whose failure
+rate since its last trigger is at or above bench.learning.trigger.threshold
+(with at least min_samples runs), and runs an operator's three steps for it
+through the bench daemon's admin routes: create a bench trigger, generate a
+candidate, replay-trial it on the failed executions, and promote it when the
+trial passed. Needs VORNIK_API_URL (the bench daemon) and VORNIK_API_KEY (its
+admin key). Stops when learning is frozen. Journals every step to
+<run-dir>/autopilot.json.</p>
+<div class="highlight"><pre><span></span><code>vornikctl bench agent autopilot [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--daemon-config</code></td>
+<td></td>
+<td>the bench daemon's config, for bench.learning.trigger</td>
+</tr>
+<tr>
+<td><code>--project</code></td>
+<td><code>agentbench</code></td>
+<td>the benchmark project</td>
+</tr>
+<tr>
+<td><code>--run-dir</code></td>
+<td></td>
+<td>the arm's run directory (warm-up journals, autopilot.json)</td>
+</tr>
+<tr>
+<td><code>--tasks</code></td>
+<td></td>
+<td>the warm-up task set, for each task's workflow</td>
+</tr>
+<tr>
+<td><code>--trial-wait</code></td>
+<td><code>45m0s</code></td>
+<td>how long to wait for one replay trial's verdict</td>
+</tr>
+</tbody>
+</table>
 <h2 id="vornikctl-bench-agent-bare">vornikctl bench agent bare<a class="headerlink" href="#vornikctl-bench-agent-bare" title="Permanent link">&para;</a></h2>
 <p>Run the bare-model baseline on a task set's seeded items</p>
 <p>Runs the arm's model alone on every task that has a seed (a borrowed
@@ -7455,6 +7585,26 @@ VORNIK_BENCH_MODEL_API_KEY.</p>
 <td><code>--json</code></td>
 <td><code>false</code></td>
 <td>emit JSON instead of a table</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-bench-agent-freeze">vornikctl bench agent freeze<a class="headerlink" href="#vornikctl-bench-agent-freeze" title="Permanent link">&para;</a></h2>
+<p>Freeze learning before the measured pass and record the learned state (GitHub #809)</p>
+<div class="highlight"><pre><span></span><code>vornikctl bench agent freeze [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--run-dir</code></td>
+<td></td>
+<td>the arm's run directory</td>
 </tr>
 </tbody>
 </table>
@@ -7587,6 +7737,31 @@ recorded a path, because a task that passed once was measurable.</p>
 <td><code>--out</code></td>
 <td><code>gold.json</code></td>
 <td>where to write the merged manifest</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-bench-agent-learned-state">vornikctl bench agent learned-state<a class="headerlink" href="#vornikctl-bench-agent-learned-state" title="Permanent link">&para;</a></h2>
+<p>Record the learned state; with --verify, fail if it moved since the freeze (GitHub #809)</p>
+<div class="highlight"><pre><span></span><code>vornikctl bench agent learned-state [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--run-dir</code></td>
+<td></td>
+<td>the arm's run directory</td>
+</tr>
+<tr>
+<td><code>--verify</code></td>
+<td><code>false</code></td>
+<td>fail if the learned state moved since the freeze</td>
 </tr>
 </tbody>
 </table>
@@ -7824,6 +7999,11 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <td><code>--noise-floor</code></td>
 <td></td>
 <td>release noise-floor artifact pinned by the pre-registration</td>
+</tr>
+<tr>
+<td><code>--phase</code></td>
+<td></td>
+<td>"warmup" for a learning study's warm-up pass: journaled, and refused by every scoring reader unless --include-warmup (GitHub #809)</td>
 </tr>
 <tr>
 <td><code>--preregistration</code></td>

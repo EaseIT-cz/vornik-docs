@@ -3595,7 +3595,10 @@ operator decided it needs, and a model sees only what reaches its container.</p>
     listener is the instance owner. The owner may use a closed list of
     operator surfaces and no other:
     - the project wizard and the template gallery;
-    - MCP OAuth connections;
+    - MCP OAuth connections: connecting a server, and on a project's MCP
+      tools page seeing its sign-in and disconnecting it (an instance-wide
+      sign-in is removed for every project that shares it, and the page
+      says so);
     - the operator audit;
     - the Credentials page;
     - creating, rotating and revoking keys on a project's Keys page;
@@ -3603,6 +3606,9 @@ operator decided it needs, and a model sees only what reaches its container.</p>
       its MCP tools page;
     - reading the operator console's observation pages, never changing
       anything through it;
+    - reading the instance's swarms and workflows (the lists, each
+      definition and a workflow's graph), never changing them, which is
+      valid while the instance hosts one customer;
     - connecting the instance's model provider (<code>/ui/model-provider</code>). The
       provider is checked before saving under managed mode's own dial rule
       (public addresses, plus the vouched model gateway names), so the page

@@ -2728,6 +2728,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -3518,6 +3529,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4292,11 +4314,32 @@ new behavior; those are called out below.</p>
 <li><strong>Installing the App sets up review</strong> (GitHub #800). Each repository you
   install the App on gets a review project of its own, with no YAML. The
   GitHub page lists the repositories and can pause one.</li>
-<li><strong>The admin tools set concurrency and role limits</strong> (GitHub #798, #805).
+<li>
+<p><strong>The admin tools set concurrency and role limits</strong> (GitHub #798, #805).
   <code>update_project</code> sets how many of a project's tasks run at once, and
   <code>define_swarm</code> sets a role's output tokens and tool steps. Each value is
   capped by a new <code>agent_admin</code> key, and a raise needs approval on your
-  phone.</li>
+  phone.</p>
+</li>
+<li>
+<p><strong>Measure what learning adds, on the agent benchmark</strong> (GitHub #809).
+  A learning study runs one model in four arms: alone, with instincts,
+  with self-healing workflows, and with both. Each arm learns on a
+  warm-up part of a task set and is measured on a held-out part, with
+  learning frozen in between and the learned state recorded. <code>bench agent
+  compare</code> accepts the arms when the pre-registration names the new
+  <code>learning</code> axis. The bench-only switches (<code>bench.learning</code>) are refused
+  on any daemon that is not a benchmark instance. The benchmark's harness
+  version is now 13, so its results do not compare with version 12's.</p>
+</li>
+</ul>
+<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>The setup guide finishes on Community Edition</strong> (GitHub #815). With
+  <code>api.auth_enabled: true</code>, step 2 (<em>Choose what it is for</em>) answered
+  every option with "Could not create it: This is an Enterprise Edition
+  feature". The project-template routes now work in both editions, for
+  the same operator callers as before.</li>
 </ul>
 <h2 id="2026116">2026.11.6<a class="headerlink" href="#2026116" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
