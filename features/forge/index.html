@@ -3183,6 +3183,11 @@ only for how it came to exist.</p>
   read once at startup and never leaves the daemon process.</li>
 <li>Outbound calls use a <strong>short-lived installation token</strong> the daemon mints on
   demand and caches in memory for a few minutes.</li>
+<li>Each token reaches <strong>only the repository the project names</strong> (<code>repo</code>, or
+  for an App-backed project the bound repository), even when the App is
+  installed on a whole organisation. A forge block that names no repository,
+  and takes it from each event, mints a token for every repository the
+  installation covers, and the daemon logs each such mint.</li>
 <li>The <strong>push</strong> hands that token to <code>git</code> through an in-process credential header
   — never on the command line (so it can't be seen in the process list), never
   in the remote URL, and never written to on-disk git config. Pushes are

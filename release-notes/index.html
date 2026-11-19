@@ -4303,6 +4303,29 @@ new behavior; those are called out below.</p>
 </div>
 <hr />
 <h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>GitHub tokens now reach only the repositories a project names</strong>
+  (GitHub #820). Each token the daemon mints for a GitHub App is scoped
+  to the project's <code>repo</code> (or a <code>github_app</code> block's <code>repo_allowlist</code>).
+  A project naming a repository the App installation does not cover
+  used to get an installation-wide token; it now gets none, and its
+  reviews, pushes and replies fail. Before upgrading, check that every
+  repository your projects name is listed under the App installation's
+  <em>Repository access</em> on GitHub.</li>
+<li><strong><code>vornikctl github-token</code> needs <code>--repo</code> or <code>--unscoped</code>.</strong> A script
+  that calls it with neither now stops with an error. Pass
+  <code>--repo owner/name</code> (repeatable) for the repositories the token is
+  for.</li>
+<li><strong>A hand-made GitHub block may not use the instance's App key</strong>
+  (GitHub #812). A <code>github</code>, <code>forge.github</code> or <code>github_app</code> block whose
+  key file is the key of the App created from the console is refused
+  when the configuration loads. Move such a project to
+  <code>use_registration: true</code>, which takes the App and installation from
+  the console's registration.</li>
+</ul>
+</div>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Create the GitHub App from the console</strong> (GitHub #802). Integrations →
@@ -4322,7 +4345,23 @@ new behavior; those are called out below.</p>
   phone.</p>
 </li>
 <li>
-<p><strong>Measure what learning adds, on the agent benchmark</strong> (GitHub #809).
+<p><strong>A pull-request review that is good by default</strong> (GitHub #801, #244,
+  #814). For a project set up by installing the App, secrets are masked
+  before any model sees the diff, findings must quote the diff they are
+  about, a review team reads it, and the result posts as a neutral check
+  run with inline comments on the lines found. A large diff is read in
+  parts, and the review says which files it did not reach.</p>
+</li>
+<li><strong>Manage approver phones from the console</strong> (GitHub #763, #833). Manage →
+  <em>Approver phones</em> lists the phones that approve sensitive actions, pairs
+  a new one with a code, and revokes or removes one. It needs a signed-in
+  browser session; an owner may pair a further phone but not revoke the
+  last one.</li>
+<li><strong>A managed instance's owner sees more, and changes nothing they should
+  not</strong> (GitHub #764, #765). The owner reads the instance's swarms and
+  workflows, and sees and disconnects a project's MCP sign-in on its MCP
+  tools page.</li>
+<li><strong>Measure what learning adds, on the agent benchmark</strong> (GitHub #809).
   A learning study runs one model in four arms: alone, with instincts,
   with self-healing workflows, and with both. Each arm learns on a
   warm-up part of a task set and is measured on a held-out part, with
@@ -4330,11 +4369,33 @@ new behavior; those are called out below.</p>
   compare</code> accepts the arms when the pre-registration names the new
   <code>learning</code> axis. The bench-only switches (<code>bench.learning</code>) are refused
   on any daemon that is not a benchmark instance. The benchmark's harness
-  version is now 13, so its results do not compare with version 12's.</p>
-</li>
+  version is now 13, so its results do not compare with version 12's.</li>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>An agent's task key reads only its own task's messages</strong> (GitHub #832).
+  It could read a sibling task's messages in the same project.</li>
+<li><strong>Agents no longer repeat an identical edit until the run is stopped</strong>
+  (GitHub #831). A <code>file_edit</code> that changes nothing is refused, and a miss
+  says why the text did not match (whitespace, or where it differs).</li>
+<li><strong>Reviews and dev runs fail less often for the wrong reason</strong> (GitHub
+  #830, #612). The analyst must name its pinned test cases, so a missing
+  list is retried instead of failing the run; a write that carries the end
+  of a tool call is refused, so a review file never keeps the model's next
+  turn.</li>
+<li><strong>Phone approvals</strong> (GitHub #795, #806). An approved change outlives the
+  phone's request, a written change is never rejected afterwards, and a
+  failed apply can be dismissed or retried on the phone and in the console.</li>
+<li><strong>Memory</strong> (GitHub #459). A knowledge-graph entity stored without a
+  vector during an embedder outage is embedded once the embedder is back.</li>
+<li><strong>Managed hosting</strong> (GitHub #807). An owner who brings their own key can
+  enable memory, and types one endpoint for chat and embeddings.</li>
+<li><strong>Community Edition</strong> (GitHub #816). Six Community features that answered
+  only on Enterprise now answer on Community Edition.</li>
+<li><strong>Regression detection</strong> (GitHub #817). The baseline is the seven days
+  before the day compared, so a one-day regression is no longer diluted.</li>
+<li><strong>Codex pricing</strong> (GitHub #772). The shipped price table has the Codex
+  models' cached-input rates.</li>
 <li><strong>The setup guide finishes on Community Edition</strong> (GitHub #815). With
   <code>api.auth_enabled: true</code>, step 2 (<em>Choose what it is for</em>) answered
   every option with "Could not create it: This is an Enterprise Edition
