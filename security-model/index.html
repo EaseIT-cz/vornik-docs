@@ -265,6 +265,8 @@
           
         
       
+        
+      
     
     
     
@@ -299,6 +301,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
@@ -312,6 +319,108 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../courses/vornik-101/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vornik 101
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vornik 101
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../courses/vornik-101/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optional lab: Connect Claude and finish one task
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
               
             
           </ul>
@@ -436,6 +545,8 @@
       
         
           
+        
+      
         
       
         
@@ -837,6 +948,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/aws-devops-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from AWS DevOps Agent
   
 
     
@@ -2576,6 +2715,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#forge-review-publication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forge review publication
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#outbound-connections-and-ssrf" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3208,6 +3358,17 @@
     <span class="md-ellipsis">
       
         Secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#forge-review-publication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Forge review publication
       
     </span>
   </a>
@@ -3908,6 +4069,25 @@ reading.
   authentication is off. The value is read once and never logged, echoed or
   audited; each write records who, from where, and the name.</li>
 </ul>
+<h3 id="forge-review-publication">Forge review publication<a class="headerlink" href="#forge-review-publication" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>What a review publishes is scanned.</strong> Before Vornik posts a pull-request
+  review or comment, it scans the whole text it will post (the review, the
+  quoted request and any CI notice) with the secret detector, plus rules for
+  HTTP Basic credentials: an <code>Authorization: Basic</code> header, a base64
+  <code>user:password</code> and its decoded form. Each match is replaced by
+  <code>[REDACTED:&lt;type&gt;]</code> and the rest is posted. Without a detector, the review
+  is withheld and a notice is posted instead.</li>
+<li><strong>A review covers the whole change, or none of it.</strong> An empty diff is
+  refused, and so is any GitHub response over 1 MiB: before, a larger diff
+  was cut and reviewed as if it were whole. A pull request with no new
+  commits since the last review stays a no-op.</li>
+<li><strong>A review is pinned to the commit it reviewed.</strong></li>
+<li><strong>What it does not do.</strong> It cannot take back a credential already
+  committed to a public repository; rotate any exposed credential. Detection
+  matches known shapes, so a credential in a shape it does not know can still
+  be published.</li>
+</ul>
 <h3 id="outbound-connections-and-ssrf">Outbound connections and SSRF<a class="headerlink" href="#outbound-connections-and-ssrf" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Every outbound client has a timeout and a read cap.</li>
@@ -3975,7 +4155,14 @@ reading.
 </ul>
 <p>The hint report, which shows each hint's follow rate, is an operator route
   and refuses companion keys.</p>
-<p>A memory key can be minted without any task tools.
+<p>A memory key can be minted without any task tools.</p>
+<p>A key is offered only the tools its scopes allow: memory read and write,
+  skill read, write and approval, and delegation. A call outside them is
+  refused before its handler runs, and each handler checks the scope again.
+  An AWS DevOps Agent investigation is one such client. Its recommended key
+  reads memory and approved skills only, and AWS asks customers to allowlist
+  read-only tools as well. What it remembers, with a wider key, lands as a
+  note under the memory gates, never as a verified fact.
 - <strong>The plugins keep hint state only in the plugin's own data directory</strong>
   (or the user's runtime directory when the user owns it), never in a shared
   temp path, and refuse a state directory that is a symlink or that another
@@ -4096,7 +4283,7 @@ reading.
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>See <a href="../security/">Security policy</a> for how to report a vulnerability and
 which versions are supported.</p>
-<!-- summary-reviewed-through: 2026.11.6 -->
+<!-- summary-reviewed-through: 2026.11.7 -->
 
 
 

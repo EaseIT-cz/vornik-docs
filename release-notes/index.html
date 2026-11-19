@@ -263,6 +263,8 @@
           
         
       
+        
+      
     
     
     
@@ -297,6 +299,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
@@ -310,6 +317,108 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../courses/vornik-101/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vornik 101
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vornik 101
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../courses/vornik-101/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optional lab: Connect Claude and finish one task
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
               
             
           </ul>
@@ -434,6 +543,8 @@
       
         
           
+        
+      
         
       
         
@@ -835,6 +946,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/aws-devops-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from AWS DevOps Agent
   
 
     
@@ -2706,15 +2845,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#2026121" class="md-nav__link">
+  <a href="#2026117" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2026.12.1
+        2026.11.7
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2026.12.1">
+    <nav class="md-nav" aria-label="2026.11.7">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3507,15 +3646,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#2026121" class="md-nav__link">
+  <a href="#2026117" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2026.12.1
+        2026.11.7
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2026.12.1">
+    <nav class="md-nav" aria-label="2026.11.7">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -4302,7 +4441,7 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
-<h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
+<h2 id="2026117">2026.11.7<a class="headerlink" href="#2026117" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Upgrade requirements</p>
 <ul>
@@ -4328,6 +4467,39 @@ new behavior; those are called out below.</p>
 </div>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Use Vornik from AWS DevOps Agent</strong> (GitHub #844). An AWS DevOps Agent
+  investigation can recall your team's incident memory and the procedures
+  an operator approved in Vornik. With a wider key, it can also store its
+  finding and hand follow-up work to a sandboxed workflow. Register your
+  Vornik's companion endpoint in the agent's console, and allowlist the
+  tools your key lists. The
+  <a href="../guides/aws-devops-agent/">AWS DevOps Agent guide</a> has the two key
+  profiles and how to reach Vornik privately or over HTTPS.</li>
+<li><strong>A companion key is offered only the tools it may call</strong> (GitHub #844).
+  <code>tools/list</code> used to show every memory and skill tool to every key, and
+  refused the ones outside the key's scopes only when they were called. It
+  now lists only what the key's scopes allow. A key granted <code>--memory-all
+  --skill-all</code> sees the same tools as before.</li>
+<li><strong>A read-only key for AWS DevOps Agent on a Vornik-hosted instance</strong>
+  (GitHub #846). <strong>Connect your companion</strong> gains <em>Connect AWS DevOps
+  Agent</em>, which mints a key that reads memory and approved skills only.
+  The key table now shows what each key can do.</li>
+<li><strong>HTTPS from the installer</strong> (GitHub #839). On a host with a public DNS
+  name and Caddy installed, <code>VORNIK_PUBLIC_HOSTNAME=&lt;name&gt;</code> makes the
+  quickstart put Caddy in front of the daemon, with a certificate from
+  Let's Encrypt over port 443 only. Caddy adds no credential: people sign
+  in with their own keys, and the login lockout sees each person's real
+  address. Thanks to Veaceslav Mindru, whose community pull request this
+  builds on.</li>
+<li><strong>Vornik 101</strong> (GitHub #839). A short guide to where Vornik fits, with an
+  optional lab that connects Claude Code and finishes one task. Written by
+  Veaceslav Mindru.</li>
+<li><strong>A companion review opens with its verdict</strong> (GitHub #751). The review
+  workflows lead with GREEN or NOT GREEN and a numbered list of actions.</li>
+<li><strong>Community pull requests are credited where they land</strong> (GitHub #840).
+  The public repository is written by an export, not by merges. A ported
+  community change now carries its author as co-author on the public sync
+  commit, and the export closes the pull request with a link.</li>
 <li><strong>Create the GitHub App from the console</strong> (GitHub #802). Integrations →
   <em>Review pull requests with GitHub</em> creates the instance's GitHub App
   through GitHub's App-manifest flow: GitHub fills in the permissions and
@@ -4373,8 +4545,21 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>A pull-request review never publishes a secret it can recognise</strong>
+  (GitHub #838, from a community contribution by Veaceslav Mindru). The
+  posted text is scanned, the quoted request and any CI notice included, and
+  each credential-shaped value, HTTP Basic credentials among them, is
+  replaced by <code>[REDACTED:&lt;type&gt;]</code>. An empty diff, or one over 1 MiB, is no
+  longer reviewed as if it were the whole change: that review step fails
+  with the reason, and nothing is posted. Reviews are pinned to the commit they reviewed.</li>
 <li><strong>An agent's task key reads only its own task's messages</strong> (GitHub #832).
   It could read a sibling task's messages in the same project.</li>
+<li><strong>A repeated run is told what the earlier one did</strong> (GitHub #604). When a
+  task runs again after a restart, an interrupted run or a failure, its
+  first agent step now lists the tools the earlier run called and is asked
+  to check before repeating anything outside the workspace (a push, a pull
+  request, a comment, a message). Tool names are listed, never their
+  arguments.</li>
 <li><strong>Agents no longer repeat an identical edit until the run is stopped</strong>
   (GitHub #831). A <code>file_edit</code> that changes nothing is refused, and a miss
   says why the text did not match (whitespace, or where it differs).</li>
@@ -4396,6 +4581,14 @@ new behavior; those are called out below.</p>
   before the day compared, so a one-day regression is no longer diluted.</li>
 <li><strong>Codex pricing</strong> (GitHub #772). The shipped price table has the Codex
   models' cached-input rates.</li>
+<li><strong>An upgrade prices new models</strong> (GitHub #776). Your <code>pricing.yaml</code> was
+  copied once at install and never took a model added to the shipped
+  table, so that model's spend was charged at the default rate. Now an
+  unedited <code>pricing.yaml</code> follows the release, and an edited one gains the
+  shipped rows it lacks under a <code># Added by config-deploy</code> line. No row you
+  have is changed, and the upgrade lists the models whose prices you set
+  differently. The previous file is kept as <code>.pricing.yaml.pre-merge</code>.
+  <code>vornikctl doctor</code> names any shipped model your file still lacks.</li>
 <li><strong>The setup guide finishes on Community Edition</strong> (GitHub #815). With
   <code>api.auth_enabled: true</code>, step 2 (<em>Choose what it is for</em>) answered
   every option with "Could not create it: This is an Enterprise Edition

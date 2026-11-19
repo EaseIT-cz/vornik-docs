@@ -265,6 +265,8 @@
           
         
       
+        
+      
     
     
     
@@ -299,6 +301,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
@@ -312,6 +319,108 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../courses/vornik-101/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vornik 101
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Vornik 101
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../courses/vornik-101/lesson-01/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optional lab: Connect Claude and finish one task
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
               
             
           </ul>
@@ -436,6 +545,8 @@
       
         
           
+        
+      
         
       
         
@@ -837,6 +948,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/aws-devops-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from AWS DevOps Agent
   
 
     
@@ -2943,7 +3082,7 @@ a result, because two systems whose intervals overlap have not been separated.</
 <tbody>
 <tr>
 <td>Memory retrieval, LongMemEval, 120 items, cold corpus</td>
-<td>2026.11.6</td>
+<td>2026.11.7</td>
 <td>recall 0.9851, precision 0.9854, MRR 0.9958, sd 0.0000 (unchanged since 2026.9.4)</td>
 <td><a href="#longmemeval-retrieval-all-six-abilities-tier-2-cold-corpus">cold axis</a></td>
 </tr>
@@ -3332,6 +3471,16 @@ the dataset's gold documents). The store is cleared before every run.</p>
 <td>n=3</td>
 <td><code>b2f357f24226</code></td>
 </tr>
+<tr>
+<td><code>2026.11.6-69-ge071d5996</code> (2026.11.7)</td>
+<td>120</td>
+<td>all 6</td>
+<td>0.9851 ±0.0000</td>
+<td>0.9854 ±0.0000</td>
+<td>0.9958 ±0.0000</td>
+<td>n=3</td>
+<td><code>b52c1aa13579</code></td>
+</tr>
 </tbody>
 </table>
 <p>Figures from <code>bench memory aggregate</code> over three run directories; standard
@@ -3431,6 +3580,11 @@ store of 1,897 chunks.</p>
 <td>16. 2026.11.6</td>
 <td>The verification path changed: a chunk verified only on its own producer's stamp is demoted (GitHub #550). Measured 2026-11-16 on <code>9ddc2346b</code>; the commits after it are release documents</td>
 <td>The benchmark deposits as one client and never re-verifies a chunk, so the demotion itself is covered by the daemon's tests only</td>
+</tr>
+<tr>
+<td>17. 2026.11.7</td>
+<td>The embedding paths changed: a knowledge-graph entity stored without a vector during an embedder outage is re-embedded (GitHub #459), a provider outage never quarantines a knowledge-graph chunk (#369), and a managed instance's owner can enable memory with their own key (#807). Measured 2026-11-19 on <code>e071d5996</code>; the commits after it are release documents, a settings-form entry, a test and the quickstart's HTTPS front door</td>
+<td>The benchmark builds no knowledge graph (0 entities cleared) and its embedder never fails, so the re-embed and the quarantine rule are covered by the daemon's tests only</td>
 </tr>
 </tbody>
 </table>
@@ -3910,6 +4064,16 @@ each is stated:</p>
 <td><code>2026.11.5</code></td>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, measured on <code>2026.11.4-93-g39bb57729</code> (n=3), identical to 2026.11.3. The cycle's memory change (a verb that retires documents whose file is gone) is off the benchmark's path, so the row is the no-regression check. <strong>No agent row.</strong> The cycle adds no agent-prompt guidance the agent axis measures; the dispatcher prompt changed (no follow-up promise on a channel that cannot deliver one), and the dispatcher is not on the agent axis.</td>
+</tr>
+<tr>
+<td><code>2026.11.6</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, measured on <code>2026.11.5-43-g9ddc2346b</code> (n=3), identical to 2026.11.5; the cycle changed the verification path (#550), so a waiver was not open to it. <strong>No agent row.</strong> The cycle adds no agent-prompt guidance the agent axis measures. Stated late, with 2026.11.7's, rather than left as a silent gap.</td>
+</tr>
+<tr>
+<td><code>2026.11.7</code></td>
+<td><strong>memory row only</strong></td>
+<td>The memory open axis above, measured on <code>2026.11.6-69-ge071d5996</code> (n=3), identical to 2026.11.6; the cycle changed the embedding paths (#459, #369, #807), so a waiver was not open to it. <strong>No agent row.</strong> An agent calibration arm (polyglot) was running at release on this cycle's code; it was pre-registered as calibration, not as a scored arm, so it is not a row. The release was cut early for the AWS DevOps Agent listing (GitHub #844).</td>
 </tr>
 </tbody>
 </table>
