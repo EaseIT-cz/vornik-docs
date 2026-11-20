@@ -2141,6 +2141,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#from-a-github-actions-job-without-a-stored-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a GitHub Actions job, without a stored secret
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3192,6 +3203,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#from-a-github-actions-job-without-a-stored-secret" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        From a GitHub Actions job, without a stored secret
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4047,6 +4069,36 @@ itself enabled so its skill remains available:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[plugins.</span><span class="s2">"codex-companion@vornik"</span><span class="k">.mcp_servers.vornik]</span>
 <span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
+<h2 id="from-a-github-actions-job-without-a-stored-secret">From a GitHub Actions job, without a stored secret<a class="headerlink" href="#from-a-github-actions-job-without-a-stored-secret" title="Permanent link">&para;</a></h2>
+<p>A workflow can call the companion with the ID token GitHub issues to its run
+instead of a key's secret, so nothing secret is stored in the repository.
+Bind a key to one workflow file on one branch:</p>
+<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>companion<span class="w"> </span>grant<span class="w"> </span>-p<span class="w"> </span>ci-review<span class="w"> </span>--client<span class="w"> </span>github-actions<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--workflows<span class="w"> </span>companion-architectural-review<span class="w"> </span>--budget-usd<span class="w"> </span><span class="m">10</span><span class="w"> </span>--oidc-only
+vornikctl<span class="w"> </span>companion<span class="w"> </span>trust-github<span class="w"> </span>--key<span class="w"> </span>&lt;key<span class="w"> </span>id&gt;<span class="w"> </span>-p<span class="w"> </span>ci-review<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--repo<span class="w"> </span>acme/app<span class="w"> </span>--repo-id<span class="w"> </span><span class="s2">"</span><span class="k">$(</span>gh<span class="w"> </span>api<span class="w"> </span>repos/acme/app<span class="w"> </span>--jq<span class="w"> </span>.id<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--ref<span class="w"> </span>refs/heads/main<span class="w"> </span>--workflow<span class="w"> </span>.github/workflows/review.yml
+</code></pre></div>
+<p><code>--oidc-only</code> never prints the key's secret. The trust's audience defaults to
+the Vornik URL <code>vornikctl</code> talks to. In the workflow:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="nt">steps</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">      </span><span class="no">TOKEN=$(curl -fsS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \</span>
+<span class="w">        </span><span class="no">"$ACTIONS_ID_TOKEN_REQUEST_URL&amp;audience=https://vornik.example.org" | jq -r .value)</span>
+<span class="w">      </span><span class="no">curl -fsS -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \</span>
+<span class="w">        </span><span class="no">-d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"whoami","arguments":{}}}' \</span>
+<span class="w">        </span><span class="no">https://vornik.example.org/api/v1/mcp/companion</span>
+</code></pre></div>
+<p>Every claim must match: the repository (by its numeric id and its name), the
+ref, the workflow file and the event (by default <code>push</code>, <code>schedule</code>,
+<code>workflow_dispatch</code>). A run on another branch, a fork or a pull request gets
+a 401. <code>vornikctl companion trusts -p ci-review</code> lists the trusts and when
+each last served a request; <code>vornikctl companion untrust &lt;trust id&gt;</code> removes
+one. Only <code>pull_request_target</code> serves a pull request, and only when you name
+it with <code>--event</code>: it runs the base branch's workflow file, so name it only
+for a workflow that never runs the pull request's code.</p>
 
 
 

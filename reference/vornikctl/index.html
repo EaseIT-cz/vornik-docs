@@ -2709,6 +2709,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-companion-trust-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion trust-github
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-trusts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion trusts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-untrust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion untrust
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-config" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5505,6 +5538,39 @@
     <span class="md-ellipsis">
       
         vornikctl companion mcp-bridge
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-trust-github" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion trust-github
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-trusts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion trusts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-untrust" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion untrust
       
     </span>
   </a>
@@ -8586,6 +8652,11 @@ LLM client's plugin store. The daemon stores only the sha256 hash.</p>
 <td>Refuse every task tool (delegate/status/result/cancel/list/catalog) for this key — the shape of a front agent's memory key</td>
 </tr>
 <tr>
+<td><code>--oidc-only</code></td>
+<td><code>false</code></td>
+<td>Do not print the secret: the key is used only through a GitHub Actions trust (vornikctl companion trust-github)</td>
+</tr>
+<tr>
 <td><code>--repo-scope</code></td>
 <td></td>
 <td>Default repo_scope stamped on memory calls that omit it (e.g. github.com/ORG/REPO). Recommended for clients without a SessionStart scope injector (Codex) so deposits can't land NULL-scoped. An explicit per-call repo_scope still overrides it.</td>
@@ -8704,6 +8775,112 @@ protocol only; diagnostics go to stderr and never include the key.</p>
 <td><code>--url</code></td>
 <td></td>
 <td>Vornik's URL (default $VORNIK_URL, then $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-trust-github">vornikctl companion trust-github<a class="headerlink" href="#vornikctl-companion-trust-github" title="Permanent link">&para;</a></h2>
+<p>Bind a companion key to one GitHub Actions workflow (the job needs no stored secret)</p>
+<p>Bind a companion key to one workflow file on one branch of one repository.
+A job of that workflow then authenticates with the ID token GitHub issues to
+its run (permissions: id-token: write), requested for --audience. Every claim
+must match exactly; the key's project, workflows, budget and limit apply.</p>
+<p>--repo-id is the repository's numeric id, which survives a rename:
+  gh api repos/<owner>/<name> --jq .id</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion trust-github [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--audience</code></td>
+<td></td>
+<td>Token audience the job requests (default: this Vornik's URL)</td>
+</tr>
+<tr>
+<td><code>--event</code></td>
+<td></td>
+<td>Comma-separated events (default push,schedule,workflow_dispatch; pull_request is refused)</td>
+</tr>
+<tr>
+<td><code>--key</code></td>
+<td></td>
+<td>Companion key id (required)</td>
+</tr>
+<tr>
+<td><code>--ref</code></td>
+<td><code>refs/heads/main</code></td>
+<td>Branch or tag ref the workflow runs on</td>
+</tr>
+<tr>
+<td><code>--repo-id</code></td>
+<td><code>0</code></td>
+<td>The repository's numeric id (required)</td>
+</tr>
+<tr>
+<td><code>--repo</code></td>
+<td></td>
+<td>Repository, owner/name (required)</td>
+</tr>
+<tr>
+<td><code>--workflow</code></td>
+<td></td>
+<td>Workflow file, .github/workflows/<file>.yml (required)</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>The key's project (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-trusts">vornikctl companion trusts<a class="headerlink" href="#vornikctl-companion-trusts" title="Permanent link">&para;</a></h2>
+<p>List a project's GitHub Actions trusts, with when each last served a request</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion trusts [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--json</code></td>
+<td><code>false</code></td>
+<td>Emit JSON</td>
+</tr>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-untrust">vornikctl companion untrust<a class="headerlink" href="#vornikctl-companion-untrust" title="Permanent link">&para;</a></h2>
+<p>Remove a GitHub Actions trust</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion untrust &lt;trust id&gt; [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-p</code>, <code>--project</code></td>
+<td></td>
+<td>Project ID (required)</td>
 </tr>
 </tbody>
 </table>

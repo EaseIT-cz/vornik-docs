@@ -4162,7 +4162,22 @@ reading.
   An AWS DevOps Agent investigation is one such client. Its recommended key
   reads memory and approved skills only, and AWS asks customers to allowlist
   read-only tools as well. What it remembers, with a wider key, lands as a
-  note under the memory gates, never as a verified fact.
+  note under the memory gates, never as a verified fact.</p>
+<p>Each companion key may make 5 requests a second, with bursts of 50,
+  unless the operator changes <code>api.rate_limit.companion_key</code>.</p>
+<p>A CI job may authenticate as a companion key without holding its secret:
+  the operator binds the key to one GitHub Actions workflow (the
+  repository's numeric id and name, the branch or tag ref, the workflow
+  file, the events), and the job presents the ID token GitHub issues to its
+  run. Vornik checks the token's RS256 signature against GitHub's published
+  keys, its issuer, expiry, <code>nbf</code> and <code>iat</code>, that it carries exactly one
+  audience equal to the trust's, and every bound claim exactly; there are no
+  wildcards. The key must still be a live companion key whose owner is not
+  disabled. Any failure is a 401 that counts toward the per-address
+  lockout, never a fall-through to another credential. <code>pull_request</code> is
+  refused as an event (its ref never names a branch); <code>pull_request_target</code>
+  is allowed only when the operator names it, because it serves the base
+  branch's identity to a job that may run a pull request's code.
 - <strong>The plugins keep hint state only in the plugin's own data directory</strong>
   (or the user's runtime directory when the user owns it), never in a shared
   temp path, and refuse a state directory that is a symlink or that another

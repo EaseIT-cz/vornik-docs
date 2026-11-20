@@ -4528,6 +4528,13 @@ new behavior; those are called out below.</p>
   client stuck in a loop no longer calls as fast as the daemon answers.
   Change or turn off the default with <code>api.rate_limit.companion_key</code>
   (<code>rps</code>, <code>burst</code>, <code>off</code>). A key whose own row sets a limit keeps it.</li>
+<li><strong>A GitHub Actions job can call the companion without a stored secret</strong>
+  (GitHub #792). Bind a companion key to one workflow with <code>vornikctl
+  companion trust-github</code>; the job then authenticates with the ID token
+  GitHub issues to its run. Every claim must match exactly (repository id
+  and name, ref, workflow file, event, audience), and a run on another
+  branch, a fork or a pull request gets a 401. <code>vornikctl companion grant
+  --oidc-only</code> mints a key whose secret is never printed.</li>
 <li><strong>Secret findings in stored artifacts are counted</strong> (GitHub #85).
   <code>vornik_artifact_secret_findings_total{type, outcome}</code> counts each one as
   <code>rewritten</code>, <code>stored</code> (detect mode) or <code>dropped</code> (a heuristic rule, which
