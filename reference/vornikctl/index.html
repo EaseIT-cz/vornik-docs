@@ -12736,8 +12736,10 @@ MUST NOT be running. Requires psql on PATH. Refuses to run unless
   1. Schema-presence gate (B-8): if the target already carries a
      vornik-owned schema (migrations rows OR canonical PG types like
      artifact_class), the restore is refused. Override with --clean
-     (drops the schema first) or --allow-non-empty (proceeds anyway,
-     usually fails on CREATE TYPE collisions).
+     (drops vornik's objects, keeping the schema and its extensions,
+     in the restore's own transaction: a failed restore changes
+     nothing) or --allow-non-empty (proceeds anyway, usually fails on
+     CREATE TYPE collisions).
   2. Row-count gate: refuses targets with non-empty projects/tasks
      tables. Override with --allow-non-empty.</p>
 <p>Examples:
@@ -12767,7 +12769,7 @@ MUST NOT be running. Requires psql on PATH. Refuses to run unless
 <tr>
 <td><code>--clean</code></td>
 <td><code>false</code></td>
-<td>DROP SCHEMA public CASCADE before restore — wipes any vornik schema already loaded on the target</td>
+<td>drop vornik's objects (not the schema or its extensions) in the restore's own transaction — a failed restore changes nothing</td>
 </tr>
 <tr>
 <td><code>--force</code></td>
