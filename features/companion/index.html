@@ -599,6 +599,8 @@
       
         
       
+        
+      
     
     
     
@@ -948,6 +950,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/any-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from any agent
   
 
     
@@ -3936,6 +3966,11 @@ front-end agent should not have.</p>
 <p>For <strong>Claude Desktop and Cowork</strong>, mint the key the same way, then follow
 <a href="../../guides/claude-desktop/">Use Vornik from Claude Desktop and Cowork</a>: one
 command connects them, with no Node and no token in Claude's config.</p>
+<p>For <strong>any other agent</strong> (Gemini CLI, opencode, Cursor and others), follow
+<a href="../../guides/any-agent/">Use Vornik from any agent</a>: <code>vornikctl companion
+connect generic --print</code> prints the MCP entry to paste, and <code>vornikctl
+companion instructions --write AGENTS.md</code> gives the agent Vornik's working
+rules.</p>
 <p>On the <strong>daemon</strong> side, an operator prepares a companion project and mints a
 <strong>companion-scoped key</strong> (a plain API key won't be accepted on the companion
 endpoint). Each companion key may make 5 requests a second, with bursts of

@@ -601,6 +601,8 @@
       
         
       
+        
+      
     
     
     
@@ -950,6 +952,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/any-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from any agent
   
 
     
@@ -2991,114 +3021,123 @@
 
 
 <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
-<p>This guide takes you from a fresh machine to a running vornik daemon with
-your first project, then submits and watches a task run end to end. It
-assumes no prior vornik knowledge — if a term is unfamiliar, the
-<a href="../concepts/">Concepts</a> page explains the vocabulary.</p>
+<p>This page takes you from a fresh machine to a running vornik daemon with a
+first project, then runs one task end to end. It assumes no vornik
+knowledge; <a href="../concepts/">Concepts</a> explains each term.</p>
 <h2 id="what-vornik-does">What vornik does<a class="headerlink" href="#what-vornik-does" title="Permanent link">&para;</a></h2>
-<p>vornik is an asynchronous orchestration daemon. You define <strong>projects</strong>,
-each backed by a <strong>swarm</strong> of agents and one or more <strong>workflows</strong>. You
-submit <strong>tasks</strong>; vornik queues them, starts the agents in isolated local
-containers, runs them through the workflow, and persists the results. Work
-runs continuously in the background — you submit and walk away, then come
+<p>vornik is an asynchronous orchestration daemon. You define <strong>projects</strong>.
+Each runs on a <strong>swarm</strong> of agents and one or more <strong>workflows</strong>. You submit
+<strong>tasks</strong>: vornik queues them, starts the agents in isolated local
+containers, runs them through the workflow, and keeps the results. Work
+runs continuously in the background: you submit and walk away, then come
 back for the output.</p>
-<p>You can drive it from the CLI, the HTTP API, the Web UI, or a connected
-conversation channel (Telegram, Slack, e-mail or web chat), or from another AI
-assistant connected as a companion. Around the core,
-recent releases add operability and resilience features you will meet later
-in the docs — a one-command redacted support bundle, expanded <code>vornikctl
-doctor</code> checks, centralised log forwarding, structured recovery for failed
-steps, and a bounded graceful shutdown — plus approvals on a paired phone and
-the controls described in the <a href="../security-model/">security model</a>. None of that is needed to get started; the
+<p>You drive it from the CLI, the HTTP API, the Web UI, a connected
+conversation channel (Telegram, Slack, e-mail or web chat), or another AI
+assistant connected as a companion. Recent releases add operability and
+resilience features that later pages cover: a one-command redacted support
+bundle, expanded <code>vornikctl doctor</code> checks, centralised log forwarding,
+structured recovery for failed steps, a bounded graceful shutdown, approvals
+on a paired phone, and the controls in the
+<a href="../security-model/">security model</a>. You need none of them to start: the
 defaults are safe and local-first.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Go 1.26+</strong> — to build the daemon and CLI from source.</li>
-<li><strong>Podman</strong> (rootless recommended) — vornik runs every agent in its own
-  Podman container for isolation. Docker is not used.</li>
-<li><strong>PostgreSQL with the <a href="https://github.com/pgvector/pgvector">pgvector</a>
-  extension</strong> — vornik keeps all durable state (queues, tasks, executions,
-  artifacts, memory) in PostgreSQL so work survives restarts. pgvector backs
-  the memory/RAG semantic search — the recommended <code>pgvector/pgvector</code> image
-  ships it, and vornik enables the extension on first boot. SQLite is
-  supported for the orchestration core, but it <strong>cannot do vector search</strong>, so
-  memory/RAG falls back to keyword search only (see <a href="../features/memory-rag/">Memory &amp;
-  RAG</a>).</li>
-<li><strong>Make</strong> — convenience build targets.</li>
+<li><strong>Go 1.26 or later</strong>, to build the daemon and CLI from source.</li>
+<li><strong>Podman</strong>, rootless recommended. vornik runs every agent in its own
+  Podman container. Docker is not used.</li>
+<li><strong>PostgreSQL with <a href="https://github.com/pgvector/pgvector">pgvector</a>.</strong>
+  vornik keeps all durable state (queues, tasks, executions, artifacts,
+  memory) in PostgreSQL, so work survives restarts. pgvector backs the
+  memory (RAG) semantic search; the <code>pgvector/pgvector</code> image ships it, and
+  vornik enables the extension on first boot. SQLite runs the orchestration
+  core but has no vector search, so memory falls back to keyword search only
+  (see
+  <a href="../features/memory-rag/">Memory &amp; RAG</a>).</li>
+<li><strong>Make</strong>, for the build targets.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>vornik is <strong>local-first</strong>: the daemon and all agent containers run on
+<p>vornik is <strong>local-first</strong>: the daemon and every agent container run on
 the same host. There is no cloud service to sign up for.</p>
 </div>
 <h2 id="a-60-second-playground">A 60-second playground<a class="headerlink" href="#a-60-second-playground" title="Permanent link">&para;</a></h2>
 <div class="admonition tip">
-<p class="admonition-title">Preferred: AI-assisted install</p>
-<p>If you use a coding agent (Claude Code, Codex, Gemini CLI, …), let it do
-everything on this page for you — paste this into your agent:</p>
+<p class="admonition-title">Preferred: let your coding agent install it</p>
+<p>If you use Claude Code, Codex, or a Hermes agent with shell access, paste
+this into it, and it does everything on this page:</p>
 <blockquote>
 <p>Set up Vornik for me. Follow the runbook at https://agents.vornik.io</p>
 </blockquote>
-<p><a href="https://github.com/EaseIT-cz/vornik/blob/main/AGENTS.md">AGENTS.md</a> is an
-agent-executable runbook: install (via the same <code>get.vornik.io</code> script
-below), LLM key setup, a first task, and the agent's own companion
-project + persistent RAG memory + knowledge-skill store (so it can
-capture reusable procedures and reuse them across sessions and projects)
-— with a verifiable check at every step, and your approval required
+<p><a href="https://github.com/EaseIT-cz/vornik/blob/main/AGENTS.md">AGENTS.md</a> is a
+runbook written for agents. It installs (with the same <code>get.vornik.io</code>
+script as below), sets up your LLM key, runs a first task, and gives the
+agent its own companion project, with persistent RAG memory and a
+knowledge-skill store for procedures it captures and reuses across
+sessions and projects. Every step has a check, and the agent asks you
 before anything privileged.</p>
+<p>Other agents (Gemini CLI, opencode and others) can use Vornik's memory
+and delegation once it runs: see
+<a href="../guides/any-agent/">Use Vornik from any agent</a>.</p>
 </div>
-<p>If you'd rather run it yourself, one command stands up a complete playground
-on a Linux host — on macOS the same command first provisions a small Linux VM
-(<a href="#macos-inside-a-linux-vm">below</a>). On Linux it installs any missing
-prerequisites, builds the daemon + CLI in an ephemeral container (no Go
-toolchain needed), starts PostgreSQL + pgvector in a container, and runs the
-daemon as a rootless <code>systemctl --user</code> service that spawns agent containers
-via your rootless Podman:</p>
+<p>To run it yourself, one command sets up a complete playground on a Linux
+host. On macOS it first provisions a small Linux VM
+(<a href="#macos-inside-a-linux-vm">below</a>). On Linux it:</p>
+<ul>
+<li>installs any missing prerequisites;</li>
+<li>builds the daemon and CLI in a throwaway container (no Go toolchain
+  needed);</li>
+<li>starts PostgreSQL with pgvector in a container;</li>
+<li>runs the daemon as a rootless <code>systemctl --user</code> service that starts
+  agent containers through your rootless Podman.</li>
+</ul>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://get.vornik.io<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash
 </code></pre></div>
-<p>This pins the <strong>release tag baked into the script</strong> (not a moving branch); set
-<code>VORNIK_REF=main</code> for bleeding-edge. To verify the script against its published
-checksum before piping it to a shell (catches transit/redirect tampering — not
-a signature), fetch both first:</p>
+<p>The script pins its own release tag, not a moving branch; set
+<code>VORNIK_REF=main</code> for the latest code. To check the script against its
+published checksum before running it (this catches tampering in transit or
+through a redirect; it is not a signature), fetch both first:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">REF</span><span class="o">=</span>&lt;release&gt;<span class="w">  </span><span class="c1"># a tag from github.com/EaseIT-cz/vornik/releases that ships quickstart.sh.sha256</span>
 <span class="nv">base</span><span class="o">=</span><span class="s2">"https://raw.githubusercontent.com/EaseIT-cz/vornik/</span><span class="nv">$REF</span><span class="s2">/deployments/podman"</span>
 curl<span class="w"> </span>-fsSLO<span class="w"> </span><span class="s2">"</span><span class="nv">$base</span><span class="s2">/quickstart.sh"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>curl<span class="w"> </span>-fsSLO<span class="w"> </span><span class="s2">"</span><span class="nv">$base</span><span class="s2">/quickstart.sh.sha256"</span>
 sha256sum<span class="w"> </span>-c<span class="w"> </span>quickstart.sh.sha256<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">VORNIK_REF</span><span class="o">=</span><span class="s2">"</span><span class="nv">$REF</span><span class="s2">"</span><span class="w"> </span>bash<span class="w"> </span>quickstart.sh
 </code></pre></div>
-<p>The daemon creates and migrates its own schema on first boot, so all you supply
-is an empty database — the script provisions it. When it finishes, open
-<a href="http://localhost:8080/ui">http://localhost:8080/ui</a> and log in with the API key the installer generated
-(<code>VORNIK_API_KEY</code> in <code>~/.config/vornik/secrets/api.env</code>; every request needs it).
-A first-run <strong>setup guide</strong> walks you through
-connecting an LLM endpoint and key (with a live connection test), optional
-memory/RAG, and creating your first project. To do the same from the terminal,
-set <code>VORNIK_CHAT_API_KEY</code> in <code>~/.config/vornik/vornik.env</code> and run
-<code>systemctl --user restart vornik</code>. See the
+<p>The daemon creates and migrates its own schema on first boot; the script
+provisions the empty database. When it finishes, open
+<a href="http://localhost:8080/ui">http://localhost:8080/ui</a> and log in with the API key the installer
+generated (<code>VORNIK_API_KEY</code> in <code>~/.config/vornik/secrets/api.env</code>; every
+request needs it). A first-run <strong>setup guide</strong> walks you through connecting
+an LLM endpoint and key (with a live connection test), optional memory
+(RAG), and your first project.
+From the terminal instead: set <code>VORNIK_CHAT_API_KEY</code> in
+<code>~/.config/vornik/vornik.env</code> and run <code>systemctl --user restart vornik</code>. The
 <a href="https://github.com/EaseIT-cz/vornik/tree/main/deployments/podman">Podman deployment notes</a>
-for tunables and the runtime model.</p>
+cover the tunables and the runtime model.</p>
 <h3 id="macos-inside-a-linux-vm">macOS (inside a Linux VM)<a class="headerlink" href="#macos-inside-a-linux-vm" title="Permanent link">&para;</a></h3>
-<p>macOS has no native container runtime, and Vornik's zero-egress agent isolation
-depends on a Linux-only mechanism (a network-less container reaching the daemon
-over a bind-mounted unix socket). To preserve that isolation <strong>exactly</strong> as on
-Linux, the installer provisions a lightweight Linux VM
-(<a href="https://lima-vm.io">Lima</a>) and runs the same stack inside it. The one-liner
-above auto-detects macOS and does this for you — there is no macOS variant to
-remember. The installer adds Lima (via Homebrew), creates a <code>vornik</code> VM
-(Apple-Silicon-first; Intel is best-effort), runs the standard install inside
-it, and forwards the UI/API to your Mac at <a href="http://localhost:8080/ui">http://localhost:8080/ui</a>. Manage
-it with the installed <code>vornikctl</code> shim, which runs against the VM:</p>
+<p>macOS has no native container runtime, and vornik's zero-egress agent
+isolation needs Linux: a container with no network reaches the daemon over
+a bind-mounted unix socket. To keep that isolation exactly as on Linux, the
+installer runs the same stack in a lightweight <a href="https://lima-vm.io">Lima</a>
+VM. The one-liner above detects macOS and does it for you; there is no macOS
+variant to remember:</p>
+<ul>
+<li>it installs Lima with Homebrew;</li>
+<li>creates a <code>vornik</code> VM (Apple Silicon first; Intel is best effort);</li>
+<li>runs the standard install inside it;</li>
+<li>forwards the UI and API to <a href="http://localhost:8080/ui">http://localhost:8080/ui</a> on your Mac.</li>
+</ul>
+<p>The installed <code>vornikctl</code> shim runs against the VM:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>status<span class="w">          </span><span class="c1"># daemon health inside the VM</span>
 vornikctl<span class="w"> </span>logs<span class="w">            </span><span class="c1"># daemon logs</span>
 vornikctl<span class="w"> </span>backup<span class="w"> </span>out.tar<span class="w">  </span><span class="c1"># snapshot (DB via pg_dump + config) to a Mac path</span>
-vornikctl<span class="w"> </span>delete<span class="w"> </span>--force<span class="w">  </span><span class="c1"># destroy the VM — run backup first; this erases all data</span>
+vornikctl<span class="w"> </span>delete<span class="w"> </span>--force<span class="w">  </span><span class="c1"># destroy the VM; run backup first, this erases all data</span>
 </code></pre></div>
-<p>Notes: your data (including PostgreSQL) lives <strong>inside the VM</strong> for durability;
-persist across a VM rebuild with <code>vornikctl backup</code>/<code>restore</code>. Only
-<code>~/.config/vornik</code> is shared from the Mac (editable; run <code>vornikctl reload</code>
-after editing). The UI port-forward means any local Mac process can reach the
-daemon API — fine for a single-operator install.</p>
-<p>This is the fastest way to get a working instance; the rest of this page builds
-the same thing by hand so you understand each piece.</p>
+<p>Your data, PostgreSQL included, lives <strong>inside the VM</strong>, for durability; carry it across a
+VM rebuild with <code>vornikctl backup</code> and <code>restore</code>. Only <code>~/.config/vornik</code> is
+shared from the Mac: edit it there, then run <code>vornikctl reload</code>. Any local
+Mac process can reach the daemon's API through the port forward, which is
+fine for a single operator.</p>
+<p>That is the fastest way to a working instance. The rest of this page builds
+the same thing by hand, so you see each piece.</p>
 <h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
 <p>Build the two binaries from source:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># The daemon</span>
@@ -3107,120 +3146,102 @@ go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span
 <span class="c1"># The control CLI</span>
 go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>bin/vornikctl<span class="w"> </span>./cmd/vornikctl
 </code></pre></div>
-<p>Or use the Make target, which produces the same binaries:</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>build
-</code></pre></div>
-<p>Put <code>bin/</code> on your <code>PATH</code> (or call the binaries by path). The rest of this
-guide assumes <code>vornik</code> and <code>vornikctl</code> are on your <code>PATH</code>.</p>
-<p>Confirm the build:</p>
+<p><code>make build</code> produces the same binaries. Put <code>bin/</code> on your <code>PATH</code> (or call
+the binaries by path); the rest of this page assumes <code>vornik</code> and
+<code>vornikctl</code> are on it. Confirm the build:</p>
 <div class="highlight"><pre><span></span><code>vornik<span class="w"> </span>--version
 vornikctl<span class="w"> </span>version
 </code></pre></div>
-<p><code>vornik --version</code> reports the build you are running; building from the
-latest <code>main</code> may report a newer version than the most recent tagged
-release. See the <a href="../release-notes/">Release notes</a> for what each
+<p><code>vornik --version</code> reports the build you are running. A build from the
+latest <code>main</code> can report a newer version than the latest tagged release. The <a href="../release-notes/">release notes</a> say what each
 release adds.</p>
 <h2 id="point-vornik-at-a-database">Point vornik at a database<a class="headerlink" href="#point-vornik-at-a-database" title="Permanent link">&para;</a></h2>
-<p>vornik reads its database connection from configuration or environment
-variables. The quickest path is environment variables:</p>
+<p>vornik reads its database connection from its configuration or from
+environment variables. The quickest way is environment variables:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_DATABASE_HOST</span><span class="o">=</span>localhost
 <span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_DATABASE_PORT</span><span class="o">=</span><span class="m">5432</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_DATABASE_NAME</span><span class="o">=</span>vornik
 <span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_DATABASE_USER</span><span class="o">=</span>vornik
 <span class="nb">export</span><span class="w"> </span><span class="nv">VORNIK_DATABASE_PASSWORD</span><span class="o">=</span>vornik
 </code></pre></div>
-<p>vornik creates and migrates its schema on first start, so an empty
-database is all you need — point it at a fresh database and let it migrate;
-do not pre-load a schema dump. Use a PostgreSQL image with <strong>pgvector</strong>
-(e.g. <code>pgvector/pgvector</code>) so the memory/RAG vector search works; vornik
-enables the extension during that first-boot migration. For a full list of
-settings and the YAML equivalent, see the
-<a href="../reference/configuration/">Configuration reference</a>.</p>
+<p>vornik creates and migrates its schema on first start: give it an empty
+database, and do not load a schema dump. Use a PostgreSQL image with
+<strong>pgvector</strong> (for example <code>pgvector/pgvector</code>) so memory search works; vornik
+enables the extension during that first migration. Every setting, and its
+YAML form, is in the <a href="../reference/configuration/">configuration reference</a>.</p>
 <h2 id="start-the-daemon">Start the daemon<a class="headerlink" href="#start-the-daemon" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>vornik
 </code></pre></div>
-<p>With no flags, vornik looks for configuration in this order: the <code>--config</code>
-flag, the <code>VORNIK_CONFIG</code> environment variable, <code>./vornik.yaml</code> (or
-<code>./config.yaml</code>), <code>~/.config/vornik/</code> (XDG user config), then
-<code>/etc/vornik/vornik.yaml</code>. To run with an explicit file:</p>
+<p>With no flags, vornik reads its configuration from the first of: the
+<code>--config</code> flag, the <code>VORNIK_CONFIG</code> variable, <code>./vornik.yaml</code> (or
+<code>./config.yaml</code>), <code>~/.config/vornik/</code>, and <code>/etc/vornik/vornik.yaml</code>. To name
+a file:</p>
 <div class="highlight"><pre><span></span><code>vornik<span class="w"> </span>--config<span class="w"> </span>/path/to/vornik.yaml
 </code></pre></div>
-<p>Once it is up, the daemon serves a Web UI and an HTTP API (default
-<code>:8080</code>). Check it is ready before submitting work:</p>
+<p>The daemon serves the Web UI and the HTTP API, on <code>:8080</code> by default. Check
+that it is ready before you submit work:</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>http://localhost:8080/readyz
 <span class="c1"># {"status":"ready","checks":[{"name":"database","status":"ok"}]}</span>
 </code></pre></div>
-<p>A <code>200</code> from <code>/readyz</code> means every dependency the daemon needs is
-reachable. A <code>503</code> lists which check is failing — see
-<a href="../troubleshooting/">Troubleshooting</a> if you get one.</p>
+<p>A <code>200</code> means every dependency is reachable. A <code>503</code> names the failing
+check; <a href="../troubleshooting/">Troubleshooting</a> covers each.</p>
 <h2 id="create-your-first-swarm">Create your first swarm<a class="headerlink" href="#create-your-first-swarm" title="Permanent link">&para;</a></h2>
-<p>A project needs a swarm to run on. The fastest way to get one is to
-generate it from a built-in preset. The <code>research</code> preset (a lead plus a
-researcher and a writer) is a good fit for digest, scan, and
-summary-style work:</p>
+<p>A project needs a swarm. The fastest way is a built-in preset. The
+<code>research</code> preset (a lead, a researcher and a writer) fits digest, scan and
+summary work:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>swarm<span class="w"> </span>my-swarm<span class="w"> </span>--template<span class="w"> </span>research
 </code></pre></div>
-<p>To see every preset and a one-line description of each:</p>
-<div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>swarm<span class="w"> </span>--list
-</code></pre></div>
-<p>This writes a <code>SWARM.md</code> file into your <code>configs/swarms/</code> directory and
-validates it against the registry before saving.</p>
+<p><code>vornikctl init swarm --list</code> lists every preset, one line each. The command
+writes a <code>SWARM.md</code> into <code>configs/swarms/</code> and checks it against the
+registry before saving.</p>
 <h2 id="create-your-first-project">Create your first project<a class="headerlink" href="#create-your-first-project" title="Permanent link">&para;</a></h2>
-<p>Generate a project that uses the swarm you just created and the built-in
-<code>adaptive</code> workflow:</p>
+<p>Create a project on that swarm and the built-in <code>adaptive</code> workflow:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>init<span class="w"> </span>project<span class="w"> </span>my-project<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--display-name<span class="w"> </span><span class="s2">"My First Project"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--swarm<span class="w"> </span>my-swarm<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--workflow<span class="w"> </span>adaptive
 </code></pre></div>
-<p>Pass <code>--dry-run</code> first if you want to preview the generated YAML without
-writing it. The command validates the project against the registry — it
-will refuse to create a project that references a swarm or workflow that
-does not exist.</p>
+<p>Pass <code>--dry-run</code> first to preview the generated YAML without writing it. The
+command validates the project against the registry, and refuses one that
+names a swarm or workflow that does not exist.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You can also create projects without touching the CLI: open the Web UI
-at <code>/ui/projects/new</code> for a gallery of templates, or
-<code>/ui/projects/new/wizard</code> for a conversational wizard that composes a
-base template with typed add-ons (MCP servers, schedule, secrets,
-tools, role instructions) and builds the project, swarm, and workflow
-for you.</p>
-<p>A project runs <strong>one</strong> autonomy style. If you describe a need with two
-cadences — say, "ingest my mail every 5 minutes <strong>and</strong> produce a daily
-digest" — the wizard builds a single scheduled loop whose goal handles
-both (frequent ingestion each tick; the digest when the day's elapsed),
-rather than two conflicting schedules. Set <code>chat.wizard_model</code> to a
-capable model (a strong Bedrock chat model works well) if you want
-higher-quality drafts; the wizard still converges on a valid project
-regardless of the model.</p>
+<p>You can also create projects in the Web UI: <code>/ui/projects/new</code> has a
+gallery of templates, and <code>/ui/projects/new/wizard</code> is a conversational
+wizard. The wizard combines a base template with typed add-ons (MCP
+servers, a schedule, secrets, tools, role instructions) and builds the
+project, swarm and workflow for you.</p>
+<p>A project runs <strong>one</strong> autonomy style. Describe a need with two
+cadences, say "ingest my mail every 5 minutes <strong>and</strong> produce a daily
+digest", and the wizard builds one scheduled loop that does both, rather
+than two conflicting schedules: it ingests on every tick and produces
+the digest once the day has passed. Set
+<code>chat.wizard_model</code> to a capable model (a strong Bedrock chat model
+works well) for better drafts; the wizard reaches a valid project with
+any model.</p>
 </div>
-<p>Confirm the daemon has loaded your project:</p>
+<p>Confirm the daemon loaded it:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>project<span class="w"> </span>list
 vornikctl<span class="w"> </span>project<span class="w"> </span>show<span class="w"> </span>my-project
 </code></pre></div>
-<p>However you created it, every project gets a readiness checklist at
-<code>/ui/projects/{id}/setup</code> — config, secrets, MCP reachability, chat model,
-schedule, and an optional smoke test — and the project list flags any
-project with unmet required checks.</p>
+<p>Every project, however you made it, has a readiness checklist at
+<code>/ui/projects/{id}/setup</code>: config, secrets, MCP reachability, chat model,
+schedule, and an optional smoke test. The project list flags a project with
+unmet required checks.</p>
 <h2 id="submit-your-first-task">Submit your first task<a class="headerlink" href="#submit-your-first-task" title="Permanent link">&para;</a></h2>
-<p>Now submit a task. The <code>--prompt</code> flag is the simplest way to describe the
-work:</p>
+<p><code>--prompt</code> is the simplest way to describe the work:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>submit<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--project<span class="w"> </span>my-project<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--prompt<span class="w"> </span><span class="s2">"Summarise the key themes in the attached notes."</span>
 </code></pre></div>
-<p>The command returns a task ID. vornik has queued the task; the scheduler
-will pick it up, start the agents, and run them through the project's
-workflow.</p>
-<p>Useful options:</p>
+<p>It returns a task ID: vornik has queued the task. The scheduler picks it up,
+starts the agents and runs them through the project's workflow. Useful options:</p>
 <ul>
-<li><code>--priority &lt;0-100&gt;</code> — lower numbers run first; <code>0</code> uses the project
-  default.</li>
-<li><code>--workflow &lt;id&gt;</code> — run this task on a workflow other than the project
-  default.</li>
-<li><code>--task-type &lt;label&gt;</code> — a free-form label that shows up in the task list.</li>
-<li><code>--attach &lt;file&gt;</code> — attach a file as an input; it is snapshotted and
-  extracted into project memory so agents can read it.</li>
+<li><code>--priority &lt;0-100&gt;</code>: lower runs first; <code>0</code> uses the project's default.</li>
+<li><code>--workflow &lt;id&gt;</code>: run on a workflow other than the project's default.</li>
+<li><code>--task-type &lt;label&gt;</code>: a free-form label shown in the task list.</li>
+<li><code>--attach &lt;file&gt;</code>: attach an input file. It is snapshotted and extracted
+  into project memory, so the agents can read it.</li>
 </ul>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>submit<span class="w"> </span>-p<span class="w"> </span>my-project<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--prompt<span class="w"> </span><span class="s2">"Review this report and list open risks."</span><span class="w"> </span><span class="se">\</span>
@@ -3228,36 +3249,35 @@ workflow.</p>
 <span class="w">  </span>--priority<span class="w"> </span><span class="m">10</span>
 </code></pre></div>
 <h2 id="watch-it-run">Watch it run<a class="headerlink" href="#watch-it-run" title="Permanent link">&para;</a></h2>
-<p>List the tasks in your project, optionally filtered by status:</p>
+<p>List a project's tasks, optionally by status:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>list<span class="w"> </span>--project<span class="w"> </span>my-project
 vornikctl<span class="w"> </span>task<span class="w"> </span>list<span class="w"> </span>--project<span class="w"> </span>my-project<span class="w"> </span>--status<span class="w"> </span>RUNNING
 </code></pre></div>
-<p>Inspect a single task — its status, workflow, and timestamps:</p>
+<p>Show one task: its status, workflow and timestamps:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>get<span class="w"> </span>&lt;taskId&gt;<span class="w"> </span>--project<span class="w"> </span>my-project
 </code></pre></div>
-<p>Follow the live logs while it runs, or read the result excerpt once it has
+<p>Follow its logs while it runs, or read the result excerpt once it has
 finished:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>task<span class="w"> </span>tail<span class="w"> </span>&lt;taskId&gt;<span class="w"> </span>--project<span class="w"> </span>my-project<span class="w"> </span>--follow
 </code></pre></div>
-<p>A task moves through <code>PENDING</code> → <code>QUEUED</code> → <code>RUNNING</code> and ends in
-<code>COMPLETED</code>, <code>FAILED</code>, or <code>CANCELLED</code>. When it completes, any files the
-agents wrote as outputs are persisted as <strong>artifacts</strong> and surfaced through
-the API and Web UI.</p>
+<p>A task moves through <code>PENDING</code>, <code>QUEUED</code> and <code>RUNNING</code>, and ends <code>COMPLETED</code>,
+<code>FAILED</code> or <code>CANCELLED</code>. Files the agents wrote as outputs are kept as
+<strong>artifacts</strong>, shown in the API and the Web UI.</p>
 <h2 id="where-to-go-next">Where to go next<a class="headerlink" href="#where-to-go-next" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong><a href="../concepts/">Concepts</a></strong> — understand projects, swarms,
-  workflows, tasks, delegation, and memory before you customise.</li>
-<li><strong><a href="../guides/">Guides</a></strong> — task-focused how-tos, including
+<li><strong><a href="../concepts/">Concepts</a></strong>: projects, swarms, workflows, tasks,
+  delegation and memory, before you customise.</li>
+<li><strong><a href="../guides/">Guides</a></strong>: how-tos, including
   <a href="../guides/workflows-and-llm-controls/">workflows and LLM controls</a> and
   <a href="../guides/conversation-channels/">conversation channels</a>.</li>
 <li><strong><a href="../features/companion/">Companion</a></strong> and
-  <strong><a href="../features/knowledge-skills/">Knowledge skills</a></strong> — wire your own
-  coding agent into vornik and teach it reusable procedures that inject into
-  swarm roles (and, when marked global, every project).</li>
+  <strong><a href="../features/knowledge-skills/">Knowledge skills</a></strong>: connect your own
+  coding agent, and teach it reusable procedures that reach swarm roles (and
+  every project, when marked global).</li>
 <li><strong><a href="../reference/configuration/">Configuration reference</a></strong> and the
-  <strong><a href="../reference/vornikctl/">vornikctl reference</a></strong> — every setting and
+  <strong><a href="../reference/vornikctl/">vornikctl reference</a></strong>: every setting and
   command.</li>
-<li><strong><a href="../troubleshooting/">Troubleshooting</a></strong> — when something does
+<li><strong><a href="../troubleshooting/">Troubleshooting</a></strong>: when something does
   not start or a task gets stuck.</li>
 </ul>
 

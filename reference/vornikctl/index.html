@@ -599,6 +599,8 @@
       
         
       
+        
+      
     
     
     
@@ -948,6 +950,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/any-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from any agent
   
 
     
@@ -2680,6 +2710,17 @@
     <span class="md-ellipsis">
       
         vornikctl companion hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion instructions
       
     </span>
   </a>
@@ -5516,6 +5557,17 @@
     <span class="md-ellipsis">
       
         vornikctl companion hints
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-companion-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl companion instructions
       
     </span>
   </a>
@@ -8497,15 +8549,21 @@ scope columns on every call.</p>
 separate companion-revoke — the underlying api_keys row revokes the
 same way regardless of how it was minted.</p>
 <h2 id="vornikctl-companion-connect">vornikctl companion connect<a class="headerlink" href="#vornikctl-companion-connect" title="Permanent link">&para;</a></h2>
-<p>Connect Claude Desktop (and Cowork) to Vornik with a companion key</p>
-<p>Store a companion key in a file only you can read, add one MCP server entry
-to Claude Desktop's config that runs 'vornikctl companion mcp-bridge', and
-check the key against Vornik. The Claude config never holds the key.</p>
+<p>Connect Claude Desktop (and Cowork), or any other assistant, to Vornik with a companion key</p>
+<p>Check a companion key against Vornik, then store it in a file only you can
+read. For claude-desktop, also add one MCP server entry to Claude Desktop's
+config that runs 'vornikctl companion mcp-bridge'. The Claude config never
+holds the key.</p>
+<p>For any other assistant (Gemini CLI, opencode, ...), 'connect generic --print'
+writes no assistant config. It prints the MCP entry to paste: a stdio form
+that runs the bridge, and a streamable-HTTP form that reads the key from an
+environment variable. It warns when the key has no default repo scope. The
+key is never printed.</p>
 <p>The key comes from --key-stdin, else VORNIK_COMPANION_TOKEN. connect does not
 mint keys: an operator mints one with 'vornikctl companion grant'. An
 agent-admin key is refused (use 'vornikctl agent connect').</p>
 <p>Claude Code and Codex use their companion plugins instead.</p>
-<div class="highlight"><pre><span></span><code>vornikctl companion connect claude-desktop [flags]
+<div class="highlight"><pre><span></span><code>vornikctl companion connect &lt;claude-desktop|generic&gt; [flags]
 </code></pre></div>
 <table>
 <thead>
@@ -8527,6 +8585,11 @@ agent-admin key is refused (use 'vornikctl agent connect').</p>
 <td>The companion key's name (2 to 16 lowercase letters and digits)</td>
 </tr>
 <tr>
+<td><code>--print</code></td>
+<td><code>false</code></td>
+<td>generic only: write no assistant config; print the MCP entry to paste</td>
+</tr>
+<tr>
 <td><code>--url</code></td>
 <td></td>
 <td>Vornik's URL (default $VORNIK_URL, then $VORNIK_API_URL, then http://localhost:8080)</td>
@@ -8537,9 +8600,9 @@ agent-admin key is refused (use 'vornikctl agent connect').</p>
 <div class="highlight"><pre><span></span><code>printf '%s\n' "$VORNIK_COMPANION_TOKEN" | vornikctl companion connect claude-desktop --key-stdin --url https://vornik.example
 </code></pre></div>
 <h2 id="vornikctl-companion-disconnect">vornikctl companion disconnect<a class="headerlink" href="#vornikctl-companion-disconnect" title="Permanent link">&para;</a></h2>
-<p>Remove the companion entry from Claude Desktop and delete its key file</p>
+<p>Remove the companion entry from Claude Desktop (if any) and delete its key file</p>
 <p>Remove what 'vornikctl companion connect' wrote. It revokes nothing on the daemon: the key belongs to the operator who minted it ('vornikctl companion keys').</p>
-<div class="highlight"><pre><span></span><code>vornikctl companion disconnect claude-desktop [flags]
+<div class="highlight"><pre><span></span><code>vornikctl companion disconnect &lt;claude-desktop|generic&gt; [flags]
 </code></pre></div>
 <table>
 <thead>
@@ -8558,9 +8621,11 @@ agent-admin key is refused (use 'vornikctl agent connect').</p>
 </tbody>
 </table>
 <h2 id="vornikctl-companion-doctor">vornikctl companion doctor<a class="headerlink" href="#vornikctl-companion-doctor" title="Permanent link">&para;</a></h2>
-<p>Check a companion connection in Claude Desktop and print the fix for each failure</p>
-<p>Check the Claude Desktop entry, the key file, the daemon and the key itself,
-one line per check, each failure with its fix. It changes nothing. Exit status
+<p>Check a companion connection and print the fix for each failure</p>
+<p>Check the key file, the daemon and the key itself, one line per check, each
+failure with its fix; for claude-desktop, also the Claude Desktop entry. With
+--client generic it also names the key the bridge uses and what it cannot see
+(your assistant's own entry and environment). It changes nothing. Exit status
 0 when every check passes, 1 otherwise.</p>
 <div class="highlight"><pre><span></span><code>vornikctl companion doctor [flags]
 </code></pre></div>
@@ -8719,6 +8784,45 @@ outcomes. Mute a hint or turn hints off in the project's companion block.</p>
 <td><code>-p</code>, <code>--project</code></td>
 <td></td>
 <td>Project ID (required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-companion-instructions">vornikctl companion instructions<a class="headerlink" href="#vornikctl-companion-instructions" title="Permanent link">&para;</a></h2>
+<p>Print how an assistant should work with Vornik, for its AGENTS.md (or write it there)</p>
+<p>Print the working rules Vornik's companion endpoint sends every session,
+read from the daemon with your companion key, preceded by what an assistant
+without Vornik hooks needs: call recent_memory when a session starts, and
+find Vornik's tools under the prefix your assistant gives them.</p>
+<p>--write <file> puts the text between <!-- vornik:start --> and</p>
+<!-- vornik:end -->
+<p>, replacing an earlier copy and keeping the rest of the
+file. A missing file is created; a file with unbalanced markers is refused.</p>
+<p>The key comes from VORNIK_COMPANION_TOKEN, else the key file connect wrote.</p>
+<div class="highlight"><pre><span></span><code>vornikctl companion instructions [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--name</code></td>
+<td><code>default</code></td>
+<td>The companion key's name (2 to 16 lowercase letters and digits)</td>
+</tr>
+<tr>
+<td><code>--url</code></td>
+<td></td>
+<td>Vornik's URL (default $VORNIK_URL, then $VORNIK_API_URL, then http://localhost:8080)</td>
+</tr>
+<tr>
+<td><code>--write</code></td>
+<td></td>
+<td>Write the text into this file between the vornik markers</td>
 </tr>
 </tbody>
 </table>

@@ -597,6 +597,8 @@
       
         
       
+        
+      
     
     
     
@@ -946,6 +948,34 @@
     
   
     Use Vornik from Claude Desktop and Cowork
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/any-agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from any agent
   
 
     
@@ -4539,6 +4569,15 @@ new behavior; those are called out below.</p>
   <code>vornik_artifact_secret_findings_total{type, outcome}</code> counts each one as
   <code>rewritten</code>, <code>stored</code> (detect mode) or <code>dropped</code> (a heuristic rule, which
   never rewrites an artifact), so you can see how often each rule fires.</li>
+<li><strong>Any agent that speaks MCP can use Vornik</strong> (GitHub #842). <code>vornikctl
+  companion connect generic --print</code> checks a companion key, stores it in a
+  file only you can read, and prints the MCP entry to paste, never the key.
+  <code>vornikctl companion instructions --write AGENTS.md</code> gives the agent
+  Vornik's working rules. Measured on 2026-11-20: Gemini CLI and opencode
+  each stored, recalled and refuted a note and delegated a task, in about
+  100 seconds; neither gets a session digest. Grant such a key with
+  <code>--repo-scope</code>: without one, an agent with no Vornik hooks stores its
+  notes unscoped. Guide: <a href="../guides/any-agent/">Use Vornik from any agent</a>.</li>
 <li><strong>Task, execution and lease IDs are shown short in the console</strong>
   (GitHub #848). Every page shows <code>T-fee9</code>, <code>X-a1b2</code> and <code>L-9c4d</code> instead
   of the full ID, which took a line of its own on a phone. Hover over a
