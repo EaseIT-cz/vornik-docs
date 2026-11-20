@@ -3916,7 +3916,10 @@ front-end agent should not have.</p>
 command connects them, with no Node and no token in Claude's config.</p>
 <p>On the <strong>daemon</strong> side, an operator prepares a companion project and mints a
 <strong>companion-scoped key</strong> (a plain API key won't be accepted on the companion
-endpoint):</p>
+endpoint). Each companion key may make 5 requests a second, with bursts of
+up to 50; past that the endpoint answers 429 with <code>Retry-After</code>. Change or
+turn off that default with <code>api.rate_limit.companion_key</code> (<code>rps</code>, <code>burst</code>,
+<code>off</code>) in <code>config.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># confirm the daemon advertises the companion capabilities</span>
 curl<span class="w"> </span><span class="s2">"</span><span class="nv">$VORNIK_URL</span><span class="s2">/api/v1/capabilities"</span>
 

@@ -3131,6 +3131,19 @@ entered it in the AWS console.</p>
 <p>Either way, expose only the TLS port. The daemon's own port (8080 by
 default) serves plain HTTP: keep it on loopback or close it in the firewall.
 Every request needs the key; without a valid key, Vornik answers 401.</p>
+<p><strong>Limits.</strong> Each companion key may make 5 requests a second, with bursts of
+up to 50; past that Vornik answers 429 with <code>Retry-After</code>. Change it with
+<code>api.rate_limit.companion_key</code> (<code>rps</code>, <code>burst</code>) in <code>config.yaml</code>. One
+address that sends 15 wrong keys in 5 minutes is locked out for 15 minutes.
+When Vornik is reachable from the internet, also limit each address before
+any key is checked:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">api</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rate_limit</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">per_ip</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">rps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">      </span><span class="nt">burst</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">40</span>
+</code></pre></div>
+<p>Vornik-hosted instances already run with this.</p>
 <h2 id="connect-in-the-devops-agent-console">Connect in the DevOps Agent console<a class="headerlink" href="#connect-in-the-devops-agent-console" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Open <strong>Capability Providers</strong>, find <strong>Vornik</strong> under partner connectors,

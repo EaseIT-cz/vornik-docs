@@ -5170,6 +5170,24 @@
 <td>Deprecated: use server.real_ip.trusted_proxies. CIDRs/IPs trusted to set X-Forwarded-For.</td>
 <td>—</td>
 </tr>
+<tr>
+<td><code>api.rate_limit.companion_key.rps</code></td>
+<td>int</td>
+<td>Default per-key request rate for companion keys with no limit of their own (0 = 5 per second).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>api.rate_limit.companion_key.burst</code></td>
+<td>int</td>
+<td>Default per-key burst for companion keys with no limit of their own (0 = 50).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>api.rate_limit.companion_key.off</code></td>
+<td>bool</td>
+<td>Turn the default companion-key limit off (the memory benchmark's daemon); a key's own row limit still applies.</td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
 <h2 id="a2a">a2a<a class="headerlink" href="#a2a" title="Permanent link">&para;</a></h2>
