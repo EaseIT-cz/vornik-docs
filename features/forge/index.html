@@ -603,6 +603,8 @@
       
         
       
+        
+      
     
     
     
@@ -1008,6 +1010,34 @@
     
   
     Use Vornik from Cursor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/opencode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from opencode
   
 
     
@@ -3528,17 +3558,31 @@ such as a push to your default branch.</p>
   without starting anything.</li>
 <li>Any review that runs later reads the outcomes for the commit it is reviewing.</li>
 </ul>
-<p><strong>Getting the actual output in.</strong> Conclusions come free. Content — a
-<code>terraform plan</code>, a test report, a scan result — has to be <strong>uploaded by your
-pipeline as an artifact</strong>, and you name it in <code>ci.artifact_name</code>. Forge reads
-artifacts, never job logs: a log has no format contract and is where secrets get
-printed, whereas an upload is a deliberate act by whoever wrote the pipeline.
-There is no tool-specific parsing anywhere — Terraform is simply a repository
-that uploads a plan, and the same setup works for anything else.</p>
-<p>Uploaded content is treated as <strong>untrusted</strong>: anyone who can push a branch can
-make CI print anything, so it reaches a model marked as data rather than
-instructions, and it is size-capped with any truncation stated rather than
-silent.</p>
+<p><strong>Getting the actual output in.</strong> Conclusions come free. Content, such as a
+<code>terraform plan</code>, a test report or a scan result, must be <strong>uploaded by your
+pipeline as an artifact</strong>, and you name that artifact in <code>ci.artifact_name</code>.
+Forge reads artifacts, never job logs. A log has no format contract and is
+where secrets get printed; an upload is a deliberate act by whoever wrote the
+pipeline.</p>
+<p>What Forge does with the artifact:
+- <strong>Unpacks it.</strong> GitHub serves an artifact as a ZIP. Forge reads its text
+  files, up to <code>max_artifact_bytes</code> uncompressed and 64 files, and says when
+  it stopped. A binary file is listed, not shown.
+- <strong>Masks it.</strong> Secret-shaped values are masked with the daemon's secret
+  detector before anything is stored, so <code>secrets.enabled</code> must be on. With
+  it off, the review says the content was withheld.
+- <strong>Reads SARIF.</strong> A <code>.sarif</code> or <code>.sarif.json</code> file is shown as one line per
+  finding: level, rule, file, line and message. That covers gitleaks, CodeQL,
+  Semgrep, Trivy and other scanners that emit SARIF 2.1.0. Up to 200 findings
+  are shown per file, and code snippets and fingerprints are never shown. In
+  the App review, the triager merges scanner findings with the reviewers'
+  findings. A finding is posted only when it is on a line the pull request
+  adds.
+- <strong>Nothing else is parsed.</strong> Terraform is simply a repository that uploads a
+  plan; any text artifact works the same way.</p>
+<p>Uploaded content is <strong>untrusted</strong>: anyone who can push a branch can make CI
+print anything. It reaches a model marked as data, not instructions. It is
+size-capped, and any truncation is stated rather than silent.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">forge</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">ci</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">              </span><span class="c1"># master switch; false is today's behaviour exactly</span>

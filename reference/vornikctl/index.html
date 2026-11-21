@@ -603,6 +603,8 @@
       
         
       
+        
+      
     
     
     
@@ -1008,6 +1010,34 @@
     
   
     Use Vornik from Cursor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/opencode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from opencode
   
 
     
@@ -8579,7 +8609,7 @@ scope columns on every call.</p>
 separate companion-revoke — the underlying api_keys row revokes the
 same way regardless of how it was minted.</p>
 <h2 id="vornikctl-companion-connect">vornikctl companion connect<a class="headerlink" href="#vornikctl-companion-connect" title="Permanent link">&para;</a></h2>
-<p>Connect Claude Desktop (and Cowork), Cursor, or any other assistant, to Vornik with a companion key</p>
+<p>Connect Claude Desktop (and Cowork), Cursor, opencode, or any other assistant, to Vornik with a companion key</p>
 <p>Check a companion key against Vornik, then store it in a file only you can
 read. For claude-desktop, also add one MCP server entry to Claude Desktop's
 config that runs 'vornikctl companion mcp-bridge'. The Claude config never
@@ -8589,7 +8619,13 @@ rule, skills) into ~/.cursor/plugins/local/vornik-companion; its MCP entry
 runs this binary's bridge, so no Cursor config holds the key. It refuses a
 key with no default repo scope unless --allow-unscoped. Reload the Cursor
 window after.</p>
-<p>For any other assistant (Gemini CLI, opencode, ...), 'connect generic --print'
+<p>For opencode, also add a stdio entry that runs the bridge to opencode.json,
+and install a plugin that adds Vornik's working rules and a session digest
+to the system prompt, plus the companion skills (as skills/vornik-*), into
+opencode's config directory ($XDG_CONFIG_HOME/opencode). A commented
+opencode.json, or a plugin file that is not Vornik's, is refused before
+anything is written. It refuses an unscoped key unless --allow-unscoped.</p>
+<p>For any other assistant (Gemini CLI, ...), 'connect generic --print'
 writes no assistant config. It prints the MCP entry to paste: a stdio form
 that runs the bridge, and a streamable-HTTP form that reads the key from an
 environment variable. It warns when the key has no default repo scope. The
@@ -8598,7 +8634,7 @@ key is never printed.</p>
 mint keys: an operator mints one with 'vornikctl companion grant'. An
 agent-admin key is refused (use 'vornikctl agent connect').</p>
 <p>Claude Code and Codex use their companion plugins instead.</p>
-<div class="highlight"><pre><span></span><code>vornikctl companion connect &lt;claude-desktop|cursor|generic&gt; [flags]
+<div class="highlight"><pre><span></span><code>vornikctl companion connect &lt;claude-desktop|cursor|opencode|generic&gt; [flags]
 </code></pre></div>
 <table>
 <thead>
@@ -8612,7 +8648,7 @@ agent-admin key is refused (use 'vornikctl agent connect').</p>
 <tr>
 <td><code>--allow-unscoped</code></td>
 <td><code>false</code></td>
-<td>cursor only: accept a key with no default repo scope (its notes are stored unscoped)</td>
+<td>cursor and opencode only: accept a key with no default repo scope (its notes are stored unscoped)</td>
 </tr>
 <tr>
 <td><code>--key-stdin</code></td>
@@ -8642,7 +8678,7 @@ agent-admin key is refused (use 'vornikctl agent connect').</p>
 <h2 id="vornikctl-companion-disconnect">vornikctl companion disconnect<a class="headerlink" href="#vornikctl-companion-disconnect" title="Permanent link">&para;</a></h2>
 <p>Remove the companion entry from Claude Desktop (if any) and delete its key file</p>
 <p>Remove what 'vornikctl companion connect' wrote. It revokes nothing on the daemon: the key belongs to the operator who minted it ('vornikctl companion keys').</p>
-<div class="highlight"><pre><span></span><code>vornikctl companion disconnect &lt;claude-desktop|cursor|generic&gt; [flags]
+<div class="highlight"><pre><span></span><code>vornikctl companion disconnect &lt;claude-desktop|cursor|opencode|generic&gt; [flags]
 </code></pre></div>
 <table>
 <thead>

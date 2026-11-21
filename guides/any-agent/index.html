@@ -605,6 +605,8 @@
       
         
       
+        
+      
     
     
     
@@ -1134,6 +1136,34 @@
     
   
     Use Vornik from Cursor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../opencode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from opencode
   
 
     
@@ -3116,9 +3146,10 @@
 <h1 id="use-vornik-from-any-agent">Use Vornik from any agent<a class="headerlink" href="#use-vornik-from-any-agent" title="Permanent link">&para;</a></h1>
 <p>Any agent that speaks MCP can use Vornik's project memory (<code>recall</code>,
 <code>remember</code>) and hand work to it (<code>delegate</code>, <code>result</code>), with no Vornik
-plugin. Claude Code and Codex have plugins; Claude Desktop and Cursor have
-their own guides (<a href="../claude-desktop/">Claude Desktop</a>, <a href="../cursor/">Cursor</a>).
-This page is for the rest: Gemini CLI, opencode and others.</p>
+plugin. Claude Code and Codex have plugins; Claude Desktop, Cursor and
+opencode have their own guides (<a href="../claude-desktop/">Claude Desktop</a>,
+<a href="../cursor/">Cursor</a>, <a href="../opencode/">opencode</a>). This page is for the rest:
+Gemini CLI and others, and opencode set up by hand.</p>
 <p><strong>What works, measured.</strong> On 2026-11-20, Gemini CLI 0.41.2 and opencode
 1.14.37, set up as below, each completed remember, recall, delegate, result
 and memory_correct against Vornik 2026.11.7, in about 100 seconds.</p>
@@ -3174,7 +3205,9 @@ own MCP documentation.</p>
   retired model, then for one with no free quota. Pass a model,
   <code>gemini -m gemini-3.5-flash</code>, or upgrade the CLI.</li>
 </ul>
-<p><strong>opencode 1.14.37</strong>, in <code>opencode.json</code>:</p>
+<p><strong>opencode 1.14.37</strong>, in <code>opencode.json</code> (or let <code>vornikctl companion
+connect opencode</code> write a stdio entry, with Vornik's rules, a session digest
+and skills: <a href="../opencode/">opencode</a>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"mcp"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"vornik"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>

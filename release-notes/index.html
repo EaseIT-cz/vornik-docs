@@ -601,6 +601,8 @@
       
         
       
+        
+      
     
     
     
@@ -1006,6 +1008,34 @@
     
   
     Use Vornik from Cursor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/opencode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from opencode
   
 
     
@@ -4582,6 +4612,23 @@ new behavior; those are called out below.</p>
 <h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>opencode connects to Vornik in one command</strong> (GitHub #841). <code>vornikctl
+  companion connect opencode</code> checks a companion key and stores it in a file
+  only you can read. It then writes into opencode's config directory:</li>
+<li>an MCP entry that runs Vornik's bridge (no opencode config holds the key);</li>
+<li>a plugin that adds Vornik's working rules and a session digest to the
+    system prompt;</li>
+<li>the companion skills, as <code>skills/vornik-*</code>.
+  <code>doctor --client opencode</code> checks the install, and <code>disconnect opencode</code>
+  removes it. Tested live with opencode 1.14.37. The plugin uses an opencode
+  hook marked experimental, and <code>doctor</code> warns when your opencode version
+  differs from the tested one. Guide: <a href="../guides/opencode/">opencode</a>.</li>
+<li><strong>PR reviews read scanner results as SARIF</strong> (GitHub #872). When your
+  pipeline uploads a <code>.sarif</code> file as its CI artifact, a review shows one
+  line per finding: level, rule, file, line and message. The App review's
+  triager merges these with the reviewers' findings, and a finding still
+  posts only on a line the pull request adds. Code snippets and fingerprints,
+  which can hold the secret a scanner found, are never shown.</li>
 <li><strong>Cursor connects to Vornik in one command</strong> (GitHub #621). <code>vornikctl
   companion connect cursor</code> checks a companion key, stores it in a file only
   you can read, and installs a Cursor plugin: an MCP entry that runs
@@ -4645,12 +4692,23 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>The daemon names config keys it does not read</strong> (GitHub #869). At
+<li>
+<p><strong>CI artifact content reaches a review as text, masked</strong> (GitHub #876).
+  GitHub serves an artifact as a ZIP. Forge had stored the ZIP's bytes as
+  the "excerpt", so a review saw binary instead of your plan or report. Forge
+  now unpacks the archive, and it masks secret-shaped values with the
+  daemon's secret detector before storing anything. With <code>secrets.enabled</code>
+  off, the content is withheld and the review says so. A row stored before
+  this release is shown as withheld.</p>
+</li>
+<li>
+<p><strong>The daemon names config keys it does not read</strong> (GitHub #869). At
   start it logs each key in <code>config.yaml</code> that no setting declares, and
   <code>vornikctl doctor</code> reports them (<code>config_undeclared_keys</code>). The removed
   <code>chat.thinking_enabled</code> and <code>chat.thinking_budget</code> had been accepted
   silently, so a config that set them read as "thinking off" while it did
-  nothing.</li>
+  nothing.</p>
+</li>
 <li><strong><code>vornikctl restore --clean</code> no longer empties the database when the
   restore fails</strong> (GitHub #864). The clean and the replay now run in one
   transaction, so a failed restore leaves the database as it was, and the

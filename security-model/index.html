@@ -603,6 +603,8 @@
       
         
       
+        
+      
     
     
     
@@ -1008,6 +1010,34 @@
     
   
     Use Vornik from Cursor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/opencode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use Vornik from opencode
   
 
     
@@ -4143,6 +4173,13 @@ reading.
   was cut and reviewed as if it were whole. A pull request with no new
   commits since the last review stays a no-op.</li>
 <li><strong>A review is pinned to the commit it reviewed.</strong></li>
+<li><strong>CI artifacts reach a review masked.</strong> Forge unpacks an uploaded artifact
+  in memory, with a cap on uncompressed size and file count, then masks every
+  file and file name with the secret detector before storing it. A rescan
+  must find nothing; otherwise, or without a detector, the content is
+  withheld. A SARIF file is shown only as its level, rule, file, line and
+  message, never its code snippets or fingerprints. The text reaches a model
+  marked as untrusted data.</li>
 <li><strong>What it does not do.</strong> It cannot take back a credential already
   committed to a public repository; rotate any exposed credential. Detection
   matches known shapes, so a credential in a shape it does not know can still
