@@ -2118,6 +2118,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Review behaviour">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measuring-the-review-the-canary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measuring the review: the canary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3186,6 +3203,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Review behaviour">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#measuring-the-review-the-canary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measuring the review: the canary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3505,6 +3539,45 @@ approves. Set <code>gating_reviews: true</code> on the review step to turn the r
 verdict into a real GitHub APPROVE / REQUEST_CHANGES. (A review that would
 approve the App's <em>own</em> PR is automatically downgraded to a comment, since GitHub
 won't let an author approve their own pull request.)</p>
+<h3 id="measuring-the-review-the-canary">Measuring the review: the canary<a class="headerlink" href="#measuring-the-review-the-canary" title="Permanent link">&para;</a></h3>
+<p>Nothing tells you when the App review stops catching secrets: a model
+change, a detector change or a prompt edit can lower its catch rate
+silently. The canary measures it.</p>
+<p>A canary run feeds the review a freshly generated diff with planted fake
+values:
+- five secrets the mask must catch;
+- one key split across two string literals, which only a model can catch;
+- three decoys that nothing should flag.</p>
+<p>The run uses the review's own steps, prompts and models. It posts nothing
+and calls GitHub for nothing. Its result counts:
+- what was detected, by the mask and by a model;
+- each plant it missed;
+- each decoy it flagged.</p>
+<p>If the detector stops matching one kind of secret, the run fails and names
+that kind.</p>
+<p>To run it weekly, add this to the review project:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">autonomy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">observe</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cron</span>
+<span class="w">  </span><span class="nt">pollInterval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">168h</span>
+<span class="w">  </span><span class="nt">cronTaskType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">canary</span>
+<span class="w">  </span><span class="nt">allowedTaskTypes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">canary</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">goal</span><span class="p">:</span><span class="w"> </span><span class="s">"Measure</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">review</span><span class="nv"> </span><span class="s">against</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">planted</span><span class="nv"> </span><span class="s">canary."</span>
+</code></pre></div>
+<p>Run it now with <code>vornikctl task submit -p &lt;project&gt; --task-type canary --prompt
+"canary"</code>.</p>
+<p><strong>Set floors from measured runs.</strong> With no floors set, the canary reports
+and never fails. Models vary from run to run, so run it four times, read the
+results, then set the floors:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">forge</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">canary</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">floor_detections</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">6</span><span class="w">   </span><span class="c1"># fail below this many of the 6 plants</span>
+<span class="w">    </span><span class="nt">ceiling_decoys</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span><span class="w">     </span><span class="c1"># fail above this many of the 3 decoys</span>
+</code></pre></div>
+<p>A run below the floor, or above the ceiling, ends FAILED, and its result
+names each miss. Each run costs one review's model calls. A webhook cannot
+start a canary run.</p>
 <h2 id="when-the-target-is-gone">When the target is gone<a class="headerlink" href="#when-the-target-is-gone" title="Permanent link">&para;</a></h2>
 <p>A review needs the pull request it was asked about. If the forge says that PR is
 not there — it was deleted, the number never existed, the repository was renamed

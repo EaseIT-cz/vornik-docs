@@ -4623,6 +4623,12 @@ new behavior; those are called out below.</p>
   removes it. Tested live with opencode 1.14.37. The plugin uses an opencode
   hook marked experimental, and <code>doctor</code> warns when your opencode version
   differs from the tested one. Guide: <a href="../guides/opencode/">opencode</a>.</li>
+<li><strong>The App review measures itself</strong> (GitHub #873). A canary run gives the
+  review a generated diff of planted fake secrets and decoys, then scores
+  what it caught instead of posting. It posts nothing and calls GitHub for
+  nothing. Schedule it weekly with autonomy's cron mode, and set floors after
+  four measured runs; with no floors set it only reports. See
+  <a href="../features/forge/#measuring-the-review-the-canary">Forge</a>.</li>
 <li><strong>PR reviews read scanner results as SARIF</strong> (GitHub #872). When your
   pipeline uploads a <code>.sarif</code> file as its CI artifact, a review shows one
   line per finding: level, rule, file, line and message. The App review's
