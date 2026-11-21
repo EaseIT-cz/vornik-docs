@@ -911,6 +911,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Staying in control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#observe-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observe first
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3082,6 +3099,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Staying in control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#observe-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observe first
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -3210,6 +3244,7 @@ to create a task. There are three decision modes:</p>
 <p>Autonomy is configured per project under an <code>autonomy</code> block:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">autonomy</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">observe</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">              </span><span class="c1"># record what it would start, start nothing (see "Observe first")</span>
 <span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llm</span>
 <span class="w">  </span><span class="nt">goal</span><span class="p">:</span><span class="w"> </span><span class="s">"Scan</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">configured</span><span class="nv"> </span><span class="s">feeds</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">open</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">digest</span><span class="nv"> </span><span class="s">task</span><span class="nv"> </span><span class="s">when</span><span class="nv"> </span><span class="s">something</span><span class="nv"> </span><span class="s">material</span><span class="nv"> </span><span class="s">lands."</span>
 <span class="w">  </span><span class="nt">pollInterval</span><span class="p">:</span><span class="w"> </span><span class="s">"30m"</span><span class="w">        </span><span class="c1"># must carry a unit ("30m", "60s") — a bare number falls back to 5m</span>
@@ -3228,6 +3263,10 @@ to create a task. There are three decision modes:</p>
 <tr>
 <td><code>autonomy.enabled</code></td>
 <td>master switch for the project (default <code>false</code>)</td>
+</tr>
+<tr>
+<td><code>autonomy.observe</code></td>
+<td>record what autonomy would start and start nothing (default <code>false</code>; new projects get <code>true</code>)</td>
 </tr>
 <tr>
 <td><code>autonomy.goal</code></td>
@@ -3329,6 +3368,30 @@ copies.</p>
 <li><strong>Circuit breaker.</strong> A daemon-level breaker
   (<code>autonomy.circuit_breaker.*</code>) automatically disables a project's autonomy if
   it sees sustained failures, and alerts you.</li>
+</ul>
+<h3 id="observe-first">Observe first<a class="headerlink" href="#observe-first" title="Permanent link">&para;</a></h3>
+<p>With <code>autonomy.observe: true</code>, autonomy runs every tick and every check as
+usual, then records what it would have started (outcome <code>WOULD_START</code>, with
+the prompt) and starts nothing. Turn it on, read a week of proposals, then
+set <code>observe: false</code> to let it act.</p>
+<ul>
+<li><strong>Where to read them.</strong> The project page shows "Observe only", the count of
+  would-starts in the last 7 days (shown as "200+" past 200) and the latest
+  five. All of them:
+  <code>vornikctl autonomy evaluations -p &lt;project&gt; --outcome WOULD_START</code>
+  (<code>--json</code> for the whole prompt).</li>
+<li><strong>What a proposal means.</strong> It passed every check that act mode applies,
+  spend caps included, so act mode would have started it at that tick.</li>
+<li><strong>What it costs.</strong> Each tick still runs the assessment, so its model cost is
+  the same as in act mode. No task runs, so no task cost follows.</li>
+<li><strong>Repeats.</strong> The same proposal within the duplicate window is recorded once
+  and then as <code>DUPLICATE</code>.</li>
+<li><strong>New projects start here.</strong> Every shipped template, the example configs and
+  <code>vornikctl init project --autonomy</code> write <code>observe: true</code>, and the project
+  form pre-sets "Observe only" when it turns autonomy on. Existing projects
+  keep acting: an absent key means <code>false</code>.</li>
+<li><strong>Secrets.</strong> A proposal's prompt is scanned for secrets before it is stored,
+  like the other audit tables.</li>
 </ul>
 <p>To stop autonomy, set <code>autonomy.enabled: false</code> (or toggle it from the project
 page in the UI) — the loop is cancelled.</p>

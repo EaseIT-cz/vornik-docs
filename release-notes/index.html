@@ -4552,6 +4552,23 @@ new behavior; those are called out below.</p>
 <h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>Autonomy can observe before it acts</strong> (GitHub #602). With
+  <code>autonomy.observe: true</code>, a project's autonomy loop runs as usual, records
+  what it would have started (<code>WOULD_START</code>, with the prompt) and starts
+  nothing. The project page counts the last 7 days' proposals and shows the
+  latest five; <code>vornikctl autonomy evaluations --outcome WOULD_START</code> lists
+  them all. New projects start in observe mode; existing projects keep
+  acting, because an absent key means <code>false</code>. Guide:
+  <a href="../guides/autonomy/#observe-first">Observe first</a>.</li>
+<li><strong>Each agent role can set how much its model reasons</strong> (GitHub #869).
+  <code>reasoning: off | low | medium | high</code> on a swarm role, or on a model's
+  <code>runtime.agent_llm.model_limits</code> entry, is sent to the provider in its
+  own form. A model that refuses the setting is retried once without it;
+  a Bedrock model that refuses only <code>off</code> (GLM 5.3) gets <code>low</code> instead.
+  <code>vornik_chat_reasoning_requests_total{model, requested, applied}</code>
+  counts the calls on the OpenAI-compatible routes. Measured on Ollama
+  Cloud <code>glm-5.3-flash</code>: <code>off</code> took a small answer from 41 to 6 completion
+  tokens.</li>
 <li><strong>Each companion key has a request limit</strong> (GitHub #847). A companion key
   may make 5 requests a second, with bursts of up to 50; past that the
   companion endpoint answers 429 with <code>Retry-After</code>. A leaked key or a
@@ -4590,6 +4607,20 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>The daemon names config keys it does not read</strong> (GitHub #869). At
+  start it logs each key in <code>config.yaml</code> that no setting declares, and
+  <code>vornikctl doctor</code> reports them (<code>config_undeclared_keys</code>). The removed
+  <code>chat.thinking_enabled</code> and <code>chat.thinking_budget</code> had been accepted
+  silently, so a config that set them read as "thinking off" while it did
+  nothing.</li>
+<li><strong><code>vornikctl restore --clean</code> no longer empties the database when the
+  restore fails</strong> (GitHub #864). The clean and the replay now run in one
+  transaction, so a failed restore leaves the database as it was, and the
+  vector extension is kept rather than dropped.</li>
+<li><strong>A managed upgrade no longer fails at its install step</strong> (GitHub #865).
+  <code>--accept-eula</code> no longer prompts on a non-terminal standard input, and a
+  failed acceptance's last error line is now in the upgrade's reason
+  instead of being discarded.</li>
 <li><strong>A Community release no longer stops when an upstream source archive
   disappears</strong> (GitHub #851). The release rebuilds the agent image's
   third-party source archive from the previous release's copy, checking
