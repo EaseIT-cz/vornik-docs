@@ -4698,6 +4698,20 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>A reminder that cannot be delivered retries, then says so</strong> (GitHub
+  #861).</li>
+<li><strong>Before:</strong> a reminder whose send failed stayed "firing" forever. It was
+    never delivered, never retried and never reported.</li>
+<li><strong>Now, a text reminder</strong> is tried three times: at its time, one minute
+    later, and five minutes after that. Then a one-shot reminder becomes
+    <code>expired</code> with its last error, and a recurring one moves on to its next
+    occurrence.</li>
+<li><strong>A scheduled-task reminder</strong> is not retried, because a retry could
+    start the task twice.</li>
+<li>
+<p><strong>To find them:</strong> <code>vornikctl doctor</code> lists reminders that expired
+    undelivered in the last seven days (<code>reminders_undelivered</code>).</p>
+</li>
 <li>
 <p><strong>CI artifact content reaches a review as text, masked</strong> (GitHub #876).
   GitHub serves an artifact as a ZIP. Forge had stored the ZIP's bytes as
