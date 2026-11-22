@@ -819,6 +819,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#saving-a-model-checks-it-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving a model checks it first
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#check-what-each-role-runs-on" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3091,6 +3102,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#saving-a-model-checks-it-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Saving a model checks it first
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#check-what-each-role-runs-on" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3240,6 +3262,25 @@ profile applied months ago can name a model that no longer answers;
 <code>vornikctl doctor</code> reports failing models.</p>
 <p>For OpenRouter, an on-prem server or any other provider, there is no
 profile: map the tiers yourself with the IDs your provider serves.</p>
+<h2 id="saving-a-model-checks-it-first">Saving a model checks it first<a class="headerlink" href="#saving-a-model-checks-it-first" title="Permanent link">&para;</a></h2>
+<p>When you save a role's model or fallback, apply a profile, or create a
+project from a template with a model, Vornik first makes one short call to
+that model through your providers, offering it one tool:</p>
+<ul>
+<li><strong>It does not answer:</strong> the save is refused with the provider's reason,
+  and nothing is written.</li>
+<li><strong>It answers without calling the tool:</strong> the save goes through with a
+  warning. Agent roles need tool calls, so check the model before you rely
+  on it.</li>
+<li><strong>It calls the tool:</strong> the save goes through. The result is remembered
+  for 10 minutes.</li>
+</ul>
+<p>Only models the save changes are checked, and each check takes at most 15
+seconds. If a provider is briefly down, tick <strong>Save without checking
+models</strong> in the console's swarm editor, or add <code>--force</code> to
+<code>vornikctl models profile apply</code>; both are recorded in the admin
+audit. On a managed instance a model outside your catalogue is refused even
+then.</p>
 <h2 id="check-what-each-role-runs-on">Check what each role runs on<a class="headerlink" href="#check-what-each-role-runs-on" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>models<span class="w"> </span>tiers<span class="w">     </span><span class="c1"># each role: its tier, the model it resolves to, and why</span>
 vornikctl<span class="w"> </span>doctor<span class="w">           </span><span class="c1"># model_tiers: warns on a mapping that cannot take effect</span>

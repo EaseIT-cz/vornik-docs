@@ -9686,7 +9686,9 @@ skopeo or systemctl, and no daemon request may run a program):
   model_calls_live      Model calls failing SINCE DAEMON START, per (model, call
                         site). Covers EVERY call site, including the memory
                         workers (classifier/titler/reranker/graph) that
-                        model_health does not enumerate
+                        model_health does not enumerate. One HTTP 410 (the
+                        provider retired the model) is reported at once:
+                        ERROR while a role or tier still uses it
   model_route_coverage  Role-pinned models that don't resolve to a chat
                         model_route prefix or are missing from pricing.yaml
   chat_model_fallback   chat.model with no twin in chat.router.model_fallbacks,
@@ -12423,6 +12425,11 @@ the setup model.</p>
 <td><code>--apply</code></td>
 <td><code>false</code></td>
 <td>Write the mappings (default: dry run)</td>
+</tr>
+<tr>
+<td><code>--force</code></td>
+<td><code>false</code></td>
+<td>Write without checking that each model answers (audited)</td>
 </tr>
 </tbody>
 </table>
