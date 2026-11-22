@@ -4698,6 +4698,15 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>A config change that fails to apply no longer hides a bad reload</strong>
+  (GitHub #859).</li>
+<li><strong>Before:</strong> when an approved change failed, Vornik reverted the files
+    and reloaded, but it ignored that reload's result, and no reload had a
+    time limit.</li>
+<li><strong>Now:</strong> every reload the control plane makes is bounded at 10 seconds.
+    One that fails, times out or is stuck is logged and shown by
+    <code>vornikctl doctor</code> (<code>control_plane_restore_reload</code>), with the remedy:
+    fix the file and reload, or restart.</li>
 <li><strong>A reminder that cannot be delivered retries, then says so</strong> (GitHub
   #861).</li>
 <li><strong>Before:</strong> a reminder whose send failed stayed "firing" forever. It was
