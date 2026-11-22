@@ -603,6 +603,8 @@
       
         
       
+        
+      
     
     
     
@@ -700,6 +702,34 @@
     
   
     Workflows and LLM Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/model-tiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose the models your roles run on
   
 
     
@@ -4612,9 +4642,24 @@ new behavior; those are called out below.</p>
 <h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>opencode connects to Vornik in one command</strong> (GitHub #841). <code>vornikctl
+<li>
+<p><strong>Shipped roles name a model tier, not a model</strong> (GitHub #880). The
+  swarms and project templates Vornik ships no longer pin Bedrock or Ollama
+  models. Each role names a tier instead (<code>complex</code>, <code>coding</code>, <code>standard</code>,
+  <code>trivial</code> or <code>vision</code>), and every tier runs on your setup model until you
+  map it. Map tiers in <code>runtime.agent_llm.tiers</code>, or apply a shipped
+  provider profile with <code>vornikctl models profile apply bedrock</code> or
+  <code>ollama-cloud</code>. <code>vornikctl models tiers</code> shows what each role runs on.
+  Setup names the profile that matches your endpoint, and a managed
+  instance sets tiers from its catalogue through <code>setup/managed</code>
+  (operations API 1.6.0). An installed instance keeps its own swarm files,
+  models included. Guide: <a href="../guides/model-tiers/">Choose the models your roles run on</a>.</p>
+</li>
+<li>
+<p><strong>opencode connects to Vornik in one command</strong> (GitHub #841). <code>vornikctl
   companion connect opencode</code> checks a companion key and stores it in a file
-  only you can read. It then writes into opencode's config directory:</li>
+  only you can read. It then writes into opencode's config directory:</p>
+</li>
 <li>an MCP entry that runs Vornik's bridge (no opencode config holds the key);</li>
 <li>a plugin that adds Vornik's working rules and a session digest to the
     system prompt;</li>

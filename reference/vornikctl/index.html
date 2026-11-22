@@ -605,6 +605,8 @@
       
         
       
+        
+      
     
     
     
@@ -702,6 +704,34 @@
     
   
     Workflows and LLM Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/model-tiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose the models your roles run on
   
 
     
@@ -3976,6 +4006,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-models-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models profile
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-models-profile-apply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models profile apply
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-models-profile-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models profile list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-models-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models tiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-package" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6823,6 +6897,50 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#vornikctl-models-profile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models profile
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-models-profile-apply" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models profile apply
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-models-profile-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models profile list
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vornikctl-models-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vornikctl models tiers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#vornikctl-package" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9572,7 +9690,10 @@ skopeo or systemctl, and no daemon request may run a program):
   model_route_coverage  Role-pinned models that don't resolve to a chat
                         model_route prefix or are missing from pricing.yaml
   chat_model_fallback   chat.model with no twin in chat.router.model_fallbacks,
-                        or a twin on the same provider (one quota for both)</p>
+                        or a twin on the same provider (one quota for both)
+  model_tiers           What each model tier roles name resolves to; warns on
+                        a tier or role mapping that cannot take effect. A role
+                        on the setup model is never a warning</p>
 <p>Cost &amp; budget:
   pricing_coverage      Models in swarm configs missing from pricing.yaml
   pricing_drift         Prices disagreeing with the pinned upstream snapshot
@@ -12278,6 +12399,41 @@ configured 'default' rate (or zero) until pricing.yaml is updated.</p>
 </tr>
 </tbody>
 </table>
+<h2 id="vornikctl-models-profile">vornikctl models profile<a class="headerlink" href="#vornikctl-models-profile" title="Permanent link">&para;</a></h2>
+<p>List or apply a provider profile that maps model tiers to models</p>
+<p>A provider profile maps the model tiers shipped roles name (trivial,
+standard, complex, coding, vision) to one provider's model IDs. Applying it
+writes runtime.agent_llm.tiers and runtime.agent_llm.roles in config.yaml;
+after that they are your instance's config. A tier with no mapping runs on
+the setup model.</p>
+<h2 id="vornikctl-models-profile-apply">vornikctl models profile apply<a class="headerlink" href="#vornikctl-models-profile-apply" title="Permanent link">&para;</a></h2>
+<p>Show (or, with --apply, write) a provider profile's tier mappings</p>
+<div class="highlight"><pre><span></span><code>vornikctl models profile apply &lt;name&gt; [flags]
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--apply</code></td>
+<td><code>false</code></td>
+<td>Write the mappings (default: dry run)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vornikctl-models-profile-list">vornikctl models profile list<a class="headerlink" href="#vornikctl-models-profile-list" title="Permanent link">&para;</a></h2>
+<p>List the shipped provider profiles</p>
+<div class="highlight"><pre><span></span><code>vornikctl models profile list
+</code></pre></div>
+<h2 id="vornikctl-models-tiers">vornikctl models tiers<a class="headerlink" href="#vornikctl-models-tiers" title="Permanent link">&para;</a></h2>
+<p>Show each role's model tier and the model it resolves to</p>
+<div class="highlight"><pre><span></span><code>vornikctl models tiers
+</code></pre></div>
 <h2 id="vornikctl-package">vornikctl package<a class="headerlink" href="#vornikctl-package" title="Permanent link">&para;</a></h2>
 <p>Install, list and uninstall Vornik extension packages</p>
 <p>A package is a manifest plus a payload tree — workflows and roles in

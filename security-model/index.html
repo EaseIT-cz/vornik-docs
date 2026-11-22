@@ -605,6 +605,8 @@
       
         
       
+        
+      
     
     
     
@@ -702,6 +704,34 @@
     
   
     Workflows and LLM Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../guides/model-tiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose the models your roles run on
   
 
     
@@ -3987,6 +4017,15 @@ reading.
   rotation, the console's edit pages, workflow proposals) change files only
   on the daemon that holds the config-writer lease; another daemon answers
   409 and changes nothing.</li>
+<li><strong>Applying a model profile writes only the profile's models.</strong>
+  <code>POST /api/v1/models/profiles/{name}/apply</code> (<code>vornikctl models profile
+  apply</code>) takes an admin-class key. It replaces <code>runtime.agent_llm.tiers</code> and
+  <code>.roles</code> with the maps from a profile file shipped under
+  <code>configs/model-profiles</code>, and nothing else. The name must be a plain slug,
+  and a request body that carries any field other than <code>apply</code> is refused, so
+  a caller cannot write a model of its choosing through it. The write is
+  locked, backed up, validated, restored on failure, and audited as
+  <code>models.profile.apply</code>.</li>
 <li><strong>A reload never drops a running project it cannot read.</strong> When a running
   project's file stops decoding, the reload keeps that project's last good
   definition, applies every other change, and reports the refused file;

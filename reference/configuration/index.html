@@ -605,6 +605,8 @@
       
         
       
+        
+      
     
     
     
@@ -702,6 +704,34 @@
     
   
     Workflows and LLM Controls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/model-tiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Choose the models your roles run on
   
 
     
@@ -4630,6 +4660,18 @@
 <td><code>runtime.agent_llm.tool_result_max_bytes</code></td>
 <td>int</td>
 <td>Max bytes of a tool result fed back to the model (0 = agent default 256 KiB).</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>runtime.agent_llm.tiers</code></td>
+<td>map</td>
+<td>modelTier -&gt; model and fallback for roles that name a tier.</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>runtime.agent_llm.roles</code></td>
+<td>map</td>
+<td>"<swarm>/<role>" -&gt; model and fallback, ahead of the tier map.</td>
 <td>—</td>
 </tr>
 <tr>
