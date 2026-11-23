@@ -3178,38 +3178,34 @@
 <p class="admonition-title">Enterprise Edition</p>
 <p>This capability is part of the <strong>Enterprise Edition</strong> — a proprietary overlay on the open-source core. See <a href="../../editions/">Editions</a> for the full Community vs Enterprise matrix.</p>
 </div>
-<p>Workflows drift. A model changes, an upstream API gets slower, a prompt that
-used to work starts failing — and the failure rate or cost of a workflow creeps
-up. The self-healing genome is the loop that <strong>notices the regression, proposes
-a repair, proves the repair against the runs that actually failed, and asks you
-to promote it.</strong> Nothing it produces reaches production without an operator
-clicking <em>promote</em>.</p>
+<p>Self-healing notices when a workflow regresses, proposes a repair, proves the
+repair against the runs that failed, and asks you to promote it. Nothing it
+produces reaches production until an operator promotes it.</p>
 <p>It is built on the <a href="../blackbox/">Autonomy Black Box</a>: the detector reads the
-same telemetry, and the "prove it" step is a counterfactual replay over recorded
-evidence. Everything here is admin-gated.</p>
+same telemetry, and the proof is a counterfactual replay over recorded
+evidence. Everything here needs an admin-scoped key.</p>
 <h2 id="the-loop">The loop<a class="headerlink" href="#the-loop" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>detect → generate candidate → trial (replay vs recorded failures) → scorecard → operator promotes
   ▲ automatic              ▲ operator-initiated, everything downstream is too
 </code></pre></div>
 <ol>
-<li><strong>Detect</strong> — a background sweeper compares each workflow's recent behaviour
-   to its own baseline and opens a <em>trigger</em> when it regresses.</li>
-<li><strong>Generate a candidate</strong> — <em>you</em> click "generate candidate" on a trigger.
-   vornik tries deterministic repair recipes first, then falls back to the
-   workflow architect.</li>
-<li><strong>Trial</strong> — run the candidate against the recorded failures, with all
-   real-world side effects blocked.</li>
-<li><strong>Scorecard</strong> — a pure comparison gate scores the candidate against the
-   baseline and marks it passed or failed.</li>
-<li><strong>Promote</strong> — <em>you</em> promote a passing candidate; only then is the workflow
-   change written, validated, committed, and hot-reloaded.</li>
+<li><strong>Detect.</strong> A background sweeper compares each workflow's recent runs with
+   its own baseline and opens a <em>trigger</em> when it regresses.</li>
+<li><strong>Generate a candidate.</strong> You ask a trigger for a candidate. Vornik tries
+   deterministic repair recipes first, then the configuration assistant.</li>
+<li><strong>Trial.</strong> The candidate runs against the recorded failures, with every
+   real-world side effect blocked.</li>
+<li><strong>Scorecard.</strong> A comparison gate scores the candidate against the baseline
+   and marks it passed or failed.</li>
+<li><strong>Promote.</strong> You promote a passing candidate. Only then is the workflow
+   file written, validated and hot-reloaded.</li>
 </ol>
-<p>The detector is the <strong>only</strong> automatic component, and it only writes triggers —
-it never generates or promotes anything.</p>
+<p>The detector is the only automatic part, and it only opens triggers. It never
+generates or promotes anything.</p>
 <h2 id="detection">Detection<a class="headerlink" href="#detection" title="Permanent link">&para;</a></h2>
 <p>The sweeper runs hourly. For every workflow with at least 10 runs in both
-windows, it compares the <strong>last 24 hours</strong> against a <strong>7-day baseline</strong> and opens
-a trigger when a metric regresses past its threshold:</p>
+windows, it compares the <strong>last 24 hours</strong> with a <strong>7-day baseline</strong>, and opens a
+trigger when a metric regresses past its threshold:</p>
 <table>
 <thead>
 <tr>
@@ -3221,80 +3217,89 @@ a trigger when a metric regresses past its threshold:</p>
 <tbody>
 <tr>
 <td><code>failure_rate_spike</code></td>
-<td>failure rate rises</td>
+<td>the failure rate rises</td>
 <td>+25% relative</td>
 </tr>
 <tr>
 <td><code>cost_regression</code></td>
-<td>average cost per run rises</td>
+<td>the average cost per run rises</td>
 <td>+40% relative</td>
 </tr>
 </tbody>
 </table>
-<p>Each trigger captures up to five <strong>evidence executions</strong> (failed first, then
-most expensive) — these are the runs a repair has to prove itself against. Only
-one trigger stays open per (project, workflow, class) at a time, so a persistent
-regression doesn't spam the list.</p>
-<p>Browse and triage triggers:</p>
+<p>Each trigger keeps up to five <strong>evidence executions</strong>, failed runs first, then
+the most expensive. A repair has to prove itself against these runs. Only one
+trigger stays open per project, workflow and class, so a lasting regression
+does not flood the list.</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>blackbox<span class="w"> </span>trigger<span class="w"> </span>list<span class="w"> </span>--status<span class="w"> </span>open
-vornikctl<span class="w"> </span>blackbox<span class="w"> </span>trigger<span class="w"> </span>dismiss<span class="w"> </span>&lt;trigger_id&gt;<span class="w">          </span><span class="c1"># accept it / not actionable</span>
+vornikctl<span class="w"> </span>blackbox<span class="w"> </span>trigger<span class="w"> </span>dismiss<span class="w"> </span>&lt;trigger_id&gt;<span class="w">          </span><span class="c1"># accepted, or not actionable</span>
 vornikctl<span class="w"> </span>blackbox<span class="w"> </span>trigger<span class="w"> </span>generate-candidate<span class="w"> </span>&lt;trigger_id&gt;
 </code></pre></div>
-<p>You can tune thresholds or temporarily mute a noisy workflow per tuple:</p>
+<p>To change a threshold, or mute a noisy workflow for a while, per project,
+workflow and class:</p>
 <div class="highlight"><pre><span></span><code>vornikctl<span class="w"> </span>blackbox<span class="w"> </span>override<span class="w"> </span><span class="nb">set</span><span class="w"> </span>--project<span class="w"> </span>P<span class="w"> </span>--workflow<span class="w"> </span>W<span class="w"> </span>--class<span class="w"> </span>cost_regression<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--threshold-pct<span class="w"> </span><span class="m">60</span><span class="w"> </span>--mute-hours<span class="w"> </span><span class="m">48</span>
 </code></pre></div>
 <h2 id="candidate-generation">Candidate generation<a class="headerlink" href="#candidate-generation" title="Permanent link">&para;</a></h2>
-<p>When you ask a trigger to generate a candidate, vornik first tries <strong>deterministic
-recipes</strong> — currently a retry-budget adjustment and a verifier-insertion step —
-because a known-good structural fix is cheaper and more predictable than asking a
-model. If no recipe applies, it falls back to the workflow architect, which
-proposes a structural change from the trigger's evidence. If the architect
-judges no change is warranted, that's reported plainly, not as an error.</p>
-<p>Candidate generation is <strong>always operator-initiated</strong>. The detector never
-proposes.</p>
+<p>Generating a candidate is always your request; the detector never proposes.</p>
+<ol>
+<li><strong>Deterministic recipes first:</strong> today a retry-budget adjustment and a
+   verifier-insertion step. A known structural fix is cheaper and more
+   predictable than a model.</li>
+<li><strong>Then the configuration assistant</strong>, which proposes a change to the
+   workflow from the trigger's evidence. If it finds no change is warranted,
+   it says so; that is not an error.</li>
+</ol>
+<p><strong>The assistant's candidates need a judge of another model family.</strong> Every
+assistant candidate is checked by a second model, and Vornik refuses to let a
+model judge its own family's work (<code>JUDGE_SAME_FAMILY</code>). An install that runs
+one model for everything therefore gets recipe candidates only: each assistant
+candidate is refused, and the trigger stays open. Set a judge from another
+family:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">config_assistant</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">judge_model</span><span class="p">:</span><span class="w"> </span><span class="s">"&lt;a</span><span class="nv"> </span><span class="s">model</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">different</span><span class="nv"> </span><span class="s">family</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">your</span><span class="nv"> </span><span class="s">chat</span><span class="nv"> </span><span class="s">model&gt;"</span>
+</code></pre></div>
+<p><code>vornikctl doctor</code> checks this pair in the <code>healing_judge_family</code> row, and the
+daemon logs a warning at start when it is refused. The
+<a href="../config-assistant/">configuration assistant</a> page describes the judge.</p>
 <h2 id="proving-a-repair-trials-and-the-scorecard">Proving a repair: trials and the scorecard<a class="headerlink" href="#proving-a-repair-trials-and-the-scorecard" title="Permanent link">&para;</a></h2>
-<p>A candidate is a proposed new version of the workflow. Before it can be promoted
-it has to be <em>tried</em> — and there are two trial modes:</p>
+<p>A candidate is a proposed new version of the workflow. It must pass a trial
+before it can be promoted. There are two trial modes:</p>
 <ul>
-<li><strong>Static</strong> — checks the candidate's shape and policy only. Useful as a quick
-  sanity pass, but <strong>not sufficient for promotion</strong>.</li>
-<li><strong>Replay</strong> — re-runs the trigger's recorded evidence executions through the
-  candidate workflow, using the Black Box replay engine so every side-effecting
-  tool is stubbed. This is the real test: does the candidate actually do better
-  on the runs that failed?</li>
+<li><strong>Static</strong> checks the candidate's shape and policy only. It is a quick sanity
+  pass and <strong>not enough for promotion</strong>.</li>
+<li><strong>Replay</strong> re-runs the trigger's evidence executions through the candidate,
+  using the Black Box replay engine, so every side-effecting tool is stubbed.
+  This is the real test: does the candidate do better on the runs that failed?</li>
 </ul>
-<p>The <strong>scorecard</strong> then compares the candidate's trial against the baseline. The
-default gate requires the candidate to not regress on any axis:</p>
+<p>The <strong>scorecard</strong> compares the candidate's trial with the baseline. By default
+the candidate must not regress on any axis:</p>
 <ul>
-<li>success rate must not drop,</li>
-<li>cost must stay within +10%,</li>
-<li>latency must stay within +10%,</li>
+<li>the success rate must not drop;</li>
+<li>cost must stay within +10%;</li>
+<li>latency must stay within +10%;</li>
 <li>hallucination and verifier-failure counts must not increase.</li>
 </ul>
-<p>The scorecard <strong>only scores</strong> — it never promotes.</p>
+<p>The scorecard only scores. It never promotes.</p>
 <h2 id="promotion-is-always-yours">Promotion is always yours<a class="headerlink" href="#promotion-is-always-yours" title="Permanent link">&para;</a></h2>
 <p>You promote a passing candidate from the <strong>Candidates</strong> tab at
 <code>/ui/admin/blackbox/candidates</code>, which shows the diff, the motivation, the
-evidence links, and the scorecard. Promotion:</p>
+evidence links and the scorecard. Promotion:</p>
 <ul>
-<li>refuses any candidate that hasn't reached a passing trial;</li>
-<li><strong>requires a replay-gated pass</strong> — a static-only pass is deliberately not
-  promotable;</li>
-<li><strong>refuses a candidate whose workflow has changed since the candidate was
-  generated.</strong> A candidate carries a whole new version of the workflow file, so
-  promoting an old one would quietly undo every edit made in the meantime.
-  Vornik records the fingerprint of the workflow each candidate was built
-  against and compares it before applying anything; if they differ you are told
-  so and asked to regenerate the candidate against the current file. A
-  candidate with no recorded fingerprint is refused for the same reason — it
-  cannot be shown to be current;</li>
+<li>refuses a candidate without a passing trial;</li>
+<li><strong>requires a passing replay trial</strong>: a static pass alone cannot be promoted;</li>
+<li><strong>refuses a candidate whose workflow changed after the candidate was
+  generated.</strong> A candidate carries a whole new version of the workflow file,
+  so promoting an old one would silently undo every edit made since. Vornik
+  records the fingerprint of the workflow each candidate was built from and
+  compares it before applying anything. If they differ, you are asked to
+  regenerate the candidate. A candidate with no recorded fingerprint is
+  refused for the same reason;</li>
 <li>applies the change through the normal workflow path (write the workflow
-  definition, validate it, commit it, hot-reload it), stamping who promoted it
-  and when.</li>
+  file, validate it, hot-reload it), recording who promoted it and when, and
+  keeping the replaced file for rollback.</li>
 </ul>
-<p>There is no background promotion loop anywhere in the system. If you never click
-promote, nothing changes.</p>
+<p>Nothing promotes in the background. If you never promote, nothing changes.</p>
 <h2 id="kill-switches">Kill switches<a class="headerlink" href="#kill-switches" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -3306,7 +3311,7 @@ promote, nothing changes.</p>
 <tbody>
 <tr>
 <td><code>vornikctl blackbox override set … --mute-hours</code></td>
-<td>silences detection for one (project, workflow, class) tuple</td>
+<td>silences detection for one project, workflow and class</td>
 </tr>
 </tbody>
 </table>
@@ -3325,16 +3330,16 @@ promote, nothing changes.</p>
 </tr>
 <tr>
 <td>Web UI</td>
-<td><code>/ui/admin/blackbox</code> — <strong>Triggers</strong>, <strong>Candidates</strong>, <strong>Overrides</strong> tabs</td>
+<td><code>/ui/admin/blackbox</code>: <strong>Triggers</strong>, <strong>Candidates</strong> and <strong>Overrides</strong> tabs</td>
 </tr>
 <tr>
 <td>API</td>
-<td><code>/api/v1/admin/workflow-healing/*</code> (admin-scoped key required)</td>
+<td><code>/api/v1/admin/workflow-healing/*</code> (admin-scoped key)</td>
 </tr>
 </tbody>
 </table>
-<p>Detection currently covers the failure-rate and cost regression classes; the
-trace and replay foundation it builds on is described in the
+<p>Detection covers the failure-rate and cost regression classes. The trace and
+replay foundation it builds on is described on the
 <a href="../blackbox/">Autonomy Black Box</a> page.</p>
 
 

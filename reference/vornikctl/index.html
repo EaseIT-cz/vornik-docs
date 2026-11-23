@@ -8189,6 +8189,21 @@ recorded a path, because a task that passed once was measurable.</p>
 </thead>
 <tbody>
 <tr>
+<td><code>--check-phase</code></td>
+<td></td>
+<td>warmup or measure: refuse a pass whose phase does not match the freeze; reads --daemon-config, writes nothing (GitHub #890)</td>
+</tr>
+<tr>
+<td><code>--daemon-config</code></td>
+<td></td>
+<td>the bench daemon's config, for the arm's learning switches (with --check-phase)</td>
+</tr>
+<tr>
+<td><code>--promoted-files</code></td>
+<td><code>false</code></td>
+<td>print each promoted workflow and the SHA-256 of its latest promoted file, for preflight check 3c; writes nothing (GitHub #890)</td>
+</tr>
+<tr>
 <td><code>--run-dir</code></td>
 <td></td>
 <td>the arm's run directory</td>
