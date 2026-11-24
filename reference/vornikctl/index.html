@@ -9688,6 +9688,7 @@ skopeo or systemctl, and no daemon request may run a program):
   agent_namespace_budget Agent namespaces whose project budgets sum above the approved ceiling, naming the waiting cover request
   agent_model_catalogue Agent role models: agent_admin.models entries not offered to agent roles (no route, a command-line provider, or remote without an exact price)
   agent_connections_cgnat Approved agent API and MCP servers resolving to CGNAT 100.64.0.0/10 (a Tailscale peer); ERROR for each not on private_api_hosts, which the dial refuses; states how many it examined
+  agent_private_hosts_unused agent_admin.private_api_hosts entries no approved agent connection uses (reach an agent could still ask for); states how many it examined
   memory_provenance_clone Daemon-only provenance clones (memory.provenance_clone): usable or refused, and the sweep's last fetch of the trusted branch
   agent_refusal_burst   Agent namespaces with 20 or more refused agent-admin calls in the last hour (a loop or a probe); states how many it examined
   memory_sensitivity_cap Roles with memorySearch.maxSensitivity: how many of their project's chunks carry each tier and how many the cap admits; warns when a cap admits none

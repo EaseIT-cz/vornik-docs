@@ -4650,9 +4650,8 @@ new behavior; those are called out below.</p>
   <code>agent_admin.private_api_hosts</code>, and its URL must be https. Before
   upgrading, add to that list the host of each agent connection on a
   tailnet (one whose host is a <code>*.ts.net</code> name or resolves into
-  100.64.0.0/10). The list takes names only: a connection whose URL is
-  a 100.x address must be added again under the peer's DNS name, or
-  removed. After
+  100.64.0.0/10). For a connection whose URL is a 100.x address, list
+  the address. After
   upgrading, <code>vornikctl doctor</code> reports <code>agent_connections_cgnat</code> as an
   ERROR naming each such connection still unlisted; list its host or
   remove the connection.</li>
@@ -4663,10 +4662,36 @@ new behavior; those are called out below.</p>
   tailnet reach, and a model on a tailnet peer still needs its approval
   as a remote one. On a managed instance, a customer's own model
   endpoint on that range is refused, as a LAN one already was.</li>
+<li><strong>An approval waiting at the upgrade can be refused once</strong> (GitHub
+  #403). An agent's request to connect an API or MCP server now
+  records whether <code>agent_admin.private_api_hosts</code> gave it intranet
+  reach, and the apply refuses it if that changed after filing. A
+  request filed before the upgrade records none, so if its host is on
+  the list it is refused when approved, with "the operator's list of
+  intranet hosts changed after you were asked"; the agent asks again
+  and the new approval names the host.</li>
 </ul>
 </div>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
+<li>
+<p><strong>Intranet hosts per project, by address, port or pinned addresses</strong>
+  (GitHub #403). An <code>agent_admin.private_api_hosts</code> item may now be an IP
+  address (<code>10.0.0.5</code>, a 100.x tailnet address, IPv6) or carry a port
+  (<code>nas.lan:8443</code>), which limits it to that port. An item may also be a
+  mapping with <code>host</code>, <code>addresses</code> (the addresses or CIDRs the host may
+  resolve to: anything else is refused, public or private) and <code>projects</code>
+  (the agent projects it serves). Plain names keep serving every agent
+  project; name projects when more than one exists. The approval names
+  the host and any pins and records the grant; a restart that changes
+  the grant before the approval applies makes the apply refuse.
+  <code>describe_installation</code> lists the hosts an agent's projects may reach,
+  and <code>vornikctl doctor</code> (<code>agent_private_hosts_unused</code>) warns about an
+  entry no approved connection uses. A listed host's private reach now
+  holds on the URL's own port only, and its client follows redirects to
+  its own origin only: a server that redirected to another port or to
+  plain http on itself is refused there.</p>
+</li>
 <li>
 <p><strong>Shipped roles name a model tier, not a model</strong> (GitHub #880). The
   swarms and project templates Vornik ships no longer pin Bedrock or Ollama
