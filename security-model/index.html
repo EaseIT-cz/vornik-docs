@@ -3606,7 +3606,7 @@
 
 
 <h1 id="security-model">Security model<a class="headerlink" href="#security-model" title="Permanent link">&para;</a></h1>
-<p><strong>Last reviewed:</strong> 16 November 2026, against <code>main</code> before release 2026.11.6.</p>
+<p><strong>Last reviewed:</strong> 24 November 2026, against <code>main</code>.</p>
 <p><strong>In short:</strong> models run in locked-down containers and only propose. The
 daemon decides what takes effect, holds the credentials, and scans
 everything that leaves a container. Each control below says what it does
@@ -4227,15 +4227,27 @@ reading.
 <h3 id="outbound-connections-and-ssrf">Outbound connections and SSRF<a class="headerlink" href="#outbound-connections-and-ssrf" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Every outbound client has a timeout and a read cap.</li>
-<li>A dial guard refuses loopback, link-local, private, special-use and
-  reserved ranges, including IPv6 transition forms that embed a blocked IPv4
-  address (NAT64, 6to4, IPv4-compatible), and the cloud instance-metadata
-  addresses (IPv4 and the IPv6 ones in private ranges) even where private
-  ranges are allowed. A hostname is judged by the address it resolves to, and
-  guarded clients ignore proxy environment settings. One list decides for
-  every guard. An operator-listed allowed host is an explicit vouch and
-  bypasses the list, metadata addresses included.
-  Operator-listed private ranges are allowed only where a feature needs them.</li>
+<li>The daemon's dial guard refuses loopback, link-local, RFC 1918, IPv6
+  unique-local (fc00::/7), 0.0.0.0/8, broadcast, multicast and unspecified
+  addresses, IPv6 transition forms that embed a refused IPv4 address (NAT64,
+  6to4, IPv4-compatible), and the cloud instance-metadata addresses (IPv4
+  and the IPv6 ones in private ranges) even where private ranges are
+  allowed. A hostname is judged by the address it resolves to at each dial,
+  and guarded clients ignore proxy environment settings. One list decides
+  for the daemon's model, MCP, agent API, hub and broker clients and for
+  <code>vornikctl memory recheck-urls</code>; webhooks, companion push and the scraper
+  keep their own. An operator-listed allowed host is an explicit vouch and bypasses the list,
+  metadata addresses included. Operator-listed private ranges are allowed
+  only where a feature needs them.</li>
+<li><strong>Carrier-grade NAT, 100.64.0.0/10, is not refused</strong> by that list, except
+  the metadata address 100.100.100.200. Tailscale assigns tailnet addresses
+  from this range, so an agent project's approved API or MCP server on a
+  tailnet peer is dialled with no <code>agent_admin.private_api_hosts</code> entry:
+  its device approval is the only control. Other guards treat the range
+  differently: A2A webhooks and the scraper's <code>web_fetch</code> refuse it, and
+  companion push reaches it only through a project's <code>allowed_cidrs</code>.
+  <code>vornikctl doctor</code> (<code>agent_connections_cgnat</code>) lists the approved agent
+  connections whose host resolves into the range.</li>
 <li>An agent project's approved API or MCP server reaches a private address
   only on a host the operator names in <code>agent_admin.private_api_hosts</code>, and
   only over https. A listed host still never reaches loopback, link-local or
@@ -4430,6 +4442,11 @@ reading.
    <a href="../ai-transparency/#how-ai-generated-output-is-marked">AI transparency</a>.</li>
 <li><strong>Image signatures are not verified.</strong> Pin images by digest or use a
    private registry with content trust.</li>
+<li><strong>A tailnet peer counts as public to the dial guard.</strong> An agent's
+   approved API or MCP server on a CGNAT (100.64.0.0/10) address, such as a
+   Tailscale peer, needs no <code>private_api_hosts</code> entry; the device approval
+   is the only control. Read the host in each approval, or filter egress
+   from the daemon's host if that is not enough.</li>
 </ol>
 <hr />
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
