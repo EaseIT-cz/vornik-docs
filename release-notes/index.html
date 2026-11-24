@@ -4793,8 +4793,56 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Every address guard refuses what the daemon's guard refuses</strong> (GitHub
-  #904, security).</li>
+<li><strong>An agent's API call says when the API answered with an error</strong>
+  (GitHub #910).</li>
+<li><strong>Before:</strong> <code>query_api</code> handed a workflow role only the API's response
+    body. A redirect or error with an empty body reached the role as an
+    empty result, so a role reported "no results" for a call that had
+    failed. <code>list_apis</code> showed only the API's host, so a role could not
+    tell that the base URL already included a path such as <code>/res/v1</code>, and
+    repeated it.</li>
+<li><strong>Now:</strong> an answer that is not a 2xx starts with <code>HTTP &lt;status&gt; from
+    provider "&lt;name&gt;".</code>. A redirect also says that <code>query_api</code> does not
+    follow redirects and that paths are relative to the base URL.
+    <code>list_apis</code> shows an agent API's full base URL, path included.</li>
+<li>
+<p><strong>What you might see:</strong> error answers in a role's tool results now
+    carry this first line. Successful answers are unchanged.</p>
+</li>
+<li>
+<p><strong>A model endpoint counts as local only when Vornik can reach it</strong>
+  (GitHub #907, security).</p>
+</li>
+<li><strong>Before:</strong> an agent model endpoint whose address was an IPv6 form
+    carrying a private IPv4 address (NAT64, 6to4, IPv4-compatible), or a
+    link-local address, counted as local. It skipped the device approval
+    a remote model needs, and every call to it was then refused.</li>
+<li>
+<p><strong>Now:</strong> an endpoint is local only when the model guard admits it:
+    loopback or a private LAN address. Those shapes now count as remote
+    and need an approval; calls to them are still refused.</p>
+</li>
+<li>
+<p><strong>The configuration assistant reports a cut-off reply instead of "no
+  change"</strong> (GitHub #911).</p>
+</li>
+<li><strong>Before:</strong> a reasoning model that spent its whole output budget
+    thinking returned an empty reply. The assistant read that as its
+    final answer and refused with NO_CHANGE and no reason. Self-healing
+    counted that as a producer failure, the same as a timeout.</li>
+<li>
+<p><strong>Now:</strong> a reply cut off at the output-token limit is refused as
+    <code>ASSISTANT_REPLY_TRUNCATED</code>, naming the tokens spent and the remedy.
+    A NO_CHANGE carries the assistant's reason, or says it gave none, and
+    self-healing answers it with 422 <code>HEALING_NO_CHANGE</code>: the assistant
+    found nothing to fix. The new <code>config_assistant.reasoning</code> (<code>off</code>,
+    <code>low</code>, <code>medium</code>, <code>high</code>) sets the reasoning level asked of the
+    assistant's model on every call.</p>
+</li>
+<li>
+<p><strong>Every address guard refuses what the daemon's guard refuses</strong> (GitHub
+  #904, security).</p>
+</li>
 <li><strong>Before:</strong> A2A webhooks, companion push and the scraper kept their own
     lists of private addresses. Each admitted some address the daemon's
     dial guard refuses: 0.0.0.0/8, 255.255.255.255, multicast (the
