@@ -4240,7 +4240,8 @@ reading.
   only on a host the operator names in <code>agent_admin.private_api_hosts</code>, and
   only over https. A listed host still never reaches loopback, link-local or
   metadata addresses, each API or server still needs its approval on an
-  approver device, and a managed instance refuses the setting. Before
+  approver device, that approval says the host is on the list, and a
+  managed instance refuses the setting. Before
   approval, a failed tool listing on a listed host tells the agent only that
   it could not connect. <code>test_connection</code> reports a refused address as
   <code>blocked_private_address</code>.</li>

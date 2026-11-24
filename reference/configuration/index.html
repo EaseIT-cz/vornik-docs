@@ -5024,7 +5024,7 @@
 <tr>
 <td><code>retention.embedding_cache_days</code></td>
 <td>int</td>
-<td>Days to keep cached embeddings before evicting cold entries (0 = keep forever; 30d recommended if the table grows large).</td>
+<td>Days to keep a cached embedding after its last use (0 = keep forever). Set it wherever personal data is processed: cached recall queries often name a person and no erasure reaches them (30 in the recommended profile). Postgres only.</td>
 <td>—</td>
 </tr>
 <tr>

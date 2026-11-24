@@ -2758,10 +2758,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#not-in-place" class="md-nav__link">
+  <a href="#gaps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Not in place
+        Gaps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yours-as-controller-with-our-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Yours as controller, with our templates
       
     </span>
   </a>
@@ -3209,10 +3220,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#not-in-place" class="md-nav__link">
+  <a href="#gaps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Not in place
+        Gaps
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yours-as-controller-with-our-templates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Yours as controller, with our templates
       
     </span>
   </a>
@@ -3264,7 +3286,7 @@
 
 
 <h1 id="compliance-status">Compliance status<a class="headerlink" href="#compliance-status" title="Permanent link">&para;</a></h1>
-<p><strong>Last updated:</strong> 16 November 2026</p>
+<p><strong>Last updated:</strong> 23 November 2026</p>
 <p>Where Vornik stands on the EU AI Act and GDPR, including what is not done.</p>
 <table>
 <thead>
@@ -3292,7 +3314,7 @@
 </tr>
 <tr>
 <td><strong>GDPR, technical measures</strong></td>
-<td>🟡 In place, except that per-person rights reach only records linked to that person (see the gaps)</td>
+<td>🟡 In place, except that per-person rights reach only records linked to that person, and erasure needs PostgreSQL (see the gaps)</td>
 </tr>
 <tr>
 <td><strong>GDPR, documentation</strong></td>
@@ -3305,7 +3327,8 @@ are the controller. Measures only you can provide (encryption at rest,
 backups, access review) are yours.</p>
 <h2 id="self-hosting">Self-hosting<a class="headerlink" href="#self-hosting" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Your data lives in your PostgreSQL, on your infrastructure.</li>
+<li>Your data lives in your database (PostgreSQL, or SQLite for small
+  installs), on your infrastructure.</li>
 <li>Data leaves your network only to services you configure: model providers,
   chat platforms, forges, MCP servers. With local models and no external
   services, nothing leaves.</li>
@@ -3356,25 +3379,31 @@ such a deployment.</p>
 <h2 id="gdpr">GDPR<a class="headerlink" href="#gdpr" title="Permanent link">&para;</a></h2>
 <h3 id="in-place-shipped-code">In place (shipped code)<a class="headerlink" href="#in-place-shipped-code" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Erasure.</strong> Project-scoped hard deletion across all tables. Per-person
-  erasure with a preview: records only about that person are deleted; shared
-  memory records are redacted and re-embedded. Chunk-level eviction leaves a
-  tombstone, so a deletion can be evidenced.</li>
+<li><strong>Erasure.</strong> Project-scoped hard deletion across all tables, including the
+  cached embeddings of the project's memory. Per-person erasure with a
+  preview: records only about that person are deleted; shared memory records
+  are redacted and re-embedded. Chunk-level eviction leaves a tombstone, so a
+  deletion can be evidenced. Per-person erasure and rectification need
+  PostgreSQL; on SQLite they are refused by name.</li>
+<li><strong>Requests.</strong> <code>vornikctl subject</code> records each request, its verification
+  and its one-month deadline (Art 12(3)), on PostgreSQL and SQLite. The
+  doctor warns nine days before a deadline.</li>
 <li><strong>Retention.</strong> A sweeper with per-table and per-project windows and
   evidence floors. <strong>Off by default</strong>, so an upgrade never deletes data: you
-  turn it on and choose the windows. <code>vornikctl doctor</code> warns while personal
-  data is kept indefinitely.</li>
+  turn it on and choose the windows, starting from a recommended profile.
+  <code>vornikctl doctor</code> warns while personal data is kept indefinitely.</li>
 <li><strong>Breach handling.</strong> A breach ledger (<code>vornikctl incident</code>): the 72-hour
   clock runs from awareness; the authority and data-subject thresholds are
-  asked separately.</li>
+  asked separately. PostgreSQL only; SQLite: not yet.</li>
 <li><strong>Purpose limitation.</strong> Memory chunks carry a sensitivity and purpose
-  policy, evaluated on every retrieval; block decisions are kept for a year.</li>
+  policy, evaluated on every retrieval; with retention on, block decisions
+  are kept for a year by default.</li>
 <li><strong>Accountability.</strong> Audit trails for tool calls, chat, retrieval and
   ingest.</li>
 <li><strong>Access control.</strong> User accounts, per-project scoping, API keys; OIDC
   single sign-on with group permissions in the Enterprise Edition.</li>
 </ul>
-<h3 id="not-in-place">Not in place<a class="headerlink" href="#not-in-place" title="Permanent link">&para;</a></h3>
+<h3 id="gaps">Gaps<a class="headerlink" href="#gaps" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -3396,27 +3425,40 @@ such a deployment.</p>
 </tr>
 <tr>
 <td><strong>Retention off by default</strong></td>
-<td>Personal data is kept indefinitely until you enable the sweeper</td>
+<td>Personal data is kept indefinitely until you enable the sweeper. Cached search queries, which often name a person, are reached by no erasure; only the <code>embedding_cache_days</code> window removes them</td>
 <td>Recommended profile shipped; <code>vornikctl doctor</code> warns</td>
 </tr>
 <tr>
-<td><strong>Record of processing (Art 30)</strong></td>
-<td>As controller, you keep your own</td>
-<td>Template with a worked example; ask for it</td>
-</tr>
-<tr>
-<td><strong>DPIA (Art 35)</strong></td>
-<td>Yours to perform as controller where it is triggered</td>
-<td>Template, and a statement of Vornik's own measures (Art 32); ask for them</td>
-</tr>
-<tr>
-<td><strong>Data processing agreement (Art 28)</strong></td>
-<td>Needed only where we process personal data for you (for example, support access)</td>
-<td>Template meeting Art 28(3); ask for it</td>
+<td><strong>SQLite installs</strong></td>
+<td>Per-person erasure, rectification and the breach ledger need PostgreSQL. On SQLite a request can be recorded, verified, refused and tracked, but not executed by the software</td>
+<td>Erasure and rectification are PostgreSQL-only by design; the breach ledger on SQLite is planned</td>
 </tr>
 </tbody>
 </table>
 <p>If you are evaluating Vornik for personal data at scale, weigh the first row.</p>
+<h3 id="yours-as-controller-with-our-templates">Yours as controller, with our templates<a class="headerlink" href="#yours-as-controller-with-our-templates" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Duty</th>
+<th>What we provide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Record of processing (Art 30)</strong></td>
+<td>Template with a worked example; ask for it</td>
+</tr>
+<tr>
+<td><strong>DPIA (Art 35)</strong>, where it is triggered</td>
+<td>Template, and a statement of Vornik's own measures (Art 32); ask for them</td>
+</tr>
+<tr>
+<td><strong>Data processing agreement (Art 28)</strong>, needed only where we process personal data for you (for example, support access)</td>
+<td>Template meeting Art 28(3); ask for it</td>
+</tr>
+</tbody>
+</table>
 <h3 id="sub-processors">Sub-processors<a class="headerlink" href="#sub-processors" title="Permanent link">&para;</a></h3>
 <p>Conversation content goes to the model providers you configure, listed on the
 <a href="../ai-transparency/">AI transparency</a> page. A local-model configuration sends
