@@ -3795,6 +3795,14 @@ operator decided it needs, and a model sees only what reaches its container.</p>
   not say which part failed. A hash must be known to ask, so the ledger
   cannot be enumerated. Public routes skip the general per-IP limiter, so
   each applies its own: 5 requests per second per address, burst 10.</li>
+<li><strong>A daemon started held serves almost nothing.</strong> When an upgrade starts
+  the daemon held (the <code>start-held</code> marker file), every listener answers
+  503 except the probes, <code>/metrics</code>, the read-only doctor and the hold
+  endpoint. The agent socket and the relay listener answer nothing. The
+  list is an allowlist, so a new route stays refused while held. Only an
+  admin-class caller can release the hold (<code>vornikctl daemon release</code>);
+  on a managed instance that is the operations listener alone. Releasing
+  writes an admin-audit row.</li>
 <li><strong>Admin class is decided once per request.</strong> One decision function governs
   the operator surface (configuration, reloads, daemon-wide repairs); a
   second decides who may read error text and logs (operator, scrubbed, or
@@ -4228,26 +4236,36 @@ reading.
 <ul>
 <li>Every outbound client has a timeout and a read cap.</li>
 <li>The daemon's dial guard refuses loopback, link-local, RFC 1918, IPv6
-  unique-local (fc00::/7), 0.0.0.0/8, broadcast, multicast and unspecified
-  addresses, IPv6 transition forms that embed a refused IPv4 address (NAT64,
+  unique-local (fc00::/7), carrier-grade NAT (100.64.0.0/10), 0.0.0.0/8,
+  broadcast, multicast and unspecified addresses, IPv6 transition forms that embed a refused IPv4 address (NAT64,
   6to4, IPv4-compatible), and the cloud instance-metadata addresses (IPv4
   and the IPv6 ones in private ranges) even where private ranges are
   allowed. A hostname is judged by the address it resolves to at each dial,
   and guarded clients ignore proxy environment settings. One list decides
-  for the daemon's model, MCP, agent API, hub and broker clients and for
-  <code>vornikctl memory recheck-urls</code>; webhooks, companion push and the scraper
-  keep their own. An operator-listed allowed host is an explicit vouch and bypasses the list,
-  metadata addresses included. Operator-listed private ranges are allowed
-  only where a feature needs them.</li>
-<li><strong>Carrier-grade NAT, 100.64.0.0/10, is not refused</strong> by that list, except
-  the metadata address 100.100.100.200. Tailscale assigns tailnet addresses
-  from this range, so an agent project's approved API or MCP server on a
-  tailnet peer is dialled with no <code>agent_admin.private_api_hosts</code> entry:
-  its device approval is the only control. Other guards treat the range
-  differently: A2A webhooks and the scraper's <code>web_fetch</code> refuse it, and
-  companion push reaches it only through a project's <code>allowed_cidrs</code>.
-  <code>vornikctl doctor</code> (<code>agent_connections_cgnat</code>) lists the approved agent
-  connections whose host resolves into the range.</li>
+  for every address guard: the daemon's model, MCP, agent API, hub and
+  broker clients, <code>vornikctl memory recheck-urls</code>, A2A webhooks, companion
+  push and the web-write check. The web-write check and the scraper also
+  refuse documentation, benchmarking, reserved, Teredo and every NAT64 and
+  6to4 address. The scraper, which is not Go, keeps one table that tests
+  hold equal to the daemon's web-write table and that refuses every
+  address shape the one list refuses. An operator-listed allowed host is an
+  explicit vouch and bypasses the list, metadata addresses included.
+  Operator-listed private ranges (<code>agent_admin.private_api_hosts</code>,
+  <code>companion_push.allowed_cidrs</code>) are allowed only where a feature needs
+  them, and never open a metadata address.</li>
+<li><strong>Carrier-grade NAT, 100.64.0.0/10, is private.</strong> Tailscale assigns
+  tailnet addresses from this range. An agent API or MCP server on a
+  tailnet peer dials like a LAN host: only over https, and only when the
+  operator lists its host in <code>agent_admin.private_api_hosts</code>. The list
+  takes names, so a server addressed by a 100.x literal is refused.
+  Self-hosted model endpoints still reach the range, as they reach the LAN
+  (a managed instance's customer endpoint does not), but a model on a
+  tailnet peer still counts as remote and needs its approval. The OIDC, image-fetch,
+  push and broker clients refuse it with no list to undo that. Every guard
+  that checks addresses treats the range as private; companion push opens
+  it through a project's <code>allowed_cidrs</code>. <code>vornikctl doctor</code>
+  (<code>agent_connections_cgnat</code>) reports an ERROR for each approved agent
+  connection on the range that is not on the list.</li>
 <li>An agent project's approved API or MCP server reaches a private address
   only on a host the operator names in <code>agent_admin.private_api_hosts</code>, and
   only over https. A listed host still never reaches loopback, link-local or
@@ -4442,11 +4460,12 @@ reading.
    <a href="../ai-transparency/#how-ai-generated-output-is-marked">AI transparency</a>.</li>
 <li><strong>Image signatures are not verified.</strong> Pin images by digest or use a
    private registry with content trust.</li>
-<li><strong>A tailnet peer counts as public to the dial guard.</strong> An agent's
-   approved API or MCP server on a CGNAT (100.64.0.0/10) address, such as a
-   Tailscale peer, needs no <code>private_api_hosts</code> entry; the device approval
-   is the only control. Read the host in each approval, or filter egress
-   from the daemon's host if that is not enough.</li>
+<li><strong>A listed host reaches the whole of its private range.</strong> A
+   <code>private_api_hosts</code> entry vouches for a name, not an address: the name
+   may resolve to any RFC 1918, ULA or CGNAT (100.64.0.0/10, Tailscale's
+   range) address, never loopback, link-local or metadata. Whoever controls
+   that name's DNS chooses which private host it reaches. List only names
+   whose DNS you control, such as your own tailnet's MagicDNS names.</li>
 </ol>
 <hr />
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>

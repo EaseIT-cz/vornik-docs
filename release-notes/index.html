@@ -4640,6 +4640,31 @@ new behavior; those are called out below.</p>
 </div>
 <hr />
 <h2 id="2026121">2026.12.1<a class="headerlink" href="#2026121" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>Tailnet addresses are now private</strong> (GitHub #893). Vornik treats
+  carrier-grade NAT, 100.64.0.0/10, where Tailscale assigns addresses,
+  like a LAN range. An agent project's API or MCP server on a tailnet
+  peer stops working until its host is on
+  <code>agent_admin.private_api_hosts</code>, and its URL must be https. Before
+  upgrading, add to that list the host of each agent connection on a
+  tailnet (one whose host is a <code>*.ts.net</code> name or resolves into
+  100.64.0.0/10). The list takes names only: a connection whose URL is
+  a 100.x address must be added again under the peer's DNS name, or
+  removed. After
+  upgrading, <code>vornikctl doctor</code> reports <code>agent_connections_cgnat</code> as an
+  ERROR naming each such connection still unlisted; list its host or
+  remove the connection.</li>
+<li><strong>Other daemon clients lose tailnet reach with no list to restore
+  it:</strong> an OIDC issuer, a broker URL or a Bedrock image URL on a
+  100.64.0.0/10 address is refused. A hub probe target there needs
+  <code>integrations.allowed_hosts</code>. Self-hosted model endpoints keep their
+  tailnet reach, and a model on a tailnet peer still needs its approval
+  as a remote one. On a managed instance, a customer's own model
+  endpoint on that range is refused, as a LAN one already was.</li>
+</ul>
+</div>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
@@ -4743,8 +4768,30 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>A config change that fails to apply no longer hides a bad reload</strong>
-  (GitHub #859).</li>
+<li><strong>Every address guard refuses what the daemon's guard refuses</strong> (GitHub
+  #904, security).</li>
+<li><strong>Before:</strong> A2A webhooks, companion push and the scraper kept their own
+    lists of private addresses. Each admitted some address the daemon's
+    dial guard refuses: 0.0.0.0/8, 255.255.255.255, multicast (the
+    scraper's image and calendar fetches), and IPv6 forms that carry a
+    private IPv4 address, such as 64:ff9b::a9fe:a9fe (169.254.169.254
+    through a NAT64 translator). A companion push range opened with
+    <code>companion_push.allowed_cidrs</code> also reached the cloud metadata address
+    inside it (100.100.100.200, fd00:ec2::254, fd20:ce::254).</li>
+<li><strong>Now:</strong> each guard decides by the daemon's one list, and an
+    <code>allowed_cidrs</code> range never opens a metadata address. The scraper's
+    <code>encode_image</code> and <code>ical_events</code>, and the <code>web_fetch</code> check before a
+    page loads, refuse the same ranges as <code>web_submit</code>: also documentation,
+    benchmarking and reserved addresses, and every NAT64, 6to4 and Teredo
+    address.</li>
+<li>
+<p><strong>What you might see:</strong> a push, webhook or scraper fetch to such an
+    address now fails with a refusal. No supported target uses one.</p>
+</li>
+<li>
+<p><strong>A config change that fails to apply no longer hides a bad reload</strong>
+  (GitHub #859).</p>
+</li>
 <li><strong>Before:</strong> when an approved change failed, Vornik reverted the files
     and reloaded, but it ignored that reload's result, and no reload had a
     time limit.</li>
