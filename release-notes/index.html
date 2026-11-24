@@ -4675,6 +4675,23 @@ new behavior; those are called out below.</p>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
 <li>
+<p><strong>Start the daemon held, then release it</strong> (GitHub #586, #906). A
+  <code>start-held</code> marker file in the data directory makes the next start
+  serve its listeners without starting any work: no scheduler, autonomy,
+  channel polling or task leases. <code>/readyz</code> answers 503 <code>"status":"held"</code>
+  with its checks, so an upgrade can verify the new version before it
+  touches anything. <code>vornikctl daemon release</code> reloads the config files,
+  removes the marker and starts work; a release that fails stays held or
+  exits, and the marker decides. A hold past its deadline (30 minutes by
+  default) stays held, reports <code>overdue</code> and alerts once. While held,
+  webhooks get 503. After a release the daemon redelivers the GitHub App
+  deliveries that failed while it was held, up to 200, and
+  <code>GET /api/v1/daemon/hold</code> reports how many it could not. On a managed
+  instance, <code>managed-upgrade</code> now starts the new version held, checks
+  <code>/readyz</code> and doctor, and releases it; a held version that fails those
+  checks is rolled back before it has done any work (GitHub #909).</p>
+</li>
+<li>
 <p><strong>Intranet hosts per project, by address, port or pinned addresses</strong>
   (GitHub #403). An <code>agent_admin.private_api_hosts</code> item may now be an IP
   address (<code>10.0.0.5</code>, a 100.x tailnet address, IPv6) or carry a port
