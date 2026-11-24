@@ -4857,6 +4857,18 @@ new behavior; those are called out below.</p>
     assistant's model on every call.</p>
 </li>
 <li>
+<p><strong><code>vornikctl doctor</code> exits 0 when the only non-OK checks are SKIPPED</strong>
+  (GitHub #867).</p>
+</li>
+<li><strong>Before:</strong> a SKIPPED check, such as a feature that is not wired,
+    made the command exit 1, although its summary listed no issue.
+    Scripts read that as a failure.</li>
+<li>
+<p><strong>Now:</strong> it exits 0 when every check is OK or SKIPPED, and 1 when any
+    check is WARNING, ERROR or an unknown status. <code>--json</code> still exits 0
+    and <code>--offline</code> still exits 1 on a failed check.</p>
+</li>
+<li>
 <p><strong>Every address guard refuses what the daemon's guard refuses</strong> (GitHub
   #904, security).</p>
 </li>
