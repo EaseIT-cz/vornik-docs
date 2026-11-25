@@ -4814,8 +4814,19 @@ new behavior; those are called out below.</p>
 </ul>
 <h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>An agent's API call says when the API answered with an error</strong>
-  (GitHub #910).</li>
+<li>
+<p><strong>A failed web chat reply no longer shows the error text</strong> (GitHub #862).
+  When a reply failed before any words appeared, the chat page showed
+  "Chat dispatch failed:" and the raw error, to every viewer, including
+  project members who are not operators. That error can carry the model
+  provider's response, its address or part of a key. The page now shows
+  the same notice Telegram does ("Sorry, I could not answer: the model call
+  failed. Please try again."), and the error goes to the daemon log.</p>
+</li>
+<li>
+<p><strong>An agent's API call says when the API answered with an error</strong>
+  (GitHub #910).</p>
+</li>
 <li><strong>Before:</strong> <code>query_api</code> handed a workflow role only the API's response
     body. A redirect or error with an empty body reached the role as an
     empty result, so a role reported "no results" for a call that had
