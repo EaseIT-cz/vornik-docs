@@ -4866,6 +4866,13 @@ new behavior; those are called out below.</p>
   counted on <code>vornik_dispatcher_output_guard_scan_panics_total</code>.</p>
 </li>
 <li>
+<p><strong>A hand-over finds the file the first job wrote</strong> (GitHub #926). Vornik
+  stores each output under a dated name (<code>enrich-20261125-a8f2.md</code>), and
+  the hand-over looked for the plain name (<code>enrich.md</code>), so every
+  hand-over was refused with "the job finished without" the file. It now
+  matches the name the job wrote.</p>
+</li>
+<li>
 <p><strong>An assistant's hand-over request no longer fails after you approve it</strong>
   (GitHub #925). An assistant could name a hand-over file by its bare name
   (<code>enrich.md</code>), the form a workflow's output list uses. Vornik showed the
