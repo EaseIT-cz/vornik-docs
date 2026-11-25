@@ -4801,7 +4801,11 @@ new behavior; those are called out below.</p>
 <li><strong>Task, execution and lease IDs are shown short in the console</strong>
   (GitHub #848). Every page shows <code>T-fee9</code>, <code>X-a1b2</code> and <code>L-9c4d</code> instead
   of the full ID, which took a line of its own on a phone. Hover over a
-  short ID, or open its link, for the full one.</li>
+  short ID, or open its link, for the full one. Instincts (<code>I-fee9</code>) and
+  control-plane proposals (<code>P-fee9</code>) are short too, and an approver device
+  shows <code>dev_…</code> and its last 6 characters, as on the phone (GitHub #854).
+  IDs you chose (projects, workflows, swarms), a detail page's own ID, and
+  data subject request and incident IDs stay whole.</li>
 <li><strong><code>setup/status</code> reports a restart generation</strong> (GitHub #799).
   <code>pending_generation</code> counts the settings saved that need a restart, and
   <code>loaded_generation</code> the count the running process started with. When
