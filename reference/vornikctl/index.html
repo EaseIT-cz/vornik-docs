@@ -7850,12 +7850,12 @@ configuration, not a recording — so they can gate before any gold pass.</p>
 <tr>
 <td><code>--include-warmup</code></td>
 <td><code>false</code></td>
-<td>read a learning study's warm-up journal (refused by default: a warm-up pass is not scored; GitHub #809)</td>
+<td>read a learning study's warm-up journal (refused by default: a warm-up pass is not scored)</td>
 </tr>
 </tbody>
 </table>
 <h2 id="vornikctl-bench-agent-autopilot">vornikctl bench agent autopilot<a class="headerlink" href="#vornikctl-bench-agent-autopilot" title="Permanent link">&para;</a></h2>
-<p>Run the blackbox arm's auto mode once: trigger, generate, replay-trial, promote (GitHub #809)</p>
+<p>Run the blackbox arm's auto mode once: trigger, generate, replay-trial, promote</p>
 <p>Reads the warm-up journals in --run-dir, finds each workflow whose failure
 rate since its last trigger is at or above bench.learning.trigger.threshold
 (with at least min_samples runs), and runs an operator's three steps for it
@@ -8024,7 +8024,7 @@ VORNIK_BENCH_MODEL_API_KEY.</p>
 </tbody>
 </table>
 <h2 id="vornikctl-bench-agent-freeze">vornikctl bench agent freeze<a class="headerlink" href="#vornikctl-bench-agent-freeze" title="Permanent link">&para;</a></h2>
-<p>Freeze learning before the measured pass and record the learned state (GitHub #809)</p>
+<p>Freeze learning before the measured pass and record the learned state</p>
 <div class="highlight"><pre><span></span><code>vornikctl bench agent freeze [flags]
 </code></pre></div>
 <table>
@@ -8176,7 +8176,7 @@ recorded a path, because a task that passed once was measurable.</p>
 </tbody>
 </table>
 <h2 id="vornikctl-bench-agent-learned-state">vornikctl bench agent learned-state<a class="headerlink" href="#vornikctl-bench-agent-learned-state" title="Permanent link">&para;</a></h2>
-<p>Record the learned state; with --verify, fail if it moved since the freeze (GitHub #809)</p>
+<p>Record the learned state; with --verify, fail if it moved since the freeze</p>
 <div class="highlight"><pre><span></span><code>vornikctl bench agent learned-state [flags]
 </code></pre></div>
 <table>
@@ -8191,7 +8191,7 @@ recorded a path, because a task that passed once was measurable.</p>
 <tr>
 <td><code>--check-phase</code></td>
 <td></td>
-<td>warmup or measure: refuse a pass whose phase does not match the freeze; reads --daemon-config, writes nothing (GitHub #890)</td>
+<td>warmup or measure: refuse a pass whose phase does not match the freeze; reads --daemon-config, writes nothing</td>
 </tr>
 <tr>
 <td><code>--daemon-config</code></td>
@@ -8201,7 +8201,7 @@ recorded a path, because a task that passed once was measurable.</p>
 <tr>
 <td><code>--promoted-files</code></td>
 <td><code>false</code></td>
-<td>print each promoted workflow and the SHA-256 of its latest promoted file, for preflight check 3c; writes nothing (GitHub #890)</td>
+<td>print each promoted workflow and the SHA-256 of its latest promoted file, for preflight check 3c; writes nothing</td>
 </tr>
 <tr>
 <td><code>--run-dir</code></td>
@@ -8453,7 +8453,7 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <tr>
 <td><code>--phase</code></td>
 <td></td>
-<td>"warmup" for a learning study's warm-up pass: journaled, and refused by every scoring reader unless --include-warmup (GitHub #809)</td>
+<td>"warmup" for a learning study's warm-up pass: journaled, and refused by every scoring reader unless --include-warmup</td>
 </tr>
 <tr>
 <td><code>--preregistration</code></td>
@@ -8468,7 +8468,7 @@ that disagree — a batched pass is one experiment or it is not a pass.</p>
 <tr>
 <td><code>--published-task-set</code></td>
 <td><code>false</code></td>
-<td>run a release gate on a published task set (outside tasksets/unreleased/); the journal records it (#790)</td>
+<td>run a release gate on a published task set (outside tasksets/unreleased/); the journal records it</td>
 </tr>
 <tr>
 <td><code>--repeat-offset</code></td>
@@ -11909,7 +11909,7 @@ re-flagged. A chunk that is not quarantined is never touched.</p>
 <h2 id="vornikctl-memory-reverify-delegated">vornikctl memory reverify-delegated<a class="headerlink" href="#vornikctl-memory-reverify-delegated" title="Permanent link">&para;</a></h2>
 <p>Re-verify companion-delegated chunks by provenance; de-verify the rest (dry run by default)</p>
 <p>Chunks an agent role wrote in a companion-delegated task were stamped
-verified by role-of-record before design 22 amendment #482. This verb
+verified by role-of-record before the provenance check (October 2026). This verb
 re-verifies each such artifact by provenance (its stored bytes are the blob
 at an eligible path on origin's default branch in the project's own clone)
 and de-verifies the rest. The default branch is the project's

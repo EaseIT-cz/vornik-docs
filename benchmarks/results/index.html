@@ -3693,17 +3693,17 @@ store of 1,897 chunks.</p>
 </tr>
 <tr>
 <td>15. 2026.11.5</td>
-<td>No retrieval, ingest, embedding or scoring path changed. The one memory change is an operator verb that retires a document whose file is gone (<code>vornikctl memory supersede-missing-documents</code>, GitHub #701), which the benchmark never calls. Measured 2026-11-14 on <code>39bb57729</code>; the commits after it are a settings-form check, the dispatcher's report-back wording and release documents</td>
+<td>No retrieval, ingest, embedding or scoring path changed. The one memory change is an operator verb that retires a document whose file is gone (<code>vornikctl memory supersede-missing-documents</code>), which the benchmark never calls. Measured 2026-11-14 on <code>39bb57729</code>; the commits after it are a settings-form check, the dispatcher's report-back wording and release documents</td>
 <td>The verb's retirement is covered by the daemon's tests only</td>
 </tr>
 <tr>
 <td>16. 2026.11.6</td>
-<td>The verification path changed: a chunk verified only on its own producer's stamp is demoted (GitHub #550). Measured 2026-11-16 on <code>9ddc2346b</code>; the commits after it are release documents</td>
+<td>The verification path changed: a chunk verified only on its own producer's stamp is demoted. Measured 2026-11-16 on <code>9ddc2346b</code>; the commits after it are release documents</td>
 <td>The benchmark deposits as one client and never re-verifies a chunk, so the demotion itself is covered by the daemon's tests only</td>
 </tr>
 <tr>
 <td>17. 2026.11.7</td>
-<td>The embedding paths changed: a knowledge-graph entity stored without a vector during an embedder outage is re-embedded (GitHub #459), a provider outage never quarantines a knowledge-graph chunk (#369), and a managed instance's owner can enable memory with their own key (#807). Measured 2026-11-19 on <code>e071d5996</code>; the commits after it are release documents, a settings-form entry, a test and the quickstart's HTTPS front door</td>
+<td>The embedding paths changed: a knowledge-graph entity stored without a vector during an embedder outage is re-embedded, a provider outage never quarantines a knowledge-graph chunk, and a managed instance's owner can enable memory with their own key. Measured 2026-11-19 on <code>e071d5996</code>; the commits after it are release documents, a settings-form entry, a test and the quickstart's HTTPS front door</td>
 <td>The benchmark builds no knowledge graph (0 entities cleared) and its embedder never fails, so the re-embed and the quarantine rule are covered by the daemon's tests only</td>
 </tr>
 </tbody>
@@ -4173,7 +4173,7 @@ each is stated:</p>
 <tr>
 <td><code>2026.11.3</code></td>
 <td><strong>memory row only</strong></td>
-<td>The memory open axis above, measured on <code>2026.11.2-60-ge0920131c</code> (n=3), identical to 2026.11.2; the cycle changed the memory checkpoint, the recall audit, the embed retry and the provenance labels, so a waiver was not open to it. <strong>No agent row.</strong> An agent arm did run on this release's code (<code>gemma-4-26b-a4b</code>, 30 tasks × 3, harness 11 at <code>35fb8e0b0</code>), but it was pre-registered as the end-to-end check of GitHub #655, not as a scored arm, so its numbers are not published as a row. Harness 11 counts a run that stops at a checkpoint as not finished, which the harness behind the 2026-10-31 rows counted as finished; the next scored arm starts a new table for that reason. On that check: 70 of 90 runs finished, 19 stopped at a checkpoint, 1 failed, and no task read an earlier task's work from git.</td>
+<td>The memory open axis above, measured on <code>2026.11.2-60-ge0920131c</code> (n=3), identical to 2026.11.2; the cycle changed the memory checkpoint, the recall audit, the embed retry and the provenance labels, so a waiver was not open to it. <strong>No agent row.</strong> An agent arm did run on this release's code (<code>gemma-4-26b-a4b</code>, 30 tasks × 3, harness 11 at <code>35fb8e0b0</code>), but it was pre-registered as the end-to-end check of the benchmark fix that stopped checkpoint exits counting as successes and workspace state leaking between tasks, not as a scored arm, so its numbers are not published as a row. Harness 11 counts a run that stops at a checkpoint as not finished, which the harness behind the 2026-10-31 rows counted as finished; the next scored arm starts a new table for that reason. On that check: 70 of 90 runs finished, 19 stopped at a checkpoint, 1 failed, and no task read an earlier task's work from git.</td>
 </tr>
 <tr>
 <td><code>2026.11.4</code></td>
@@ -4188,12 +4188,12 @@ each is stated:</p>
 <tr>
 <td><code>2026.11.6</code></td>
 <td><strong>memory row only</strong></td>
-<td>The memory open axis above, measured on <code>2026.11.5-43-g9ddc2346b</code> (n=3), identical to 2026.11.5; the cycle changed the verification path (#550), so a waiver was not open to it. <strong>No agent row.</strong> The cycle adds no agent-prompt guidance the agent axis measures. Stated late, with 2026.11.7's, rather than left as a silent gap.</td>
+<td>The memory open axis above, measured on <code>2026.11.5-43-g9ddc2346b</code> (n=3), identical to 2026.11.5; the cycle changed the verification path, so a waiver was not open to it. <strong>No agent row.</strong> The cycle adds no agent-prompt guidance the agent axis measures. Stated late, with 2026.11.7's, rather than left as a silent gap.</td>
 </tr>
 <tr>
 <td><code>2026.11.7</code></td>
 <td><strong>memory row only</strong></td>
-<td>The memory open axis above, measured on <code>2026.11.6-69-ge071d5996</code> (n=3), identical to 2026.11.6; the cycle changed the embedding paths (#459, #369, #807), so a waiver was not open to it. <strong>No agent row.</strong> An agent calibration arm (polyglot) was running at release on this cycle's code; it was pre-registered as calibration, not as a scored arm, so it is not a row. The release was cut early for the AWS DevOps Agent listing (GitHub #844).</td>
+<td>The memory open axis above, measured on <code>2026.11.6-69-ge071d5996</code> (n=3), identical to 2026.11.6; the cycle changed the embedding paths, so a waiver was not open to it. <strong>No agent row.</strong> An agent calibration arm (polyglot) was running at release on this cycle's code; it was pre-registered as calibration, not as a scored arm, so it is not a row. The release was cut early for the AWS DevOps Agent listing.</td>
 </tr>
 </tbody>
 </table>
