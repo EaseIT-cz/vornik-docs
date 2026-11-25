@@ -4824,6 +4824,58 @@ new behavior; those are called out below.</p>
   failed. Please try again."), and the error goes to the daemon log.</p>
 </li>
 <li>
+<p><strong>Slack says when it could not answer</strong> (GitHub #914). A Slack message
+  whose reply failed got no answer at all; the error went only to the
+  daemon log. Slack now posts the same notice as Telegram and the web chat,
+  where the answer would have gone, at most once per conversation per hour.
+  It never shows the error text. A failed <code>/vornik</code> command gets the notice
+  at channel level, where its answer would have posted. Notices are counted
+  on <code>vornik_channel_failure_notices_total{channel="slack"}</code>.</p>
+</li>
+<li>
+<p><strong>A tool result the output guard cannot scan is withheld visibly</strong>
+  (GitHub #917). If the scanner failed, the model already got an empty
+  result instead of the unscanned text, but nothing was logged and the
+  code said the opposite. The model is now told the result was withheld,
+  the turn carries a <code>scan_failed</code> guard warning, and the failure is
+  counted on <code>vornik_dispatcher_output_guard_scan_panics_total</code>.</p>
+</li>
+<li>
+<p><strong>Every workflow step sees every earlier step's files</strong> (GitHub #918).
+  A step was handed only the previous step's <code>artifacts/out/</code> files, while
+  workflows built through the admin tools tell each step that earlier
+  steps' files are there. In a four-step workflow, step 4 could not read
+  what step 1 or step 2 wrote. Every later step now receives them; a file
+  a later step rewrites is handed on in its newest version. An automatic
+  resume restages the files of every step it carries over.</p>
+</li>
+<li>
+<p><strong>A workflow resumed after a pause still has its earlier steps' files</strong>
+  (GitHub #919). After an approval, a wait for child tasks or a daemon
+  restart, the next step started without the files the steps before the
+  pause had written. It now finds them, as an uninterrupted run does.</p>
+</li>
+<li>
+<p><strong>A git command stopped at its time limit takes its child processes with
+  it</strong> (GitHub #913). Vornik killed only <code>git</code>, so a transport or
+  <code>index-pack</code> it had started could keep running, hold the command open and
+  keep writing in the repository. Vornik now stops the whole process group.
+  Git's own background maintenance is left alone, as before.</p>
+</li>
+<li>
+<p><strong>Telegram task control</strong> (GitHub #916):</p>
+</li>
+<li><code>/inbox</code> points each task to <code>/status &lt;id&gt;</code>. Before, it pointed to
+    <code>/task</code>, which does not exist.</li>
+<li>The assistant's own retry re-queues a task the way <code>/retry</code> does:
+    atomically, failed, cancelled or completed alike.</li>
+<li>The assistant can no longer cancel a task that is waiting for your
+    approval; answer the approval instead.</li>
+<li>
+<p>A database error is no longer quoted in a reply; the reply says the
+    action could not be done right now.</p>
+</li>
+<li>
 <p><strong>An agent's API call says when the API answered with an error</strong>
   (GitHub #910).</p>
 </li>

@@ -4158,7 +4158,9 @@ reading.
 <ul>
 <li><strong>Third-party content is scanned on the way to a model</strong>, including MCP
   tool results, for injection attempts, credential leakage and encoded
-  payloads. Findings name the rule that produced them.</li>
+  payloads. Findings name the rule that produced them. A result the scan
+  cannot finish (the scanner fails) is withheld from the model, logged and
+  counted; the model is told it was withheld.</li>
 <li>Content from outside is wrapped in an untrusted-content envelope whose
   close tag the model can see; the wrapper fails closed on malformed or
   over-encoded input.</li>

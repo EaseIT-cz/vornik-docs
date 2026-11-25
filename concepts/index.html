@@ -3230,11 +3230,12 @@ overwriting it.</p>
   one task's work never disturbs another's.</li>
 </ul>
 <p>Because a step's outputs live in the ephemeral tier, vornik bridges them
-through the durable artifact store when one step needs to hand work to the
-next: each step's outputs are saved to the store and re-staged into the next
-step's workspace as inputs. This <strong>store-backed handoff</strong> is why a writer
-reliably sees the researcher's files even though each step ran in its own
-throwaway container.</p>
+through the durable artifact store: each step's outputs are saved to the
+store and re-staged into every later step's workspace, in
+<code>artifacts/out/</code>. A file a later step rewrites is handed on in its newest
+version. This <strong>store-backed handoff</strong> is why a writer reliably sees the
+researcher's files, and a third step sees both, even though each step ran
+in its own throwaway container.</p>
 <h2 id="delegation">Delegation<a class="headerlink" href="#delegation" title="Permanent link">&para;</a></h2>
 <p><strong>Delegation</strong> is how a swarm decomposes big work. A lead agent (or a
 workflow step) can create <strong>child tasks</strong> for other roles to handle, then
