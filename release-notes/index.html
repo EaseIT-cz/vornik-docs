@@ -4866,6 +4866,22 @@ new behavior; those are called out below.</p>
   counted on <code>vornik_dispatcher_output_guard_scan_panics_total</code>.</p>
 </li>
 <li>
+<p><strong>An assistant's hand-over request no longer fails after you approve it</strong>
+  (GitHub #925). An assistant could name a hand-over file by its bare name
+  (<code>enrich.md</code>), the form a workflow's output list uses. Vornik showed the
+  request for approval and then refused it while applying it, so the phone
+  said "Could not be applied". A bare name is now completed to
+  <code>artifacts/out/enrich.md</code>, and any other path that cannot be applied is
+  refused when the assistant asks, before it reaches your phone.</p>
+</li>
+<li>
+<p><strong>A benchmark batch that could not be verified is re-run, not skipped</strong>
+  (GitHub #924). A step that failed before its container started was read
+  as a run with no image identity, so its batch could not be verified and
+  the pass stopped at its end. Such a step is no longer counted as a run,
+  and a batch whose journal cannot be verified is re-run on resume.</p>
+</li>
+<li>
 <p><strong>A rejected healing candidate no longer blocks the next one</strong>
   (GitHub #921). A workflow can have one pending proposal at a time.
   Rejecting a candidate left its proposal pending, so every later
