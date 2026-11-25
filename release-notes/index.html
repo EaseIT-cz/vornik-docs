@@ -4674,6 +4674,31 @@ new behavior; those are called out below.</p>
 </div>
 <h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
 <ul>
+<li><strong>An agent's jobs can share a memory, and a job can start the next one</strong>
+  (GitHub #920).</li>
+<li><strong>Before:</strong> each project an agent such as Hermes built for a job kept
+    its own memory, which nothing else could read. The venue-scouting job's
+    results never reached the enrichment job unless Hermes copied them by
+    hand.</li>
+<li><strong>Shared memory, by opt-in:</strong> a project created or updated with
+    <code>shared_memory</code> reads and writes the namespace's shared memory
+    (<code>&lt;namespace&gt;--home</code>); you approve joining on your phone. Every other
+    project's memory stays sealed, so a job that reads private data never
+    feeds one that reaches the web.</li>
+<li><strong>Handover:</strong> a workflow can declare <code>hand_over</code> in <code>define_workflow</code>.
+    When it completes, it starts another workflow of the namespace and hands
+    it chosen output files as document inputs. You approve the hand-over on
+    your phone. A loop is refused; a chain stops after three hand-overs from
+    one delegation. Each attempt is counted on
+    <code>vornik_agent_handovers_total</code>.</li>
+<li><strong>For the agent:</strong> <code>describe_installation</code> now lists the five ways to
+    lay out projects (<code>patterns</code>), and the admin guidance and tool
+    descriptions say the same.</li>
+<li>
+<p>The agent's own memory is unchanged: it stays where its memory key is.
+    Existing job memory stays in each project; to keep it after a project
+    joins the shared memory, move it with <code>vornikctl memory reassign</code>.</p>
+</li>
 <li>
 <p><strong>Start the daemon held, then release it</strong> (GitHub #586, #906). A
   <code>start-held</code> marker file in the data directory makes the next start
@@ -4839,6 +4864,21 @@ new behavior; those are called out below.</p>
   code said the opposite. The model is now told the result was withheld,
   the turn carries a <code>scan_failed</code> guard warning, and the failure is
   counted on <code>vornik_dispatcher_output_guard_scan_panics_total</code>.</p>
+</li>
+<li>
+<p><strong>A rejected healing candidate no longer blocks the next one</strong>
+  (GitHub #921). A workflow can have one pending proposal at a time.
+  Rejecting a candidate left its proposal pending, so every later
+  candidate for that workflow failed with "workflow already has a pending
+  proposal". Rejecting a candidate now rejects its pending proposal too.
+  The benchmark autopilot rejects a candidate whose trial failed.</p>
+</li>
+<li>
+<p><strong>The config assistant retries once when its reply is cut off</strong>
+  (GitHub #922). A reasoning model can spend its whole output budget
+  thinking and never answer. The assistant now asks again once, one
+  reasoning level lower (high to medium, medium to low, low to off), and
+  refuses <code>ASSISTANT_REPLY_TRUNCATED</code> only if the retry is cut off too.</p>
 </li>
 <li>
 <p><strong>Every workflow step sees every earlier step's files</strong> (GitHub #918).
