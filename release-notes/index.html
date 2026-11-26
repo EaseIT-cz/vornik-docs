@@ -2965,6 +2965,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026118" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.8
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.11.8">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026117" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3038,7 +3077,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3088,7 +3127,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_1" class="md-nav__link">
+  <a href="#fixes_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3127,7 +3166,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_2" class="md-nav__link">
+  <a href="#fixes_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3177,7 +3216,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_3" class="md-nav__link">
+  <a href="#fixes_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3497,6 +3536,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#2026118" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2026.11.8
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2026.11.8">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#new-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#2026117" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3570,7 +3648,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes" class="md-nav__link">
+  <a href="#fixes_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3620,7 +3698,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_1" class="md-nav__link">
+  <a href="#fixes_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3659,7 +3737,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_2" class="md-nav__link">
+  <a href="#fixes_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -3709,7 +3787,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixes_3" class="md-nav__link">
+  <a href="#fixes_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixes
@@ -4023,6 +4101,577 @@ before upgrading. A few releases ask you to restart the daemon to pick up
 new behavior; those are called out below.</p>
 </div>
 <hr />
+<h2 id="2026118">2026.11.8<a class="headerlink" href="#2026118" title="Permanent link">&para;</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Upgrade requirements</p>
+<ul>
+<li><strong>Tailnet addresses are now private</strong>. Vornik treats
+  carrier-grade NAT, 100.64.0.0/10, where Tailscale assigns addresses,
+  like a LAN range. An agent project's API or MCP server on a tailnet
+  peer stops working until its host is on
+  <code>agent_admin.private_api_hosts</code>, and its URL must be https. Before
+  upgrading, add to that list the host of each agent connection on a
+  tailnet (one whose host is a <code>*.ts.net</code> name or resolves into
+  100.64.0.0/10). For a connection whose URL is a 100.x address, list
+  the address. After
+  upgrading, <code>vornikctl doctor</code> reports <code>agent_connections_cgnat</code> as an
+  ERROR naming each such connection still unlisted; list its host or
+  remove the connection.</li>
+<li><strong>Other daemon clients lose tailnet reach with no list to restore
+  it:</strong> an OIDC issuer, a broker URL or a Bedrock image URL on a
+  100.64.0.0/10 address is refused. A hub probe target there needs
+  <code>integrations.allowed_hosts</code>. Self-hosted model endpoints keep their
+  tailnet reach, and a model on a tailnet peer still needs its approval
+  as a remote one. On a managed instance, a customer's own model
+  endpoint on that range is refused, as a LAN one already was.</li>
+<li><strong>An approval waiting at the upgrade can be refused once</strong>. An agent's request to connect an API or MCP server now
+  records whether <code>agent_admin.private_api_hosts</code> gave it intranet
+  reach, and the apply refuses it if that changed after filing. A
+  request filed before the upgrade records none, so if its host is on
+  the list it is refused when approved, with "the operator's list of
+  intranet hosts changed after you were asked"; the agent asks again
+  and the new approval names the host.</li>
+<li><strong>A quickstart install keeps its old service unit until you replace
+  it.</strong> The shipped unit is now <code>Type=notify</code>, so systemd waits for the
+  daemon to report ready and a boot that hangs is restarted after 300 s
+  instead of showing as running forever. The updater never rewrites
+  your unit: an install made by an older quickstart keeps
+  <code>Type=simple</code>, and the update warns and names the command. To get the
+  bounded start, install the shipped unit:
+  <code>install -m 0644 deployments/podman/systemd/vornik.service ~/.config/systemd/user/vornik.service &amp;&amp; systemctl --user daemon-reload</code>
+  (from your checkout).</li>
+</ul>
+</div>
+<h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>An agent's jobs can share a memory, and a job can start the next one</strong>.</li>
+<li><strong>Before:</strong> each project an agent such as Hermes built for a job kept
+    its own memory, which nothing else could read. The venue-scouting job's
+    results never reached the enrichment job unless Hermes copied them by
+    hand.</li>
+<li><strong>Shared memory, by opt-in:</strong> a project created or updated with
+    <code>shared_memory</code> reads and writes the namespace's shared memory
+    (<code>&lt;namespace&gt;--home</code>); you approve joining on your phone. Every other
+    project's memory stays sealed, so a job that reads private data never
+    feeds one that reaches the web.</li>
+<li><strong>Handover:</strong> a workflow can declare <code>hand_over</code> in <code>define_workflow</code>.
+    When it completes, it starts another workflow of the namespace and hands
+    it chosen output files as document inputs. You approve the hand-over on
+    your phone. A loop is refused; a chain stops after three hand-overs from
+    one delegation. Each attempt is counted on
+    <code>vornik_agent_handovers_total</code>.</li>
+<li><strong>For the agent:</strong> <code>describe_installation</code> now lists the five ways to
+    lay out projects (<code>patterns</code>), and the admin guidance and tool
+    descriptions say the same.</li>
+<li>
+<p>The agent's own memory is unchanged: it stays where its memory key is.
+    Existing job memory stays in each project; to keep it after a project
+    joins the shared memory, move it with <code>vornikctl memory reassign</code>.</p>
+</li>
+<li>
+<p><strong>Start the daemon held, then release it</strong>. A
+  <code>start-held</code> marker file in the data directory makes the next start
+  serve its listeners without starting any work: no scheduler, autonomy,
+  channel polling or task leases. <code>/readyz</code> answers 503 <code>"status":"held"</code>
+  with its checks, so an upgrade can verify the new version before it
+  touches anything. <code>vornikctl daemon release</code> reloads the config files,
+  removes the marker and starts work; a release that fails stays held or
+  exits, and the marker decides. A hold past its deadline (30 minutes by
+  default) stays held, reports <code>overdue</code> and alerts once. While held,
+  webhooks get 503. After a release the daemon redelivers the GitHub App
+  deliveries that failed while it was held, up to 200, and
+  <code>GET /api/v1/daemon/hold</code> reports how many it could not. On a managed
+  instance, <code>managed-upgrade</code> now starts the new version held, checks
+  <code>/readyz</code> and doctor, and releases it; a held version that fails those
+  checks is rolled back before it has done any work.</p>
+</li>
+<li>
+<p><strong>Intranet hosts per project, by address, port or pinned addresses</strong>. An <code>agent_admin.private_api_hosts</code> item may now be an IP
+  address (<code>10.0.0.5</code>, a 100.x tailnet address, IPv6) or carry a port
+  (<code>nas.lan:8443</code>), which limits it to that port. An item may also be a
+  mapping with <code>host</code>, <code>addresses</code> (the addresses or CIDRs the host may
+  resolve to: anything else is refused, public or private) and <code>projects</code>
+  (the agent projects it serves). Plain names keep serving every agent
+  project; name projects when more than one exists. The approval names
+  the host and any pins and records the grant; a restart that changes
+  the grant before the approval applies makes the apply refuse.
+  <code>describe_installation</code> lists the hosts an agent's projects may reach,
+  and <code>vornikctl doctor</code> (<code>agent_private_hosts_unused</code>) warns about an
+  entry no approved connection uses. A listed host's private reach now
+  holds on the URL's own port only, and its client follows redirects to
+  its own origin only: a server that redirected to another port or to
+  plain http on itself is refused there.</p>
+</li>
+<li>
+<p><strong>Shipped roles name a model tier, not a model</strong>. The
+  swarms and project templates Vornik ships no longer pin Bedrock or Ollama
+  models. Each role names a tier instead (<code>complex</code>, <code>coding</code>, <code>standard</code>,
+  <code>trivial</code> or <code>vision</code>), and every tier runs on your setup model until you
+  map it. Map tiers in <code>runtime.agent_llm.tiers</code>, or apply a shipped
+  provider profile with <code>vornikctl models profile apply bedrock</code> or
+  <code>ollama-cloud</code>. <code>vornikctl models tiers</code> shows what each role runs on.
+  Setup names the profile that matches your endpoint, and a managed
+  instance sets tiers from its catalogue through <code>setup/managed</code>
+  (operations API 1.6.0). An installed instance keeps its own swarm files,
+  models included. Guide: <a href="../guides/model-tiers/">Choose the models your roles run on</a>.</p>
+</li>
+<li>
+<p><strong>opencode connects to Vornik in one command</strong>. <code>vornikctl
+  companion connect opencode</code> checks a companion key and stores it in a file
+  only you can read. It then writes into opencode's config directory:</p>
+</li>
+<li>an MCP entry that runs Vornik's bridge (no opencode config holds the key);</li>
+<li>a plugin that adds Vornik's working rules and a session digest to the
+    system prompt;</li>
+<li>the companion skills, as <code>skills/vornik-*</code>.
+  <code>doctor --client opencode</code> checks the install, and <code>disconnect opencode</code>
+  removes it. Tested live with opencode 1.14.37. The plugin uses an opencode
+  hook marked experimental, and <code>doctor</code> warns when your opencode version
+  differs from the tested one. Guide: <a href="../guides/opencode/">opencode</a>.</li>
+<li><strong>The App review measures itself</strong>. A canary run gives the
+  review a generated diff of planted fake secrets and decoys, then scores
+  what it caught instead of posting. It posts nothing and calls GitHub for
+  nothing. Schedule it weekly with autonomy's cron mode, and set floors after
+  four measured runs; with no floors set it only reports. See
+  <a href="../features/forge/#measuring-the-review-the-canary">Forge</a>.</li>
+<li><strong>PR reviews read scanner results as SARIF</strong>. When your
+  pipeline uploads a <code>.sarif</code> file as its CI artifact, a review shows one
+  line per finding: level, rule, file, line and message. The App review's
+  triager merges these with the reviewers' findings, and a finding still
+  posts only on a line the pull request adds. Code snippets and fingerprints,
+  which can hold the secret a scanner found, are never shown.</li>
+<li><strong>Cursor connects to Vornik in one command</strong>. <code>vornikctl
+  companion connect cursor</code> checks a companion key, stores it in a file only
+  you can read, and installs a Cursor plugin: an MCP entry that runs
+  Vornik's bridge (no Cursor config holds the key), an always-applied rule
+  with Vornik's working rules, the companion skills, and a session hook that
+  adds your delegations and recent memory to a new chat. Tested against
+  Vornik's companion endpoint as installed; not yet in a live Cursor
+  session. Guide: <a href="../guides/cursor/">Use Vornik from Cursor</a>.</li>
+<li><strong>Autonomy can observe before it acts</strong>. With
+  <code>autonomy.observe: true</code>, a project's autonomy loop runs as usual, records
+  what it would have started (<code>WOULD_START</code>, with the prompt) and starts
+  nothing. The project page counts the last 7 days' proposals and shows the
+  latest five; <code>vornikctl autonomy evaluations --outcome WOULD_START</code> lists
+  them all. New projects start in observe mode; existing projects keep
+  acting, because an absent key means <code>false</code>. Guide:
+  <a href="../guides/autonomy/#observe-first">Observe first</a>.</li>
+<li><strong>Each agent role can set how much its model reasons</strong>.
+  <code>reasoning: off | low | medium | high</code> on a swarm role, or on a model's
+  <code>runtime.agent_llm.model_limits</code> entry, is sent to the provider in its
+  own form. A model that refuses the setting is retried once without it;
+  a Bedrock model that refuses only <code>off</code> (GLM 5.3) gets <code>low</code> instead.
+  <code>vornik_chat_reasoning_requests_total{model, requested, applied}</code>
+  counts the calls on the OpenAI-compatible routes. Measured on Ollama
+  Cloud <code>glm-5.3-flash</code>: <code>off</code> took a small answer from 41 to 6 completion
+  tokens.</li>
+<li><strong>Each companion key has a request limit</strong>. A companion key
+  may make 5 requests a second, with bursts of up to 50; past that the
+  companion endpoint answers 429 with <code>Retry-After</code>. A leaked key or a
+  client stuck in a loop no longer calls as fast as the daemon answers.
+  Change or turn off the default with <code>api.rate_limit.companion_key</code>
+  (<code>rps</code>, <code>burst</code>, <code>off</code>). A key whose own row sets a limit keeps it.</li>
+<li><strong>A GitHub Actions job can call the companion without a stored secret</strong>. Bind a companion key to one workflow with <code>vornikctl
+  companion trust-github</code>; the job then authenticates with the ID token
+  GitHub issues to its run. Every claim must match exactly (repository id
+  and name, ref, workflow file, event, audience), and a run on another
+  branch, a fork or a pull request gets a 401. <code>vornikctl companion grant
+  --oidc-only</code> mints a key whose secret is never printed.</li>
+<li><strong>Secret findings in stored artifacts are counted</strong>.
+  <code>vornik_artifact_secret_findings_total{type, outcome}</code> counts each one as
+  <code>rewritten</code>, <code>stored</code> (detect mode) or <code>dropped</code> (a heuristic rule, which
+  never rewrites an artifact), so you can see how often each rule fires.</li>
+<li><strong>Any agent that speaks MCP can use Vornik</strong>. <code>vornikctl
+  companion connect generic --print</code> checks a companion key, stores it in a
+  file only you can read, and prints the MCP entry to paste, never the key.
+  <code>vornikctl companion instructions --write AGENTS.md</code> gives the agent
+  Vornik's working rules. Measured on 2026-11-20: Gemini CLI and opencode
+  each stored, recalled and refuted a note and delegated a task, in about
+  100 seconds; neither gets a session digest. Grant such a key with
+  <code>--repo-scope</code>: without one, an agent with no Vornik hooks stores its
+  notes unscoped. Guide: <a href="../guides/any-agent/">Use Vornik from any agent</a>.</li>
+<li><strong>Task, execution and lease IDs are shown short in the console</strong>. Every page shows <code>T-fee9</code>, <code>X-a1b2</code> and <code>L-9c4d</code> instead
+  of the full ID, which took a line of its own on a phone. Hover over a
+  short ID, or open its link, for the full one. Instincts (<code>I-fee9</code>) and
+  control-plane proposals (<code>P-fee9</code>) are short too, and an approver device
+  shows <code>dev_…</code> and its last 6 characters, as on the phone.
+  IDs you chose (projects, workflows, swarms), a detail page's own ID, and
+  data subject request and incident IDs stay whole.</li>
+<li><strong><code>setup/status</code> reports a restart generation</strong>.
+  <code>pending_generation</code> counts the settings saved that need a restart, and
+  <code>loaded_generation</code> the count the running process started with. When
+  they differ, a restart is still owed, even if one already happened while
+  the change was being saved. Operations API 1.5.0.</li>
+</ul>
+<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>A re-run of an incomplete erasure, rectification or restriction keeps
+  every run's report.</strong> A re-run used to overwrite the first run's stored
+  report, so after it nothing recorded what the first run had erased or
+  corrected. The stored report now keeps the latest run at the top, plus
+  the run number and every earlier run's report, oldest first. A report
+  stored before this release reads as run 1.</p>
+</li>
+<li>
+<p><strong><code>vornikctl memory recheck-urls</code> never probes a private or metadata
+  address.</strong> It kept its own list of private addresses, which missed a
+  cloud metadata address and several encoded forms of blocked addresses,
+  so it could learn whether hosts at those addresses were alive. It now
+  uses Vornik's one list of private addresses, checked before the request,
+  at each redirect and at connect time.</p>
+</li>
+<li>
+<p><strong>An oversized OIDC key set is named in the log, not cut off silently.</strong>
+  A key set over 1 MiB used to be truncated, so every GitHub Actions token
+  was refused with only a JSON parse error as the logged cause. The log
+  now says the key set is over the 1 MiB cap. Tokens are still refused,
+  as before; only the reason changed.</p>
+</li>
+<li>
+<p><strong>The skill distiller treats recalled memory as untrusted.</strong> A step that
+  only searched memory was accepted as safe, so web text that had reached
+  project memory could feed a distilled skill. Such a step is now judged
+  by what its searches returned: fetched web content, or anything the
+  distiller cannot check, keeps it out of a skill.</p>
+</li>
+<li>
+<p><strong>A model is checked before it is saved.</strong> Saving a role's model or a
+  tier mapping now makes one live test call through the instance's router
+  (15 s timeout). A model that does not answer is refused with the
+  provider's reason and nothing is written; one that answers without
+  tools is saved with a warning. On a managed instance, a model outside
+  the instance's catalogue is refused everywhere it can be saved, and a
+  step that resolves to one fails before its container starts.</p>
+</li>
+<li>
+<p><strong>The doctor reports a retired model at once.</strong> A model that answers
+  HTTP 410 used to show only through a failure rate, after enough calls,
+  and the message did not say it was gone. <code>model_calls_live</code> now lists
+  gone models first, with no minimum number of calls, and names each role
+  that still points at one.</p>
+</li>
+<li>
+<p><strong>The adaptive router sees the project's workflows, and one "none" is
+  not final.</strong> The router was not shown the candidate workflows with
+  their descriptions, so it could misjudge, and a first "none" failed the
+  task. Its prompt now lists every candidate with its description, and a
+  first "none" gets one corrective retry; a second "none" still fails as
+  <code>ROUTE_NO_FIT</code>.</p>
+</li>
+<li>
+<p><strong>Autonomy's first evaluation after a restart waits for the leader
+  election.</strong> It used to run before the election had started, so a due
+  evaluation could be refused after its model call was already paid for,
+  and a replica without the lease ran it too. It now runs after the
+  election, on the leader only.</p>
+</li>
+<li>
+<p><strong>A <code>run_workers: false</code> node runs no leader-only work.</strong> Such a node
+  used to act as if it were always the leader, so a UI node could run the
+  autonomy loop and the retention sweeper beside the worker node.
+  Retention now deletes only from worker nodes. Single-node installs are
+  unchanged.</p>
+</li>
+<li>
+<p><strong>Autonomy proposals follow a retention window.</strong> Rows recording
+  autonomy's decisions were never pruned, and a proposed task's prompt
+  can name a person. They now expire with the tool-audit window
+  (<code>tool_audit_days</code>), and <code>vornikctl retention</code> shows them as
+  <code>autonomy_evals</code>. The record of processing lists them as autonomy
+  proposals.</p>
+</li>
+<li>
+<p><strong>The doctor's retention check states the defaults that apply.</strong> With
+  retention on and no window set, it said the sweeper prunes nothing. In
+  fact the compiled defaults apply: tasks, executions and artifacts after
+  60 days, LLM usage and chat audit after 90, tool audit after 180. The
+  check now lists them, names the data with no default (memory chunks and
+  task messages), and still warns, because the defaults were not chosen
+  for your purposes.</p>
+</li>
+<li>
+<p><strong>Healing can repair a shared workflow, and a one-model install is told
+  why it gets no candidates.</strong> A healing request could not read a
+  workflow outside the project's own files, so it answered "the file does
+  not exist". It can now read and propose an edit to the workflow its
+  trigger names; the edit still needs a passing trial and your
+  promotion. When the config assistant and its judge share a model, every
+  candidate is refused; a new doctor row, <code>healing_judge_family</code>, and a
+  start-up warning now say so and name <code>config_assistant.judge_model</code>.</p>
+</li>
+<li>
+<p><strong>A healing replay keeps its link to the task it replays.</strong> The link
+  was written before the replay's execution existed, so it was lost on
+  every replay and a warning fired each time. It is now written when the
+  execution starts.</p>
+</li>
+<li>
+<p><strong>Instincts learn from real tool errors, and work on SQLite.</strong> A tool
+  call was counted as failed whenever its output contained a word like
+  "error", so reading source code counted as a failure and tool-swap
+  instincts were learned with no counter-evidence. Only an error the
+  daemon observed now counts, and a swap in a failed step counts against
+  the instinct; the instincts learned by the old rule are retired. On
+  SQLite, budget instincts could not be stored at all; the table is
+  rebuilt once to accept every kind.</p>
+</li>
+<li>
+<p><strong>An agent that rewrites a file with the same content is told nothing
+  changed.</strong> Such a write used to answer "wrote N bytes", and the model
+  wrote again until the loop detector stopped it. It now writes nothing
+  and says the file already holds exactly that content.</p>
+</li>
+<li>
+<p><strong>A failure caused by the output cap is no longer reported as a missing
+  role.</strong> The failure explainer matched the word "role" in the output-cap
+  message's advice and showed the missing-role remedy. It now matches only
+  the messages a missing role produces.</p>
+</li>
+<li>
+<p><strong><code>vornikctl</code> treats a command run from automation as non-interactive.</strong>
+  Four commands mistook <code>/dev/null</code> for a terminal: <code>auth login</code> printed a
+  typing hint, <code>agent connect --api-key-stdin</code> refused an empty key,
+  <code>init project</code> printed prompts, and <code>daemon operations-credentials</code>
+  refused to write to <code>/dev/null</code>. Each now checks for a real terminal.</p>
+</li>
+<li>
+<p><strong>A failed web chat reply no longer shows the error text</strong>.
+  When a reply failed before any words appeared, the chat page showed
+  "Chat dispatch failed:" and the raw error, to every viewer, including
+  project members who are not operators. That error can carry the model
+  provider's response, its address or part of a key. The page now shows
+  the same notice Telegram does ("Sorry, I could not answer: the model call
+  failed. Please try again."), and the error goes to the daemon log.</p>
+</li>
+<li>
+<p><strong>Slack says when it could not answer</strong>. A Slack message
+  whose reply failed got no answer at all; the error went only to the
+  daemon log. Slack now posts the same notice as Telegram and the web chat,
+  where the answer would have gone, at most once per conversation per hour.
+  It never shows the error text. A failed <code>/vornik</code> command gets the notice
+  at channel level, where its answer would have posted. Notices are counted
+  on <code>vornik_channel_failure_notices_total{channel="slack"}</code>.</p>
+</li>
+<li>
+<p><strong>A tool result the output guard cannot scan is withheld visibly</strong>. If the scanner failed, the model already got an empty
+  result instead of the unscanned text, but nothing was logged and the
+  code said the opposite. The model is now told the result was withheld,
+  the turn carries a <code>scan_failed</code> guard warning, and the failure is
+  counted on <code>vornik_dispatcher_output_guard_scan_panics_total</code>.</p>
+</li>
+<li>
+<p><strong>A hand-over finds the file the first job wrote</strong>. Vornik
+  stores each output under a dated name (<code>enrich-20261125-a8f2.md</code>), and
+  the hand-over looked for the plain name (<code>enrich.md</code>), so every
+  hand-over was refused with "the job finished without" the file. It now
+  matches the name the job wrote.</p>
+</li>
+<li>
+<p><strong>An assistant's hand-over request no longer fails after you approve it</strong>. An assistant could name a hand-over file by its bare name
+  (<code>enrich.md</code>), the form a workflow's output list uses. Vornik showed the
+  request for approval and then refused it while applying it, so the phone
+  said "Could not be applied". A bare name is now completed to
+  <code>artifacts/out/enrich.md</code>, and any other path that cannot be applied is
+  refused when the assistant asks, before it reaches your phone.</p>
+</li>
+<li>
+<p><strong>A benchmark batch that could not be verified is re-run, not skipped</strong>. A step that failed before its container started was read
+  as a run with no image identity, so its batch could not be verified and
+  the pass stopped at its end. Such a step is no longer counted as a run,
+  and a batch whose journal cannot be verified is re-run on resume.</p>
+</li>
+<li>
+<p><strong>A rejected healing candidate no longer blocks the next one</strong>. A workflow can have one pending proposal at a time.
+  Rejecting a candidate left its proposal pending, so every later
+  candidate for that workflow failed with "workflow already has a pending
+  proposal". Rejecting a candidate now rejects its pending proposal too.
+  The benchmark autopilot rejects a candidate whose trial failed.</p>
+</li>
+<li>
+<p><strong>The config assistant retries once when its reply is cut off</strong>. A reasoning model can spend its whole output budget
+  thinking and never answer. The assistant now asks again once, one
+  reasoning level lower (high to medium, medium to low, low to off), and
+  refuses <code>ASSISTANT_REPLY_TRUNCATED</code> only if the retry is cut off too.</p>
+</li>
+<li>
+<p><strong>Every workflow step sees every earlier step's files</strong>.
+  A step was handed only the previous step's <code>artifacts/out/</code> files, while
+  workflows built through the admin tools tell each step that earlier
+  steps' files are there. In a four-step workflow, step 4 could not read
+  what step 1 or step 2 wrote. Every later step now receives them; a file
+  a later step rewrites is handed on in its newest version. An automatic
+  resume restages the files of every step it carries over.</p>
+</li>
+<li>
+<p><strong>A workflow resumed after a pause still has its earlier steps' files</strong>. After an approval, a wait for child tasks or a daemon
+  restart, the next step started without the files the steps before the
+  pause had written. It now finds them, as an uninterrupted run does.</p>
+</li>
+<li>
+<p><strong>A git command stopped at its time limit takes its child processes with
+  it</strong>. Vornik killed only <code>git</code>, so a transport or
+  <code>index-pack</code> it had started could keep running, hold the command open and
+  keep writing in the repository. Vornik now stops the whole process group.
+  Git's own background maintenance is left alone, as before.</p>
+</li>
+<li>
+<p><strong>Telegram task control</strong>:</p>
+</li>
+<li><code>/inbox</code> points each task to <code>/status &lt;id&gt;</code>. Before, it pointed to
+    <code>/task</code>, which does not exist.</li>
+<li>The assistant's own retry re-queues a task the way <code>/retry</code> does:
+    atomically, failed, cancelled or completed alike.</li>
+<li>The assistant can no longer cancel a task that is waiting for your
+    approval; answer the approval instead.</li>
+<li>
+<p>A database error is no longer quoted in a reply; the reply says the
+    action could not be done right now.</p>
+</li>
+<li>
+<p><strong>An agent's API call says when the API answered with an error</strong>.</p>
+</li>
+<li><strong>Before:</strong> <code>query_api</code> handed a workflow role only the API's response
+    body. A redirect or error with an empty body reached the role as an
+    empty result, so a role reported "no results" for a call that had
+    failed. <code>list_apis</code> showed only the API's host, so a role could not
+    tell that the base URL already included a path such as <code>/res/v1</code>, and
+    repeated it.</li>
+<li><strong>Now:</strong> an answer that is not a 2xx starts with <code>HTTP &lt;status&gt; from
+    provider "&lt;name&gt;".</code>. A redirect also says that <code>query_api</code> does not
+    follow redirects and that paths are relative to the base URL.
+    <code>list_apis</code> shows an agent API's full base URL, path included.</li>
+<li>
+<p><strong>What you might see:</strong> error answers in a role's tool results now
+    carry this first line. Successful answers are unchanged.</p>
+</li>
+<li>
+<p><strong>A model endpoint counts as local only when Vornik can reach it</strong> (security).</p>
+</li>
+<li><strong>Before:</strong> an agent model endpoint whose address was an IPv6 form
+    carrying a private IPv4 address (NAT64, 6to4, IPv4-compatible), or a
+    link-local address, counted as local. It skipped the device approval
+    a remote model needs, and every call to it was then refused.</li>
+<li>
+<p><strong>Now:</strong> an endpoint is local only when the model guard admits it:
+    loopback or a private LAN address. Those shapes now count as remote
+    and need an approval; calls to them are still refused.</p>
+</li>
+<li>
+<p><strong>The configuration assistant reports a cut-off reply instead of "no
+  change"</strong>.</p>
+</li>
+<li><strong>Before:</strong> a reasoning model that spent its whole output budget
+    thinking returned an empty reply. The assistant read that as its
+    final answer and refused with NO_CHANGE and no reason. Self-healing
+    counted that as a producer failure, the same as a timeout.</li>
+<li>
+<p><strong>Now:</strong> a reply cut off at the output-token limit is refused as
+    <code>ASSISTANT_REPLY_TRUNCATED</code>, naming the tokens spent and the remedy.
+    A NO_CHANGE carries the assistant's reason, or says it gave none, and
+    self-healing answers it with 422 <code>HEALING_NO_CHANGE</code>: the assistant
+    found nothing to fix. The new <code>config_assistant.reasoning</code> (<code>off</code>,
+    <code>low</code>, <code>medium</code>, <code>high</code>) sets the reasoning level asked of the
+    assistant's model on every call.</p>
+</li>
+<li>
+<p><strong><code>vornikctl doctor</code> exits 0 when the only non-OK checks are SKIPPED</strong>.</p>
+</li>
+<li><strong>Before:</strong> a SKIPPED check, such as a feature that is not wired,
+    made the command exit 1, although its summary listed no issue.
+    Scripts read that as a failure.</li>
+<li>
+<p><strong>Now:</strong> it exits 0 when every check is OK or SKIPPED, and 1 when any
+    check is WARNING, ERROR or an unknown status. <code>--json</code> still exits 0
+    and <code>--offline</code> still exits 1 on a failed check.</p>
+</li>
+<li>
+<p><strong>Every address guard refuses what the daemon's guard refuses</strong> (security).</p>
+</li>
+<li><strong>Before:</strong> A2A webhooks, companion push and the scraper kept their own
+    lists of private addresses. Each admitted some address the daemon's
+    dial guard refuses: 0.0.0.0/8, 255.255.255.255, multicast (the
+    scraper's image and calendar fetches), and IPv6 forms that carry a
+    private IPv4 address, such as 64:ff9b::a9fe:a9fe (169.254.169.254
+    through a NAT64 translator). A companion push range opened with
+    <code>companion_push.allowed_cidrs</code> also reached the cloud metadata address
+    inside it (100.100.100.200, fd00:ec2::254, fd20:ce::254).</li>
+<li><strong>Now:</strong> each guard decides by the daemon's one list, and an
+    <code>allowed_cidrs</code> range never opens a metadata address. The scraper's
+    <code>encode_image</code> and <code>ical_events</code>, and the <code>web_fetch</code> check before a
+    page loads, refuse the same ranges as <code>web_submit</code>: also documentation,
+    benchmarking and reserved addresses, and every NAT64, 6to4 and Teredo
+    address.</li>
+<li>
+<p><strong>What you might see:</strong> a push, webhook or scraper fetch to such an
+    address now fails with a refusal. No supported target uses one.</p>
+</li>
+<li>
+<p><strong>A config change that fails to apply no longer hides a bad reload</strong>.</p>
+</li>
+<li><strong>Before:</strong> when an approved change failed, Vornik reverted the files
+    and reloaded, but it ignored that reload's result, and no reload had a
+    time limit.</li>
+<li><strong>Now:</strong> every reload the control plane makes is bounded at 10 seconds.
+    One that fails, times out or is stuck is logged and shown by
+    <code>vornikctl doctor</code> (<code>control_plane_restore_reload</code>), with the remedy:
+    fix the file and reload, or restart.</li>
+<li><strong>A reminder that cannot be delivered retries, then says so</strong>.</li>
+<li><strong>Before:</strong> a reminder whose send failed stayed "firing" forever. It was
+    never delivered, never retried and never reported.</li>
+<li><strong>Now, a text reminder</strong> is tried three times: at its time, one minute
+    later, and five minutes after that. Then a one-shot reminder becomes
+    <code>expired</code> with its last error, and a recurring one moves on to its next
+    occurrence.</li>
+<li><strong>A scheduled-task reminder</strong> is not retried, because a retry could
+    start the task twice.</li>
+<li>
+<p><strong>To find them:</strong> <code>vornikctl doctor</code> lists reminders that expired
+    undelivered in the last seven days (<code>reminders_undelivered</code>).</p>
+</li>
+<li>
+<p><strong>CI artifact content reaches a review as text, masked</strong>.
+  GitHub serves an artifact as a ZIP. Forge had stored the ZIP's bytes as
+  the "excerpt", so a review saw binary instead of your plan or report. Forge
+  now unpacks the archive, and it masks secret-shaped values with the
+  daemon's secret detector before storing anything. With <code>secrets.enabled</code>
+  off, the content is withheld and the review says so. A row stored before
+  this release is shown as withheld.</p>
+</li>
+<li>
+<p><strong>The daemon names config keys it does not read</strong>. At
+  start it logs each key in <code>config.yaml</code> that no setting declares, and
+  <code>vornikctl doctor</code> reports them (<code>config_undeclared_keys</code>). The removed
+  <code>chat.thinking_enabled</code> and <code>chat.thinking_budget</code> had been accepted
+  silently, so a config that set them read as "thinking off" while it did
+  nothing.</p>
+</li>
+<li><strong><code>vornikctl restore --clean</code> no longer empties the database when the
+  restore fails</strong>. The clean and the replay now run in one
+  transaction, so a failed restore leaves the database as it was, and the
+  vector extension is kept rather than dropped.</li>
+<li><strong>A managed upgrade no longer fails at its install step</strong>.
+  <code>--accept-eula</code> no longer prompts on a non-terminal standard input, and a
+  failed acceptance's last error line is now in the upgrade's reason
+  instead of being discarded.</li>
+<li><strong>A Community release no longer stops when an upstream source archive
+  disappears</strong>. The release rebuilds the agent image's
+  third-party source archive from the previous release's copy, checking
+  every file against its pinned checksum; 2026.11.7's run had failed when
+  <code>microsoft/onnxruntime</code> stopped answering.</li>
+<li><strong>An agent that writes a file with the bytes it already holds is told
+  so</strong>. <code>file_write</code> writes nothing and answers that the file
+  already holds exactly this content, so the agent goes on instead of
+  writing again. In the 2026-11 agent benchmark, 18 of 196 runs were
+  stopped by the loop guard for repeating that write. Takes effect with
+  this release's agent image.</li>
+<li><strong>A step that runs out of time says so</strong>. Its error now
+  reads "step X ran out of its 30m0s time budget (the container was
+  stopped)", or names the execution's wall-clock cap, instead of "failed
+  waiting for container: podman wait timed out", which read as a host
+  fault. The failure class does not change.</li>
+</ul>
+<hr />
 <h2 id="2026117">2026.11.7<a class="headerlink" href="#2026117" title="Permanent link">&para;</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Upgrade requirements</p>
@@ -4215,7 +4864,7 @@ new behavior; those are called out below.</p>
   only in the request form.</li>
 <li><strong>Revoked keys and unpaired devices leave the lists</strong>, and can be removed.</li>
 </ul>
-<h3 id="fixes">Fixes<a class="headerlink" href="#fixes" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Permanent link">&para;</a></h3>
 <ul>
 <li>A provisioned managed instance's agents now reach the daemon, and a fresh
   instance's doctor reports no false errors.</li>
@@ -4271,7 +4920,7 @@ new behavior; those are called out below.</p>
 <li><strong>Dependency update.</strong> OpenTelemetry was updated to 1.47.0, fixing two reported
   vulnerabilities in the SDK and trace packages.</li>
 </ul>
-<h3 id="fixes_1">Fixes<a class="headerlink" href="#fixes_1" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_2">Fixes<a class="headerlink" href="#fixes_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>The project settings form refuses a duration with no unit.</strong> A poll
   interval saved as <code>20</code> (instead of <code>20m</code>) used to fall back silently to five
@@ -4308,7 +4957,7 @@ new behavior; those are called out below.</p>
   1.26.11, which fixes GO-2026-6859 in <code>net/http</code>, reported by govulncheck
   against 1.26.10.</li>
 </ul>
-<h3 id="fixes_2">Fixes<a class="headerlink" href="#fixes_2" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_3">Fixes<a class="headerlink" href="#fixes_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>The Enterprise packages ship the registry and project templates</strong>. The RPM and deb installed no <code>configs/</code> tree, so a fresh
   package install had no registry and the daemon stopped at start ("no
@@ -4406,7 +5055,7 @@ new behavior; those are called out below.</p>
   doctor report's errors), then health problems only, or one "All clear"
   line. The statistics stay below, as At a glance.</li>
 </ul>
-<h3 id="fixes_3">Fixes<a class="headerlink" href="#fixes_3" title="Permanent link">&para;</a></h3>
+<h3 id="fixes_4">Fixes<a class="headerlink" href="#fixes_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Only the leader runs the watchdog's startup scan</strong>, so a
   daemon joining a multi-daemon install no longer repeats the leader's sweep.</li>

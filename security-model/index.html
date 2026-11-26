@@ -4064,8 +4064,9 @@ reading.
 <h3 id="approvals-and-approver-devices">Approvals and approver devices<a class="headerlink" href="#approvals-and-approver-devices" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Sensitive actions (an assistant's new connection or credential, a
-  widening of its reach, a proposed write) are approved on a <strong>paired
-  phone</strong>, not in the requesting channel. Pairing is started by the operator
+  widening of its reach, such as a project joining its namespace's shared
+  memory or a workflow handing its output to another, a proposed write) are
+  approved on a <strong>paired phone</strong>, not in the requesting channel. Pairing is started by the operator
   from <code>vornikctl</code>.</li>
 <li>A device's session cookie rotates on every decision; a copied cookie dies
   at the device's next approval, and a browser riding a device's approvals
@@ -4178,8 +4179,10 @@ reading.
   policy to chunks and audits every retrieval decision. A connected
   assistant's deposits land unverified and low-confidence, and its
   corrections cannot overrule an operator's.</li>
-<li>Learned skills are never drafted from goals whose words came from a third
-  party (webhook, forge, chat or A2A).</li>
+<li>Learned skills are never drafted from third-party material: not from goals
+  whose words came from a webhook, forge, chat or A2A, and not from a step
+  whose memory searches returned fetched web content or anything the
+  distiller cannot verify.</li>
 </ul>
 <h3 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h3>
 <ul>
@@ -4485,7 +4488,7 @@ reading.
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>See <a href="../security/">Security policy</a> for how to report a vulnerability and
 which versions are supported.</p>
-<!-- summary-reviewed-through: 2026.11.7 -->
+<!-- summary-reviewed-through: 2026.11.8 -->
 
 
 

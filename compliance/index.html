@@ -3383,21 +3383,28 @@ such a deployment.</p>
   cached embeddings of the project's memory. Per-person erasure with a
   preview: records only about that person are deleted; shared memory records
   are redacted and re-embedded. Chunk-level eviction leaves a tombstone, so a
-  deletion can be evidenced. Per-person erasure and rectification need
-  PostgreSQL; on SQLite they are refused by name.</li>
+  deletion can be evidenced. Each run of an erasure, rectification or
+  restriction keeps its own report; a re-run adds to the stored report
+  instead of replacing it, so a request's whole history stays evidenced.
+  Per-person erasure and rectification need PostgreSQL; on SQLite they are
+  refused by name.</li>
 <li><strong>Requests.</strong> <code>vornikctl subject</code> records each request, its verification
   and its one-month deadline (Art 12(3)), on PostgreSQL and SQLite. The
   doctor warns nine days before a deadline.</li>
 <li><strong>Retention.</strong> A sweeper with per-table and per-project windows and
   evidence floors. <strong>Off by default</strong>, so an upgrade never deletes data: you
   turn it on and choose the windows, starting from a recommended profile.
-  <code>vornikctl doctor</code> warns while personal data is kept indefinitely.</li>
+  Once it is on, a class with no window of its own is pruned on its
+  compiled default, which <code>vornikctl doctor</code> lists. The doctor warns while
+  personal data is kept indefinitely.</li>
 <li><strong>Breach handling.</strong> A breach ledger (<code>vornikctl incident</code>): the 72-hour
   clock runs from awareness; the authority and data-subject thresholds are
   asked separately. PostgreSQL only; SQLite: not yet.</li>
 <li><strong>Purpose limitation.</strong> Memory chunks carry a sensitivity and purpose
   policy, evaluated on every retrieval; with retention on, block decisions
-  are kept for a year by default.</li>
+  are kept for a year by default. Autonomy's proposals, whose prompts can
+  name a person, expire with the tool-audit window (<code>tool_audit_days</code>) and
+  are listed in the record of processing.</li>
 <li><strong>Accountability.</strong> Audit trails for tool calls, chat, retrieval and
   ingest.</li>
 <li><strong>Access control.</strong> User accounts, per-project scoping, API keys; OIDC
@@ -3471,7 +3478,7 @@ was sent.</p>
 <h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h2>
 <p>Security issues: <a href="../security/">security</a>. Compliance and data protection:
 <strong>enterprise@vornik.io</strong>.</p>
-<!-- summary-reviewed-through: 2026.11.7 -->
+<!-- summary-reviewed-through: 2026.11.8 -->
 
 
 
