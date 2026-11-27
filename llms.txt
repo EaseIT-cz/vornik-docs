@@ -10,6 +10,7 @@ Repo: https://github.com/EaseIT-cz/vornik
 Docs: https://docs.vornik.io
 
 ## Getting Started
+- [Install Vornik with your coding agent](https://docs.vornik.io/getting-started/agent/): This page is for your coding agent: Claude Code, Codex, Cursor or any agent that runs shell commands. Ask it: "Install Vornik by following https://docs.vornik.io/getting-started/agent/". It runs each step below, checks...
 - [Getting Started](https://docs.vornik.io/getting-started/): This page takes you from a fresh machine to a running vornik daemon with a first project, then runs one task end to end. It assumes no vornik knowledge; Concepts explains each term.
 - [Vornik 101: Your AI Work, Remembered and Reusable](https://docs.vornik.io/courses/vornik-101/): A 10–15 minute guide to the open-source Community Edition. You already use Claude Code. This explains where Vornik fits, how to start using it, and how to reuse your work with a team. Installation and task execution...
 - [Optional lab: Connect Claude and finish one task](https://docs.vornik.io/courses/vornik-101/lesson-01/): This detailed exercise is outside the short guide’s 10–15 minute reading budget.

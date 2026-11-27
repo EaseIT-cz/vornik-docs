@@ -12,7 +12,7 @@
       
       
       
-        <link rel="next" href="getting-started/">
+        <link rel="next" href="getting-started/agent/">
       
       
         
@@ -292,10 +292,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#start-here" class="md-nav__link">
+  <a href="#start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Start here
+        Start
       
     </span>
   </a>
@@ -303,10 +303,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-it-does" class="md-nav__link">
+  <a href="#six-building-blocks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What it does
+        Six building blocks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-life-of-a-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The life of a task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions
       
     </span>
   </a>
@@ -340,6 +362,8 @@
   
     
     
+      
+        
       
         
           
@@ -400,6 +424,34 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="getting-started/agent/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
             
               
                 
@@ -426,7 +478,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
           <div class="md-nav__link md-nav__container">
@@ -448,14 +500,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3036,10 +3088,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#start-here" class="md-nav__link">
+  <a href="#start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Start here
+        Start
       
     </span>
   </a>
@@ -3047,10 +3099,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-it-does" class="md-nav__link">
+  <a href="#six-building-blocks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What it does
+        Six building blocks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-life-of-a-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The life of a task
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions
       
     </span>
   </a>
@@ -3088,64 +3162,120 @@
 
 
 <h1 id="vornik">Vornik<a class="headerlink" href="#vornik" title="Permanent link">&para;</a></h1>
+<p>Vornik runs teams of AI agents on your own machine. You define projects,
+each with a swarm of agents and one or more workflows, and give it tasks.
+Vornik queues them and runs each step in its own sealed container. It checks
+each result against your rules, saves it, and asks you before anything
+sensitive happens. The work is asynchronous: it keeps running when
+you walk away.</p>
+<h2 id="start">Start<a class="headerlink" href="#start" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Let your coding agent install it.</strong> Tell Claude Code, Codex or Cursor:
+  "Install Vornik by following https://docs.vornik.io/getting-started/agent/".
+  The agent runs each step, checks it, and stops for the steps that stay yours:
+  <code>sudo</code> for missing packages, and typing your model key.</li>
+<li><strong>Or do it yourself</strong>: <a href="getting-started/">Getting Started</a> installs
+  the daemon, creates your first project and runs a task end to end.</li>
+</ul>
 <p><a href="assets/vornik-architecture.svg"><img alt="Vornik architecture. Who asks: chat (Telegram, Slack, email), the web console and CLI, a paired phone that approves sensitive actions, AI assistants (Claude Code, Codex, Hermes) and automation (API, webhooks, schedules). Your host holds the trusted, deterministic Vornik control plane: dispatch and queue, workflows, policy and budgets, approvals, memory, the secrets vault, the egress guard, and audit and cost. Below it, untrusted, non-deterministic agent containers, one per task step: no network unless the role opts in, a per-task key, capabilities dropped, and tools and models reached through the daemon over a unix socket. Beside them, the PostgreSQL database for state, memory and audit. Vornik calls models (local or cloud), tools and APIs, and GitHub; the daemon or the gateway adds the keys, and agents get only the secrets you grant. Runs on your hardware; models propose, code decides; secrets sealed and redacted; every step audited." src="assets/vornik-architecture.svg" /></a></p>
-<p>Vornik is an asynchronous, <strong>local-first</strong> orchestration daemon for teams of AI
-agents. You define projects, each backed by a swarm of agents and one or more
-workflows; you submit tasks (or let a project create its own); Vornik queues
-them, runs each agent in its own isolated container, and persists every result.
-Work runs continuously in the background — you submit and walk away, then come
-back for the output.</p>
-<p>The daemon runs on your own infrastructure. Agents run with <strong>no direct network
-egress</strong> by default — the daemon makes the outbound calls — so Vornik suits
-data-sensitive and air-gapped environments, including with self-hosted,
-open-weight models.</p>
+<h2 id="six-building-blocks">Six building blocks<a class="headerlink" href="#six-building-blocks" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Block</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Model gateway</strong></td>
+<td>Every model call goes through the daemon: local or cloud models, a <a href="guides/model-tiers/">tier for each role</a>, <a href="guides/cost-and-caching/">hard spending caps</a> per project, and dynamic tool budgets per role.</td>
+</tr>
+<tr>
+<td><strong>Sandbox</strong></td>
+<td>Each step runs in its own container with <a href="features/zero-egress/">no network by default</a>. The daemon makes the outbound calls.</td>
+</tr>
+<tr>
+<td><strong>Workflows</strong></td>
+<td>Multi-step tasks on a durable queue. A step that fails is <a href="guides/recovery/">recovered</a>, and a restart loses no work.</td>
+</tr>
+<tr>
+<td><strong>Credential boundary</strong></td>
+<td>Model keys and service passwords stay in the daemon. Agents get the results of a call, <a href="security-model/#where-each-credential-lives">never the credential</a>.</td>
+</tr>
+<tr>
+<td><strong>Memory</strong></td>
+<td><a href="features/memory-rag/">Project memory</a> and <a href="features/knowledge-skills/">knowledge skills</a> carry what one task learned into the next, behind a <a href="features/memory-rag/">memory firewall</a> that applies your policy.</td>
+</tr>
+<tr>
+<td><strong>Approvals</strong></td>
+<td>You approve <a href="guides/approvals/">on your paired phone</a>.</td>
+</tr>
+</tbody>
+</table>
 <p><img alt="Models propose, the daemon decides. The models, in a non-deterministic layer, plan, write and choose among their allowed tools. The deterministic layer around them decides tool grants, budgets, output schemas, approvals, network, credentials, redaction and audit." src="assets/vornik-control-plane.svg" /></p>
-<p>A model's output is a proposal. The daemon is ordinary deterministic code,
-and it decides whether the proposal takes effect. May the role call that
-tool? May the task spend more? Does the output match its schema? Must a
-person approve it first? How each check works:
-<a href="security-model/">Security model</a>.</p>
-<h2 id="start-here">Start here<a class="headerlink" href="#start-here" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong><a href="getting-started/">Getting Started</a></strong> — install the daemon, create
-  your first project, and run a task end to end.</li>
-<li><strong><a href="concepts/">Concepts</a></strong> — projects, swarms, roles, workflows, tasks,
-  delegation, and memory — and the <a href="concepts/architecture/">architecture</a>
-  behind them.</li>
-</ul>
-<h2 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h2>
+<p>A model's answer is a proposal. The daemon is ordinary deterministic code, and it decides
+whether the proposal takes effect: may this role call that tool, may the task
+spend more, does the output match its schema, must a person approve it?
+How each check works: <a href="security-model/">Security model</a>.</p>
+<h2 id="the-life-of-a-task">The life of a task<a class="headerlink" href="#the-life-of-a-task" title="Permanent link">&para;</a></h2>
 <p><img alt="The life of a task in six steps. Ask: from chat, the console, an assistant, a schedule, a webhook or a standing goal. Route: you or the chat dispatcher pick the project and workflow, and the task waits in a durable queue. Run: each step runs a role in its own container; models propose and the daemon checks. Approve, when needed: sensitive actions wait for you on your paired phone. Deliver: results are saved as artifacts and sent back where you asked. Remember: the audit trail, the cost and, if enabled, memory carry into the next task, which is yours or one a project starts itself. A restart loses no work: unfinished tasks are recovered." src="assets/vornik-task-cycle.svg" /></p>
+<p>Work arrives from chat (<a href="guides/conversation-channels/">Telegram, Slack, email</a>), the web console, the CLI,
+<a href="features/companion/">your coding agent</a>, a schedule, a webhook or
+<a href="features/forge/">GitHub</a>. A project can also pursue a standing goal on a
+schedule, within budgets, rate limits and approval gates:
+<a href="guides/autonomy/">autonomy</a>.</p>
+<p>After the task, three things help the next one:</p>
 <ul>
-<li><strong>Runs agent teams asynchronously</strong> — durable queues, isolated per-agent
-  containers, and structured <a href="guides/recovery/">recovery</a> when a step fails.</li>
-<li><strong>Runs itself when you want it to</strong> — <a href="guides/autonomy/">autonomy</a> lets a
-  project pursue a standing goal on a schedule, with budgets, rate limits, and
-  <a href="guides/approvals/">approval gates</a> keeping it in bounds.</li>
-<li><strong>Keeps work auditable</strong> — the <a href="features/blackbox/">Autonomy Black Box</a> gives
-  every task a single replayable trace, and the
-  <a href="features/self-healing/">self-healing genome</a> proposes and trials workflow
-  repairs for operator-gated promotion.</li>
-<li><strong>Learns from its history</strong> — the <a href="features/instinct/">instinct layer</a> mines
-  past runs into advisory, confidence-scored patterns.</li>
-<li><strong>Connects to where people work</strong> — Telegram, Slack, email, and
-  <a href="features/forge/">GitHub automation</a> via the
-  <a href="guides/conversation-channels/">conversation channels</a>, plus a
-  <a href="features/companion/">Claude Code companion</a>.</li>
-<li><strong>Governs cost and identity</strong> — hard per-project spend caps and dynamic tool
-  budgets (<a href="guides/cost-and-caching/">cost and caching</a>), a policy-aware
-  <a href="features/memory-rag/">memory firewall</a>, and
-  <a href="features/auth/">authentication with role-based access</a>.</li>
+<li>an <a href="features/blackbox/">audit trail</a>: one replayable record of every task;</li>
+<li><a href="features/self-healing/">workflow repair</a>: when a workflow keeps
+  failing, Vornik proposes a fix, trials it, and you decide whether it goes
+  live;</li>
+<li><a href="features/instinct/">learned patterns</a>: advice mined from past tasks, each
+  with a confidence score.</li>
 </ul>
+<h2 id="questions">Questions<a class="headerlink" href="#questions" title="Permanent link">&para;</a></h2>
+<p><strong>How much work is it to host?</strong>
+One command on Linux with rootless Podman. It builds the daemon in a
+throwaway container, starts PostgreSQL in a container, and runs the daemon as
+a user service. On macOS the installer first creates a small Linux VM and
+runs the same install inside it: <a href="getting-started/">Getting Started</a>.
+Backups and upgrades are yours. An upgrade is one script, <code>vornik-update.sh</code>,
+which backs up the database first:
+<a href="https://github.com/EaseIT-cz/vornik/blob/main/deployments/podman/UPDATING.md">UPDATING.md</a>.</p>
+<p><strong>Which models can it use?</strong>
+Any model behind an OpenAI-compatible endpoint, cloud or local, including
+self-hosted open-weight models. Each role can use a different model:
+<a href="guides/model-tiers/">model tiers</a>.</p>
+<p><strong>Where does my data go?</strong>
+Into your database, on your machine. It leaves your network only to services
+you configure: model providers, chat platforms, forges, MCP servers. With
+local models and no outside services, nothing leaves, so Vornik suits
+data-sensitive and air-gapped sites. No Vornik-run cloud holds your data:
+<a href="compliance/">compliance</a>.</p>
+<p><strong>What stops an agent doing something I did not want?</strong>
+The agent has no network and no credentials of its own. The daemon checks
+each tool call, budget and output, and asks you before sensitive actions.
+Every step is recorded, and people sign in with
+<a href="features/auth/">role-based access</a>. The threat model and each control:
+<a href="security-model/">Security model</a>.</p>
+<p><strong>Is it open source?</strong>
+The Community Edition is open source under AGPL-3.0 and is the complete
+core. The Enterprise Edition adds capabilities on top, with commercial
+support: <a href="editions/">editions</a>.</p>
 <h2 id="find-your-way-around">Find your way around<a class="headerlink" href="#find-your-way-around" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong><a href="features/blackbox/">Features</a></strong> — the capabilities above, and how to
-  enable them.</li>
-<li><strong><a href="guides/">Guides</a></strong> — task-focused how-tos for running Vornik day to
-  day.</li>
-<li><strong><a href="reference/">Reference</a></strong> — every <a href="reference/configuration/">configuration key</a>
-  and <a href="reference/vornikctl/"><code>vornikctl</code> command</a>.</li>
-<li><strong><a href="troubleshooting/">Troubleshooting</a></strong> — when something won't start or
-  a task gets stuck.</li>
+<li><strong><a href="concepts/">Concepts</a></strong>: projects, swarms, roles, workflows,
+  tasks, delegation and memory, and the
+  <a href="concepts/architecture/">architecture</a> behind them.</li>
+<li><strong><a href="features/blackbox/">Features</a></strong>: each building block and feature on
+  this page, and how to enable it.</li>
+<li><strong><a href="guides/">Guides</a></strong>: how-tos for running Vornik day to day.</li>
+<li><strong><a href="reference/">Reference</a></strong>: every
+  <a href="reference/configuration/">configuration key</a> and
+  <a href="reference/vornikctl/"><code>vornikctl</code> command</a>.</li>
+<li><strong><a href="troubleshooting/">Troubleshooting</a></strong>: when something will not
+  start or a task gets stuck.</li>
 </ul>
 
 
