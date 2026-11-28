@@ -4176,7 +4176,9 @@ reading.
   (speech-to-text, text-to-speech) run as one-shot containers of the pinned
   agent image: no network, read-only root, a small tmpfs, a pids limit, all
   capabilities dropped, inputs mounted read-only, and per-feature memory,
-  CPU, time and input-size limits. Inputs over the limit are refused before
+  CPU, time and input-size limits. On a rootless host each one runs as the
+  daemon's own user id, whatever user the image names, so it can read only
+  what the daemon itself can. Inputs over the limit are refused before
   a container starts. Output is bounded by a per-file size limit plus a
   once-a-second sample, not a disk quota.</li>
 <li>Renderers cannot read local files, fetch, or run script. <code>ffmpeg</code> reads
@@ -4518,7 +4520,7 @@ reading.
 <h2 id="reporting">Reporting<a class="headerlink" href="#reporting" title="Permanent link">&para;</a></h2>
 <p>See <a href="../security/">Security policy</a> for how to report a vulnerability and
 which versions are supported.</p>
-<!-- summary-reviewed-through: 2026.11.8 -->
+<!-- summary-reviewed-through: 2026.12.0 -->
 
 
 
