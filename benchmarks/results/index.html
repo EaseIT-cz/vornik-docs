@@ -4225,6 +4225,16 @@ each is stated:</p>
 <td><strong>memory row only</strong></td>
 <td>The memory open axis above, measured on <code>2026.11.6-69-ge071d5996</code> (n=3), identical to 2026.11.6; the cycle changed the embedding paths, so a waiver was not open to it. <strong>No agent row.</strong> An agent calibration arm (polyglot) was running at release on this cycle's code; it was pre-registered as calibration, not as a scored arm, so it is not a row. The release was cut early for the AWS DevOps Agent listing.</td>
 </tr>
+<tr>
+<td><code>2026.11.8</code></td>
+<td>none — <strong>a gap, not a waiver</strong></td>
+<td>No run was taken and no row was written at release; found on 2026-11-28 while preparing 2026.12.0, and stated late, as 2026.9.6's was. The cycle changed the check that decides whether a recalled link is still live, the recall audit ledger, and how the skill distiller judges a memory search step. It did not change ranking or embedding.</td>
+</tr>
+<tr>
+<td><code>2026.12.0</code></td>
+<td>none</td>
+<td>No run was taken. The cycle's memory change is how the memory workers signal that they stopped (once, on every return), which touches no ingestion, embedding, retrieval or scoring path. The agent learning study (four arms, pre-registered) is running at release; its result goes into a later 2026.12 release and is not a row here.</td>
+</tr>
 </tbody>
 </table>
 <p>A missing row stated as missing is honest. An absent row is not — which is the whole</p>
