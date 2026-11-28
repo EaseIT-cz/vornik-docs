@@ -3465,15 +3465,16 @@ curl<span class="w"> </span>-fsS<span class="w"> </span>-H<span class="w"> </spa
 endpoint/key/model until it does — committing a broken config wastes a
 restart.</p>
 <div class="highlight"><pre><span></span><code>.<span class="w"> </span>~/.config/vornik/shell-env.sh<span class="w">   </span><span class="c1"># the install's config and operator key</span>
-<span class="c1"># Commit chat, then resolve the memory step (disabled is a supported,</span>
-<span class="c1"># sensible default — enable later from /ui/setup with an embedding endpoint).</span>
+<span class="c1"># Commit chat, then turn memory on with keyword search: it needs no</span>
+<span class="c1"># embedding endpoint, and your agent's remember/recall (Runbook B) work at</span>
+<span class="c1"># once. Add an embedding endpoint later from /ui/setup for semantic recall.</span>
 <span class="c1"># SID is the session id from the block above; set it again if your shell</span>
 <span class="c1"># did not keep it.</span>
 curl<span class="w"> </span>-fsS<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$VORNIK_API_KEY</span><span class="s2">"</span><span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://localhost:8080/api/v1/setup/session/</span><span class="nv">$SID</span><span class="s2">/commit"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"endpoint":"&lt;ENDPOINT&gt;","api_key":"&lt;KEY&gt;","model":"&lt;MODEL&gt;"}'</span>
 curl<span class="w"> </span>-fsS<span class="w"> </span>-H<span class="w"> </span><span class="s2">"X-API-Key: </span><span class="nv">$VORNIK_API_KEY</span><span class="s2">"</span><span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"http://localhost:8080/api/v1/setup/session/</span><span class="nv">$SID</span><span class="s2">/memory/commit"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"enabled":false}'</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s1">'Content-Type: application/json'</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">'{"enabled":true,"keyword_only":true}'</span>
 </code></pre></div>
 <p>This writes the key to <code>~/.config/vornik/secrets/chat.env</code> (the daemon
 sources that directory itself on start) and patches
